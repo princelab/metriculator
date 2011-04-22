@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-RAILS_VERSION = '~> 3.0.4'
+RAILS_VERSION = '~> 3.0.7'
 DM_VERSION    = '~> 1.1.0'
 
 gem 'activesupport',      RAILS_VERSION, :require => 'active_support'
@@ -11,6 +11,9 @@ gem 'railties',           RAILS_VERSION, :require => 'rails'
 gem 'dm-rails',          '~> 1.1.0'
 gem 'dm-sqlite-adapter', DM_VERSION
 gem 'will_paginate', '3.0.pre2'
+
+
+gem 'rserve-simpler', require: 'rserve/simpler'
 
 
 # You can use any of the other available database adapters.
@@ -38,7 +41,7 @@ gem 'dm-timestamps',        DM_VERSION
 gem 'dm-observer',          DM_VERSION
 
 group :development do 
-  gem 'rspec-rails', '~> 2.0.1'
+  gem 'rspec-rails', "~> 2.4"
   gem 'autotest', '4.4.6'
   gem 'autotest-rails-pure', '4.1.2'
   gem 'ZenTest'
@@ -58,9 +61,11 @@ group :development do
 end
 
 group :test do 
-  gem 'rspec-rails', '~> 2.0.1'
+  gem 'rspec-rails', "~> 2.4"
   gem 'webrat', '0.7.1'
   gem 'spork', '0.9.0.rc5'
-  gem 'rspec', '~> 2.0.1'
+  gem 'rspec'
   gem 'factory_girl_rails', '1.0'
+  gem 'bacon'
+  gem 'rcov'
 end

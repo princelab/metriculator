@@ -15,6 +15,6 @@ describe MsrunController do
     end
     it 'contains a list of metrics' do 
       get :index
-      response.should have_selector('title', content: "Msruns"
+      response.should have_selector('title', content: "Msruns")
     end
 end

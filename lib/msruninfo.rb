@@ -26,7 +26,6 @@ require 'xcalibur'
 require 'eksigent'
 require 'spawn_client'
 require 'metrics'
-require 'database'
 require 'archive_mount'
 
 module Ms
