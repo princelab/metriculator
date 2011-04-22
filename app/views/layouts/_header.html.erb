@@ -1,0 +1,22 @@
+<header>
+  <ul>
+    <%= categories.each do |cat| %>
+      <li> link_to "MS Runs", msrun_path </li>
+    <% end %>
+  </ul>
+</header>
+#<!--
+#<%= link_to logo, root_path %>
+#<%= link_to "Home", root_path %>
+#<% if signed_in? %>
+#<%= link_to "Users", users_path %>
+#<%= link_to "Profile", current_user %>
+#<%= link_to "Settings", edit_user_path(current_user) %>
+#<% end %>
+#<%= link_to "Help", help_path %>
+#<% if signed_in? %>
+#<%= link_to "Log out", logout_path %>
+#<% else %>
+#<%= link_to "Log in", login_path %>
+#<% end %>
+#-->
