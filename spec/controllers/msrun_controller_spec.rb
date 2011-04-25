@@ -17,4 +17,5 @@ describe MsrunController do
       get :index
       response.should have_selector('title', content: "Msruns")
     end
+  end # GET 'index'
 end

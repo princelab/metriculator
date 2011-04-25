@@ -10,12 +10,16 @@ class Hash
 			if v.is_a?(Hash) and hash2[k].is_a?(Hash)
 				out_hash[k] = self[k].deep_merge(hash2[k])
 		#		puts "outhash[k] looks like: #{out_hash[k]}"
-			else
+			elsif v.nil?
+        out_hash[k] = hash2[k]
+      else
 				out_hash[k] = v
 				next if v == hash2[k]
-				out_hash[k] = hash2[k] if v.nil? 
-				if v.class == Array or v.class == String
+				if v.class == Array 
 					out_hash[k] = hash2[k] if v.empty?
+          out_hash[k] = hash2[k] if v.length < hash2[k].length
+        elsif v.class == String
+          out_hash[k] = hash2[k] if v.empty?
 				end
 		#		puts "outhash[k] looks like: #{out_hash[k]}"
 			end
