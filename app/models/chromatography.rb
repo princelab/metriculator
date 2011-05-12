@@ -15,7 +15,7 @@ class Chromatography
 
 	def hashes
 		hash = {}
-		hash[:first_and_last_ms1_rt_min] = self.first_and_last_ms1_rt_min.attributes
+		hash[:first_and_last_ms1_rt_min] = first_and_last_ms1_rt_min.attributes
 		hash[:middle_peptide_retention_time_period_min] = self.middle_peptide_retention_time_period_min.attributes
 		hash[:max_peak_width_for_ids_sec] = self.max_peak_width_for_ids_sec.attributes
 		hash[:peak_width_at_half_height_for_ids] = self.peak_width_at_half_height_for_ids.attributes
@@ -44,7 +44,7 @@ end
 
 class MiddlePeptideRetentionTimePeriodMin
 	include DataMapper::Resource
-		property :id, Serial		
+	property :id, Serial		
 	property :half_period, 			Float
 	property :start_time, 			Float
 	property :mid_time, 			Float
@@ -60,7 +60,7 @@ end
 
 class MaxPeakWidthForIdsSec
 	include DataMapper::Resource
-		property :id, Serial		
+	property :id, Serial		
 	property :median_value, 			Float
 	property :third_quart, 			Float
 	property :last_decile, 			Float
@@ -70,7 +70,7 @@ end
 
 class PeakWidthAtHalfHeightForIds
 	include DataMapper::Resource
-		property :id, Serial		
+	property :id, Serial		
 	property :median_value, 			Float
 	property :med_top_quart, 			Float
 	property :med_top_16th, 			Float
@@ -90,7 +90,7 @@ end
 
 class PeakWidthsAtHalfMaxOverRtDecilesForIds
 	include DataMapper::Resource
-		property :id, Serial		
+	property :id, Serial		
 	property :first_decile, 			Float
 	property :median_value, 			Float
 	property :last_decile, 			Float
@@ -100,7 +100,7 @@ end
 
 class WideRtDifferencesForIds4Min
 	include DataMapper::Resource
-		property :id, Serial		
+	property :id, Serial		
 	property :peptides, 			Float
 	property :spectra, 			Float
 
@@ -109,7 +109,7 @@ end
 
 class RtMs1maxRtMs2ForIdsSec
 	include DataMapper::Resource
-		property :id, Serial		
+	property :id, Serial		
 	property :med_diff_abs, 			Float
 	property :median_diff, 			Float
 	property :first_quart, 			Float

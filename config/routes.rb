@@ -1,9 +1,18 @@
 MetricsSite::Application.routes.draw do
-  get "msrun/show"
 
-  get "metric/show"
+  get "pages/home"
+
+  get "pages/status"
+
+  get "pages/contact"
+
+  match "metric/show/:id" => 'metric#show'
+  get "metric/index"
 
   get "msrun/index"
+  match "msrun/show/:id" => 'msrun#show'
+
+  match "chromatography/:id" => 'graph#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -55,6 +64,7 @@ MetricsSite::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => "welcome#index"
+  root to: "pages#home"
 
   # See how all your routes lay out with "rake routes"
 

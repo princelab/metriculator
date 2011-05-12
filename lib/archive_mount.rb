@@ -16,12 +16,11 @@ Db_mount = MountedServer::MountMapper.new(Database)
 	# I'm thinking that we can have a smart mount that knows your windows/linux location and thereby knows the actual location of every file you might need within the file structure.
 =begin
 	root = ..group/user/YYYYMM/experiment_name/
-	./init/ Files pertinent to the initialization of the data such as the TUNE and METHOD and UPLC files.
-	./metrics/ All the metrics stuff
+	./init/ Files pertinent to the initialization of the data such as the TUNE and METHOD and UPLC files, and the UPLC pressure trace graph.
+	./metrics/ All the metrics stuff (Contains the comparison sets)
 	./ident/ identification analysis
 	./quant/ quantification analysis
 	./results/ Results of the analysis
-	./graphs/ graphs of the Metrics and UPLC results (SO the HTML will rest here!)
 	./samplename(s).RAW
 	./mzML/ The mzXML and mzML files
 	./config.yml
@@ -31,17 +30,19 @@ Db_mount = MountedServer::MountMapper.new(Database)
 
 
 class ArchiveMount
+  attr_accessor :base_path, :location 
 	def initialize(msrun)
 		@msrun = msrun
 	end
-@@build_directories = ['init', 'metrics', 'ident', 'quant', 'results', 'graphs', 'mzML', 'archive']
+@@build_directories = ['init', 'metrics', 'ident', 'quant', 'results', 'mzML', 'archive']
 #@location = [group, user, mtime, experiment_name]
-	def build_archive # @location == LOCATION(group, user, mtime, experiment_name)
-		# cp the config file from the higher level down
+	def build_archive # @location == LOCATION(group, user, mtime, experiment_id)
+#		Dir.chdir(@location)
 		@@build_directories.each do |dir|
 			mkdir dir
+# mdir File.join(@location, dir)
 		end
-# Find a config file and move it down to this directory... right?
+    @location 
 	end
 
 	def sys_check? # Returns an indication of the system you are on
@@ -73,10 +74,11 @@ CygBin = "C:\\cygwin\\bin"
 CygHome = "C:\\cygwin\\home\\LTQ2"
 UserHost = 'ryanmt@jp1'
 ProgramLocale = '/home/ryanmt/Dropbox/coding/ms/archiver/lib/archiver.rb'
+Tmp_filename
 def send_msruninfo_to_linux_via_ssh(object)
-	File.open('tmp.yml', 'w') {|out| YAML.dump(object, out)}
-	file_move = %Q[#{CygBin}\\scp tmp.yml #{UserHost}:/tmp/]
-	kick = %Q[#{CygBin}\\ssh #{UserHost} -C '#{ProgramLocale} --linux /tmp/tmp.yml ']
+	File.open(Tmp_filename, 'w') {|out| YAML.dump(object, out)}
+	file_move = %Q[#{CygBin}\\scp #{Tmp_filename} #{UserHost}:/tmp/]
+	kick = %Q[#{CygBin}\\ssh #{UserHost} -C '#{ProgramLocale} --linux /tmp/#{Tmp_filename} ']
 	%x[#{kick}]
 	kick
 end

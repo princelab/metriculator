@@ -37,9 +37,3 @@ describe 'Deep_merge fxn ' do
   end
 end
 
-=begin
-
-[["archive_root_dir", "ryanmt"], ["comments", "Success!!!"], ["convert", {"overwrite"=>true}], ["group", "JTP"], ["metrics", true], ["quantitation", {"spectral_counts"=>true}], ["search", {"mascot"=>{"run"=>true}, "omssa"=>{"run"=>true}, "tide"=>{"run"=>true}, "xtandem"=>{"run"=>true}, "modifications"=>{"static"=>["MOD:01060"], "variable"=>["MOD:00719", "MOD:01060"]}, "enzyme"=>"Trypsin", "spectrum"=>{"parent_mass_type"=>"monoisotopic", "parent_mass_error"=>"-10,+10 ppm", "fragment_mass_type"=>"monoisotopic", "fragment_mass_error"=>"-0.4,+0.4 daltons"}, "organism"=>nil}], ["taxonomy", "human"], ["useremail", "ryanmt@byu.net"], ["username", "ryanmt"]]
-                                [["archive_root_dir", "ryanmt"], ["comments", "Success!!!"], ["convert", {"overwrite"=>true}], ["group", "JTP"], ["metrics", true], ["quantitation", {"spectral_counts"=>true}], ["search", {"mascot"=>{"run"=>true}, "omssa"=>{"run"=>true}, "tide"=>{"run"=>true}, "xtandem"=>{"run"=>true}, "modifications"=>{"static"=>["MOD:01060"], "variable"=>["MOD:00719", "MOD:01060"]}, "enzyme"=>"Trypsin", "spectrum"=>{"parent_mass_type"=>"monoisotopic", "parent_mass_error"=>"-10,+10 ppm", "fragment_mass_type"=>"monoisotopic", "fragment_mass_error"=>"-0.4,+0.4 daltons"}, "organism"=>nil}], ["taxonomy", "human"], ["useremail", "ryanmt@byu.net"], ["username", "ryanmt"]]
-
-=end

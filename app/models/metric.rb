@@ -12,5 +12,9 @@ class Metric
 	has 1, :peptide_ids
 	has 1, :ms2
 	has 1, :run_comparison
+
+  has 1, :comparison
+
+
 	belongs_to :msrun, :key => true
 end
