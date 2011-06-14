@@ -1,14 +1,15 @@
 #!/usr/bin/env ruby
 
+require 'os'
 # System dependent locations
-if ENV["HOME"][/\/home\//] == '/home/'
-	Orbi_drive = "#{ENV["HOME"]}/chem/orbitrap/"
-	Jtp_drive = "#{ENV["HOME"]}/chem/lab/RAW/"
-	Database = "#{ENV["HOME"]}/chem/lab/"
-elsif ENV["OS"][/Windows/] == 'Windows'
+if OS.windows?
 	Orbi_drive = "O:\\"
 	Jtp_drive = "S:\\RAW\\"
 	Database = "S:\\"
+else
+	Orbi_drive = "#{ENV["HOME"]}/chem/orbitrap/"
+	Jtp_drive = "#{ENV["HOME"]}/chem/lab/RAW/"
+	Database = "#{ENV["HOME"]}/chem/lab/"
 end
 Jtp_mount = MountedServer::MountMapper.new(Jtp_drive)
 Orbi_mount = MountedServer::MountMapper.new(Orbi_drive)
@@ -33,6 +34,7 @@ class ArchiveMount
   attr_accessor :base_path, :location 
 	def initialize(msrun)
 		@msrun = msrun
+    define_location
 	end
 @@build_directories = ['init', 'metrics', 'ident', 'quant', 'results', 'mzML', 'archive']
 #@location = [group, user, mtime, experiment_name]
@@ -43,12 +45,6 @@ class ArchiveMount
 # mdir File.join(@location, dir)
 		end
     @location 
-	end
-
-	def sys_check? # Returns an indication of the system you are on
-		out = "Windows" if ENV["OS"][/Windows/] == 'Windows'
-		out = "Linux" if ENV["HOME"][/\/home\//] == '/home/'
-		out
 	end
 
 	def to_mount
