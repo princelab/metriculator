@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-MetricsSite::Application.config.secret_token = '936c37adfc8116aad92a771d2761c83a8d129d4a2cea48a7f3619b1ef073818280ded81ec1a0c8d60ef8257e236acbc80b49aff27b04592fafb2b74af5200cdd'
+MetricsSite::Application.config.secret_token = 'bffdeb58b53f299b1083df8f02e1508ff87fc253de5918763778672fc9a1055be21d0127f31576b1db7a93f1c0cc2163eb3a3aa7efd2e8d459f4c36b4d6c177b'

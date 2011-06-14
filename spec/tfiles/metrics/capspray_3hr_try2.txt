@@ -1,0 +1,634 @@
+Precursor m/z Averages at Different MS1Total (TIC) Quartiles Over Middle Elution Period
+Run #, Q1 precursor m/z, Q2-Q1, Q3-Q1, Q4-Q1, Q1 TIC/1000, Q2/Q1, Q3/Q1, Q4/Q1
+1	731.86	708.35	750.86	599.28	392487	0.49	0.35	0.23	
+2	710.35	731.85	593.36	655.35	345177	0.41	0.28	0.10	
+3	717.62	749.99	820.47	541.76	571079	0.42	0.27	0.09	
+
+ID Charge Distributions At Different MS1max Quartiles For Charges 1-4
+1	8.7,21.7,13.0,17.4 	9,11,5,8 	34.8,21.7,34.8,30.4 	17.4,8.7,30.4,17.4 	
+2	9.1,22.7,22.7,4.5 	8,8,9,7 	40.9,22.7,18.2,36.4 	18.2,18.2,13.6,27.3 	
+3	16.0,20.0,24.0,4.0 	12,6,10,10 	28.0,32.0,28.0,28.0 	12.0,20.0,12.0,24.0 	
+
+Precursor m/z Averages and Differences from 1st Quartile (Largest) of Different MS1Total (TIC) Quartiles Over Full Elution Period
+Run #, Q1 precursor m/z, Q2-Q1, Q3-Q1, Q4-Q1, Q1 TIC/1000, Q2/Q1, Q3/Q1, Q4/Q1
+1	722.33	702.42	642.36	562.26	611779	0.44	0.22	0.10	rt=523.2	716.7	634.0	733.7	ch=2.57	2.45	2.70	2.66	len=11.43	15.26	14.68	16.70	tic/1000=544089	331660	115851	410621	
+2	745.58	682.35	593.36	627.65	569613	0.25	0.12	0.03	rt=551.8	717.6	637.6	745.6	ch=2.82	2.49	2.62	2.91	len=12.82	14.96	15.02	18.30	tic/1000=66075	321032	72032	576922	
+3	733.71	712.44	649.93	617.81	574082	0.37	0.20	0.06	rt=562.3	717.6	655.4	745.8	ch=2.85	2.45	2.61	2.82	len=13.52	15.49	14.47	17.71	tic/1000=84767	361716	101056	437151	
+
+ID Charge Distributions At Different MS1max Quartiles For Charges 1-4
+1	10.6,17.0,12.8,19.1 	12,16,16,19 	42.6,27.7,29.8,27.7 	19.1,17.0,21.3,8.5 	
+2	11.1,17.8,11.1,2.2 	13,12,17,18 	44.4,28.9,22.2,33.3 	13.3,24.4,24.4,22.2 	
+3	17.6,13.7,9.8,2.0 	19,15,20,19 	35.3,29.4,27.5,33.3 	11.8,23.5,17.6,25.5 	
+
+Number of Compounds in Common
+	1	2	3	
+1	-	89	90	
+2	89	-	96	
+3	90	96	-	
+
+Fraction of Overlapping Compounds - relative to first index
+	1	2	3	
+1	-	0.78	0.79	
+2	0.83	-	0.90	
+3	0.73	0.77	-	
+
+Fraction of Overlapping Compounds - relative to second index
+	1	2	3	
+1	-	0.83	0.73	
+2	0.78	-	0.77	
+3	0.79	0.90	-	
+
+Median Retention Rank Differences for Compounds in Common (Percent)
+	1	2	3	
+1	-	1.142	1.215	
+2	0.796	-	0.353	
+3	1.078	0.729	-	
+
+Avg	1.18	0.57	0.90
+
+Average Retention Rank Differences for Compounds in Common (Percent)
+	1	2	3	
+1	-	1.944	1.877	
+2	1.666	-	0.694	
+3	1.827	0.998	-	
+
+Avg	1.91	1.18	1.41
+
+Number of Matching Identified Ions Between Runs
+	1	2	3	
+1	188	142	149
+2	142	179	149
+3	149	149	205
+
+Relative Deviations in MS1 Max For Matching Identified Ions Between Runs
+	1	2	3	
+1	-	2.52	1.87
+2	2.52	-	2.49
+3	1.87	2.49	-
+
+Avg	2.19	2.50	2.18
+
+Relative Uncorrected Deviations in MS1 Max For Matching Identified Ions Between Runs
+	1	2	3	
+1	-	0.00	0.00
+2	0.00	-	0.00
+3	0.00	0.00	-
+
+Avg	0.00	0.00	0.00
+
+Relative Corrected Deviations in MS1 Max For Matching Identified Ions Between Runs
+	1	2	3	
+1	-	0.00	0.00
+2	0.00	-	0.00
+3	0.00	0.00	-
+
+Avg	0.00	0.00	0.00
+
+Relative RT Trends in MS1 Max For Matching Identified Ions Between Runs
+	1	2	3	
+1	-	0.00	0.00
+2	0.00	-	0.00
+3	0.00	0.00	-
+
+Avg	0.00	0.00	0.00
+
+Relative RT Trends / Corrected Deviations of MS1 Max For Matching Identified Ions Between Runs
+	1	2	3	
+1	-	1.00	1.00
+2	1.00	-	1.00
+3	1.00	1.00	-
+
+Avg	1.00	1.00	1.00
+
+Median Relative Intensities in MS1 Max For Matching Identified Ions Between Runs
+	1	2	3	
+1	-	1.30	0.69
+2	0.78	-	0.58
+3	1.46	1.74	-
+
+Number of Matching Doubly Charged Identified Ions Between Runs
+	1	2	3	
+1	-	44	45
+2	44	-	47
+3	45	47	-
+
+Relative Deviations in MS1 Max For Doubly Charged Matching Identified Ions Between Runs
+	1	2	3	
+1	-	2.18	1.87
+2	2.21	-	2.48
+3	1.87	2.48	-
+
+Number of Matching Triply Charged Identified Ions Between Runs
+	1	2	3	
+1	-	50	53
+2	50	-	47
+3	53	47	-
+
+Relative Deviations in MS1 Max For Triply Charged Matching Identified Ions Between Runs
+	1	2	3	
+1	-	2.75	1.81
+2	2.78	-	2.03
+3	1.81	2.03	-
+
+Relative 2 * Deviations in MS1 Max For Matching Identified Ions Between Runs
+	1	2	3	
+1	-	5.19	3.15
+2	5.20	-	3.87
+3	3.15	3.87	-
+
+Relative Deviations in MS1 Max at Different RT Quartiles For Matching Identified Ions Between Runs - Single Table
+	1	2	3	
+1	0.00,0.00 0.00 0.00 	2.43,1.02 0.78 1.08 	2.00,1.05 0.82 1.09 
+2	2.53,0.96 0.70 1.18 	0.00,0.00 0.00 0.00 	2.67,0.69 1.10 0.96 
+3	1.59,1.25 1.26 1.28 	2.52,0.95 0.92 0.93 	0.00,0.00 0.00 0.00 
+
+Relative Deviations in MS1 Max at 1 RT Quartile For Matching Identified Ions Between Runs
+	1	2	3	
+1	0.00 	2.43 	2.00 
+2	2.53 	0.00 	2.67 
+3	1.59 	2.52 	0.00 
+
+Relative Deviations in MS1 Max at 2 RT Quartile For Matching Identified Ions Between Runs
+	1	2	3	
+1	0.00 	2.48 	2.10 
+2	2.43 	0.00 	1.86 
+3	1.99 	2.40 	0.00 
+
+Relative Deviations in MS1 Max at 3 RT Quartile For Matching Identified Ions Between Runs
+	1	2	3	
+1	0.00 	1.89 	1.64 
+2	1.76 	0.00 	2.94 
+3	2.01 	2.31 	0.00 
+
+Relative Deviations in MS1 Max at 4 RT Quartile For Matching Identified Ions Between Runs
+	1	2	3	
+1	0.00 	2.62 	2.18 
+2	2.99 	0.00 	2.57 
+3	2.03 	2.33 	0.00 
+
+Number of Excess Early Eluting Identified Species
+	1	2	3	
+1	0.0000	-0.0601	-0.0480
+2	0.0601	0.0000	0.0090
+3	0.0480	-0.0090	0.0000
+
+Number of Excess Late Eluting Identified Species
+	1	2	3	
+1	0.0000	-0.0420	-0.0147
+2	0.0420	0.0000	0.0396
+3	0.0147	-0.0396	0.0000
+
+Peak widths at half max at RT deciles
+Decile	1	2	3	4	5	6	7	8	9	10	
+Run 1	0.19	0.55	0.31	0.56	0.49	0.40	0.28	0.36	0.29	0.37	
+Run 2	0.29	0.35	0.31	0.56	0.28	0.29	0.28	0.27	0.28	0.32	
+Run 3	0.51	0.29	0.32	0.45	0.29	0.29	0.33	0.31	0.32	0.31	
+
+RT peptide deciles
+1	16.2	22.9	28.6	33.6	37.7	42.7	51.8	60.0	69.0	87.3	
+2	17.5	24.3	28.7	33.4	39.0	48.0	53.9	62.2	71.9	96.1	
+3	15.9	21.3	27.7	32.2	37.8	43.9	52.7	60.9	67.4	87.8	
+
+Oversampling vs RT
+1	1.08	1.24	0.82	0.97	0.73	0.97	1.11	1.26	0.91	0.91	
+2	0.75	0.81	0.68	0.79	0.85	1.32	1.11	1.09	1.45	1.13	
+3	0.67	0.85	0.86	0.81	0.85	1.06	1.16	1.12	0.91	1.71	
+
+Retention Time Decile Intervals
+1	16.93	6.59	6.00	4.07	5.48	7.09	10.28	8.62	7.32	
+2	17.15	7.84	3.85	5.96	4.90	8.81	7.37	11.60	5.09	
+3	16.08	5.62	6.05	5.34	5.87	8.30	8.22	8.05	7.75	
+
+Matching Low:High RT Peptide Ions
+Run	1	2	3	
+1	0.00:0.00	1.26:0.08	1.20:0.05	
+2	1.26:0.08	0.00:0.00	1.09:0.00	
+3	1.20:0.05	1.09:0.00	0.00:0.00	
+
+RT Median Differences for Matching Peptides
+Run	1	2	3	
+Median
+1	0.00	0.31	0.96	
+2	-0.31	0.00	0.71	
+3	-0.96	-0.71	0.00	
+
+Median Dev
+1	0.0	-0.0	-0.1	
+2	-0.3	0.0	0.0	
+3	-0.5	-0.2	0.0	
+
+Median Skew
+1	0.0	0.7	1.0	
+2	0.1	0.0	0.4	
+3	0.1	-0.1	0.0	
+
+Fraction of 1 RT Decile Peps In Common
+1	0.00	1.01	0.89		0.95
+2	0.67	0.00	1.15		0.91
+3	0.78	1.15	0.00		0.96
+Avg	0.73	1.08	1.02	
+
+Fraction of 2 RT Decile Peps In Common
+1	0.00	0.67	0.89		0.78
+2	0.79	0.00	0.94		0.86
+3	0.56	0.63	0.00		0.59
+Avg	0.67	0.65	0.91	
+
+Fraction of 3 RT Decile Peps In Common
+1	0.00	0.90	1.00		0.95
+2	1.12	0.00	0.94		1.03
+3	1.22	1.04	0.00		1.13
+Avg	1.17	0.97	0.97	
+
+Fraction of 4 RT Decile Peps In Common
+1	0.00	0.79	0.89		0.84
+2	1.01	0.00	1.04		1.03
+3	1.22	1.15	0.00		1.18
+Avg	1.12	0.97	0.97	
+
+Fraction of 5 RT Decile Peps In Common
+1	0.00	1.12	0.89		1.01
+2	1.24	0.00	0.94		1.09
+3	1.22	1.04	0.00		1.13
+Avg	1.23	1.08	0.91	
+
+Fraction of 6 RT Decile Peps In Common
+1	0.00	1.24	1.33		1.28
+2	1.12	0.00	1.15		1.13
+3	1.00	0.94	0.00		0.97
+Avg	1.06	1.09	1.24	
+
+Fraction of 7 RT Decile Peps In Common
+1	0.00	1.24	1.11		1.17
+2	1.12	0.00	1.04		1.08
+3	1.22	1.35	0.00		1.29
+Avg	1.17	1.30	1.08	
+
+Fraction of 8 RT Decile Peps In Common
+1	0.00	1.24	1.33		1.28
+2	1.24	0.00	1.15		1.19
+3	1.00	0.83	0.00		0.92
+Avg	1.12	1.03	1.24	
+
+Fraction of 9 RT Decile Peps In Common
+1	0.00	1.12	1.00		1.06
+2	1.24	0.00	1.04		1.14
+3	1.22	1.15	0.00		1.18
+Avg	1.23	1.13	1.02	
+
+Fraction of 10 RT Decile Peps In Common
+1	0.00	0.67	0.67		0.67
+2	0.45	0.00	0.63		0.54
+3	0.56	0.73	0.00		0.64
+Avg	0.50	0.70	0.65	
+
+End Interrun and Decile Results
+
+Ab Deviation vs Difference in Run Order
+Lab 1	1	2	
+AvgDel	2.50	1.87	
+MedDel	2.52	1.87	
+Diff1	2.52	2.49	
+Diff2	1.87	
+
+Median RT Rank vs Difference in Run Order
+Ab Deviation vs Difference in Run Order - 
+AvgDel	0.75	1.22	
+MedDel	1.14	1.22	
+Diff1	1.14	0.35	
+Diff2	1.22	
+
+
+Begin Runseries Results
+
+Begin Series=1
+
+Files Analyzed (3)
+1	hv_20.RAW.MGF.TSV
+2	hv_30.RAW.MGF.TSV
+3	hv_100.RAW.MGF.TSV
+
+Run Number	1	2	3	
+
+Spectrum Counts
+MS2 Scans	8326	8260	8312	
+MS1 Scans/Full	2086	2074	2083	
+MS1 Scans/Other	0	0	0	
+
+First and Last MS1 RT (min)
+First MS1	2.00	2.00	2.00	
+Last MS1 	147.95	147.96	147.97	
+
+Tryptic Peptide Counts
+Peptides  	74	74	81	
+Ions    	141	142	156	
+Identifications	447	387	516	
+Abundance Pct	98.04	98.25	98.07	
+Abundance/1000	4571753	4903610	6145539	
+Ions/Peptide	1.91	1.92	1.93	
+IDs/Peptide	6.04	5.23	6.37	
+
+Peptide Counts
+Peptides  	114	107	124	
+Ions    	188	179	205	
+Identifications	548	468	614	
+Semi/Tryp Peps	0.541	0.446	0.531	
+Semi/Tryp Cnts	0.226	0.209	0.190	
+Semi/Tryp Abund	0.020	0.018	0.020	
+Miss/Tryp Peps	0.770	0.824	0.827	
+Miss/Tryp Cnts	0.711	0.739	0.694	
+Miss/Tryp Abund	0.614	0.620	0.559	
+Net Oversample	7.41	6.32	7.58	
+Ions/Peptide	1.65	1.67	1.65	
+IDs/Peptide	4.81	4.37	4.95	
+
+Middle Peptide Retention Time Period (min)
+Half Period	31.86	31.84	31.68	
+Start Time	26.05	26.40	24.21	
+Mid Time	37.66	39.03	37.80	
+Qratio Time	1.74	1.52	1.33	
+MS2 scans	1830	1804	1809	
+MS1 Scans	455	468	475	
+Pep ID Rate	1.79	1.68	1.96	
+ID Rate 	8.29	7.60	9.09	
+ID Efficiency	0.14	0.13	0.16	
+
+MS1 During Middle (and Early) Peptide Retention Period
+S/N Median	500.5	269.3	422.4	
+TIC Median/1000	91607	64173	88527	
+Npeaks Median	2322	1612	1621	
+Scan-to-Scan	1.113	1.245	1.185	
+S2S-3Q/Med	2.675	2.416	2.078	
+S2S-1Qrt/Med	0.414	0.501	0.721	
+S2S-2Qrt/Med	0.907	0.843	0.852	
+S2S-3Qrt/Med	1.099	0.987	1.235	
+S2S-4Qrt/Med	1.530	2.251	1.439	
+ESI Off Middle	0.000	0.000	0.000	
+ESI Off Early	0.000	0.000	0.000	
+Max MS1 Jump	593.14	20.53	77.90	
+Max MS1 Fall	343.45	26.12	34.17	
+MS1 Jumps >10x	2	4	2	
+MS1 Falls >10x	2	3	2	
+
+MS1 Total Ion Current For Different RT Periods
+1st Quart ID	0.04	0.03	0.05	
+Middle ID	0.13	0.18	0.25	
+Last ID Quart	0.46	0.52	0.60	
+To End of Run	0.54	0.48	0.40	
+
+Total Ion Current For IDs at Peak Maxima
+Med TIC ID/1000	178296	118061	147803	
+InterQ TIC	3.95	5.19	4.50	
+Mid InterQ TIC	3.95	5.19	4.50	
+
+Precursor m/z for IDs
+Median  	650.14	643.61	667.34	
+Half Width	307.11	315.58	315.79	
+Quart Ratio	1.588	1.611	1.600	
+Precursor Min	313.2	313.2	313.2	
+Precursor Max	1479.8	1479.8	1479.8	
+Med @ Q1 TIC	722.3	745.6	733.7	
+Med @ Q4 TIC	562.3	627.6	617.8	
+Med @ Q1 RT	523.2	551.8	562.3	
+Med @ Q4 RT	733.7	745.6	745.8	
+Med Charge +1	851.4	927.5	948.5	
+Med Charge +2	660.8	655.4	708.3	
+Med Charge +3	630.3	630.3	630.3	
+Med Charge +4	625.3	625.3	636.1	
+
+Number of Ions vs Charge
+Charge +1	28	19	22	
+Charge +2	63	60	73	
+Charge +3	60	58	64	
+Charge +4	31	38	40	
+Charge +5	6	4	6	
+
+Averages vs RT for IDed Peptides
+Length Q1	11.43	12.82	13.52	
+Length Q4	16.70	18.30	17.71	
+Charge Q1	2.57	2.82	2.85	
+Charge Q4	2.66	2.91	2.82	
+
+Precursor m/z - Peptide Ion m/z (+2 Charge Only, Reject >0.45 m/z)
+Spectra 	168	139	193	
+Median  	0.0005	-0.0003	-0.0005	
+Mean Absolute	0.0092	0.0079	0.0143	
+ppm Median	0.80	-0.49	-0.69	
+ppm InterQ	3.95	3.27	4.01	
+
+Ion IDs by Charge State (Relative to +2)
++2 Ion Count	63	60	73	
+Charge +1	0.444	0.317	0.301	
+Charge +2	1.000	1.000	1.000	
+Charge +3	0.952	0.967	0.877	
+Charge +4	0.492	0.633	0.548	
+
+Average Peptide Lengths for Different Charge States
+Charge +1	7.36	7.47	7.77	
+Charge +2	11.33	11.61	12.03	
+Charge +3	16.69	16.55	16.42	
+Charge +4	21.42	21.43	21.82	
+
+Average Peptide Lengths For Charge 2 for Different Numbers of Mobile Protons
+NAA,Ch=2,MP=-1	10.75	11.40	13.50	
+NAA,Ch=2,MP=0	12.85	12.73	13.54	
+NAA,Ch=2,MP=1	10.21	10.69	10.66	
+NAA,Ch=2,MP=2	0.00	9.50	9.00	
+
+Numbers of Ion Ids at Different Charges with 1 Mobile Proton
+Ch=1 MP=1	1	1	1	
+Ch=2 MP=1	33	26	35	
+Ch=3 MP=1	25	24	25	
+Ch=4 MP=1	16	18	19	
+
+Percent of IDs at Different Charges and Mobile Protons Relative to IDs with 1 Mobile Proton
+Ch=1 MP=-1	100.0	100.0	200.0	
+Ch=1 MP=0	2600.0	1700.0	1900.0	
+Ch=1 MP=1	100.0	100.0	100.0	
+Ch=2 MP=-1	12.1	19.2	22.9	
+Ch=2 MP=0	78.8	100.0	80.0	
+Ch=2 MP=1	100.0	100.0	100.0	
+Ch=3 MP=-1	12.0	16.7	20.0	
+Ch=3 MP=0	96.0	95.8	104.0	
+Ch=3 MP=1	100.0	100.0	100.0	
+
+Precursor m/z - Monoisotope Exact m/z
+More Than 100	149	140	165	
+Betw 100.0-50.0	28	18	24	
+Betw 50.0-25.0	10	15	11	
+Betw 25.0-12.5	1	6	3	
+Betw 12.5-6.3	0	0	2	
+Betw 6.3-3.1	0	0	0	
+Betw 3.1-1.6	0	0	0	
+Betw 1.6-0.8	0	0	0	
+Top Half	3	1	5	
+Next Half (2)	8	5	11	
+Next Half (3)	15	9	21	
+Next Half (4)	31	21	33	
+Next Half (5)	45	38	43	
+Next Half (6)	37	36	43	
+Next Half (7)	34	35	23	
+Next Half (8)	0	0	0	
+
+MS2 ID Spectra
+NPeaks Median	570	510	539	
+NPeaks InterQ	1.83	1.77	1.70	
+S/N Median	268.94	237.24	331.16	
+S/N InterQ	4.59	4.63	5.14	
+ID Score Median	0.685	0.703	0.756	
+ID Score InterQ	0.222	0.191	0.220	
+IDSc Med Q1Msmx	0.796	0.775	0.800	
+
+MS1 ID Max
+Median  	3017055	2388831	3498922	
+Half Width	22611950	14067194	22489796	
+Quart Ratio	32.10	27.36	27.32	
+Median MidRT	2515162	3067808	3364299	
+75/25 MidRT	22.2	25.2	24.7	
+95/5 MidRT	350.1	561.8	497.0	
+75/25 Pctile	32.1	27.4	27.3	
+95/5 Pctile	1340.3	3977.6	1743.7	
+
+MS1 ID Abund at MS2 Acquisition
+Median  	876325	752256	1503465	
+Half Width	4007647	2777554	3989009	
+75/25 Pctile	14.1	12.0	8.8	
+95/5 Pctile	566.8	691.7	752.0	
+
+MS2 ID Abund Reported
+Median  	19204	14322	20470	
+Half Width	39446	30938	40006	
+75/25 Pctile	6.1	7.0	6.0	
+95/5 Pctile	134.4	269.1	268.5	
+
+Max Peak Width for IDs (sec)
+Median Value	86.82	82.92	90.84	
+Third Quart	113.88	113.76	116.82	
+Last Decile	161.64	146.28	161.88	
+
+Peak Width at Half Height for IDs
+Median Value	19.20	17.64	19.50	
+Med Top Quart	16.98	17.64	22.26	
+Med Top 16th	16.92	18.06	28.32	
+Med Top 100	17.28	18.06	20.04	
+Median Disper	11.94	10.32	17.04	
+Med Quart Disp	11.76	6.66	21.66	
+Med 16th Disp	5.76	8.28	16.44	
+Med 100 Disp	11.46	9.90	18.30	
+3Quart Value	27.66	26.04	32.76	
+9Dec Value	43.44	40.92	43.44	
+MS1 Interscan/s	4.20	4.08	4.00	
+MS1 Scan/FWHM	4.57	4.32	4.87	
+IDs Used  	186	177	203	
+
+Peak Widths at Half Max over RT deciles for IDs
+First Decile	11.46	17.40	30.30	
+Median Value	29.46	17.10	17.46	
+Last Decile	17.52	16.50	19.20	
+
+Nearby Resampling of IDs - Oversampling Details
+Repeated IDs	359	287	407	
+Med RT Diff/s	4.56	4.32	4.50	
+1Q RT Diff/s	3.42	3.48	3.30	
+1Dec RT Diff/s	2.52	2.46	2.34	
+Median dm/z	0.00	0.00	0.00	
+Quart dm/z	0.00	0.00	0.00	
+
+Wide RT Differences for IDs (> 4 min)
+Peptides	29	26	33	
+Spectra 	256	189	289	
+
+Fraction of Repeat Peptide IDs with Divergent RT (RT vs RT-best ID) - Chromatographic 'Bleed'
+- 4 min    	0.0401	0.0385	0.0586	
++ 4 min      	0.1168	0.0470	0.0717	
+
+Early and Late RT Oversampling (Spectrum IDs/Unique Peptide IDs) - Chromatographic: Flow Through/Bleed
+First Decile	1.269	0.686	0.701	
+Last Decile	1.075	1.039	1.795	
+
+Peptide Ion IDs by > 3 Spectra (Hi) vs  1-3 Spectra (Lo) - Extreme Oversampling
+Pep Ions (Hi)	51	38	62	
+Ratio Hi/Lo  	0.375	0.271	0.437	
+Spec Cnts (Hi)	284	201	343	
+Ratio Hi/Lo	1.088	0.761	1.280	
+Spec/Pep (Hi)	5.569	5.289	5.532	
+Spec Cnt Excess	0.240	0.187	0.257	
+
+Ratios of Peptide Ions IDed by Different Numbers of Spectra - Oversampling Measure
+Once/Twice	0.30	0.25	0.32	
+Twice/Thrice	5.00	10.40	6.40	
+
+Single Spectrum Peptide Ion Identifications - Oversampling Measure
+Peptide Ions	27	26	31	
+Fract >1 Ions	0.86	0.85	0.85	
+1 vs >1 PepIon	0.17	0.17	0.18	
+1 vs >1 Spec	0.05	0.06	0.05	
+
+MS1max/MS1sampled Abundance Ratio IDs - Inefficient Sampling
+Median All IDs	2.07	1.80	1.86	
+3Q All IDs	6.46	4.66	3.85	
+9Dec All IDs	18.33	22.35	15.32	
+Med Top 100	4.55	2.99	2.99	
+Med Top Dec	13.81	17.00	9.01	
+Med Top Quart	6.81	7.15	4.24	
+Med Bottom 1/2	1.59	1.25	1.29	
+
+RT(MS1max)-RT(MS2) for IDs (sec) 
+Med Diff Abs	9	7	8	
+Median Diff	4	4	4	
+First Quart	-6	-1	-1	
+Third Quart	11	9	9	
+
+Ion Injection Times for IDs (ms)
+MS1 Median	93	100	98	
+MS1 Maximum	100	100	100	
+MS2 Median	100.0	100.0	100.0	
+MS2 Maximun	100.0	100.0	100.0	
+MS2 Fract Max	0.680	0.713	0.700	
+
+Relative Fraction of Peptides in Retention Decile Matching a Peptide in Other Runs
+All Deciles	0.785	0.864	0.750	
+First Decile	0.950	0.910	0.962	
+Last Decile	0.670	0.537	0.642	
+Comp to First	0.000	0.781	0.789	
+Comp to Last	0.726	0.774	0.000	
+
+Relative Uniqueness of Peptides in Decile Found Anywhere in Other Runs
+First Decile	0.95	0.91	0.96	
+Last Decile	0.67	0.54	0.64	
+
+Differences in Elution Rank (Percent) of Matching Peptides in Other Runs
+Average Diff	1.910	1.180	1.413	
+Median Diff	1.178	0.575	0.904	
+Comp to First	0.000	1.142	1.215	
+Comp to Last	1.078	0.729	0.000	
+
+Median Ratios of MS1 Intensities of Matching Peptides in Other Runs
+Median Diff	2.192	2.504	2.176	
+Median*2 Diff	4.168	4.535	3.510	
+Comp to First	0.000	2.518	1.866	
+Comp to Last	1.866	2.486	0.000	
+Comp to First*2	0.000	5.189	3.146	
+Comp to Last*2	3.146	3.874	0.000	
+
+Uncorrected and RT Corrected Relative Intensities of Matching Peptides in Other Runs
+Uncor rel First	0.000	0.000	0.000	
+Uncor rel Last	0.000	0.000	0.000	
+Corr rel First	0.000	0.000	0.000	
+Corr rel Last	0.000	0.000	0.000	
+
+Magnitude of RT Correction of Intensities of Matching Peptides in Other Runs
+Comp to First	0.000	0.000	0.000	
+Comp to Last	0.000	0.000	0.000	
+
+Top Ion Abundance Measures
+Top 10% Abund	2	2	2	
+Top 25% Abund	6	4	5	
+Top 50% Abund	14	9	12	
+Fractab Top	0.057	0.081	0.074	
+Fractab Top 10	0.408	0.551	0.458	
+Fractab Top 100	0.985	0.992	0.980	
+
+End Series=1
+
+End Runseries Results

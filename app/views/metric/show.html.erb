@@ -1,0 +1,14 @@
+<h1>Metric#show</h1>
+<p>Find me in app/views/metric/show.html.erb</p>
+<table class='data_out'>
+  <thead>
+    <td>Attribute</td>
+    <td>Value</td>
+  </thead>
+  <% @metric.attributes.each do |h,k|  %>
+    <tr>
+      <td><%= h.to_s.capitalize.split('_').join(' ') %>:</td>
+      <td><%= k %></td>
+    </tr>
+  <% end %>
+</table>

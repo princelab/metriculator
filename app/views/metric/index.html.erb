@@ -1,0 +1,14 @@
+<h1>Metrics#index</h1>
+<p>Blah blah... app/views/msrun/index.html.erb</p>
+<% @metrics.each do |metric| %>
+  <% m = Msrun.get(metric.msrun_id, metric.msrun_raw_id) %>
+<% p m.methods - Object.methods%>
+<%= "#{m.raw_id} was run at #{m.rawtime} " %>
+<%= p metric.attributes %>
+<p></p>
+<%= p metric.chromatography.hashes %>
+  <p>-------------</p>
+# <% p ApplicationHelper::CATEGORIES %>
+<% end %>
+
+
