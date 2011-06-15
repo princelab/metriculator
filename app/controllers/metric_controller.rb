@@ -1,4 +1,5 @@
 class MetricController < ApplicationController
+  layout "metric"
   def show
     @metric = Metric.all(:msrun_id => params[:id]).first
   end
