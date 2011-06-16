@@ -1,9 +1,9 @@
 class Msrun
   include DataMapper::Resource
-  property :id, Serial
+  property :id, Serial, :key => true
 
   # Unique Identifier
-  property :raw_id, 			String, :key => true    # REMOVE THIS KEY?  It would make the RAILS site easier  AND will likely greatly speed the process
+  property :raw_id, 			String
   property :raw_md5_sum, 	String, :length => 32, :default => lambda { |r, p| 
     if r.rawfile and File.exist?(r.rawfile) 
       filename = r.rawfile

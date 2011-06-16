@@ -1,3 +1,6 @@
 %h1 Msrun#index
 %p Find me in app/views/msrun/index.html.erb
-= render :partial => 'filter'
+= #render :partial => 'filter'
+%table.msrun
+  - @msruns.each do |run|
+    = render :partial => 'msrun', :locals => { :msrun => run }
