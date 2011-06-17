@@ -3,4 +3,8 @@
 = #render :partial => 'filter'
 %table.msrun
   - @msruns.each do |run|
-    = render :partial => 'msrun', :locals => { :msrun => run }
+    %tr
+      %td Some checkbox
+      %td=run.raw_id
+      %td=run.group || "No Group"
+      %td=run.user || "No User"
