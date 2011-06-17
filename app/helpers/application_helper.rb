@@ -18,6 +18,7 @@ module ApplicationHelper
   def sortable(column_name, title = nil)
     title ||= column_name.titleize
     direction = params[:sort] == column_name && params[:direction] == "asc" ? "desc" : "asc"
-    link_to title, :sort => column_name, :direction => direction
+    css_class = params[:sort] == column_name ? "sort #{direction}" : nil
+    link_to title, { :sort => column_name, :direction => direction }, { :class => css_class }
   end
 end
