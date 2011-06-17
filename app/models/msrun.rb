@@ -56,4 +56,12 @@ class Msrun
   # Associations
   has 1, :metric
 
+  def self.asc(column_name = :id)
+    all( :order => [ column_name.asc] )
+  end
+
+  def self.desc(column_name = :id)
+    all( :order => [column_name.desc] )
+  end
+
 end

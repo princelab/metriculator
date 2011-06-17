@@ -1,10 +1,18 @@
-%h1 Msrun#index
-%p Find me in app/views/msrun/index.html.erb
+%h1 Msruns
 = #render :partial => 'filter'
 %table.msrun
+  %tr
+    %th Compare
+    %th= sortable "raw_id", "Name"
+    %th= sortable "group"
+    %th= sortable "user"
+    %th= sortable "rawtime", "Date"
   - @msruns.each do |run|
     %tr
       %td Some checkbox
-      %td=run.raw_id
+      %td= link_to run.raw_id, msrun_path(run)
       %td=run.group || "No Group"
       %td=run.user || "No User"
+      %td=run.rawtime || "No Date"
+
+!= #@msruns.page(1).pager.to_html('/msrun', :size => 5)

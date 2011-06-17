@@ -9,8 +9,9 @@ MetricsSite::Application.routes.draw do
   match "metric/show/:id" => 'metric#show'
   get "metric/index"
 
-  get "msrun/index"
-  match "msrun/:id" => 'msrun#show'
+  resources :msrun
+  #get "msrun/index"
+  #match "msrun/:id" => 'msrun#show'
 
   match "chromatography/:id" => 'graph#show'
 

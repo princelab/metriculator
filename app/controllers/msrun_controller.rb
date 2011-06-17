@@ -4,7 +4,10 @@ class MsrunController < ApplicationController
   end
 
   def index
-    @msruns = Msrun.all
+    params[:direction] ||= "asc"
+    sort_column = (params[:sort] || "id").to_sym
+    sort_object = params[:direction] == "asc" ? sort_column.asc : sort_column.desc
+    @msruns = Msrun.all(:order => [sort_object])
   end
 
   def get_matching_for_filter_criteria
