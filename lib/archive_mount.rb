@@ -43,16 +43,9 @@ class ArchiveMount
 
 	end
 
-	def sys_check? # Returns an indication of the system you are on
-		out = "Windows" if ENV["OS"][/Windows/] == 'Windows'
-		out = "Linux" if ENV["HOME"][/\/home\//] == '/home/'
-		out
-	end
-
 	def to_mount
 		define_location
 		build_archive
-		
 	end
 
 	def load_config
