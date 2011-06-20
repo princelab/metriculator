@@ -21,7 +21,7 @@ gem 'dm-transactions',      DM_VERSION
 gem 'dm-aggregates',        DM_VERSION
 gem 'dm-timestamps',        DM_VERSION
 gem 'dm-observer',          DM_VERSION
-gem 'dm-pager', DM_VERSION
+gem 'dm-chunked_query'
 
 gem 'os'
 gem 'rserve-simpler', require: 'rserve/simpler'

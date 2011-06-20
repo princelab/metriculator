@@ -13,4 +13,4 @@
       %td=run.user || "No User"
       %td=run.rawtime || "No Date"
 
-!= @msruns.page(@page_number, :per_page => @per_page, :order => @sort).pager.to_html('/msrun', :size => 5)
+!= pagination_links(@all, @page_number, @per_page)
