@@ -5,4 +5,9 @@ $(function() {
     $.getScript(this.href);
     return false;
   });
+
+  $("#msruns li a").live("click", function() {
+    $.getScript(this.href);
+    return false;
+  });
 });
