@@ -18,7 +18,7 @@ module MsrunsHelper
     end
 
     #need a first, previous, the page numbers, next, and last link
-    res = "<ul>"
+    res = "<ul class='pagination'>"
     res += "<li class='first'>" + params_link(0, "First")
     res += "</li>"
     (start...end_index).each do |page|
