@@ -1,4 +1,4 @@
-class GraphController < ApplicationController
+class GraphsController < ApplicationController
   def show
     @title = 'hello'
     @entry_dir = Dir.pwd

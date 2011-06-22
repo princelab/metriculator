@@ -1,0 +1,16 @@
+%table.msrun
+  %tr
+    %th Compare
+    %th= sortable "raw_id", "Name"
+    %th= sortable "group"
+    %th= sortable "user"
+    %th= sortable "rawtime", "Date"
+  - @msruns.each do |run|
+    %tr
+      %td Some checkbox
+      %td= link_to run.raw_id, msrun_path(run)
+      %td=run.group || "No Group"
+      %td=run.user || "No User"
+      %td=run.rawtime || "No Date"
+
+!= pagination_links(@all, @page_number, @per_page)

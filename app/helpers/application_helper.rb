@@ -5,11 +5,20 @@ module ApplicationHelper
     base_title = "Mass Spectrometry/Analysis Performance Metrics"
     if @title.nil?
       base_title
-    else 
+    else
       "#{@title} | #{base_title}"
     end
   end
+
   def logo
     image_tag("logo.png", alt: "Metrics", class: 'round', height: "13%", width: "22%")
+  end
+
+  # Creates a link to sort table colums.
+  def sortable(column_name, title = nil)
+    title ||= column_name.titleize
+    direction = params[:sort] == column_name && params[:direction] == "asc" ? "desc" : "asc"
+    css_class = params[:sort] == column_name ? "sort #{direction}" : nil
+    link_to title, params.merge(:sort => column_name, :direction => direction), { :class => css_class }
   end
 end
