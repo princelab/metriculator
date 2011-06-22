@@ -57,8 +57,6 @@ class ArchiveMount
 		@location = [@msrun.group, @msrun.user, File.mtime(@msrun.rawfile), @msrun.rawid]
 	end
 
-
-
 end
 
 CygBin = "C:\\cygwin\\bin"
