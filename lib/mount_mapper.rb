@@ -1,18 +1,3 @@
-
-# ENV["HOME"] begins with /home/
-
-# ENV["OS"] returns "Windows NT" on MSally
-# System dependent locations
-if ENV["HOME"][/\/home\//] == '/home/'
-	Orbi_drive = "#{ENV["HOME"]}/chem/orbitrap/"
-	Jtp_drive = "#{ENV["HOME"]}/chem/lab/RAW/"
-	Database = "#{ENV["HOME"]}/chem/lab/"
-elsif ENV["OS"][/Windows/] == 'Windows'
-	Orbi_drive = "O:\\"
-	Jtp_drive = "S:\\RAW\\"
-	Database = "S:\\"
-end
-
 module MountedServer
 	DEFAULT_PORT = 22907  # arbitrary
 	MSCONVERT_CMD_WIN = "msconvert.exe"
@@ -85,11 +70,6 @@ module MountedServer
 		end
 	end
 end
-
-
-
-
-
 
 #########################333333 RANDOM TIME GENERATOR!!!
 
