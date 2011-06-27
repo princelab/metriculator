@@ -63,4 +63,13 @@ class Msrun
   has n, :seconds#, :child_key => [ :comparison_id ]
   has n, :comparison_seconds, 'Comparison', :through => :seconds, :via => :comparison# :child_key => [ :comparison_id ]
 
+  #combine comparison_firsts and comparison_seconds and return them
+  def comparisons
+    comps = self.comparison_firsts
+    self.comparison_seconds.each do |second|
+      comps << second
+    end
+    comps
+  end
+
 end
