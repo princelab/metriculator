@@ -56,12 +56,11 @@ class Msrun
   # Associations
   has 1, :metric
 
-  def self.asc(column_name = :id)
-    all( :order => [ column_name.asc] )
-  end
+  has n, :firsts#, :child_key => [ :comparison_id ]
+  has n, :comparison_firsts, 'Comparison', :through => :firsts, :via => :comparison#:child_key => [ :comparison_id ]
 
-  def self.desc(column_name = :id)
-    all( :order => [column_name.desc] )
-  end
+
+  has n, :seconds#, :child_key => [ :comparison_id ]
+  has n, :comparison_seconds, 'Comparison', :through => :seconds, :via => :comparison# :child_key => [ :comparison_id ]
 
 end
