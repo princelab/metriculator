@@ -10,6 +10,7 @@ MetricsSite::Application.routes.draw do
   get "metric/index"
 
   resources :msruns
+  get "comparisons" => "comparisons#index"
   #get "msrun/index"
   #match "msrun/:id" => 'msrun#show'
 

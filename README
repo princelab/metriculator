@@ -1,5 +1,6 @@
-== Welcome to The Metric Parser
+== Welcome to The Metric Tracker
 
-Metric Parser is a Ruby on Rails application for displaying and interacting with data from
+Metric Tracker is a Ruby on Rails application for displaying and interacting with data from
 mass spec proteomics experiments.
+
 

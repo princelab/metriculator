@@ -1,0 +1,13 @@
+%h1 Comparisons
+#comparisons
+  %table
+    %th Foo
+    %th Bar
+    %th Baz
+    %th Boo
+    - @comparisons.each do |comp|
+      %tr
+        %td= comp.msrun_firsts
+        %td= comp.msrun_seconds
+        %td
+        %td
