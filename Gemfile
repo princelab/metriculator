@@ -4,7 +4,6 @@ RAILS_VERSION = '~> 3.0.7'
 DM_VERSION    = '~> 1.1.0'
 gem 'rails', RAILS_VERSION
 gem 'sqlite3-ruby', '1.3.2', :require => 'sqlite3'
-gem 'gravatar_image_tag', '1.0.0.pre2'
 gem 'dm-rails',          '~> 1.1.0'
 gem 'dm-sqlite-adapter', DM_VERSION
 gem 'dm-sqlite-adapter',    DM_VERSION
@@ -32,6 +31,7 @@ gem 'jquery-rails'
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development do
+  gem 'awesome_print'
   gem 'hpricot'
   gem 'ruby_parser'
   gem 'rspec-rails', '2.5.0'
@@ -40,7 +40,6 @@ group :development do
   gem 'autotest', '4.4.6'
   gem 'autotest-rails-pure', '4.1.2'
   gem 'ZenTest'
-  gem 'annotate-models', '1.0.4'
   gem 'faker', '0.3.1'
 end
 
@@ -59,5 +58,5 @@ group :test do
   # to generate a model that stores the metrics. You can access them by visiting
   #   /rails_metrics
   # in your rails application.
-  gem 'rails_metrics', '~> 0.1', :git => 'git://github.com/engineyard/rails_metrics'
+  gem 'rails_metrics', :git => 'git://github.com/engineyard/rails_metrics'
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MsrunController do
+describe MsrunsController do
 
   describe "GET 'show'" do
     it "should be successful" do

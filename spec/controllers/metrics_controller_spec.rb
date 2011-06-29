@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe MetricController do
+describe MetricsController do
 
-  describe "GET 'show'" do
+  describe "GET 'index'" do
     it "should be successful" do
-      get 'show'
+      get 'index'
       response.should be_success
     end
     it 'contains an overview of a metric' do 
