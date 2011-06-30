@@ -31,10 +31,9 @@ gem 'jquery-rails'
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development do
-  gem 'awesome_print'
   gem 'hpricot'
   gem 'ruby_parser'
-  gem 'rspec-rails', '2.5.0'
+  gem 'rspec-rails'
   gem 'railties',           RAILS_VERSION, :require => 'rails'
 
   gem 'autotest', '4.4.6'
@@ -44,10 +43,10 @@ group :development do
 end
 
 group :test do
-  gem 'webrat', '0.7.1'
-  gem 'spork', '0.9.0.rc5'
+  gem 'webrat'
+  gem 'spork'
   gem 'rspec'
-  gem 'factory_girl_rails', '1.0'
+  gem 'factory_girl_rails'
   gem 'bacon'
   gem 'rcov'
 

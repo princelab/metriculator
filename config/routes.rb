@@ -1,20 +1,15 @@
 MetricsSite::Application.routes.draw do
 
-  get "pages/home"
+  get '/status' => 'pages#staus'
 
-  get "pages/status"
+  get 'contact' => 'pages#contact'
 
-  get "pages/contact"
-
-  match "metric/show/:id" => 'metric#show'
-  get "metric/index"
+  get 'metrics' => 'metrics#index'
+  get 'metrics/:id' => 'metrics#show'
 
   resources :msruns
-  get "comparisons" => "comparisons#index"
-  #get "msrun/index"
-  #match "msrun/:id" => 'msrun#show'
 
-  match "chromatography/:id" => 'graph#show'
+  match 'chromatography/:id' => 'graph#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

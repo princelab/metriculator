@@ -10,6 +10,6 @@ require 'spec_helper'
 #     end
 #   end
 # end
-describe GraphHelper do
+describe GraphsHelper do
   pending "add some examples to (or delete) #{__FILE__}"
 end

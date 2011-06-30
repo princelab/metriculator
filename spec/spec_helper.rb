@@ -31,7 +31,7 @@ Spork.prefork do
       # instead of true.
       #config.use_transactional_fixtures = true
     end
-  require 'database_loader'  
+  require 'database_loader'
   require 'archiver'
   require 'mount_mapper'
   require 'eksigent'

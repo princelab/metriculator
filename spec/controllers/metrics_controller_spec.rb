@@ -2,15 +2,18 @@ require 'spec_helper'
 
 describe MetricsController do
 
-  describe "GET 'index'" do
+  describe "GET #index" do
     it "should be successful" do
-      get 'index'
+      get :index
       response.should be_success
     end
-    it 'contains an overview of a metric' do 
-      get :show
-      response.should have_selector('title', content: "Metric Overview")
-    end
+
   end # GET show
 
+  describe "GET show" do
+    it 'contains an overview of a metric' do
+      get :show, :id => 1
+      response.should have_selector('title')
+    end
+  end
 end

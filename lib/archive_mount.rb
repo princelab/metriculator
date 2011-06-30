@@ -58,7 +58,6 @@ class ArchiveMount
   end
 
 end
-
 CygBin = "C:\\cygwin\\bin"
 CygHome = "C:\\cygwin\\home\\LTQ2"
 UserHost = 'ryanmt@jp1'
