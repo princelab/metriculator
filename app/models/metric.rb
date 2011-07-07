@@ -1,7 +1,7 @@
 class Metric
   include DataMapper::Resource
-  property :metric_input_file, 	FilePath, :key => true
-  #property :metric_input_file, FilePath
+  property :id, Serial
+  property :metric_input_file, FilePath
 
   # Associations
   has 1, :chromatography
@@ -13,8 +13,5 @@ class Metric
   has 1, :ms2
   has 1, :run_comparison
 
-  has 1, :comparison
-
-
-  belongs_to :msrun, :key => true
+  belongs_to :msrun
 end

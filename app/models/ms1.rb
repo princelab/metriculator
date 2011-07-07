@@ -1,11 +1,11 @@
 class Ms1
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   has 1, :ms1_during_middle_and_early_peptide_retention_period
   has 1, :ms1_total_ion_current_for_different_rt_periods
   has 1, :ms1_id_max
 
-  belongs_to :metric, :key => true
+  belongs_to :metric
   def hashes
     hash = {}
     hash[:ms1_during_middle_and_early_peptide_retention_period] = self.ms1_during_middle_and_early_peptide_retention_period.attributes
@@ -26,7 +26,7 @@ end
 
 class Ms1DuringMiddleAndEarlyPeptideRetentionPeriod
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   property :s_n_median, 			Float
   property :tic_median_1000, 			Float
   property :npeaks_median, 			Float
@@ -43,23 +43,23 @@ class Ms1DuringMiddleAndEarlyPeptideRetentionPeriod
   property :ms1_jumps_10x, 			Float
   property :ms1_falls_10x, 			Float
 
-  belongs_to :ms1, :key => true
+  belongs_to :ms1
 end
 
 class Ms1TotalIonCurrentForDifferentRtPeriods
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   property :_1st_quart_id, 			Float
   property :middle_id, 			Float
   property :last_id_quart, 			Float
   property :to_end_of_run, 			Float
 
-  belongs_to :ms1, :key => true
+  belongs_to :ms1
 end
 
 class Ms1IdMax
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   property :median, 			Float
   property :half_width, 			Float
   property :quart_ratio, 			Float
@@ -69,21 +69,16 @@ class Ms1IdMax
   property :_75_25_pctile, 			Float
   property :_95_5_pctile, 			Float
 
-  belongs_to :ms1, :key => true
+  belongs_to :ms1
 end
 
 class Ms1TotalIonCurrentForDifferentRtPeriods
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   property :_1st_quart_id, 			Float
   property :middle_id, 			Float
   property :last_id_quart, 			Float
   property :to_end_of_run, 			Float
 
-  belongs_to :ms1, :key => true
+  belongs_to :ms1
 end
-
-
-
-
-

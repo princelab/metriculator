@@ -7,8 +7,6 @@ class Comparison
 
   property :taxonomy, String
 
-  belongs_to :metric
-
   has n, :firsts#, :child_key => [:msrun_id]
   has n, :msrun_firsts, 'Msrun', :through => :firsts, :via => :msrun# :child_key => [ :msrun_id ]
 

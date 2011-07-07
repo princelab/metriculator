@@ -1,12 +1,12 @@
 class Ms2
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   has 1, :precursor_m_z_peptide_ion_m_z_2_charge_only_reject_0_45_m_z 
   has 1, :ms2_id_spectra
   has 1, :ms1_id_abund_at_ms2_acquisition
   has 1, :ms2_id_abund_reported
 
-  belongs_to :metric, :key => true
+  belongs_to :metric
   def hashes
     hash = {}
     hash[:precursor_m_z_peptide_ion_m_z_2_charge_only_reject_0_45_m_z] = self.precursor_m_z_peptide_ion_m_z_2_charge_only_reject_0_45_m_z.attributes
@@ -25,30 +25,30 @@ end
 ###########################
 class PrecursorMZPeptideIonMZ2ChargeOnlyReject045MZ
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   property :spectra, 			Float
   property :median, 			Float
   property :mean_absolute, 			Float
   property :ppm_median, 			Float
   property :ppm_interq, 			Float
 
-  belongs_to :ms2, :key => true
+  belongs_to :ms2
 end
 
 class Ms1IdAbundAtMs2Acquisition
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   property :median, 			Float
   property :half_width, 			Float
   property :_75_25_pctile, 			Float
   property :_95_5_pctile, 			Float
 
-  belongs_to :ms2, :key => true
+  belongs_to :ms2
 end
 
 class Ms2IdSpectra
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   property :npeaks_median, 			Float
   property :npeaks_interq, 			Float
   property :s_n_median, 			Float
@@ -57,18 +57,18 @@ class Ms2IdSpectra
   property :id_score_interq, 			Float
   property :idsc_med_q1msmx, 			Float
 
-  belongs_to :ms2, :key => true
+  belongs_to :ms2
 end
 
 class Ms2IdAbundReported
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   property :median, 			Float
   property :half_width, 			Float
   property :_75_25_pctile, 			Float
   property :_95_5_pctile, 			Float
 
-  belongs_to :ms2, :key => true
+  belongs_to :ms2
 end
 
 

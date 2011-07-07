@@ -1,6 +1,6 @@
 class RunComparison
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   has 1, :relative_fraction_of_peptides_in_retention_decile_matching_a_peptide_in_other_runs
   has 1, :relative_uniqueness_of_peptides_in_decile_found_anywhere_in_other_runs
   has 1, :differences_in_elution_rank_percent_of_matching_peptides_in_other_runs
@@ -8,7 +8,7 @@ class RunComparison
   has 1, :uncorrected_and_rt_corrected_relative_intensities_of_matching_peptides_in_other_runs
   has 1, :magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs
 
-  belongs_to :metric, :key => true
+  belongs_to :metric
   def hashes
     hash = {}
     hash[:relative_fraction_of_peptides_in_retention_decile_matching_a_peptide_in_other_runs] = self.relative_fraction_of_peptides_in_retention_decile_matching_a_peptide_in_other_runs.attributes if self.relative_fraction_of_peptides_in_retention_decile_matching_a_peptide_in_other_runs.respond_to?(:attributes)
@@ -19,6 +19,7 @@ class RunComparison
     hash[:magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs] = self.magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs.attributes if self.magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs.respond_to?(:attributes)
     hash
   end
+
   def to_yaml
     self.hashes.to_yaml
   end
@@ -30,14 +31,14 @@ end
 
 class RelativeFractionOfPeptidesInRetentionDecileMatchingAPeptideInOtherRuns
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   property :all_deciles, 			Float
   property :first_decile, 			Float
   property :last_decile, 			Float
   property :comp_to_first, 			Float
   property :comp_to_last, 			Float
 
-  belongs_to :run_comparison, :key => true
+  belongs_to :run_comparison
 end
 
 class RelativeUniquenessOfPeptidesInDecileFoundAnywhereInOtherRuns
@@ -46,7 +47,7 @@ class RelativeUniquenessOfPeptidesInDecileFoundAnywhereInOtherRuns
   property :first_decile, 			Float
   property :last_decile, 			Float
 
-  belongs_to :run_comparison, :key => true
+  belongs_to :run_comparison
 end
 
 class DifferencesInElutionRankPercentOfMatchingPeptidesInOtherRuns
@@ -57,7 +58,7 @@ class DifferencesInElutionRankPercentOfMatchingPeptidesInOtherRuns
   property :comp_to_first, 			Float
   property :comp_to_last, 			Float
 
-  belongs_to :run_comparison, :key => true
+  belongs_to :run_comparison
 end
 
 class MedianRatiosOfMs1IntensitiesOfMatchingPeptidesInOtherRuns
@@ -70,7 +71,7 @@ class MedianRatiosOfMs1IntensitiesOfMatchingPeptidesInOtherRuns
   property :comp_to_first_2, 			Float
   property :comp_to_last_2, 			Float
 
-  belongs_to :run_comparison, :key => true
+  belongs_to :run_comparison
 end
 
 class UncorrectedAndRtCorrectedRelativeIntensitiesOfMatchingPeptidesInOtherRuns
@@ -81,7 +82,7 @@ class UncorrectedAndRtCorrectedRelativeIntensitiesOfMatchingPeptidesInOtherRuns
   property :corr_rel_first, 			Float
   property :corr_rel_last, 			Float
 
-  belongs_to :run_comparison, :key => true
+  belongs_to :run_comparison
 end
 
 class MagnitudeOfRtCorrectionOfIntensitiesOfMatchingPeptidesInOtherRuns
@@ -90,6 +91,6 @@ class MagnitudeOfRtCorrectionOfIntensitiesOfMatchingPeptidesInOtherRuns
   property :comp_to_first, 			Float
   property :comp_to_last, 			Float
 
-  belongs_to :run_comparison, :key => true
+  belongs_to :run_comparison
 end
 

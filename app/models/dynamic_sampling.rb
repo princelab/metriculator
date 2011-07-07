@@ -8,7 +8,7 @@ class DynamicSampling
   has 1, :single_spectrum_peptide_ion_identifications_oversampling_measure
   has 1, :ms1max_ms1sampled_abundance_ratio_ids_inefficient_sampling
 
-  belongs_to :metric, :key => true
+  belongs_to :metric
   def hashes
     hash = {}
     hash[:nearby_resampling_of_ids_oversampling_details] = self.nearby_resampling_of_ids_oversampling_details.attributes
@@ -38,7 +38,7 @@ class NearbyResamplingOfIdsOversamplingDetails
   property :median_dm_z, 			Float
   property :quart_dm_z, 			Float
 
-  belongs_to :dynamic_sampling, :key => true
+  belongs_to :dynamic_sampling
 end
 
 
@@ -48,7 +48,7 @@ class EarlyAndLateRtOversamplingSpectrumIdsUniquePeptideIdsChromatographicFlowTh
   property :first_decile, 			Float
   property :last_decile, 			Float
 
-  belongs_to :dynamic_sampling, :key => true
+  belongs_to :dynamic_sampling
 end
 
 class PeptideIonIdsBy3SpectraHiVs13SpectraLoExtremeOversampling
@@ -61,7 +61,7 @@ class PeptideIonIdsBy3SpectraHiVs13SpectraLoExtremeOversampling
   property :spec_pep_hi, 			Float
   property :spec_cnt_excess, 			Float
 
-  belongs_to :dynamic_sampling, :key => true
+  belongs_to :dynamic_sampling
 end
 
 class RatiosOfPeptideIonsIdedByDifferentNumbersOfSpectraOversamplingMeasure
@@ -70,7 +70,7 @@ class RatiosOfPeptideIonsIdedByDifferentNumbersOfSpectraOversamplingMeasure
   property :once_twice, 			Float
   property :twice_thrice, 			Float
 
-  belongs_to :dynamic_sampling, :key => true
+  belongs_to :dynamic_sampling
 end
 
 class SingleSpectrumPeptideIonIdentificationsOversamplingMeasure
@@ -81,7 +81,7 @@ class SingleSpectrumPeptideIonIdentificationsOversamplingMeasure
   property :_1_vs_1_pepion, 			Float
   property :_1_vs_1_spec, 			Float
 
-  belongs_to :dynamic_sampling, :key => true
+  belongs_to :dynamic_sampling
 end
 
 class Ms1maxMs1sampledAbundanceRatioIdsInefficientSampling
@@ -95,7 +95,7 @@ class Ms1maxMs1sampledAbundanceRatioIdsInefficientSampling
   property :med_top_quart, 			Float
   property :med_bottom_1_2, 			Float
 
-  belongs_to :dynamic_sampling, :key => true
+  belongs_to :dynamic_sampling
 end
 
 

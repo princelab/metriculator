@@ -1,9 +1,9 @@
 class IonTreatment
   include DataMapper::Resource
-  property :id, Serial		
+  property :id, Serial
   has 1, :precursor_m_z_monoisotope_exact_m_z
 
-  belongs_to :metric, :key => true
+  belongs_to :metric
   def hashes
     hash = {}
     hash[:precursor_m_z_monoisotope_exact_m_z] = self.precursor_m_z_monoisotope_exact_m_z.attributes
@@ -39,7 +39,7 @@ class PrecursorMZMonoisotopeExactMZ
   property :next_half_7, 			Float
   property :next_half_8, 			Float
 
-  belongs_to :ion_treatment, :key => true
+  belongs_to :ion_treatment
 end
 
 
