@@ -51,3 +51,6 @@ show up on the run unless you add it there as well. For example,
   run.comparison_firsts << comparison
   run.save
 ```
+
+* Fix pagination when there is only one page
+* Implement ajax adding stuff to comparisons
