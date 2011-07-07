@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 
 RAILS_VERSION = '~> 3.0.7'
 DM_VERSION    = '~> 1.1.0'
+gem 'rails', RAILS_VERSION
 gem 'railties', RAILS_VERSION, :require => 'rails'
 gem 'activesupport', RAILS_VERSION
 gem 'actionpack', RAILS_VERSION
@@ -26,7 +27,7 @@ gem 'dm-observer',          DM_VERSION
 gem 'dm-chunked_query'
 
 gem 'os'
-gem 'rserve-simpler', require: 'rserve/simpler'
+gem 'rserve-simpler', :require => 'rserve/simpler'
 gem 'haml'
 gem 'jquery-rails'
 gem 'rspec'
