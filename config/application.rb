@@ -8,6 +8,8 @@ require 'dm-rails/railtie'
 # require 'active_resource/railtie'
 # require 'rails/test_unit/railtie'
 
+# This is a line suggested by my (Ryan) question on Stackoverflow regarding the issue... He suggested adding this line to avoid a "false DM save"
+DataMapper::Model.raise_on_save_failure = true
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.

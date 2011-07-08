@@ -4,10 +4,8 @@ RAILS_VERSION = '~> 3.0.7'
 DM_VERSION    = '~> 1.1.0'
 gem 'rails', RAILS_VERSION
 gem 'sqlite3-ruby', '1.3.2', :require => 'sqlite3'
-gem 'gravatar_image_tag', '1.0.0.pre2'
 gem 'dm-rails',          '~> 1.1.0'
 gem 'dm-sqlite-adapter', DM_VERSION
-gem 'dm-sqlite-adapter',    DM_VERSION
 # gem 'dm-mysql-adapter',     DM_VERSION
 # gem 'dm-postgres-adapter',  DM_VERSION
 # gem 'dm-oracle-adapter',    DM_VERSION

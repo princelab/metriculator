@@ -1,7 +1,7 @@
 class IonTreatment
   include DataMapper::Resource
   property :id, Serial		
-  has 1, :precursor_m_z_monoisotope_exact_m_z
+  has 1, :precursor_m_z_monoisotope_exact_m_z, required: false
 
   belongs_to :metric, :key => true
   def hashes

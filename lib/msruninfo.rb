@@ -7,30 +7,15 @@ require 'mount_mapper'
 # System Specific Constants
 Nist_dir = "C:\\NISTMSQC\\scripts"
 Nist_exe = "C:\\NISTMSQC\\scripts\\run_NISTMSQC_pipeline.pl"
-#=begin # System dependent locations
-if ENV["HOME"][/\/home\//] == '/home/'
-	Orbi_drive = "#{ENV["HOME"]}/chem/orbitrap/"
-	Jtp_drive = "#{ENV["HOME"]}/chem/lab/RAW/"
-	Database = "#{ENV["HOME"]}/chem/lab/"
-elsif ENV["OS"][/Windows/] == 'Windows'
-	Orbi_drive = "O:\\"
-	Jtp_drive = "S:\\RAW\\"
-	Database = "S:\\"
-end
-Jtp_mount = MountedServer::MountMapper.new(Jtp_drive)
-Orbi_mount = MountedServer::MountMapper.new(Orbi_drive)
-Db_mount = MountedServer::MountMapper.new(Database)
-#=end
 
 require 'xcalibur'
 require 'eksigent'
-require 'spawn_client'
 require 'metrics'
 require 'archive_mount'
 
 module Ms
 	class MsrunInfo < 
-		Struct.new(:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :archive_location, :rawid, :group, :user, :taxonomy) 
+		Struct.new(:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :archive_location, :rawid, :group, :user, :taxonomy)  # Every file must have a source hash id that helps us now that things are working.
 		attr_accessor :data_struct 
 		def initialize(struct = nil)
 			if struct

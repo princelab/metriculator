@@ -1,15 +1,15 @@
 class IonSource
   include DataMapper::Resource
   property :id, Serial		
-  has 1, :spectrum_counts
-  has 1, :ion_injection_times_for_ids_ms
-  has 1, :top_ion_abundance_measures
-  has 1, :number_of_ions_vs_charge
-  has 1, :ion_ids_by_charge_state_relative_to_2
-  has 1, :average_peptide_lengths_for_different_charge_states
-  has 1, :average_peptide_lengths_for_charge_2_for_different_numbers_of_mobile_protons
-  has 1, :numbers_of_ion_ids_at_different_charges_with_1_mobile_proton
-  has 1, :percent_of_ids_at_different_charges_and_mobile_protons_relative_to_ids_with_1_mobile_proton
+  has 1, :spectrum_counts, required: false
+  has 1, :ion_injection_times_for_ids_ms, required: false
+  has 1, :top_ion_abundance_measures, required: false
+  has 1, :number_of_ions_vs_charge, required: false
+  has 1, :ion_ids_by_charge_state_relative_to_2, required: false
+  has 1, :average_peptide_lengths_for_different_charge_states, required: false
+  has 1, :average_peptide_lengths_for_charge_2_for_different_numbers_of_mobile_protons, required: false
+  has 1, :numbers_of_ion_ids_at_different_charges_with_1_mobile_proton, required: false
+  has 1, :percent_of_ids_at_different_charges_and_mobile_protons_relative_to_ids_with_1_mobile_proton, required: false
 
   belongs_to :metric, :key => true
   def hashes

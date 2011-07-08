@@ -96,29 +96,47 @@ class Metric		# Metric parsing fxns
 	def to_database
 		require 'dm-migrations'
 	#		DataMapper.auto_migrate!  # This one wipes things!
-			DataMapper.auto_upgrade!
+	#		DataMapper.auto_upgrade!
 		objects = []; item = 0
 		slice_hash if @measures.nil?
 		@metrics_input_files.each do |file|
 			tmp = Msrun.first_or_create({raw_id: "#{File.basename(file,".RAW.MGF.TSV")}",  metricsfile: @metricsfile}) # rawfile: "#{File.absolute_path(File.basename(file, ".RAW.MGF.TSV")) + ".RAW"}",
 			
 
-
+      
 	#### SHOULDN"T NEED TO BE HERE!!!!!!!!!! WHAT IS WRONG WITH DATAMAPPER!!!???
 			tmp.rawtime= Time.random(2)
 			p tmp.save
 			p tmp.raw_id
+      p Metric.all
 puts '=============--------------------------------============================'
-
-			tmp.metric = Metric.first_or_create({msrun_raw_id: "#{File.basename(file, ".RAW.MGF.TSV")}", metric_input_file: @metricsfile })
-			tmp.metric.metric_input_file= @metricsfile
+      tmp.metric = Metric.first_or_create( {msrun_id: tmp.id}, {metric_input_file: @metricsfile} ) # The second hash is what is used if you are creating, while the first hash is the parameters you find by
+#$$$$$$$$$$$$$$$$$$$$$$
+      p Metric.all
+      tmp.metric.save
+      p Metric.all
+p tmp.metric
+      tmp.metric.metric_input_file = @metricsfile
+p tmp.metric
+puts 'saving'
+p tmp.metric.save!
+p Metric.all
+puts '=============--------------------------------============================'
+#p @out_hash
 			@@categories.map {|category|  tmp.metric.send("#{category}=".to_sym, Kernel.const_get(camelcase(category)).first_or_create({id: tmp.metric.msrun_id})) }
 			@out_hash.each_pair do |key, value_hash|
-				outs = tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}=".to_sym, Kernel.const_get(camelcase(key)).first_or_create({id: tmp.metric.msrun_id}))#, value_hash )) 
+				outs = tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}=".to_sym, Kernel.const_get(camelcase(key)).first_or_create({id: tmp.id}))#, value_hash )) 
 					value_hash.each_pair do |property, array|
 						tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).send("#{property}=".to_sym, array[item])
 					end
-				tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).save
+        begin
+        	tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).save
+        rescue DataObjects::SyntaxError
+      #    puts "--------------------------=================================---------------------------"
+       #   puts @@ref_hash[key.to_sym]
+       #   puts key.downcase
+      #    p value_hash
+        end
 			end
 			item +=1
 			objects << tmp
