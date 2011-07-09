@@ -8,7 +8,6 @@ require 'mount_mapper'
 Nist_dir = "C:\\NISTMSQC\\scripts"
 Nist_exe = "C:\\NISTMSQC\\scripts\\run_NISTMSQC_pipeline.pl"
 =begin # System dependent locations
-#pp ENV
 if ENV["HOME"][/\/home\//] == '/home/'
   Orbi_drive = "#{ENV["HOME"]}/chem/orbitrap/"
   Jtp_drive = "#{ENV["HOME"]}/chem/lab/RAW/"

@@ -33,6 +33,7 @@ module MsrunsHelper
     return res
   end
 
+  # Create a link to the correct page for pagination
   def params_link(page_num, text=nil)
     text = "#{page_num + 1}" if text == nil
     link_to text, params.merge(:sort => params[:sort], :direction => params[:direction], :page => page_num + 1)

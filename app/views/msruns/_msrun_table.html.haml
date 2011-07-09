@@ -1,7 +1,9 @@
 %table.msrun
   %tr
     %th Compare
-    %th= sortable "raw_id", "Name"
+    %th
+      = sortable "raw_id", "Name"
+      = render 'filter'
     %th= sortable "group"
     %th= sortable "user"
     %th= sortable "rawtime", "Date"

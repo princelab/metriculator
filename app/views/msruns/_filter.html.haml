@@ -1,12 +1,4 @@
-- form_tag '', :method => :get do
-  = text_field_tag :val_one
-  = text_field_tag :val_two
-  = submit_tag "Filter"
-- # Msrun.all.methods
-- set = Msrun.all(:rawtime => DateTime.parse("2009-11-03T00:00:00-06:00")..DateTime.parse("2011-12-31T23:59:59-06:00"))
-- if set.size
-  = set.size
-  %br
-  - set.each do |a|
-    = a.rawtime
-    %br
+= form_tag msruns_path, :method => 'get' do
+  .filter
+    = text_field_tag :search, params[:search]
+    = submit_tag "Search", :name => nil
