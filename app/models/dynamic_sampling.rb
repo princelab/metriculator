@@ -9,6 +9,7 @@ class DynamicSampling
   has 1, :ms1max_ms1sampled_abundance_ratio_ids_inefficient_sampling, required: false
 
   belongs_to :metric
+
   def hashes
     hash = {}
     hash[:nearby_resampling_of_ids_oversampling_details] = self.nearby_resampling_of_ids_oversampling_details.attributes

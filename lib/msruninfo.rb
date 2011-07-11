@@ -7,19 +7,20 @@ require 'mount_mapper'
 # System Specific Constants
 Nist_dir = "C:\\NISTMSQC\\scripts"
 Nist_exe = "C:\\NISTMSQC\\scripts\\run_NISTMSQC_pipeline.pl"
+
 require 'xcalibur'
 require 'eksigent'
 require 'metrics'
 require 'archive_mount'
 
 module Ms
-  class MsrunInfo < 
+  class MsrunInfo <
     Struct.new(:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :archive_location, :rawid, :group, :user, :taxonomy)  # Every file must have a source hash id that helps us now that things are working.
-    attr_accessor :data_struct 
+    attr_accessor :data_struct
     def initialize(struct = nil)
       if struct
         struct.members.each do |sym|
-          self.send("#{sym}="	, struct[sym])
+          self.send("#{sym}=", struct[sym])
         end
       end
     end
@@ -28,7 +29,7 @@ module Ms
       @hplc_object = Ms::Eksigent::Ultra2D.new(@rawfile)
       @hplcfile = @hplc_object.eksfile
     end
-    def fill_in 
+    def fill_in
       grab_files if @tunefile.nil?
       @inj_volume = @hplc_object.inj_vol
       @hplcfile = @hplc_object.eksfile
@@ -40,6 +41,3 @@ module Ms
     end
   end # MsrunInfo
 end # Ms
-
-
-
