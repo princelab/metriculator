@@ -11,10 +11,6 @@ gem 'actionmailer', RAILS_VERSION
 gem 'sqlite3-ruby', '1.3.2', :require => 'sqlite3'
 gem 'dm-rails',          '~> 1.1.0'
 gem 'dm-sqlite-adapter', DM_VERSION
-# gem 'dm-mysql-adapter',     DM_VERSION
-# gem 'dm-postgres-adapter',  DM_VERSION
-# gem 'dm-oracle-adapter',    DM_VERSION
-# gem 'dm-sqlserver-adapter', DM_VERSION
 
 gem 'dm-migrations',        DM_VERSION
 gem 'dm-types',             DM_VERSION
@@ -47,13 +43,4 @@ group :test do
   gem 'factory_girl_rails', '~> 1.1.rc1'
   #gem 'bacon'
   #gem 'rcov'
-
-  # To get a detailed overview about what queries get issued and how long they take
-  # have a look at rails_metrics. Once you bundled it, you can run
-  #   rails g rails_metrics Metric
-  #   rake db:automigrate
-  # to generate a model that stores the metrics. You can access them by visiting
-  #   /rails_metrics
-  # in your rails application.
-  #gem 'rails_metrics', :git => 'git://github.com/engineyard/rails_metrics'
 end
