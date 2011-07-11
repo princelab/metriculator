@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 RAILS_VERSION = '~> 3.0.7'
 DM_VERSION    = '~> 1.1.0'
-# gem 'rails', RAILS_VERSION
+gem 'rails', RAILS_VERSION
 gem 'railties', RAILS_VERSION, :require => 'rails'
 gem 'activesupport', RAILS_VERSION
 gem 'actionpack', RAILS_VERSION
@@ -45,8 +45,8 @@ group :test do
   gem 'webrat'
   gem 'spork'
   gem 'factory_girl_rails', '~> 1.1.rc1'
-  gem 'bacon'
-  gem 'rcov'
+  #gem 'bacon'
+  #gem 'rcov'
 
   # To get a detailed overview about what queries get issued and how long they take
   # have a look at rails_metrics. Once you bundled it, you can run
@@ -55,5 +55,5 @@ group :test do
   # to generate a model that stores the metrics. You can access them by visiting
   #   /rails_metrics
   # in your rails application.
-  gem 'rails_metrics', :git => 'git://github.com/engineyard/rails_metrics'
+  #gem 'rails_metrics', :git => 'git://github.com/engineyard/rails_metrics'
 end
