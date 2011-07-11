@@ -2,14 +2,14 @@ class Chromatography
   include DataMapper::Resource
   property :id, Serial
 
-  has 1, :first_and_last_ms1_rt_min
-  has 1, :middle_peptide_retention_time_period_min
-  has 1, :max_peak_width_for_ids_sec
-  has 1, :peak_width_at_half_height_for_ids
-  has 1, :peak_widths_at_half_max_over_rt_deciles_for_ids
-  has 1, :wide_rt_differences_for_ids_4_min
+  has 1, :first_and_last_ms1_rt_min, required: false
+  has 1, :middle_peptide_retention_time_period_min, required: false
+  has 1, :max_peak_width_for_ids_sec, required: false
+  has 1, :peak_width_at_half_height_for_ids, required: false
+  has 1, :peak_widths_at_half_max_over_rt_deciles_for_ids, required: false
+  has 1, :wide_rt_differences_for_ids_4_min, required: false
   ##### has 1, :fraction_of_repeat_peptide_ids_with_divergent_rt_rt_vs_rt_best_id_chromatographic_bleed
-  has 1, :rt_ms1max_rt_ms2_for_ids_sec
+  has 1, :rt_ms1max_rt_ms2_for_ids_sec, required: false
 
   belongs_to :metric
 

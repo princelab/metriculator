@@ -51,7 +51,9 @@ class ArchiveMount
   def load_config
     @config = YAML.load_file(@settings)
   end
+  def archive # MOVE THE FILES OVER TO THE LOCATION
 
+  end
   # @location == LOCATION(group, user, mtime, experiment_name)
   def define_location
     @location = [@msrun.group, @msrun.user, File.mtime(@msrun.rawfile), @msrun.rawid]

@@ -54,7 +54,7 @@ class Msrun
   property :inj_volume, 				Integer
 
   # Associations
-  has 1, :metric
+  has 1, :metric, required: false
 
   has n, :firsts#, :child_key => [ :comparison_id ]
   has n, :comparison_firsts, 'Comparison', :through => :firsts, :via => :comparison#:child_key => [ :comparison_id ]

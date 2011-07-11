@@ -1,11 +1,11 @@
 class PeptideIds
   include DataMapper::Resource
   property :id, Serial		
-  has 1, :tryptic_peptide_counts
-  has 1, :peptide_counts
-  has 1, :total_ion_current_for_ids_at_peak_maxima
-  has 1, :precursor_m_z_for_ids
-  has 1, :averages_vs_rt_for_ided_peptides
+  has 1, :tryptic_peptide_counts, required: false
+  has 1, :peptide_counts, required: false
+  has 1, :total_ion_current_for_ids_at_peak_maxima, required: false
+  has 1, :precursor_m_z_for_ids, required: false
+  has 1, :averages_vs_rt_for_ided_peptides, required: false
 
   belongs_to :metric, :key => true
   def hashes
