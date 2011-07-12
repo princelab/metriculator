@@ -6,7 +6,7 @@ FactoryGirl.define do
   end
 
   factory :metric do
-    metric_input_file "tfiles/metrics/test1.txt"
+    metric_input_file "tfiles/test3__1.txt"
     association :msrun
   end
 
