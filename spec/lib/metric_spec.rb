@@ -35,19 +35,20 @@ describe 'parses metrics and databases them' do
 
 end
 describe 'generates a lot of metrics' do 
-  before do 
+  before do
     @files = Dir.entries(TESTFILE + '/metrics/')
     @files = @files.map {|file| File.join(TESTFILE, 'metrics', file) if file[/\.txt/] }.compact
     #@files = [TESTFILE + '/metrics' + '/test1.txt', TESTFILE + '/metrics' + '/nanospray_full.txt']
     #@files = [TESTFILE + '/metrics' + '/test1.txt']
     @metrics = []
   end
+
   it 'handles all the metrics' do
     @files.each do |file|
       a  = Metric.new(file)
       a.slice_hash
       a.to_database
-      @metrics << a 
+      @metrics << a
     end
 # NOT TRUE!!!  Since each file can contribute many metrics to the mix
   #	@files.length.should.equal Msrun.all.length	
@@ -56,25 +57,32 @@ describe 'generates a lot of metrics' do
 end
 =end
 #=begin
-describe 'graphs metrics' do
-  before do
-    # let(:metric) { FactoryGirl.create(:metric) }
-    @metric = Metric.new( TESTFILE + '/test3__1.txt')
-    #		@measures = @metric.slice_hash
-    #		saved = @metric.to_database
-    @match_old = Msrun.all
-    @match_new = Msrun.all[2]
-  end
-  it 'generates pdfs' do
-    puts "\n"
-    @metric.graph_matches(@match_new, @match_old)
-    File.exist?('chromatography/first_and_last_ms1_rt_min_first_ms1.svg').should.equal true
-  end
-  it 'concatenates them into a giant image' do
-    file = 'index.html'
-    File.exist?(file).should.equal true
-  end
 
+describe '#archiver' do
+  let(:metric) { Metric.new(File.join(File.dirname(__FILE__), '..', 'tfiles', 'test3__1.txt')) }
+  it 'should populate the database with msrun data from the metrics file' do
+    metric.archive
+  end
 end
+
+# describe 'graphs metrics' do
+#   before do
+#     # let(:metric) { FactoryGirl.create(:metric) }
+#     @metric = Metric.new( TESTFILE + '/test3__1.txt')
+#     #		@measures = @metric.slice_hash
+#     #		saved = @metric.to_database
+#     @match_old = Msrun.all
+#     @match_new = Msrun.all[2]
+#   end
+#   it 'generates pdfs' do
+#     puts "\n"
+#     @metric.graph_matches(@match_new, @match_old)
+#     File.exist?('chromatography/first_and_last_ms1_rt_min_first_ms1.svg').should.equal true
+#   end
+#   it 'concatenates them into a giant image' do
+#     file = 'index.html'
+#     File.exist?(file).should.equal true
+#   end
+# end
 
 #=end
