@@ -135,17 +135,11 @@ module Ms
       #### SHOULDN"T NEED TO BE HERE!!!!!!!!!! WHAT IS WRONG WITH DATAMAPPER!!!???
 #			tmp.rawtime= Time.random(2)
     puts '=============--------------------------------============================'
-          tmp.metric = Metric.first_or_create( {msrun_id: tmp.id}, {metric_input_file: @metricsfile} ) # The second hash is what is used if you are creating, while the first hash is the parameters you find by
+          tmp.metric = ::Metric.first_or_create( {msrun_id: tmp.id}, {metric_input_file: @metricsfile} ) # The second hash is what is used if you are creating, while the first hash is the parameters you find by
 #$$$$$$$$$$$$$$$$$$$$$$
-          p Metric.all
-          tmp.metric.save
-          p Metric.all
-    p tmp.metric
-          tmp.metric.metric_input_file = @metricsfile
-    p tmp.metric
-    puts 'saving'
-    p tmp.metric.save!
-    p Metric.all
+    p ::Metric.all
+    tmp.metric.metric_input_file = @metricsfile
+    p ::Metric.all
     puts '=============--------------------------------============================'
     p tmp
 #p @out_hash
@@ -154,6 +148,7 @@ module Ms
           @@categories.map {|category|  tmp.metric.send("#{category}=".to_sym, Kernel.const_get(camelcase(category)).first_or_new({id: tmp.id})) }
           @out_hash.each_pair do |key, value_hash|
             outs = tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}=".to_sym, Kernel.const_get(camelcase(key)).first_or_create({id: tmp.id}))#, value_hash )) 
+            puts "KEY: #{key}"
               value_hash.each_pair do |property, array|
                 tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).send("#{property}=".to_sym, array[item])
               end

@@ -4,7 +4,7 @@ describe 'database information gathered' do
 
 	it 'contains the information parsed' do 
 		input = TESTFILE + '/single_metric.txt'
-		@metric = Metric.new(input)
+		@metric = Ms::NIST::Metric.new(input)
 		measures = @metric.slice_hash
 		@metric.to_database#(:migrate => true)
 		a, b = measures.sort.first, @metric.slice_matches(Msrun.all(:metricsfile => input)).sort.first

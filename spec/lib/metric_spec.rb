@@ -58,7 +58,7 @@ end
 #=begin
 describe 'graphs metrics' do 
 	before do 
-		@metric = Metric.new( TESTFILE + '/test3__1.txt')
+		@metric = Ms::NIST::Metric.new( TESTFILE + '/test3__1.txt')
 #		@measures = @metric.slice_hash
 #		saved = @metric.to_database
 		@match_old = Msrun.all 

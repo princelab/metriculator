@@ -1,12 +1,12 @@
 class DynamicSampling
   include DataMapper::Resource
   property :id, Serial		
-  has 1, :nearby_resampling_of_ids_oversampling_details, required: false
-  has 1, :early_and_late_rt_oversampling_spectrum_ids_unique_peptide_ids_chromatographic_flow_through_bleed, required: false
-  has 1, :peptide_ion_ids_by_3_spectra_hi_vs_1_3_spectra_lo_extreme_oversampling, required: false
-  has 1, :ratios_of_peptide_ions_ided_by_different_numbers_of_spectra_oversampling_measure, required: false
-  has 1, :single_spectrum_peptide_ion_identifications_oversampling_measure, required: false
-  has 1, :ms1max_ms1sampled_abundance_ratio_ids_inefficient_sampling, required: false
+  has 1, :nearby_resampling_of_ids_oversampling_details
+  has 1, :early_and_late_rt_oversampling_spectrum_ids_unique_peptide_ids_chromatographic_flow_through_bleed
+  has 1, :peptide_ion_ids_by_3_spectra_hi_vs_1_3_spectra_lo_extreme_oversampling
+  has 1, :ratios_of_peptide_ions_ided_by_different_numbers_of_spectra_oversampling_measure
+  has 1, :single_spectrum_peptide_ion_identifications_oversampling_measure
+  has 1, :ms1max_ms1sampled_abundance_ratio_ids_inefficient_sampling
 
   belongs_to :metric, :key => true
   def hashes
