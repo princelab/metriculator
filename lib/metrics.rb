@@ -3,30 +3,43 @@
 require 'msruninfo'
 require 'rubygems'
 require 'yaml'
-
+# A fancy struct which is used to contain each measurement and streamline the internal handling of the metric data
+# It contains two methods necessary for the handling the comparison and output of this data.
 class ::Measurement < 
 # Structure, the entire basis for this class
 	Struct.new(:name, :raw_id, :time, :value, :category, :subcat) do 
+# Standard comparison operator defined for sorting by time
 		def <=>(other) 
 			self[:time] <=> other[:time]
 		end
+# Defined the output format to make the printout more concise.
 		def to_s
 			"struct Measurement name=#{self.name}, raw_id=#{self.raw_id}, time=#{self.time}, value=#{self.value}, category=#{self.category}, subcat=#{self.subcat}"
 		end
 	end
 end
+# This is the set of default settings for the {Metric#to_database} method
+DatabaseDefaults = {migrate: false}
 
 class Metric		# Metric parsing fxns
 	attr_accessor :out_hash, :metricsfile, :rawfile, :raw_ids
+# Not really a metric fxn, but rather a generic camelcase formatter
+# @param [String] String to convert to camelcase from snakecase
+# @return [String] converted to camelcase string
 	def camelcase(str)
 		str.split('_').map{|word| word.capitalize}.join('')
 	end
+# Not really a metric fxn either, but converts from Camelcase or separated words into a snakecase, enforcing separation of numbers and ensuring that it doesn't end in an underscore or contain multiple underscores in series
+# @param [String] String to convert
+# @return [String] converted String
 	def snakecase(str)
 		str.gsub(/(\s|\W)/, '_').gsub(/(_+)/, '_').gsub(/(_$)/, "").gsub(/^(\d)/, '_\1').downcase
 	end
 	def initialize(file = nil)
 		@metricsfile = file
 	end
+# Eventually, this should be the function that calls the appropriate cascade of features to run the metrics
+# @param [File] This is the optional file you can input.  Otherwise, it will look for the local instance variable rawfile to run metrics on that file.
 	def run_metrics(rawfile = nil)
 		if @rawfile
 			@rawfile = rawfile
@@ -35,10 +48,14 @@ class Metric		# Metric parsing fxns
 			#%Q{C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl --in_dir "#{ArchiveMount.archive_location}" --out_dir "#{ArchiveMount.metrics}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
 		end
 	end
+# Archive the metric data by ensuring it is parsed {#parse} and sending it to the database {#to_database}
 	def archive
 		parse if @out_hash.nil?
 		to_database
 	end
+# Parse the given instance variable metricsfile to get the metrics data into Hashes, if you want to get {Measurement}, you can use the {#slice_hash} fxn
+# @param None, but it references the @metricsfile
+# @return [Hash] the out_hash which contains the parsed data
 	def parse				# Returns the out_hash
 		array = IO.readlines(@metricsfile, 'r:us-ascii').first.split("\r\n")
 		outs_hash = {}; key = ""
@@ -80,6 +97,9 @@ class Metric		# Metric parsing fxns
 		["files_analyzed_#{@num_files}", 'begin_runseries_results', 'begin_series_1', "run_number_#{(1..@num_files).to_a.join('_')}", 'end_series_1', 'fraction_of_repeat_peptide_ids_with_divergent_rt_rt_vs_rt_best_id_chromatographic_bleed'].each {|item| @out_hash.delete(item)}
 		@out_hash
 	end
+# This will take the @out_hash and return that data as an Array of {Measurement} structs
+# @param None, but will use out_hash or call parse if that doesn't exist to try to get the data
+# @return [Array] an array of {Measurement} structs which are also referenced as @measures
 	def slice_hash
 		parse if @out_hash.nil?
 		@measures = []; @data = {}; item = 0
@@ -93,10 +113,17 @@ class Metric		# Metric parsing fxns
 		end
 		@measures		
 	end
-	def to_database
+# This fxn takes a hash of options which are merged with default databasing settings and sends the metric to the database.  
+# @param [Hash] options with are used to define the databasing process
+# @return Nothing, since it is pushing things to the configured database
+	def to_database(opts={})
+  database_opts = DatabaseDefaults.merge(opts)
 		require 'dm-migrations'
-	#		DataMapper.auto_migrate!  # This one wipes things!
-	#		DataMapper.auto_upgrade!
+    if database_opts[:migrate]
+      DataMapper.auto_migrate!  # This one wipes things!
+	  else 
+      DataMapper.auto_upgrade!
+    end
 		objects = []; item = 0
 		slice_hash if @measures.nil?
 		@metrics_input_files.each do |file|
@@ -105,10 +132,7 @@ class Metric		# Metric parsing fxns
 
       
 	#### SHOULDN"T NEED TO BE HERE!!!!!!!!!! WHAT IS WRONG WITH DATAMAPPER!!!???
-			tmp.rawtime= Time.random(2)
-			p tmp.save
-			p tmp.raw_id
-      p Metric.all
+#			tmp.rawtime= Time.random(2)
 puts '=============--------------------------------============================'
       tmp.metric = Metric.first_or_create( {msrun_id: tmp.id}, {metric_input_file: @metricsfile} ) # The second hash is what is used if you are creating, while the first hash is the parameters you find by
 #$$$$$$$$$$$$$$$$$$$$$$
@@ -122,8 +146,9 @@ puts 'saving'
 p tmp.metric.save!
 p Metric.all
 puts '=============--------------------------------============================'
+p tmp
 #p @out_hash
-			@@categories.map {|category|  tmp.metric.send("#{category}=".to_sym, Kernel.const_get(camelcase(category)).first_or_create({id: tmp.metric.msrun_id})) }
+			@@categories.map {|category|  tmp.metric.send("#{category}=".to_sym, Kernel.const_get(camelcase(category)).first_or_create({id: tmp.id})) }
 			@out_hash.each_pair do |key, value_hash|
 				outs = tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}=".to_sym, Kernel.const_get(camelcase(key)).first_or_create({id: tmp.id}))#, value_hash )) 
 					value_hash.each_pair do |property, array|
@@ -152,6 +177,9 @@ end 		# Metric parsing fxns
 
 # Metric grapher
 class Metric
+# This fxn serves the purpose of taking a DataMapper query and turning the matches into the same data structure as is produced by parsing the data file.
+# @param [Array] An array containing the matches to the DataMapper database query
+# @return [Hash] A hash of a hash of a hash, containing the data desired, but it really should be an array of out_hashes, right?
 	def match_to_hash(matches)  
 		# matches is the result of a Msrun.all OR Msrun.first OR Msrun.get(*args)
 		@data = {}
@@ -169,6 +197,9 @@ class Metric
 		end
 		@data # as a hash of a hash of a hash
 	end
+# This fxn produces an array containing {Measurement} structs which contain the data found in all the matches produced by a DataMapper DB query
+# @param [Array] an Array of matches
+# @return [Array] an Array containing all the measurements found in the DB matches given
 	def slice_matches(matches)  
 		measures = []
 		# matches is the result of a Msrun.all OR Msrun.first OR Msrun.get(*args)
@@ -194,6 +225,9 @@ class Metric
 		end
 		measures.sort
 	end	# returns array of measurements
+# This function utilizes the {#slice_matches} fxn to take two sets of DataMapper DB matches and generate a comparison between the two sets of data, graphing the results as SVG files.  This needs to be updated to better produce the graphs as part of a comparison model
+# @param [Array, Array] Arrays of matches representing the results of two DataMapper DB queries
+# @return [Array] An array which contains all of the files produced by the process.  This will likely be an array of approximately 400 filenames.
 	def graph_matches(new_match, old_match)
 		require 'rserve/simpler'
 		graphfiles = []

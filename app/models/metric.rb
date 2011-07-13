@@ -1,6 +1,7 @@
 class Metric
   include DataMapper::Resource
   #property :metric_input_file, 	FilePath, :key => true
+  #property :metric_input_file, FilePath, required: false
   property :metric_input_file, FilePath
   property :id, Serial
 
@@ -17,5 +18,5 @@ class Metric
   has 1, :comparison, required: false
 
 
-  belongs_to :msrun, :key => true      # I think this lacking an id parameter is the reason for the error?
+  belongs_to :msrun, :required => false      # I think this lacking an id parameter is the reason for the error?
 end

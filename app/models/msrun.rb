@@ -54,7 +54,7 @@ class Msrun
   property :inj_volume, 				Integer
 
   # Associations
-  has 1, :metric, required: false
+  has 1, :metric
 
   def self.asc(column_name = :id)
     all( :order => [ column_name.asc] )
