@@ -66,7 +66,7 @@ describe 'graphs metrics' do
 	end
 	it 'generates pdfs' do 
 		puts "\n"
-		@metric.graph_matches(@match_new, @match_old)
+		@metric.graph_matches(@metric.slice_matches(@match_new), @metric.slice_matches(@match_old) )
 		File.exist?('chromatography/first_and_last_ms1_rt_min_first_ms1.svg').should.equal true
 	end
 	it 'concatenates them into a giant image' do

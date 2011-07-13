@@ -6,16 +6,16 @@ class Metric
   property :id, Serial
 
   # Associations
-  has 1, :chromatography, required: false
-  has 1, :ms1, required: false
-  has 1, :dynamic_sampling, required: false
-  has 1, :ion_source, required: false
-  has 1, :ion_treatment, required: false
-  has 1, :peptide_ids, required: false
-  has 1, :ms2, required: false
-  has 1, :run_comparison, required: false
+  has 1, :chromatography
+  has 1, :ms1
+  has 1, :dynamic_sampling
+  has 1, :ion_source
+  has 1, :ion_treatment
+  has 1, :peptide_ids
+  has 1, :ms2
+  has 1, :run_comparison
 
-  has 1, :comparison, required: false
+  has 1, :comparison
 
 
   belongs_to :msrun, :required => false      # I think this lacking an id parameter is the reason for the error?
