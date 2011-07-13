@@ -22,6 +22,7 @@ module MountedServer
 			@mount_dir_pieces = split_filename(@mount_dir)
 			@tmp_subdir = tmp_subdir
 		end
+# Here is an attempt to load config files which will tell this program everything it needs to know to run automatically
 		def config
 			YAML.load_file(self.settings)
 		end
@@ -35,7 +36,9 @@ module MountedServer
 		def basename(fn)
 			split_filename(fn).last
 		end
-
+# OS independent check to determine if a file is located under a networked directory
+# @param [Filename] A filename to check
+# @return [Boolean] 
 		def under_mount?(filename)
 			split_filename(File.expand_path(filename))[0,@mount_dir_pieces.size] == @mount_dir_pieces
 		end
@@ -48,13 +51,15 @@ module MountedServer
 		end
 
 		# move the file under the mount.  If @tmp_subdir is defined, it will use that directory.
-		# returns the expanded path of the file
+		# @return [Path] the expanded path of the file
+# Preserves the file metadata
 		def cp_under_mount(filename)
 			dest = File.join(@mount_dir, tmp_subdir || "", File.basename(filename))
 			FileUtils.cp( filename, dest, preserve=true )
 			dest
 		end
-
+    # Analogous to {#cp_under_mount} this requires a destination as a path from the mount to the location to which you want to file to be copied
+# Preserves the file metadata
 		def cp_to(filename, mounted_dest) # Always returns the destination as an explicit location relative to the mount directory
 			dest = File.join(@mount_dir, mounted_dest, File.basename(filename))
 			puts 'DESTINATION:   															______________'
@@ -64,7 +69,9 @@ module MountedServer
 			FileUtils.cp( filename, dest, preserve=true)
 			dest
 		end
-
+# Returns a full, explicit path from root for the relative path given
+# @param [Filename] 
+# @return [Path] Full path to that filename
 		def full_path(relative_filename)
 			File.join(@mount_dir, relative_filename)
 		end
@@ -74,6 +81,9 @@ end
 #########################333333 RANDOM TIME GENERATOR!!!
 
 class Time
+# This will generate a random time within the previous year, or any number of previous years
+# @param [Integer] Years back to calculate the random time, optional
+# @return [Time] Random time generated
 	def self.random(years_back=1)
 		year = Time.now.year - rand(years_back) - 1
 		month = rand(12) + 1

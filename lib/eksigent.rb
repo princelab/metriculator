@@ -1,7 +1,7 @@
 require 'mount_mapper'
 
 
-# Struct that provides the necessary organization of datapoints
+# Struct that provides the necessary organization of datapoints for graphing Eksigent hplc datafiles.
 PressureTraceDataPoint = Struct.new(:time, :signal, :reference, :qa, :qb, :aux, :pa, :pb, :pc, :pd, :powera, :powerb) do
   def initialize(*args)
 	  super(*args.map(&:to_f))
@@ -10,7 +10,9 @@ end
 
 
 module Ms
+# this is the class which contains methods specific to Eksigent Products
 	class Eksigent
+# this is the class which contains methods specific to the Ultra2D UPLC system
 		class Ultra2D
 			attr_accessor :rawfile, :eksfile, :graphfile, :autosampler_vial, :inj_vol, :rawtime, :datapoints
 			def initialize(rawfile = nil)
@@ -19,6 +21,9 @@ module Ms
 					find_match
 				end
 			end
+# This will take the metadata associated with the RAW file and determine which eksigent pressure trace file corresponds to that MsRun.
+# @param None, assumes access to @rawfile
+# @return [Object] self.
 			def find_match
 				raise "Wrong file type" if File.extname(@rawfile) != ".RAW"
 				@rawtime = File.mtime(@rawfile); rawdir = File.dirname(@rawfile)
@@ -34,6 +39,7 @@ module Ms
 				raise "Match error: #{@eksfile}" if @eksfile[/^.*\/ek2_.*\.txt/] != @eksfile
 				self
 			end
+# This parses the eksigent hplc file and creates the @data hash containing the values found
 			def parse
 				hash_out = {}; data_block = []
 				file = File.open(@eksfile, 'r:iso-8859-1')
@@ -56,6 +62,7 @@ module Ms
 				@inj_vol = @data['inj_vol'].to_f/1000
 				@autosampler_vial = @data['vial_position']
 			end
+# This will take the @data (or parse if not found) and generate an array of datapoints which contain the information desired as {PressureTraceDataPoint} structsstored as @datapoints
 			def structs
 				parse if @data.nil?
 				@data['plotraw'].shift
@@ -67,6 +74,7 @@ module Ms
 				end
 				@datapoints.size
 			end
+# This will graph the @datapoints and return the filename of the graphfile produced.  
 			def graph
 				structs if @datapoints.nil?
 				@graphfile =  File.absolute_path(File.expand_path(@rawfile).chomp(File.extname(@rawfile)) + '.pdf')

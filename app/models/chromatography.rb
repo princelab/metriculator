@@ -1,34 +1,34 @@
 class Chromatography
-  include DataMapper::Resource
-  property :id, Serial
+	include DataMapper::Resource
+	property :id, Serial
 
-  has 1, :first_and_last_ms1_rt_min, required: false
-  has 1, :middle_peptide_retention_time_period_min, required: false
-  has 1, :max_peak_width_for_ids_sec, required: false
-  has 1, :peak_width_at_half_height_for_ids, required: false
-  has 1, :peak_widths_at_half_max_over_rt_deciles_for_ids, required: false
-  has 1, :wide_rt_differences_for_ids_4_min, required: false
-  ##### has 1, :fraction_of_repeat_peptide_ids_with_divergent_rt_rt_vs_rt_best_id_chromatographic_bleed
-  has 1, :rt_ms1max_rt_ms2_for_ids_sec, required: false
+#	has 1, :first_and_last_ms1_rt_min, required: false
+#	has 1, :middle_peptide_retention_time_period_min, required: false
+#	has 1, :max_peak_width_for_ids_sec, required: false
+#	has 1, :peak_width_at_half_height_for_ids, required: false
+#	has 1, :peak_widths_at_half_max_over_rt_deciles_for_ids, required: false
+#	has 1, :wide_rt_differences_for_ids_4_min, required: false
+	##### has 1, :fraction_of_repeat_peptide_ids_with_divergent_rt_rt_vs_rt_best_id_chromatographic_bleed
+#	has 1, :rt_ms1max_rt_ms2_for_ids_sec, required: false
 
-  belongs_to :metric
-
-  def hashes
-    hash = {}
-    hash[:first_and_last_ms1_rt_min] = first_and_last_ms1_rt_min.attributes
-    hash[:middle_peptide_retention_time_period_min] = self.middle_peptide_retention_time_period_min.attributes
-    hash[:max_peak_width_for_ids_sec] = self.max_peak_width_for_ids_sec.attributes
-    hash[:peak_width_at_half_height_for_ids] = self.peak_width_at_half_height_for_ids.attributes
-    hash[:peak_widths_at_half_max_over_rt_deciles_for_ids] = self.peak_widths_at_half_max_over_rt_deciles_for_ids.attributes
-    hash[:wide_rt_differences_for_ids_4_min] = self.wide_rt_differences_for_ids_4_min.attributes
-    hash[:rt_ms1max_rt_ms2_for_ids_sec] = self.rt_ms1max_rt_ms2_for_ids_sec.attributes
-    hash
+	belongs_to :metric
   end
-  def to_yaml
-    self.hashes.to_yaml
-  end
+=begin
+	def hashes
+		hash = {}
+		hash[:first_and_last_ms1_rt_min] = first_and_last_ms1_rt_min.attributes
+		hash[:middle_peptide_retention_time_period_min] = self.middle_peptide_retention_time_period_min.attributes
+		hash[:max_peak_width_for_ids_sec] = self.max_peak_width_for_ids_sec.attributes
+		hash[:peak_width_at_half_height_for_ids] = self.peak_width_at_half_height_for_ids.attributes
+hash[:peak_widths_at_half_max_over_rt_deciles_for_ids] = self.peak_widths_at_half_max_over_rt_deciles_for_ids.attributes
+hash[:wide_rt_differences_for_ids_4_min] = self.wide_rt_differences_for_ids_4_min.attributes
+hash[:rt_ms1max_rt_ms2_for_ids_sec] = self.rt_ms1max_rt_ms2_for_ids_sec.attributes
+		hash
+	end
+	def to_yaml
+		self.hashes.to_yaml
+	end
 end
-
 ###########################
 # Child Models
 ###########################
@@ -117,3 +117,4 @@ class RtMs1maxRtMs2ForIdsSec
 
   belongs_to :chromatography
 end
+=end

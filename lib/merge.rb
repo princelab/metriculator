@@ -1,9 +1,12 @@
 #!/usr/bin/env ruby
 
 class Hash
+  # This function provides a deep merge feature for hashes, which will handle any level of hash depth, merging hashes and replacings Strings and combining Arrays
+# @param [Hash] Hash to merge into the self Hash
+# @return [Hash] Hash which contains the merge of the source hashes
 	def deep_merge(hash2)
 		out_hash = {}
-		keys = self.keys | hash2.keys
+		keys = self.keys | hash2.keys # Is this wrong?  OR?  SHouldn't I use a combination of them?
 		keys.each do |k|
 			v = self[k]
 		#	puts "k: #{k}\nv: #{v}\t and v2: #{hash2[k]}"

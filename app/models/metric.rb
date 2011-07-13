@@ -13,8 +13,8 @@ class Metric
   has 1, :ms2, required: false
   has 1, :run_comparison, required: false
 
-  belongs_to :msrun
   has 1, :comparison, required: false
 
 
+  belongs_to :msrun, :required => false      # I think this lacking an id parameter is the reason for the error?
 end
