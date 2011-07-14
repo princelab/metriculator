@@ -1,9 +1,9 @@
 class Ms1
   include DataMapper::Resource
   property :id, Serial		
-  has 1, :ms1_during_middle_and_early_peptide_retention_period, required: false
-  has 1, :ms1_total_ion_current_for_different_rt_periods, required: false
-  has 1, :ms1_id_max, required: false
+  has 1, :ms1_during_middle_and_early_peptide_retention_period
+  has 1, :ms1_total_ion_current_for_different_rt_periods
+  has 1, :ms1_id_max
 
   belongs_to :metric
   def hashes

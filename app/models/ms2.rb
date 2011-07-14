@@ -1,10 +1,10 @@
 class Ms2
   include DataMapper::Resource
   property :id, Serial		
-  has 1, :precursor_m_z_peptide_ion_m_z_2_charge_only_reject_0_45_m_z , required: false
-  has 1, :ms2_id_spectra, required: false
-  has 1, :ms1_id_abund_at_ms2_acquisition, required: false
-  has 1, :ms2_id_abund_reported, required: false
+  has 1, :precursor_m_z_peptide_ion_m_z_2_charge_only_reject_0_45_m_z 
+  has 1, :ms2_id_spectra
+  has 1, :ms1_id_abund_at_ms2_acquisition
+  has 1, :ms2_id_abund_reported
 
   belongs_to :metric
   def hashes

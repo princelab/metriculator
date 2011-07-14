@@ -1,12 +1,12 @@
 class RunComparison
   include DataMapper::Resource
   property :id, Serial
-  has 1, :relative_fraction_of_peptides_in_retention_decile_matching_a_peptide_in_other_runs, required: false
-  has 1, :relative_uniqueness_of_peptides_in_decile_found_anywhere_in_other_runs, required: false
-  has 1, :differences_in_elution_rank_percent_of_matching_peptides_in_other_runs, required: false
-  has 1, :median_ratios_of_ms1_intensities_of_matching_peptides_in_other_runs, required: false
-  has 1, :uncorrected_and_rt_corrected_relative_intensities_of_matching_peptides_in_other_runs, required: false
-  has 1, :magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs, required: false
+  has 1, :relative_fraction_of_peptides_in_retention_decile_matching_a_peptide_in_other_runs
+  has 1, :relative_uniqueness_of_peptides_in_decile_found_anywhere_in_other_runs
+  has 1, :differences_in_elution_rank_percent_of_matching_peptides_in_other_runs
+  has 1, :median_ratios_of_ms1_intensities_of_matching_peptides_in_other_runs
+  has 1, :uncorrected_and_rt_corrected_relative_intensities_of_matching_peptides_in_other_runs
+  has 1, :magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs
 
   belongs_to :metric
   def hashes
