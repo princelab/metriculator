@@ -7,9 +7,9 @@ class Comparison
 
   property :taxonomy, String
 
-  has n, :firsts#, :child_key => [:msrun_id]
-  has n, :msrun_firsts, 'Msrun', :through => :firsts, :via => :msrun# :child_key => [ :msrun_id ]
+  has n, :firsts
+  has n, :msrun_firsts, 'Msrun', :through => :firsts, :via => :msrun
 
-  has n, :seconds#, :child_key => [:msrun_id]
-  has n, :msrun_seconds, 'Msrun', :through => :seconds, :via => :msrun# :child_key => [ :msrun_id ]
+  has n, :seconds
+  has n, :msrun_seconds, 'Msrun', :through => :seconds, :via => :msrun
 end

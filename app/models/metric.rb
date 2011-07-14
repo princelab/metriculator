@@ -13,8 +13,5 @@ class Metric
   has 1, :ms2
   has 1, :run_comparison
 
-  has 1, :comparison
-
-
   belongs_to :msrun, :required => false      # I think this lacking an id parameter is the reason for the error?
 end
