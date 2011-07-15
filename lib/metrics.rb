@@ -119,46 +119,28 @@ module Ms
 # @return Nothing, since it is pushing things to the configured database
       def to_database(opts={})
       database_opts = DatabaseDefaults.merge(opts)
-        require 'dm-migrations'
         if database_opts[:migrate]
+          require 'dm-migrations'
           DataMapper.auto_migrate!  # This one wipes things!
         elsif database_opts[:upgrade] 
+          require 'dm-migrations'
           DataMapper.auto_upgrade!
         end
         objects = []; item = 0
         slice_hash if @measures.nil?
         @metrics_input_files.each do |file|
-          tmp = Msrun.first_or_create({raw_id: "#{File.basename(file,".RAW.MGF.TSV")}",  metricsfile: @metricsfile}) # rawfile: "#{File.absolute_path(File.basename(file, ".RAW.MGF.TSV")) + ".RAW"}",
-          
-
-          
-      #### SHOULDN"T NEED TO BE HERE!!!!!!!!!! WHAT IS WRONG WITH DATAMAPPER!!!???
-#			tmp.rawtime= Time.random(2)
-    puts '=============--------------------------------============================'
+          tmp = Msrun.first_or_create({raw_id: "#{File.basename(file,".RAW.MGF.TSV")}",  metricsfile: @metricsfile})
           tmp.metric = ::Metric.first_or_create( {msrun_id: tmp.id}, {metric_input_file: @metricsfile} ) # The second hash is what is used if you are creating, while the first hash is the parameters you find by
-#$$$$$$$$$$$$$$$$$$$$$$
-    p ::Metric.all
-    tmp.metric.metric_input_file = @metricsfile
-    p ::Metric.all
-    puts '=============--------------------------------============================'
-    p tmp
-#p @out_hash
-          puts "OUT_HASH KEYS:"
-          p @out_hash.keys
           @@categories.map {|category|  tmp.metric.send("#{category}=".to_sym, Kernel.const_get(camelcase(category)).first_or_new({id: tmp.id})) }
           @out_hash.each_pair do |key, value_hash|
             outs = tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}=".to_sym, Kernel.const_get(camelcase(key)).first_or_create({id: tmp.id}))#, value_hash )) 
-            puts "KEY: #{key}"
               value_hash.each_pair do |property, array|
                 tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).send("#{property}=".to_sym, array[item])
               end
             begin
               tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).save
             rescue DataObjects::SyntaxError
-          #    puts "--------------------------=================================---------------------------"
-           #   puts @@ref_hash[key.to_sym]
-           #   puts key.downcase
-          #    p value_hash
+              puts "DATAOBJECTS ERROR\n--------------------------=================================---------------------------"
             end
           end
           item +=1
@@ -200,11 +182,10 @@ module Ms
 # @return [Array] an Array containing all the measurements found in the DB matches given
       def slice_matches(matches)  
         measures = []
-        # matches is the result of a Msrun.all OR Msrun.first OR Msrun.get(*args)
         @data = {}
         matches = [matches] if matches.class != DataMapper::Collection
         matches.each do |msrun|
-          next if msrun.metric.nil?
+          next if msrun.nil? or msrun.metric.nil?
           index = msrun.raw_id.to_s
           @data[index] = {'timestamp' => msrun.rawtime || Time.random(1)}
           @@categories.each do |cat|
@@ -322,11 +303,6 @@ module Ms
       #	end	# files.each 
         graphfiles
       end # graph_files
-
-
-
-
-
 
 # CLASS variables that I don't ever want to have to see!!!!
       @@ref_hash = { 

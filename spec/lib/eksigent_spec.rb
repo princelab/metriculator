@@ -1,8 +1,10 @@
 require 'spec_helper'
 
 describe 'Matches to graph trace file from rawfile time' do 
-	@tmp = Ms::Eksigent::Ultra2D.new
-	@tmp.rawfile = TESTFILE + '/time_test.RAW'
+	before :each do 
+    @tmp = Ms::Eksigent::Ultra2D.new
+	  @tmp.rawfile = TESTFILE + '/time_test.RAW'
+  end
 
 	it 'finds rawtime' do 
 		@tmp.find_match
