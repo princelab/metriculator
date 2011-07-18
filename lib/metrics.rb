@@ -5,13 +5,14 @@ require 'rubygems'
 require 'yaml'
 # A fancy struct which is used to contain each measurement and streamline the internal handling of the metric data
 # It contains two methods necessary for the handling the comparison and output of this data.
-class ::Measurement < 
+class ::Measurement <
   # Structure, the entire basis for this class
-  Struct.new(:name, :raw_id, :time, :value, :category, :subcat) do 
+  Struct.new(:name, :raw_id, :time, :value, :category, :subcat) do
     # Standard comparison operator defined for sorting by time
-    def <=>(other) 
+    def <=>(other)
       self[:time] <=> other[:time]
     end
+
     # Defined the output format to make the printout more concise.
     def to_s
       "struct Measurement name=#{self.name}, raw_id=#{self.raw_id}, time=#{self.time}, value=#{self.value}, category=#{self.category}, subcat=#{self.subcat}"
@@ -30,30 +31,35 @@ module Ms
       def camelcase(str)
         str.split('_').map{|word| word.capitalize}.join('')
       end
+
       # Not really a metric fxn either, but converts from Camelcase or separated words into a snakecase, enforcing separation of numbers and ensuring that it doesn't end in an underscore or contain multiple underscores in series
       # @param [String] String to convert
       # @return [String] converted String
       def snakecase(str)
         str.gsub(/(\s|\W)/, '_').gsub(/(_+)/, '_').gsub(/(_$)/, "").gsub(/^(\d)/, '_\1').downcase
       end
+
       def initialize(file = nil)
         @metricsfile = file
       end
+
       # Eventually, this should be the function that calls the appropriate cascade of features to run the metrics
       # @param [File] This is the optional file you can input.  Otherwise, it will look for the local instance variable rawfile to run metrics on that file.
       def run_metrics(rawfile = nil)
         if @rawfile
           @rawfile = rawfile
-          @rawtime = File.mtime(@rawfile) 
+          @rawtime = File.mtime(@rawfile)
           # working on some major changes to the mount thing... that lets me have it do the work for me!!
           #%Q{C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl --in_dir "#{ArchiveMount.archive_location}" --out_dir "#{ArchiveMount.metrics}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
         end
       end
+
       # Archive the metric data by ensuring it is parsed {#parse} and sending it to the database {#to_database}
       def archive
         parse if @out_hash.nil?
         to_database
       end
+
       # Parse the given instance variable metricsfile to get the metrics data into Hashes, if you want to get {Measurement}, you can use the {#slice_hash} fxn
       # @param None, but it references the @metricsfile
       # @return [Hash] the out_hash which contains the parsed data
@@ -65,7 +71,7 @@ module Ms
           @reading = true if array[index][/^(Begin).*eries.*/,1] == "Begin"
           if @reading
             if array[index] == ""
-            elsif array[index-1] == "" 
+            elsif array[index-1] == ""
               #puts "key: #{key} and array[index] = #{array[index]}"
               key = snakecase(array[index])
               #puts "key: #{key}"
@@ -98,6 +104,7 @@ module Ms
         ["files_analyzed_#{@num_files}", 'begin_runseries_results', 'begin_series_1', "run_number_#{(1..@num_files).to_a.join('_')}", 'end_series_1', 'fraction_of_repeat_peptide_ids_with_divergent_rt_rt_vs_rt_best_id_chromatographic_bleed'].each {|item| @out_hash.delete(item)}
         @out_hash
       end
+
       # This will take the @out_hash and return that data as an Array of {Measurement} structs
       # @param None, but will use out_hash or call parse if that doesn't exist to try to get the data
       # @return [Array] an array of {Measurement} structs which are also referenced as @measures
@@ -114,15 +121,16 @@ module Ms
         end
         @measures		
       end
-      # This fxn takes a hash of options which are merged with default databasing settings and sends the metric to the database.  
+
+      # This fxn takes a hash of options which are merged with default databasing settings and sends the metric to the database. 
       # @param [Hash] options with are used to define the databasing process
       # @return Nothing, since it is pushing things to the configured database
       def to_database(opts={})
-      database_opts = DatabaseDefaults.merge(opts)
+        database_opts = DatabaseDefaults.merge(opts)
         if database_opts[:migrate]
           require 'dm-migrations'
           DataMapper.auto_migrate!  # This one wipes things!
-        elsif database_opts[:upgrade] 
+        elsif database_opts[:upgrade]
           require 'dm-migrations'
           DataMapper.auto_upgrade!
         end
@@ -133,10 +141,10 @@ module Ms
           tmp.metric = ::Metric.first_or_create( {msrun_id: tmp.id}, {metric_input_file: @metricsfile} ) # The second hash is what is used if you are creating, while the first hash is the parameters you find by
           @@categories.map {|category|  tmp.metric.send("#{category}=".to_sym, Kernel.const_get(camelcase(category)).first_or_new({id: tmp.id})) }
           @out_hash.each_pair do |key, value_hash|
-            outs = tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}=".to_sym, Kernel.const_get(camelcase(key)).first_or_create({id: tmp.id}))#, value_hash )) 
-              value_hash.each_pair do |property, array|
-                tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).send("#{property}=".to_sym, array[item])
-              end
+            outs = tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}=".to_sym, Kernel.const_get(camelcase(key)).first_or_create({id: tmp.id}))#, value_hash ))
+            value_hash.each_pair do |property, array|
+              tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).send("#{property}=".to_sym, array[item])
+            end
             begin
               tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).save
             rescue DataObjects::SyntaxError
@@ -160,7 +168,7 @@ module Ms
       # This fxn serves the purpose of taking a DataMapper query and turning the matches into the same data structure as is produced by parsing the data file.
       # @param [Array] An array containing the matches to the DataMapper database query
       # @return [Hash] A hash of a hash of a hash, containing the data desired, but it really should be an array of out_hashes, right?
-      def match_to_hash(matches)  
+      def match_to_hash(matches) 
         # matches is the result of a Msrun.all OR Msrun.first OR Msrun.get(*args)
         @data = {}
         matches.each do |msrun|
@@ -177,10 +185,11 @@ module Ms
         end
         @data # as a hash of a hash of a hash
       end
+
       # This fxn produces an array containing {Measurement} structs which contain the data found in all the matches produced by a DataMapper DB query
       # @param [Array] an Array of matches
       # @return [Array] an Array containing all the measurements found in the DB matches given
-      def slice_matches(matches)  
+      def slice_matches(matches) 
         measures = []
         @data = {}
         matches = [matches] if matches.class != DataMapper::Collection
@@ -197,13 +206,14 @@ module Ms
               @data[index][cat][subcat].delete("#{cat}_metric_msrun_raw_id".to_sym)
               @data[index][cat][subcat].delete("#{cat}_metric_metric_input_file".to_sym)
               @data[index][cat][subcat].delete_if {|key,v| puts "Key: #{key} \n Value: #{v}" if key.nil?}
-              @data[index][cat][subcat].each { |property, value| 
+              @data[index][cat][subcat].each { |property, value|
                 measures << Measurement.new( property, index, @data[index]['timestamp'], value, cat.to_sym, subcat.to_sym) }
             end
           end
         end
         measures.sort
-      end	# returns array of measurements
+      end
+
       # This function utilizes the {#slice_matches} fxn to take two sets of DataMapper DB matches and generate a comparison between the two sets of data, graphing the results as SVG files.  This needs to be updated to better produce the graphs as part of a comparison model
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries
       # @return [Array] An array which contains all of the files produced by the process.  This will likely be an array of approximately 400 filenames.
@@ -212,16 +222,16 @@ module Ms
         graphfiles = []
         measures = [new_measures, old_measures]
         #	rawids = [measures.first.map {|item| item.raw_id}.uniq, measures.last.map {|item| item.raw_id}.uniq]
-        r_object = Rserve::Simpler.new 
+        r_object = Rserve::Simpler.new
         #rawids.first.each do |rawid|
-        @@categories.map do |cat| 
+        @@categories.map do |cat|
           subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
           Dir.mkdir(cat) if !Dir.exist?(cat)
           subcats.each do |subcategory|
-            graphfile_prefix = File.join([Dir.pwd, cat, (subcategory.to_s)]) 
+            graphfile_prefix = File.join([Dir.pwd, cat, (subcategory.to_s)])
             Dir.mkdir(graphfile_prefix) if !Dir.exist?(graphfile_prefix)
             # Without removing the file RAWID from the name:
-            #graphfile_prefix = File.join([Dir.pwd, cat, (rawid + '_' + subcategory.to_s)]) 
+            #graphfile_prefix = File.join([Dir.pwd, cat, (rawid + '_' + subcategory.to_s)])
             #File.touch(graphfile) if !File.exist?(graphfile)
             new_structs = measures.first.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
             old_structs = measures.last.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
@@ -245,7 +255,7 @@ module Ms
                     df_new$raw_id <- factor(df_new$raw_id)
               }
             end # new datafr converse
-            r_object.converse( df_old: datafr_old) do 
+            r_object.converse( df_old: datafr_old) do
               %Q{df_old$time <- strptime(as.character(df_old$time), "%Y-%m-%d %X")
                   df_old$name <- factor(df_old$name)
                   df_old$category <-factor(df_old$category)
@@ -256,7 +266,7 @@ module Ms
             count = new_structs.map {|str| str.name }.uniq.compact.length
             i = 1;
             while i <= count
-              r_object.converse do 
+              r_object.converse do
                 %Q{	df_new.#{i} <- subset(df_new, name == levels(df_new$name)[[#{i}]])
                     df_old.#{i} <- subset(df_old, name == levels(df_old$name)[[#{i}]])			
 
@@ -276,16 +286,16 @@ module Ms
               graphfiles << graphfile
               r_object.converse(%Q{svg(file="#{graphfile}", bg="transparent", height=3, width=7.5)})
               r_object.converse('par(mar=c(1,1,1,1), oma=c(2,1,1,1))')
-              r_object.converse do 
+              r_object.converse do
                 %Q{	tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))
                       tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))		}
               end
-              r_object.converse do 
-                %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE) 
+              r_object.converse do
+                %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE)
                       if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_old.#{i}$value), silent=TRUE)		}
               end
               r_object.converse( "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])")
-              r_object.converse do 
+              r_object.converse do
                 %Q{	beanplot(df_old.#{i}$value, df_new.#{i}$value,  side='both', log="", names=df_old$name[[#{i}]], col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)
                     plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
                     if (length(df_new.#{i}$value) > 5) {
@@ -300,18 +310,18 @@ module Ms
             end # while loop
           end # subcats
         end	# categories
-        #	end	# files.each 
+        #	end	# files.each
         graphfiles
       end # graph_files
 
-# CLASS variables that I don't ever want to have to see!!!!
-      @@ref_hash = { 
+      # CLASS variables that I don't ever want to have to see!!!!
+      @@ref_hash = {
         spectrum_counts: "ion_source", 	first_and_last_ms1_rt_min: "chromatography", 	middle_peptide_retention_time_period_min: "chromatography", max_peak_width_for_ids_sec: "chromatography", peak_width_at_half_height_for_ids: "chromatography", peak_widths_at_half_max_over_rt_deciles_for_ids: "chromatography", wide_rt_differences_for_ids_4_min: "chromatography", 	
-        rt_ms1max_rt_ms2_for_ids_sec: "chromatography",	ms1_during_middle_and_early_peptide_retention_period: "ms1", 	ms1_total_ion_current_for_different_rt_periods: "ms1", ms1_id_max: "ms1", 	nearby_resampling_of_ids_oversampling_details: "dynamic_sampling", 	early_and_late_rt_oversampling_spectrum_ids_unique_peptide_ids_chromatographic_flow_through_bleed: "dynamic_sampling", peptide_ion_ids_by_3_spectra_hi_vs_1_3_spectra_lo_extreme_oversampling: "dynamic_sampling", 
-        ratios_of_peptide_ions_ided_by_different_numbers_of_spectra_oversampling_measure: "dynamic_sampling", single_spectrum_peptide_ion_identifications_oversampling_measure: "dynamic_sampling", ms1max_ms1sampled_abundance_ratio_ids_inefficient_sampling: "dynamic_sampling", ion_injection_times_for_ids_ms: "ion_source", top_ion_abundance_measures: "ion_source", number_of_ions_vs_charge: "ion_source", 
-        ion_ids_by_charge_state_relative_to_2: "ion_source",	average_peptide_lengths_for_different_charge_states: "ion_source", average_peptide_lengths_for_charge_2_for_different_numbers_of_mobile_protons: "ion_source", numbers_of_ion_ids_at_different_charges_with_1_mobile_proton: "ion_source", percent_of_ids_at_different_charges_and_mobile_protons_relative_to_ids_with_1_mobile_proton: "ion_source", precursor_m_z_monoisotope_exact_m_z: "ion_treatment", 
+        rt_ms1max_rt_ms2_for_ids_sec: "chromatography",	ms1_during_middle_and_early_peptide_retention_period: "ms1", 	ms1_total_ion_current_for_different_rt_periods: "ms1", ms1_id_max: "ms1", 	nearby_resampling_of_ids_oversampling_details: "dynamic_sampling", 	early_and_late_rt_oversampling_spectrum_ids_unique_peptide_ids_chromatographic_flow_through_bleed: "dynamic_sampling", peptide_ion_ids_by_3_spectra_hi_vs_1_3_spectra_lo_extreme_oversampling: "dynamic_sampling",
+        ratios_of_peptide_ions_ided_by_different_numbers_of_spectra_oversampling_measure: "dynamic_sampling", single_spectrum_peptide_ion_identifications_oversampling_measure: "dynamic_sampling", ms1max_ms1sampled_abundance_ratio_ids_inefficient_sampling: "dynamic_sampling", ion_injection_times_for_ids_ms: "ion_source", top_ion_abundance_measures: "ion_source", number_of_ions_vs_charge: "ion_source",
+        ion_ids_by_charge_state_relative_to_2: "ion_source",	average_peptide_lengths_for_different_charge_states: "ion_source", average_peptide_lengths_for_charge_2_for_different_numbers_of_mobile_protons: "ion_source", numbers_of_ion_ids_at_different_charges_with_1_mobile_proton: "ion_source", percent_of_ids_at_different_charges_and_mobile_protons_relative_to_ids_with_1_mobile_proton: "ion_source", precursor_m_z_monoisotope_exact_m_z: "ion_treatment",
         tryptic_peptide_counts: "peptide_ids",	peptide_counts: "peptide_ids",	total_ion_current_for_ids_at_peak_maxima: "peptide_ids",	precursor_m_z_for_ids: "peptide_ids",	averages_vs_rt_for_ided_peptides: "peptide_ids",	precursor_m_z_peptide_ion_m_z_2_charge_only_reject_0_45_m_z: "ms2",	ms2_id_spectra: "ms2",	ms1_id_abund_at_ms2_acquisition: "ms2",	ms2_id_abund_reported: "ms2",	
-        relative_fraction_of_peptides_in_retention_decile_matching_a_peptide_in_other_runs: "run_comparison", 	relative_uniqueness_of_peptides_in_decile_found_anywhere_in_other_runs: "run_comparison", differences_in_elution_rank_percent_of_matching_peptides_in_other_runs: "run_comparison", median_ratios_of_ms1_intensities_of_matching_peptides_in_other_runs: "run_comparison", 
+        relative_fraction_of_peptides_in_retention_decile_matching_a_peptide_in_other_runs: "run_comparison", 	relative_uniqueness_of_peptides_in_decile_found_anywhere_in_other_runs: "run_comparison", differences_in_elution_rank_percent_of_matching_peptides_in_other_runs: "run_comparison", median_ratios_of_ms1_intensities_of_matching_peptides_in_other_runs: "run_comparison",
         uncorrected_and_rt_corrected_relative_intensities_of_matching_peptides_in_other_runs: "run_comparison", magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs: "run_comparison"
       }
 
