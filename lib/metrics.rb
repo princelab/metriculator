@@ -156,7 +156,8 @@ module Ms
         end
         worked = objects.map{|obj| obj.save!}
         puts "\n----------------\nSave failed\n----------------" if worked.uniq.include?(false)
-        false if worked.uniq.include?(false)
+        return worked.uniq.include?(false) ? false : true
+        # false if worked.uniq.include?(false)
       end 	# to_database
     end 		# Metric parsing fxns
 
