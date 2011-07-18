@@ -19,6 +19,10 @@ class MsrunsController < ApplicationController
     @per_page = 8
     @msruns = Msrun.all(query).chunks(@per_page).at(@page_number.to_i - 1)
     @all = Msrun.all
+    respond_to do |format|
+      format.js { puts "JAVASCRIPTS????"; render :index }
+      format.html { puts "HTML???????"; render :index }
+    end
   end
 
 end
