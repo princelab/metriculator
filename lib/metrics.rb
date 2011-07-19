@@ -3,6 +3,7 @@
 require 'msruninfo'
 require 'rubygems'
 require 'yaml'
+
 # A fancy struct which is used to contain each measurement and streamline the internal handling of the metric data
 # It contains two methods necessary for the handling the comparison and output of this data.
 class ::Measurement <
@@ -190,10 +191,12 @@ module Ms
       # This fxn produces an array containing {Measurement} structs which contain the data found in all the matches produced by a DataMapper DB query
       # @param [Array] an Array of matches
       # @return [Array] an Array containing all the measurements found in the DB matches given
-      def slice_matches(matches) 
+      def slice_matches(matches)
         measures = []
         @data = {}
-        matches = [matches] if matches.class != DataMapper::Collection
+        # Why is this line of code here?
+        debugger
+        matches = [matches] if !matches.is_a? DataMapper::Collection
         matches.each do |msrun|
           next if msrun.nil? or msrun.metric.nil?
           index = msrun.raw_id.to_s
@@ -244,11 +247,11 @@ module Ms
                 str.subcat = str.subcat.to_s
                 str.time = str.time.to_s.gsub(/T/, ' ').gsub(/-(\d*):00/,' \100')
               end
-              #	structs.sort!
+              # structs.sort!
             end
             datafr_new = Rserve::DataFrame.from_structs(new_structs)
             datafr_old = Rserve::DataFrame.from_structs(old_structs)
-            r_object.converse( df_new: datafr_new )	do 		
+            r_object.converse( df_new: datafr_new )	do
               %Q{df_new$time <- strptime(as.character(df_new$time), "%Y-%m-%d %X")
                     df_new$name <- factor(df_new$name)
                     df_new$category <-factor(df_new$category)
@@ -311,7 +314,6 @@ module Ms
             end # while loop
           end # subcats
         end	# categories
-        #	end	# files.each
         graphfiles
       end # graph_files
 

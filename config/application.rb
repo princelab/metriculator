@@ -1,12 +1,9 @@
 require File.expand_path('../boot', __FILE__)
 
-#require 'rails/all'
 # Pick the frameworks you want:
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'dm-rails/railtie'
-# require 'active_resource/railtie'
-# require 'rails/test_unit/railtie'
 
 # This is a line suggested by my (Ryan) question on Stackoverflow regarding the issue... He suggested adding this line to avoid a "false DM save"
 #  DataMapper::Model.raise_on_save_failure = true
@@ -17,6 +14,7 @@ require 'dm-rails/railtie'
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env) if defined?(Bundler)
+require 'archiver'
 
 module MetricsSite
   class Application < Rails::Application
@@ -27,6 +25,7 @@ module MetricsSite
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += [File.join(Rails.root, "app")]
+    config.autoload_paths += [File.join(Rails.root, 'lib')]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
