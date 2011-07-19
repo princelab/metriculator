@@ -34,6 +34,7 @@ gem 'rspec'
 group :development do
   gem 'hpricot'
   gem 'ruby_parser'
+  gem 'ruby-debug19'
 end
 
 group :test do
