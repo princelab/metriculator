@@ -1,6 +1,7 @@
 %table.msrun
   %tr
-    %th Compare
+    %th Compare Set 1
+    %th Compare Set 2
     %th
       = sortable "raw_id", "Name"
       = render 'filter'
@@ -8,11 +9,14 @@
     %th= sortable "user"
     %th= sortable "rawtime", "Date"
   - @msruns.each do |run|
-    %tr
-      %td Some checkbox
+    %tr{:id => "msrunid-#{run.id}"}
+      %td.comparison1
+        %button{ :id => "comparison-1-#{run.id}"} Add To Comparison Set One
+      %td.comparison2
+        %button{ :id => "comparison-2-#{run.id}"} Add To Comparison Set Two
       %td= link_to run.raw_id, msrun_path(run)
       %td=run.group || "No Group"
       %td=run.user || "No User"
       %td=run.rawtime || "No Date"
 
-!= pagination_links(@all, @page_number, @per_page)
+!= #pagination_links(@all, @page_number, @per_page)

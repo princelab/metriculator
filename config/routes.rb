@@ -8,6 +8,7 @@ MetricsSite::Application.routes.draw do
   get 'metrics/:id' => 'metrics#show'
 
   resources :msruns
+  resources :comparisons #TODO: change this to hide the URLS.
 
   match 'chromatography/:id' => 'graph#show'
 

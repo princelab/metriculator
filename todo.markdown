@@ -54,3 +54,5 @@ show up on the run unless you add it there as well. For example,
 
 * Fix pagination when there is only one page
 * Implement ajax adding stuff to comparisons
+* Figure out why I have to add ```require 'archiver'```. Shouldn't it be done automatically for me?
+* pagination is still pretty wonky. Take a look at that also.

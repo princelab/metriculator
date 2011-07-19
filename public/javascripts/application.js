@@ -6,3 +6,6 @@ $(function() {
     return false;
   });
 });
+
+//Define our namespace
+var RailsMetrics = {};

@@ -19,6 +19,6 @@ module ApplicationHelper
     title ||= column_name.titleize
     direction = params[:sort] == column_name && params[:direction] == "asc" ? "desc" : "asc"
     css_class = params[:sort] == column_name ? "sort #{direction}" : nil
-    link_to title, params.merge(:sort => column_name, :direction => direction), { :class => css_class }
+    link_to title, params.merge(:sort => column_name, :direction => direction, :page => nil), { :class => css_class }
   end
 end

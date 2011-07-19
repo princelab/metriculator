@@ -1,4 +1,9 @@
+- content_for :head do
+  = javascript_include_tag 'msruns'
+
 %h1 Msruns
-= #render :partial => 'filter'
 #msruns
   = render :partial => 'msrun_table'
+
+#compairson-form
+  = render :partial => 'comparison_form'
