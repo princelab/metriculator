@@ -4,6 +4,16 @@ Metric Tracker is a Ruby on Rails application for displaying and interacting wit
 mass spec proteomics experiments.
 
 
-This requires R and some R libraries to be installed. beanplot and Rserver are the ones I know about.
+This requires R and the R libraries "beanplot" and "Rserve" to be installed.
+
+R can be found at http://www.r-project.org/
+
+If you are unfamiliar with the process of installing R packages, the following two commands, run from R, should suffice to install the packages.
+
+ install.packages('Rserve',,'http://www.rforge.net/')
+
+ and 
+
+ install.packages('beanplot')
 
 
