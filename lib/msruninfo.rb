@@ -15,6 +15,7 @@ require 'xcalibur'
 require 'eksigent'
 require 'metrics'
 require 'archive_mount'
+require 'comparison-grapher'
 
 # This module serves to hold all the MS features into one namespace.  Granted, in the case of proteomics, this is the only namespace in which I care to work.
 module Ms
