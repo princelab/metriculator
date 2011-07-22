@@ -27,7 +27,7 @@ gem 'rserve-simpler', :require => 'rserve/simpler'
 gem 'haml'
 gem 'jquery-rails'
 gem 'rspec'
-
+gem 'rake', "0.8.7"
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
