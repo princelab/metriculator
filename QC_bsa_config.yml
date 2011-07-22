@@ -1,0 +1,284 @@
+--- 
+# This section holds the alert settings for this QC case.
+autorun: true
+alert: true
+alert_email: "ryanmt@byu.net"
+# This should probably be around 2-3... 2 will encompass 95% confidence of a normal distribution
+default_allowed_variance: 2
+# Here you'll find all the parameters sorted by their categories and subcategories, so you can set any filters you want to be active on these, custom to each parameter.
+peptide_ids: 
+- AveragesVsRtForIdedPeptides: 
+  - charge_q4: false
+  - charge_q1: false
+  - length_q4: false
+  - length_q1: false
+- PrecursorMZForIds: 
+  - med_charge_4: false
+  - med_charge_3: false
+  - med_charge_2: false
+  - med_charge_1: false
+  - med_q4_rt: false
+  - med_q1_rt: false
+  - med_q4_tic: false
+  - med_q1_tic: false
+  - precursor_max: false
+  - precursor_min: false
+  - quart_ratio: false
+  - half_width: false
+  - median: false
+- TotalIonCurrentForIdsAtPeakMaxima: 
+  - mid_interq_tic: false
+  - interq_tic: false
+  - med_tic_id_1000: false
+- PeptideCounts: 
+  - ions_peptide: true
+  - net_oversample: true
+  - miss_tryp_abund: false
+  - miss_tryp_cnts: false
+  - miss_tryp_peps: false
+  - semi_tryp_abund: false
+  - semi_tryp_cnts: false
+  - semi_tryp_peps: false
+  - ions: false
+  - peptides: false
+- TrypticPeptideCounts: 
+  - ions_peptide: false
+  - abundance_1000: false
+  - abundance_pct: false
+  - ions: true
+  - peptides: true
+ms2: 
+- Ms2IdAbundReported: 
+  - _95_5_pctile: false
+  - _75_25_pctile: false
+  - half_width: false
+  - median: false
+- Ms2IdSpectra: 
+  - s_n_interq: false
+  - s_n_median: true
+  - npeaks_interq: false
+  - npeaks_median: false
+- Ms1IdAbundAtMs2Acquisition: 
+  - _95_5_pctile: false
+  - _75_25_pctile: false
+  - half_width: false
+  - median: false
+- PrecursorMZPeptideIonMZ2ChargeOnlyReject045MZ: 
+  - ppm_interq: false
+  - ppm_median: false
+  - mean_absolute: false
+  - median: false
+  - spectra: false
+ms1: 
+- Ms1TotalIonCurrentForDifferentRtPeriods: 
+  - to_end_of_run: false
+  - last_id_quart: false
+  - middle_id: false
+  - _1st_quart_id: false
+- Ms1IdMax: 
+  - _95_5_pctile: false
+  - _75_25_pctile: false
+  - _95_5_midrt: false
+  - _75_25_midrt: false
+  - median_midrt: false
+  - quart_ratio: false
+  - half_width: false
+  - median: false
+- Ms1TotalIonCurrentForDifferentRtPeriods: 
+  - to_end_of_run: false
+  - last_id_quart: false
+  - middle_id: false
+  - _1st_quart_id: false
+- Ms1DuringMiddleAndEarlyPeptideRetentionPeriod: 
+  - ms1_falls_10x: true
+  - ms1_jumps_10x: true
+  - max_ms1_fall: false
+  - max_ms1_jump: false
+  - esi_off_early: false
+  - esi_off_middle: false
+  - s2s_4qrt_med: false
+  - s2s_3qrt_med: false
+  - s2s_2qrt_med: false
+  - s2s_1qrt_med: false
+  - s2s_3q_med: false
+  - scan_to_scan: false
+  - npeaks_median: false
+  - tic_median_1000: true
+  - s_n_median: true
+ion_treatment: 
+- PrecursorMZMonoisotopeExactMZ: 
+  - next_half_8: false
+  - next_half_7: false
+  - next_half_6: false
+  - next_half_5: false
+  - next_half_4: false
+  - next_half_3: false
+  - next_half_2: false
+  - top_half: false
+  - betw_1_6_0_8: false
+  - betw_3_1_1_6: false
+  - betw_6_3_3_1: false
+  - betw_12_5_6_3: false
+  - betw_25_0_12_5: false
+  - betw_50_0_25_0: false
+  - betw_100_0_50_0: false
+  - more_than_100: false
+ion_source: 
+- TopIonAbundanceMeasures: 
+  - fractab_top_100: false
+  - fractab_top_10: false
+  - fractab_top: false
+  - top_50_abund: false
+  - top_25_abund: false
+  - top_10_abund: false
+- IonInjectionTimesForIdsMs: 
+  - ms2_fract_max: false
+  - ms2_maximun: false
+  - ms2_median: true
+  - ms1_maximum: false
+  - ms1_median: true
+- PercentOfIdsAtDifferentChargesAndMobileProtonsRelativeToIdsWith1MobileProton: 
+  - ch_3_mp_1: false
+  - ch_3_mp_0: false
+  - ch_3_mp_1: false
+  - ch_2_mp_1: false
+  - ch_2_mp_0: false
+  - ch_2_mp_1: false
+  - ch_1_mp_1: false
+  - ch_1_mp_0: false
+  - ch_1_mp_1: false
+- NumbersOfIonIdsAtDifferentChargesWith1MobileProton: 
+  - ch_4_mp_1: false
+  - ch_3_mp_1: false
+  - ch_2_mp_1: false
+  - ch_1_mp_1: false
+- AveragePeptideLengthsForCharge2ForDifferentNumbersOfMobileProtons: 
+  - naa_ch_2_mp_2: false
+  - naa_ch_2_mp_1: false
+  - naa_ch_2_mp_0: false
+  - naa_ch_2_mp_1: false
+- AveragePeptideLengthsForDifferentChargeStates: 
+  - charge_4: false
+  - charge_3: false
+  - charge_2: false
+  - charge_1: false
+- IonIdsByChargeStateRelativeTo2: 
+  - charge_4: false
+  - charge_3: false
+  - charge_2: false
+  - charge_1: false
+  - _2_ion_count: false
+- NumberOfIonsVsCharge: 
+  - charge_5: false
+  - charge_4: false
+  - charge_3: false
+  - charge_2: false
+  - charge_1: false
+- SpectrumCounts: 
+  - ms1_scans_other: true
+  - ms1_scans_full: true
+  - ms2_scans: true
+dynamic_sampling: 
+- Ms1maxMs1sampledAbundanceRatioIdsInefficientSampling: 
+  - med_bottom_1_2: false
+  - med_top_quart: false
+  - med_top_dec: false
+  - med_top_100: false
+  - _9dec_all_ids: false
+  - _3q_all_ids: false
+  - median_all_ids: false
+- SingleSpectrumPeptideIonIdentificationsOversamplingMeasure: 
+  - _1_vs_1_spec: false
+  - _1_vs_1_pepion: false
+  - fract_1_ions: false
+  - peptide_ions: false
+- RatiosOfPeptideIonsIdedByDifferentNumbersOfSpectraOversamplingMeasure: 
+  - twice_thrice: false
+  - once_twice: false
+- PeptideIonIdsBy3SpectraHiVs13SpectraLoExtremeOversampling: 
+  - spec_cnt_excess: false
+  - spec_pep_hi: false
+  - ratio_hi_lo: false
+  - spec_cnts_hi: false
+  - ratio_hi_lo: false
+  - pep_ions_hi: false
+- EarlyAndLateRtOversamplingSpectrumIdsUniquePeptideIdsChromatographicFlowThroughBleed: 
+  - last_decile: false
+  - first_decile: false
+- NearbyResamplingOfIdsOversamplingDetails: 
+  - quart_dm_z: false
+  - median_dm_z: false
+  - _1dec_rt_diff_s: false
+  - _1q_rt_diff_s: false
+  - med_rt_diff_s: false
+  - repeated_ids: false
+chromatography: 
+- RtMs1maxRtMs2ForIdsSec: 
+  - third_quart: false
+  - first_quart: false
+  - median_diff: false
+  - med_diff_abs: false
+- WideRtDifferencesForIds4Min: 
+  - spectra: false
+  - peptides: false
+- PeakWidthsAtHalfMaxOverRtDecilesForIds: 
+  - last_decile: false
+  - median_value: false
+  - first_decile: false
+- PeakWidthAtHalfHeightForIds: 
+  - ms1_scan_fwhm: true
+  - ms1_interscan_s: false
+  - _9dec_value: false
+  - _3quart_value: false
+  - med_100_disp: false
+  - med_16th_disp: false
+  - med_quart_disp: false
+  - median_disper: false
+  - med_top_100: false
+  - med_top_16th: false
+  - med_top_quart: false
+  - median_value: true
+- MaxPeakWidthForIdsSec: 
+  - last_decile: false
+  - third_quart: false
+  - median_value: true
+- MiddlePeptideRetentionTimePeriodMin: 
+  - pep_id_rate: false
+  - ms1_scans: false
+  - ms2_scans: false
+  - qratio_time: false
+  - mid_time: false
+  - start_time: false
+  - half_period: false
+# These should stay false, I imagine.  I don't think they provide much information in the current implementation
+run_comparison: 
+- MagnitudeOfRtCorrectionOfIntensitiesOfMatchingPeptidesInOtherRuns: 
+  - comp_to_last: false
+  - comp_to_first: false
+- UncorrectedAndRtCorrectedRelativeIntensitiesOfMatchingPeptidesInOtherRuns: 
+  - corr_rel_last: false
+  - corr_rel_first: false
+  - uncor_rel_last: false
+  - uncor_rel_first: false
+- MedianRatiosOfMs1IntensitiesOfMatchingPeptidesInOtherRuns: 
+  - comp_to_last_2: false
+  - comp_to_first_2: false
+  - comp_to_last: false
+  - comp_to_first: false
+  - median_2_diff: false
+  - median_diff: false
+- DifferencesInElutionRankPercentOfMatchingPeptidesInOtherRuns: 
+  - comp_to_last: false
+  - comp_to_first: false
+  - median_diff: false
+  - average_diff: false
+- RelativeUniquenessOfPeptidesInDecileFoundAnywhereInOtherRuns: 
+  - last_decile: false
+  - first_decile: false
+- RelativeFractionOfPeptidesInRetentionDecileMatchingAPeptideInOtherRuns: 
+  - comp_to_last: false
+  - comp_to_first: false
+  - last_decile: false
+  - first_decile: false
+  - all_deciles: false
+

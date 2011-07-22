@@ -1,0 +1,46 @@
+# Archiving information
+group: JTP
+username: ryanmt
+user_email: ryanmt@byu.net
+comments: Hello
+sample_taxonomy: human # 5 letter code
+qc_taxonomy: bovin  # 5 letter code
+# Search integration?  Future implementation...
+search: 
+  mascot: 
+    run: true
+  omssa: 
+    run: true
+  tide: 
+    run: true
+  xtandem: 
+    run: true 
+  modifications:  # must be ids from:
+  # http://psidev.cvs.sourceforge.net/psidev/psi/mod/data/PSI-MOD.obo
+    static: 
+    # Carbamidomethyl (C) (CamCys, or carbamidomethylc [omssa])
+    - MOD:01060
+    variable: 
+    # Oxidation (M) (MetO or oxym [omssa])
+    - MOD:00719
+  # phosphorylated residue
+    # - MOD:00696, STY
+    # is equivalent to:
+    # - MOD:00046  # phosphorylations [omssa]
+    # - MOD:00047  # phosphorylationt [omssa]
+    # - MOD:00048  # phosphorylationy [omssa]
+  organism: human
+  # Only accepts mascot enzyme names (no double enzymes) 
+  enzyme: Trypsin
+  spectrum: 
+    # Monoisotopic or average
+    parent_mass_type: monoisotopic
+# Follow the indicated string notation shown [including spacing], error can be in ppm, or daltons
+    parent_mass_error: -10,+10 ppm
+    fragment_mass_type: monoisotopic
+    fragment_mass_error: -0.4,+0.4 daltons
+quantitation: 
+  spectral_counts: true
+convert: 
+ # true: converts to necessary file, otherwise will use file if it already exists
+  overwrite: false

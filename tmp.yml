@@ -1,0 +1,19 @@
+--- "--- !ruby/struct:Ms::MsrunInfo \n\
+ sldfile: /home/ryanmt/Dropbox/coding/rails/metrics_site/spec/tfiles/SWG_serum_100511165501.sld\n\
+ methodfile: C:\\Xcalibur\\methods\\SWG_serum_sample.meth\n\
+ rawfile: /home/ryanmt/Dropbox/coding/rails/metrics_site/spec/tfiles/time_test.RAW\n\
+ tunefile: \n\
+ hplcfile: \n\
+ graphfile: \n\
+ metricsfile: \n\
+ sequence_vial: 2B01\n\
+ hplc_vial: \n\
+ inj_volume: \n\
+ archive_location: \n\
+ rawid: \n\
+ group: \n\
+ user: \n\
+ taxonomy: \n\
+ :@hplc_object: !ruby/object:Ms::Eksigent::Ultra2D {}\n\n\
+ :@hplcfile: \n\
+ :@tunefile: \n"
