@@ -10,7 +10,7 @@ while i > 0
   if line.nil?
     next
   elsif line[/belongs_to/]
-    category = line[/belongs_to :(\w*)/,1]
+    category = line[/belongs_to :(\w*)/,1].to_sym
     properties = []
   elsif line[/class/]
     subcat = line[/class (\w*)/,1]
