@@ -32,7 +32,7 @@ class ArchiveMount
   def initialize(msrun)
     @msrun = msrun
   end
-  @@build_directories = ['init', 'metrics', 'ident', 'quant', 'results', 'graphs', 'mzML', 'archive']
+  @@build_directories = ['init', 'metrics', 'ident', 'quant', 'results', 'graphs', 'mzML', 'archive', 'settings']
   # Builds the archive directory structure in the root, according to this model:
   #  root = ..group/user/YYYYMM/experiment_name/
   #	./init/ Files pertinent to the initialization of the data such as the TUNE and METHOD and UPLC files.

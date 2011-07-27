@@ -10,14 +10,10 @@
 
 <ul>
 <li>Metric starter fxnality</li>
-<li>Archive_mount
-
-<ul>
-<li>How do I handle the config file?  I just find all config files in the directory structure, right?</li>
+<li>Archive_mount needs to handle the message passing</li>
+<li>Archiver needs to handle the configuration loading</li>
 <li>Each file location is the File.join(@base_path, @location, directory_name)</li>
-</ul>
-</li>
-<li>Experiment_ID</li>
+<li>Experiment_ID???  Is this a necessary type of thing?</li>
 </ul>
 
 
@@ -29,11 +25,9 @@
 <li>Tracking of what metric comparisons are already produced and available for viewing</li>
 <li>How do I store the sets of metric images best?
 
-<ul>
-<li>embedded svgs?</li>
-<li>libraries of svg files?</li>
-</ul>
-</li>
+<pre><code>- embedded svgs?
+- libraries of svg files?
+</code></pre></li>
 </ul>
 
 
@@ -43,10 +37,42 @@
 <li>Category.hashes level implementation of the cleaning up of the output hash(removing the id and general filepath details)</li>
 <li>Experiment_ID
 
-<ul>
-<li>value that will implement a way to annotate all experiment sets into a single ID code (ryanmt_xlink_01) (name_experiment-name_id#)</li>
+<pre><code>-   value that will implement a way to annotate all experiment sets into a single ID code (ryanmt\_xlink\_01) (name\_experiment-name\_id#)
+</code></pre></li>
 </ul>
-</li>
+
+
+<h2>DataMapper pagination stuff</h2>
+
+<p>  if I was going to build a pagination lib today I would build on top of dm-chunked<em>query
+  [4:42pm] postmodern joined the chat room.
+  [4:48pm] dkubb: postmodern: are you aware of any pagination libs built on top of your dm-chunked</em>query lib?
+  [4:53pm] postmodern: dkubb, nope
+  [4:54pm] postmodern: dkubb, will<em>paginate rails3 branch has a bug, but a coworker submitted a patch
+  [4:54pm] postmodern: dkubb, they were to</em>a'ing the DM Collection
+  [4:54pm] dkubb: postmodern: ahh ok. since your does the heavy lifting it's what I've been recommending to people to base paginating off, instead of going with one of the random other ones
+  [4:54pm] postmodern: dkubb, i would love to see some pagination helpers built ontop of dm-chunked_query
+  [4:55pm] postmodern: dkubb, it's only a matter of making the partials for the controls, and a bit of code to consume <code>params[:page]</code> or <code>params[:per_page]</code>
+  [4:55pm] dkubb: postmodern: right, so wiring up the HTML output
+[4:56pm] postmodern: @page = <code>Model.query.chunks(params.fetch(:per_page, 10)).at(params.fetch(:page, 1) - 1)</code>
+  [4:56pm] dkubb: beautiful</p>
+
+<p><strong>note:</strong> Due to some weirdness with datamapper + my inexperience with
+it, if you are trying to add a run to a comparison, the comparison won't
+show up on the run unless you add it there as well. For example,</p>
+
+<p><code>ruby
+  comparison.msrun_firsts &lt;&lt; run
+  comparison.save
+  run.comparison_firsts &lt;&lt; comparison
+  run.save
+</code></p>
+
+<ul>
+<li>Fix pagination when there is only one page</li>
+<li>Implement ajax adding stuff to comparisons</li>
+<li>Figure out why I have to add <code>require 'archiver'</code>. Shouldn't it be done automatically for me?</li>
+<li>pagination is still pretty wonky. Take a look at that also.</li>
 </ul>
 
   </body>
