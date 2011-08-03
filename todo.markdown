@@ -8,7 +8,8 @@
 * Archiver needs to handle the configuration loading
 -	Each file location is the File.join(@base\_path, @location, directory\_name)
   -	Experiment\_ID???  Is this a necessary type of thing?
-
+* Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.
+		`scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => 'my scheduler')`
 
 ###Website
   -	Server filter AJAX selection list
@@ -21,7 +22,7 @@
 ###Database
 -	Category.hashes level implementation of the cleaning up of the output hash(removing the id and general filepath details)
   -	Experiment\_ID 
-		-	value that will implement a way to annotate all experiment sets into a single ID code (ryanmt\_xlink\_01) (name\_experiment-name\_id#)
+		-	value that will implement a way to annotate all experiment sets into a single ID code (ryanmt_xlink_01) (name_experiment-name_id#)
 
 
 ##DataMapper pagination stuff

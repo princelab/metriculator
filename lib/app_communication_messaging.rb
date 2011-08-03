@@ -18,3 +18,9 @@ class Messenger
 
 	end
 end # Messenger
+
+class QueueComparer
+  def initialize
+  end
+
+end # QueueComparer

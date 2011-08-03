@@ -4,7 +4,7 @@
   <body>
 <h1>This file is a running list of things to accomplish to finish the project</h1>
 
-<h2>LISTS</h2>
+<h2>Ryan's List</h2>
 
 <h3>Archiver</h3>
 
@@ -14,6 +14,8 @@
 <li>Archiver needs to handle the configuration loading</li>
 <li>Each file location is the File.join(@base_path, @location, directory_name)</li>
 <li>Experiment_ID???  Is this a necessary type of thing?</li>
+<li>Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.
+      <code>scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name =&gt; 'my scheduler')</code></li>
 </ul>
 
 
@@ -37,7 +39,7 @@
 <li>Category.hashes level implementation of the cleaning up of the output hash(removing the id and general filepath details)</li>
 <li>Experiment_ID
 
-<pre><code>-   value that will implement a way to annotate all experiment sets into a single ID code (ryanmt\_xlink\_01) (name\_experiment-name\_id#)
+<pre><code>-   value that will implement a way to annotate all experiment sets into a single ID code (ryanmt_xlink_01) (name_experiment-name_id#)
 </code></pre></li>
 </ul>
 

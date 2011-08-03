@@ -10,10 +10,15 @@ require 'archive_mount'
 options = {}
 optparse = OptionParser.new do |opts|
 		opts.banner = "Usage: #{__FILE__} [options] file1 file2 ..." 
-		opts.banner = "Uses the sequence file to archive everything to the appropriate location"
-		opts.banner = "RAW file should have this name format 'GROUP_username_sample-id-info.RAW'"
-		opts.banner = "Ex: JTP_ryanmt_xlinkingsample001.RAW"
-		opts.banner = "which will be archived under JTP/ryanmt/YYMM/JTP_ryanmt_x0linkingsample001/..."
+		opts.banner = %Q{ This archives files.  Basically, it functions in one of three ways:  
+    1. As a process to parse and archive files once the instrument is done with a run. 
+    2. As a client which runs a server which allows for easy viewing of performance metrics and general file information, including a database which archives information regarding each file.
+    3. As a client on a windows machine which runs a NIST Metrics suite to generate the performance metrics data
+    These functions can be on separate boxes, or run on the same system, as the only requirement for each system is that they can access the same shared file directory.  We recommend offloading as much of the processing as is possible from the instrument computer.
+    }
+		#opts.banner = "RAW file should have this name format 'GROUP_username_sample-id-info.RAW'"
+		#opts.banner = "Ex: JTP_ryanmt_xlinkingsample001.RAW"
+		#opts.banner = "which will be archived under JTP/ryanmt/YYMM/JTP_ryanmt_x0linkingsample001/..."
 
 # Define the options
 	options[:verbose] = false
@@ -22,8 +27,8 @@ optparse = OptionParser.new do |opts|
 	options[:zipped] = false
 	opts.on( '-z', '--zipped', 'Define if the archive will be zipped or not (FALSE)') { options[:zipped] = true}
 
-	options[:figure] = true
-	opts.on( '-f', '--figure', 'Output the figure graphing the NanoLC elution pressure trace (TRUE)') {options[:figure] = false}
+#	options[:figure] = true
+#	opts.on( '-f', '--figure', 'Output the figure graphing the NanoLC elution pressure trace (TRUE)') {options[:figure] = false}
 
 	options[:mzxml] = true 
 	opts.on('-n', '--no_mzxml', 'Do not output the mzxml files') {options[:mzxml] = false}
@@ -37,8 +42,11 @@ optparse = OptionParser.new do |opts|
 	options[:xcalibur] = false
 	opts.on( '-x', '--xcalibur', 'Runs this as called from Xcalibur and on an analysis workstation(minimize work down here, move then finish), with appropriate defaults' ){ options[:xcalibur] = true }
 
-	options[:linux] = false
-	opts.on( '-l', '--linux', 'Finishes the analysis, being fed a yaml file which represents the data collected previously, together with the archive location for the files.  These can then be completed by running the remaining options (like graphing, building metrics, and parsing the metrics to the database) ' ) {options[:linux] = true }
+	options[:server] = false
+	opts.on( '-s', '--server', 'Finishes the analysis, being fed a yaml file which represents the data collected previously, together with the archive location for the files.  These can then be completed by running the remaining options (like graphing, building metrics, and parsing the metrics to the database) ' ) {options[:server] = true }
+
+  options[:metrics] = false
+  opts.on( '--metrics', "Runs a special process which monitors a queue file and runs metric conversions on the specified files") {options[:metrics] = true}
 
 	opts.on('-h', '--help', 'Display this screen' ) do 
 		puts opts
@@ -62,7 +70,7 @@ if options[:xcalibur]
 	send_msruninfo_to_linux_via_ssh(object.to_yaml)
 end
 
-if options[:linux]
+if options[:server]
 	yaml_file = ARGV.first
 	object = YAML::load_file(yaml_file)
 
