@@ -2,7 +2,7 @@
 # load_appconfig
 # load_runconfig
 # load_qcconfig 
-
+require_relative 'merge.rb'
 App_defaults = {
 	nodes: {
 		instrument: { system: "Windows", archive_root: "O:\\" },
@@ -15,15 +15,17 @@ App_defaults = {
 }
 require 'yaml'
 File.open("app_defaults.yml", 'w') {|out| out.print App_defaults.to_yaml }
+AppConfig = App_defaults.deep_merge(YAML.load_file('app_config.yml'))
 
 Qc_defaults = { 
 	:autorun=>true, 
 	:alert=>true,
 	:alert_email=>"ryanmt@byu.net", 
+# This next value is intended to be the number of standard deviations from the norm that is tolerable without alerting
 	:default_allowed_variance=>2, 
 	:peptide_ids=>{
 		:AveragesVsRtForIdedPeptides=>{:charge_q4=>false, :charge_q1=>false, :length_q4=>false, :length_q1=>false}, 
-		:PrecursorMZForIds=>{:med_charge_4=>false, :med_charge_3=>false, :med_charge_2=>false, :med_charge_1=>false, :med_q4_rt=>false, :med_q1_rt=>false, :med_q4_tic=>false, :med_q1_tic=>false, :precursor_max=>false, :precursor_min=>false, :quart_ratio=>false, :half_width=>false, :median=>false}, 
+		:PrecursorMZForIds=>{:med_charge_4=>false, :med_charge_3=>false, :med_charge_2=>false, :med_charge_1=>false, :med_q4_rt=>false, :med_q1_rt=>false, :med_q4_tic=>false, :med_q1_tic=>false, :precursor_max=>false, :precursor_min=>false, :quart_ratio=>false, :half_width=>false, :median=>true}, 
 		:TotalIonCurrentForIdsAtPeakMaxima=>{:mid_interq_tic=>false, :interq_tic=>false, :med_tic_id_1000=>false}, 
 		:PeptideCounts=>{:ions_peptide=>false, :net_oversample=>false, :miss_tryp_abund=>false, :miss_tryp_cnts=>false, :miss_tryp_peps=>false, :semi_tryp_abund=>false, :semi_tryp_cnts=>false, :semi_tryp_peps=>false, :ions=>true, :peptides=>true}, 
 		:TrypticPeptideCounts=>{:ions_peptide=>true, :abundance_1000=>false, :abundance_pct=>false, :ions=>true, :peptides=>true}
@@ -79,3 +81,4 @@ Qc_defaults = {
 	}
 } 
 File.open("qc_defaults.yml", 'w') {|out| out.print Qc_defaults.to_yaml }
+QcConfig = Qc_defaults.deep_merge(YAML.load_file('qc_config.yml'))

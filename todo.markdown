@@ -5,19 +5,15 @@
 ###Archiver
 -	Metric starter fxnality
 *	Archive\_mount needs to handle the message passing
-* Archiver needs to handle the configuration loading
 -	Each file location is the File.join(@base\_path, @location, directory\_name)
-  -	Experiment\_ID???  Is this a necessary type of thing?
-* Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.
+* Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.  
 		`scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => 'my scheduler')`
+*	Add calculator for the variance in each sample, in comparison to the previous filter results
 
 ###Website
   -	Server filter AJAX selection list
   -	Integrated production of different metrics
   -	Tracking of what metric comparisons are already produced and available for viewing
-  -	How do I store the sets of metric images best?
-		- embedded svgs?
-		- libraries of svg files?
 
 ###Database
 -	Category.hashes level implementation of the cleaning up of the output hash(removing the id and general filepath details)
@@ -26,7 +22,7 @@
 
 
 ##DataMapper pagination stuff
-  if I was going to build a pagination lib today I would build on top of dm-chunked_query
+  if I was going to build a pagination lib today I would build on top of dm-chunked\_query
   [4:42pm] postmodern joined the chat room.
   [4:48pm] dkubb: postmodern: are you aware of any pagination libs built on top of your dm-chunked_query lib?
   [4:53pm] postmodern: dkubb, nope
