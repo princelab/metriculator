@@ -4,39 +4,35 @@
   <body>
 <h1>This file is a running list of things to accomplish to finish the project</h1>
 
-<h2>Ryan's List</h2>
+<h2>TODO list (110805)</h2>
 
 <h3>Archiver</h3>
 
 <ul>
 <li>Metric starter fxnality</li>
-<li>Archive_mount needs to handle the message passing</li>
-<li>Each file location is the File.join(@base_path, @location, directory_name)</li>
+<li>Message Passing</li>
 <li>Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.<br/>
       <code>scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name =&gt; 'my scheduler')</code></li>
 <li>Add calculator for the variance in each sample, in comparison to the previous filter results</li>
+<li>Variance comparison to alert settings, generation of alerts</li>
+<li>Appconfig level admin email setting</li>
+<li>Use pony gem for email</li>
+<li>GreenThread</li>
 </ul>
 
 
 <h3>Website</h3>
 
 <ul>
-<li>Server filter AJAX selection list</li>
-<li>Integrated production of different metrics</li>
-<li>Tracking of what metric comparisons are already produced and available for viewing</li>
+<li>Server filter AJAX selection list with an Array of desired filterable attributes</li>
+<li>Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)</li>
+<li>Show the graphs</li>
+<li>Alerts in header and view page</li>
+<li>Fix pagination when there is only one page</li>
 </ul>
 
 
 <h3>Database</h3>
-
-<ul>
-<li>Category.hashes level implementation of the cleaning up of the output hash(removing the id and general filepath details)</li>
-<li>Experiment_ID
-
-<pre><code>-   value that will implement a way to annotate all experiment sets into a single ID code (ryanmt_xlink_01) (name_experiment-name_id#)
-</code></pre></li>
-</ul>
-
 
 <h2>DataMapper pagination stuff</h2>
 
@@ -57,19 +53,11 @@
 it, if you are trying to add a run to a comparison, the comparison won't
 show up on the run unless you add it there as well. For example,</p>
 
-<p><code>ruby
-  comparison.msrun_firsts &lt;&lt; run
-  comparison.save
-  run.comparison_firsts &lt;&lt; comparison
-  run.save
+<p><code>ruby  
+  comparison.msrun_firsts &lt;&lt; run  
+  comparison.save  
+  run.comparison_firsts &lt;&lt; comparison  
+  run.save  
 </code></p>
-
-<ul>
-<li>Fix pagination when there is only one page</li>
-<li>Implement ajax adding stuff to comparisons</li>
-<li>Figure out why I have to add <code>require 'archiver'</code>. Shouldn't it be done automatically for me?</li>
-<li>pagination is still pretty wonky. Take a look at that also.</li>
-</ul>
-
   </body>
 </html>
