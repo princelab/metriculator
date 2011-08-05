@@ -16,24 +16,28 @@ describe 'Deep_merge fxn ' do
     @array_match = { "modifications"=>{"static"=>["MOD:02060"], "variable"=>["MOD:00719", "MOD:01060"]}  }
 	end
   it 'returns a Hash object' do 
-		result = @level1.deep_merge(@level1_fail)
+		result = @level1_fail.deep_merge(@level1)
     result.class.should == Hash.new.class
   end
+  it 'merges an empty string with a full string' do 
+    result = {string: "yes"}.deep_merge({string: ""})
+    result.should == {string: "yes"}
+  end
 	it 'merges first level hash keys / values' do 
-		result = @level1.deep_merge(@level1_fail)
-		result.should == @level1_match
+		result = @level1_fail.deep_merge(@level1)
+		result.sort.should == @level1_match.sort
   end
 	it 'merges second level hash keys/values' do 
-    result = @level2.deep_merge(@level2_fail)
-	  result.should == @level2_match
+    result = @level2_fail.deep_merge(@level2)
+	  result.sort.should == @level2_match.sort
   end
   it 'merges a complex thing that represents a likely usage case for this purpose' do 
-    result = @total.deep_merge(@total_fail)
-    result.should == @total_match
+    result = @total_fail.deep_merge(@total)
+    result.sort.should == @total_match.sort
   end
 	it 'replaces array values with array values' do
-    result = @array.deep_merge(@array_fail)
-    result.should == @array_match
+    result = @array_fail.deep_merge(@array)
+    result.sort.should == @array_match.sort
   end
 end
 

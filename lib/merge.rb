@@ -9,24 +9,34 @@ class Hash
 		keys = self.keys | hash2.keys # Is this wrong?  OR?  SHouldn't I use a combination of them?
 		keys.each do |k|
 			v = self[k]
-		#	puts "k: #{k}\nv: #{v}\t and v2: #{hash2[k]}"
-			if v.is_a?(Hash) and hash2[k].is_a?(Hash)
-				out_hash[k] = self[k].deep_merge(hash2[k])
-		#		puts "outhash[k] looks like: #{out_hash[k]}"
-			elsif v.nil?
-        out_hash[k] = hash2[k]
+      y = hash2[k]
+			puts "k: #{k}\nv: #{v}\t and value: #{y}"
+			if v == y
+        out_hash[k] = y
+      elsif y.nil?
+        out_hash[k] = v
+      elsif v.nil?
+        out_hash[k] = y
+      elsif v.is_a?(Hash) and y.is_a?(Hash)
+				out_hash[k] = v.deep_merge(y)
+				puts "outhash[#{k}] looks like: #{out_hash[k]}"
+			elsif v.class == Array
+        if y.empty? or y.length < v.length
+          out_hash[k] = v
+        else
+          out_hash[k] = y
+        end
+      elsif v.class == String
+        out_hash[k] = y unless y.empty?
+        out_hash[k] ||= v
+      elsif v.class == TrueClass or FalseClass
+        out_hash[k] = y
       else
-				out_hash[k] = v
-				next if v == hash2[k]
-				if v.class == Array 
-					out_hash[k] = hash2[k] if v.empty?
-          out_hash[k] = hash2[k] if v.length < hash2[k].length
-        elsif v.class == String
-          out_hash[k] = hash2[k] if v.empty?
-				end
-		#		puts "outhash[k] looks like: #{out_hash[k]}"
+        out_hash[k] = v
 			end
+      puts "outhash[#{k}] looks like: #{out_hash[k]}"
 		end
+    puts "outhash looks like: #{out_hash}"
 		out_hash
 	end
 end
