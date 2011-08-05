@@ -26,13 +26,15 @@ Db_mount = MountedServer::MountMapper.new(Database)
   ./mzML/ The mzXML and mzML files
   ./config.yml
   ./archive/ 	ANY other log files, or previous config files that might be stored
+  ./run_config.yml A settings file which specifies the behavior of archiver for this run.  If not present, archiver will look up each directory level until it has inherited the settings it needs.
+  ./msruninfo.yml
 =end
 
 class ArchiveMount
   def initialize(msrun)
     @msrun = msrun
   end
-  @@build_directories = ['init', 'metrics', 'ident', 'quant', 'results', 'graphs', 'mzML', 'archive', 'settings']
+  @@build_directories = ['init', 'metrics', 'ident', 'quant', 'results', 'graphs', 'mzML', 'archive' ]
   # Builds the archive directory structure in the root, according to this model:
   #  root = ..group/user/YYYYMM/experiment_name/
   #	./init/ Files pertinent to the initialization of the data such as the TUNE and METHOD and UPLC files.
