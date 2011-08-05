@@ -1,9 +1,9 @@
 module Ms
   class ComparisonGrapher
-    # This fxn serves the purpose of taking a DataMapper query and turning the matches into the same data structure as is produced by parsing the data file.
+    # Takes a DataMapper query and turns the matches into the same data structure as is produced by parsing the data file.
     # @param [Array] An array containing the matches to the DataMapper database query
     # @return [Hash] A hash of a hash of a hash, containing the data desired, but it really should be an array of out_hashes, right?
-    def match_to_hash(matches) 
+    def match_to_hash(matches)
       # matches is the result of a Msrun.all OR Msrun.first OR Msrun.get(*args)
       @data = {}
       matches.each do |msrun|
