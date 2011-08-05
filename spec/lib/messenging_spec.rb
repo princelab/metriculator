@@ -6,11 +6,13 @@ describe 'Messaging' do
   end
 
   it 'returns a list of todo items' do
-    
+    Messenger.set_test_location('spec/tfiles')
+    reply = Messenger.metrics
+    reply.first.chomp.should == "Success"
   end
   it 'writes a message to the file' do 
     Messenger.test_write
-    string = File.readlines('tmp.log').first
-    string.should.equal "Hey, it worke"
+    string = File.readlines('tmp.log').first.chomp
+    string.should == "Hey, it worked"
   end
 end

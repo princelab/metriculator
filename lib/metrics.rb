@@ -20,7 +20,7 @@ class ::Measurement <
     end
   end
 end
-# This is the set of default settings for the {Metric#to_database} method
+# This is the set of default settings for the {Ms::NIST::Metric#to_database} method
 DatabaseDefaults = {migrate: false}
 module Ms
   class NIST

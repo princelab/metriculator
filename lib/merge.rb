@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-
+# Ruby Hash class, gotta love meta-programming!
 class Hash
   # This function provides a deep merge feature for hashes, which will handle any level of hash depth, merging hashes and replacings Strings and combining Arrays
 # @param [Hash] Hash to merge into the self Hash
