@@ -56,7 +56,7 @@ module Ms
       # @return [Hash] ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? ##### ... I'm not yet sure, thank you very much
       def graph_and_stats(new_measure, old_measures)
         require 'enum_extensions'
-        p new_measure
+        # WHAT does a measurement Array look like? AND how do I fix the spec?
       end
 
 
