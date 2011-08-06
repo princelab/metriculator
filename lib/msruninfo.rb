@@ -21,7 +21,7 @@ require 'comparison-grapher'
 module Ms
   # This class serves as a container for the information acquired from parsing Xcalibur files and finding Eksigent files which pertain to a MsRun.  This information can then be used directly, or passed into a Database for future reference.
   class MsrunInfo < 
-    Struct.new(:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :archive_location, :rawid, :group, :user, :taxonomy)  # Every file must have a source hash id that helps us now that things are working.
+    Struct.new(:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :archive_location, :rawid, :group, :user, :taxonomy)  # Every file must have a source hash id that helps us know that things are working.
     attr_accessor :data_struct 
     def initialize(struct = nil)
       if struct

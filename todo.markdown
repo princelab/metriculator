@@ -12,6 +12,7 @@
 * Appconfig level admin email setting
 * Use pony gem for email
 * GreenThread
+* config needs to have a metric_instrument_type
 
 ###Website
   -	Server filter AJAX selection list with an Array of desired filterable attributes

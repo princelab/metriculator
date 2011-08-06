@@ -10,7 +10,7 @@ class Hash
 		keys.each do |k|
 			v = self[k]
       y = hash2[k]
-			puts "k: #{k}\nv: #{v}\t and value: #{y}"
+			#puts "k: #{k}\nv: #{v}\t and value: #{y}"
 			if v == y
         out_hash[k] = y
       elsif y.nil?
@@ -19,7 +19,7 @@ class Hash
         out_hash[k] = y
       elsif v.is_a?(Hash) and y.is_a?(Hash)
 				out_hash[k] = v.deep_merge(y)
-				puts "outhash[#{k}] looks like: #{out_hash[k]}"
+			#	puts "outhash[#{k}] looks like: #{out_hash[k]}"
 			elsif v.class == Array
         if y.empty? or y.length < v.length
           out_hash[k] = v
@@ -34,9 +34,9 @@ class Hash
       else
         out_hash[k] = v
 			end
-      puts "outhash[#{k}] looks like: #{out_hash[k]}"
+     # puts "outhash[#{k}] looks like: #{out_hash[k]}"
 		end
-    puts "outhash looks like: #{out_hash}"
+   # puts "outhash looks like: #{out_hash}"
 		out_hash
 	end
 end
