@@ -32,7 +32,7 @@ class Msrun
   property :rawtime, 			DateTime, :default => lambda { |r, p| 
     if  r.rawfile and File.exist?(r.rawfile)
       File.mtime(r.rawfile)
-    else 
+    else
       Time.random(2)
     end
   }
