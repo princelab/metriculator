@@ -29,7 +29,7 @@ module Ms
         measures = []
         @data = {}
         # Why is this line of code here?
-        debugger
+        #        debugger
         matches = [matches] if !matches.is_a? DataMapper::Collection
         matches.each do |msrun|
           next if msrun.nil? or msrun.metric.nil?
@@ -50,23 +50,30 @@ module Ms
         end
         measures.sort
       end
+# This fxn is adapted from the Rserve-simpler fxn "Dataframe.from_structs(array)" in that it takes an array of structs and turns it into a hash.
+# @param [Array] An array of structs which will be turned into a hash
+# @return [Hash] The hash containing all the values
+      def hash_from_structs(array)
+        names = array.first.members
+        lengthwise_arrays = names.map { Array.new(array.length) }
+        array.each_with_index do |struct, m|
+          struct.values.each_with_index do |val, n|
+            lengthwise_arrays[n][m] = val
+          end
+        end
+        data = {}
+        names.zip(lengthwise_arrays) do |name, lengthwise_array|
+          data[name] = lengthwise_array
+        end
+        data
+      end
 # This function takes the same parameters as {#graph_matches} and accomplishes the same result, as well as generating and returning, instead of the filenames, a hash containing the information needed to do cool stuff
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries, the first of which represents the newest in a QC run, which will be compared to the previous values
       # @return [Hash] ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? ##### ... I'm not yet sure, thank you very much
       def graph_and_stats(new_measure, old_measures)
-        require 'enum_extensions'
-        new_data_hash, old_data_hash = {}, {}
-        [new_data_hash, old_data_hash].each do |hash|
-          @@categories.each {|cat| hash[cat] = {} }
-        end
-        [[new_measure, new_data_hash],[old_measures, old_data_hash]].each do |a|
-          a.first.each do |item|
-            a.last[item.category][item.subcat] = {} if a.last[item.category][item.subcat].nil?
-            a.last[item.category][item.subcat][item.name] = [] if a.last[item.category][item.subcat][item.name].nil?
-            a.last[item.category][item.subcat][item.name] << item.value
-          end
-        end
-
+        require 'enum_extensions' ## IF I don't do it myself, I can use the Rserve dataframe to do some of the work for me!!
+        new_data_hash, old_data_hash = hash_from_structs(new_measure), hash_from_structs(old_measures)        
+        p new_data_hash
         # WHAT does a measurement Array look like? AND how do I fix the spec?
       end
 

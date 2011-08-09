@@ -1,15 +1,26 @@
-describe 'graphs metrics' do 
-	before do 
-		@match_old = Msrun.all 
-		@match_new = Msrun.all[2]
+require 'spec_helper'
+
+describe 'Ms::ComparisonGrapher' do 
+	before :all do 
+
 	end
-	it 'generates pdfs' do 
+=begin
+	it 'generates images' do 
 		puts "\n"
-		ComparisonGrapher.graph_matches(ComparisonGrapher.slice_matches(@match_new), ComparisonGrapher.slice_matches(@match_old) )
-		File.exist?('chromatography/first_and_last_ms1_rt_min_first_ms1.svg').should.equal true
+		Ms::ComparisonGrapher.graph_matches(Ms::ComparisonGrapher.slice_matches(@match_new), Ms::ComparisonGrapher.slice_matches(@match_old) )
+		File.exist?('chromatography/first_and_last_ms1_rt_min_first_ms1.svg').should == true
 	end
-	it 'concatenates them into a giant image' do
+	it '' do
 		file = 'index.html'
-		File.exist?(file).should.equal true
+		File.exist?(file).should == true
 	end
+=end
+  it 'calculates the stats as well' do 	
+    @match_old = Msrun.all 
+		@match_new = @match_old.pop
+    new = Ms::ComparisonGrapher.slice_matches(@match_new)
+    old = Ms::ComparisonGrapher.slice_matches(@match_old)
+    reply = Ms::ComparisonGrapher.graph_and_stats(new, old)
+    
+  end
 end
