@@ -21,5 +21,9 @@ describe 'class Alerter' do
     p txt
   end 
   it 'sends emails' do 
+    Alerter.send_email('remucnairomirnoham@gmail.com')
+    puts "Enter 'yes' if you've received the email Ryan"
+    response = gets.chomp
+    response.should == 'yes'
   end
 end

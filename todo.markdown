@@ -10,7 +10,7 @@
 *	Add calculator for the variance in each sample, in comparison to the previous filter results
 * Variance comparison to alert settings, generation of alerts
 * Appconfig level admin email setting
-* Use pony gem for email
+* EMAIL SMTP ROUTING or I can't test my own email system.
 * GreenThread
 * config needs to have a metric_instrument_type
 
