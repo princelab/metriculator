@@ -2,6 +2,7 @@
 require_relative 'merge.rb'
 # Default settings for the application
 App_defaults = {
+  admin_email: "admin@example.org", 
 	nodes: {
 		instrument: { system: "Windows", archive_root: "O:\\" },
 		metrics: { system: "Windows", archive_root: "O:\\" },

@@ -41,7 +41,14 @@ optparse = OptionParser.new do |opts|
 	opts.on( '-m', '--move_files', "Instead of just copying the files over to the archive, delete them, safely (checks that file has moved) (FALSE)") {options[:move_files] = true}
 
 	options[:xcalibur] = false
-	opts.on( '--xcalibur', 'Runs this as called from Xcalibur and on an analysis workstation(minimize work down here, move then finish), with appropriate defaults' ){ options[:xcalibur] = true }
+	opts.on( '--xcalibur', 'Runs this as called from Xcalibur and on an analysis workstation(minimize work down here, move then finish), with appropriate defaults' ) do 
+    options[:xcalibur] = true 
+    if ARGV.size != 2
+      puts "Xcalibur can't run without the input file and row number!"
+      puts "Exiting..."
+      exit
+    end
+  end
 
 	options[:server] = false
 	opts.on( '--server', 'Finishes the analysis, being fed a yaml file which represents the data collected previously, together with the archive location for the files.  These can then be completed by running the remaining options (like graphing, building metrics, and parsing the metrics to the database) ' ) {options[:server] = true }
@@ -56,7 +63,7 @@ optparse = OptionParser.new do |opts|
 end.parse!   # outparse and PARSED!! 
 
 if options[:xcalibur]
-  config = AppConfig[:nodes][:instrument]
+  SysInfo = AppConfig[:nodes][:instrument]
 # Prep
 	file = ARGV.shift
 	line_num = ARGV.shift

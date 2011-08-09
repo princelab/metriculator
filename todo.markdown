@@ -12,7 +12,7 @@
 * Appconfig level admin email setting
 * EMAIL SMTP ROUTING or I can't test my own email system.
 * GreenThread
-* config needs to have a metric_instrument_type
+* config needs to have a metric\_instrument\_type
 
 ###Website
   -	Server filter AJAX selection list with an Array of desired filterable attributes
