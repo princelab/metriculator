@@ -43,7 +43,6 @@ module Ms
               @data[index][cat][subcat].delete("#{cat}_metric_msrun_id".to_sym)
               @data[index][cat][subcat].delete("#{cat}_metric_msrun_raw_id".to_sym)
               @data[index][cat][subcat].delete("#{cat}_metric_metric_input_file".to_sym)
-              @data[index][cat][subcat].delete_if {|key,v| puts "Key: #{key} \n Value: #{v}" if key.nil?}
               @data[index][cat][subcat].each { |property, value|
                 measures << Measurement.new( property, index, @data[index]['timestamp'], value, cat.to_sym, subcat.to_sym) }
             end
@@ -51,11 +50,23 @@ module Ms
         end
         measures.sort
       end
-# This function takes the same parameters as {#graph_matches} and accomplishes the same result, as well as generating and returning, instead of the filenames, a hash containing the ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? #####
+# This function takes the same parameters as {#graph_matches} and accomplishes the same result, as well as generating and returning, instead of the filenames, a hash containing the information needed to do cool stuff
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries, the first of which represents the newest in a QC run, which will be compared to the previous values
       # @return [Hash] ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? ##### ... I'm not yet sure, thank you very much
       def graph_and_stats(new_measure, old_measures)
         require 'enum_extensions'
+        new_data_hash, old_data_hash = {}, {}
+        [new_data_hash, old_data_hash].each do |hash|
+          @@categories.each {|cat| hash[cat] = {} }
+        end
+        [[new_measure, new_data_hash],[old_measures, old_data_hash]].each do |a|
+          a.first.each do |item|
+            a.last[item.category][item.subcat] = {} if a.last[item.category][item.subcat].nil?
+            a.last[item.category][item.subcat][item.name] = [] if a.last[item.category][item.subcat][item.name].nil?
+            a.last[item.category][item.subcat][item.name] << item.value
+          end
+        end
+
         # WHAT does a measurement Array look like? AND how do I fix the spec?
       end
 

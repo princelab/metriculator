@@ -29,7 +29,7 @@
       config.mock_with :rspec
       config.before(:suite) do
         logger = DataMapper::Logger.new($stdout, :debug)
-        DataMapper.auto_migrate!
+    #    DataMapper.auto_migrate!  ## Turn this on whenever you are running testing on the models
       end
       # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
       #config.fixture_path = "#{::Rails.root}/spec/fixtures"

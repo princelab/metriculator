@@ -22,7 +22,7 @@ gem 'dm-timestamps',        DM_VERSION
 gem 'dm-observer',          DM_VERSION
 gem 'dm-chunked_query'
 
-gem 'os'
+gem 'pony'
 gem 'rserve-simpler', :require => 'rserve/simpler'
 gem 'haml'
 gem 'jquery-rails'
@@ -36,12 +36,13 @@ group :development do
   gem 'ruby_parser'
   gem 'ruby-debug19'
 end
-
+group :test, :development do 
+  gem 'factory_girl_rails', '~> 1.1.rc1'
+end
 group :test do
   gem 'rspec-rails'
   gem 'webrat'
   gem 'spork'
-  gem 'factory_girl_rails', '~> 1.1.rc1'
   #gem 'bacon'
   #gem 'rcov'
 end
