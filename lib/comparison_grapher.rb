@@ -54,8 +54,8 @@ module Ms
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries, the first of which represents the newest in a QC run, which will be compared to the previous values
       # @return [Hash] ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? ##### ... I'm not yet sure, thank you very much
       def graph_and_stats(new_measure, old_measures)
+        default_variance = QcConfig[:default_allowed_variance]
         require 'rserve/simpler'
-        require 'enum_extensions'
         graphfiles = []
         measures = [new_measure, old_measures]
         data_hash = {}
@@ -116,9 +116,16 @@ module Ms
             # Configure the environment for the graphing, by setting up the numbered categories
               curr_name = r_object.converse("levels(df_old$name)[[#{i}]]")
 ## THIS IS WHERE WE DO THE CALCULATIONS
-            mean = r_object.converse("mean(df_old.#{i}$value)")
-            sd = r_object.converse("sd(df_old.#{i}$value)")
-            data_hash[cat.to_sym][subcategory][curr_name] = [mean, sd] 
+              if not QcConfig[cat.to_sym][subcategory.to_s.split('_').map{|word| word.capitalize}.join("").to_sym].nil?
+                t = QcConfig[cat.to_sym][subcategory.to_s.split('_').map{|word| word.capitalize}.join("").to_sym][curr_name]
+                variance = t.is_a?(Numeric) ? t : default_variance
+                mean = r_object.converse("mean(df_old.#{i}$value)")
+                sd = r_object.converse("sd(df_old.#{i}$value)")
+                data_hash[cat.to_sym][subcategory][curr_name] = [mean, sd] 
+                new_point = r_object.converse("df_new.#{i}$value")
+                range = mean-variance*sd..mean+variance*sd
+                Alerter.create("#{cat.to_sym}--#{subcategory}--#{curr_name} has exceeded range: #{range} Mean #{mean} Variance #{variance} Standard deviation #{sd} Value #{new_point}") if not ( range === new_point or range.member?(new_point) )
+              end
 ## END
               graphfile = File.join([graphfile_prefix, curr_name + '.svg'])
               graphfiles << graphfile
@@ -149,6 +156,7 @@ module Ms
           end # subcats
         end	# categories
        # graphfiles
+# TODO Do I send the email here?
        data_hash
       end
 

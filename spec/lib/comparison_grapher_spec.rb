@@ -16,11 +16,12 @@ describe 'Ms::ComparisonGrapher' do
 	end
 =end
   it 'calculates the stats as well' do 	
+    Alert.all.destroy
     @match_old = Msrun.all 
 		@match_new = @match_old.pop
     new = Ms::ComparisonGrapher.slice_matches(@match_new)
     old = Ms::ComparisonGrapher.slice_matches(@match_old)
     reply = Ms::ComparisonGrapher.graph_and_stats(new, old)
-    p reply 
+    reply.class.should == 'Hash'
   end
 end

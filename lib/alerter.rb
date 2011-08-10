@@ -7,7 +7,13 @@ class Alerter
 # This fxn will add an alert to the database
 # @param [String] [Hash]  Takes a message string, and also accepts Hash keys which will modify the default behavior as defined in the Alert_defaults constant {Alert_defaults}
     def create(string, opts = {})
-      Alert.create(:description => string)
+      @@opts = Alert_defaults.merge(opts)
+      if @@opts != Alert_defaults
+        options = @@opts.to_s.gsub(/\{|\}/, '')
+        Alert.create({:description => string}.merge(options))
+      else
+        Alert.create(:description => string)
+      end
     end
 # This fxn will delete the specified entry in the database
 # @param [Integer] a number which represents the id for the Alert to be destroyed
