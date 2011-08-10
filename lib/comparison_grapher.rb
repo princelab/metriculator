@@ -50,31 +50,106 @@ module Ms
         end
         measures.sort
       end
-# This fxn is adapted from the Rserve-simpler fxn "Dataframe.from_structs(array)" in that it takes an array of structs and turns it into a hash.
-# @param [Array] An array of structs which will be turned into a hash
-# @return [Hash] The hash containing all the values
-      def hash_from_structs(array)
-        names = array.first.members
-        lengthwise_arrays = names.map { Array.new(array.length) }
-        array.each_with_index do |struct, m|
-          struct.values.each_with_index do |val, n|
-            lengthwise_arrays[n][m] = val
-          end
-        end
-        data = {}
-        names.zip(lengthwise_arrays) do |name, lengthwise_array|
-          data[name] = lengthwise_array
-        end
-        data
-      end
 # This function takes the same parameters as {#graph_matches} and accomplishes the same result, as well as generating and returning, instead of the filenames, a hash containing the information needed to do cool stuff
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries, the first of which represents the newest in a QC run, which will be compared to the previous values
       # @return [Hash] ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? ##### ... I'm not yet sure, thank you very much
       def graph_and_stats(new_measure, old_measures)
-        require 'enum_extensions' ## IF I don't do it myself, I can use the Rserve dataframe to do some of the work for me!!
-        new_data_hash, old_data_hash = hash_from_structs(new_measure), hash_from_structs(old_measures)        
-        p new_data_hash
-        # WHAT does a measurement Array look like? AND how do I fix the spec?
+        require 'rserve/simpler'
+        require 'enum_extensions'
+        graphfiles = []
+        measures = [new_measure, old_measures]
+        data_hash = {}
+        r_object = Rserve::Simpler.new
+        r_object.converse('library("beanplot")')
+        @@categories.map do |cat|
+          data_hash[cat.to_sym] = {}
+          subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
+          Dir.mkdir(cat) if !Dir.exist?(cat)
+          subcats.each do |subcategory|
+            data_hash[cat.to_sym][subcategory] = {}
+            graphfile_prefix = File.join([Dir.pwd, cat, (subcategory.to_s)])
+            Dir.mkdir(graphfile_prefix) if !Dir.exist?(graphfile_prefix)
+            # Without removing the file RAWID from the name:
+            #graphfile_prefix = File.join([Dir.pwd, cat, (rawid + '_' + subcategory.to_s)])
+            new_structs = measures.first.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
+            old_structs = measures.last.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
+
+            [new_structs, old_structs].each do |structs|
+              structs.each do |str|
+                str.value = str.value.to_f
+                str.name = str.name.to_s
+                str.category = str.category.to_s
+                str.subcat = str.subcat.to_s
+                str.time = str.time.to_s.gsub(/T/, ' ').gsub(/-(\d*):00/,' \100')
+              end
+            end
+            datafr_new = Rserve::DataFrame.from_structs(new_structs)
+            datafr_old = Rserve::DataFrame.from_structs(old_structs)
+            r_object.converse( df_new: datafr_new )	do
+              %Q{df_new$time <- strptime(as.character(df_new$time), "%Y-%m-%d %X")
+                    df_new$name <- factor(df_new$name)
+                    df_new$category <-factor(df_new$category)
+                    df_new$subcat <- factor(df_new$subcat)
+                    df_new$raw_id <- factor(df_new$raw_id)
+              }
+            end # new datafr converse
+            r_object.converse( df_old: datafr_old) do
+              %Q{df_old$time <- strptime(as.character(df_old$time), "%Y-%m-%d %X")
+                  df_old$name <- factor(df_old$name)
+                  df_old$category <-factor(df_old$category)
+                  df_old$subcat <- factor(df_old$subcat)
+                  df_old$raw_id <- factor(df_old$raw_id)
+              }
+            end # old datafr converse
+            count = new_structs.map {|str| str.name }.uniq.compact.length
+            i = 1;
+            names = r_object.converse("levels(df_old$name)")
+            while i <= count
+              r_object.converse do
+                %Q{	df_new.#{i} <- subset(df_new, name == levels(df_new$name)[[#{i}]])
+                    df_old.#{i} <- subset(df_old, name == levels(df_old$name)[[#{i}]])			
+
+                    old_time_plot <- data.frame(df_old.#{i}$time, df_old.#{i}$value)
+                    new_time_plot <- data.frame(df_new.#{i}$time, df_new.#{i}$value)
+                }
+              end
+            # Configure the environment for the graphing, by setting up the numbered categories
+              curr_name = r_object.converse("levels(df_old$name)[[#{i}]]")
+## THIS IS WHERE WE DO THE CALCULATIONS
+            mean = r_object.converse("mean(df_old.#{i}$value)")
+            sd = r_object.converse("sd(df_old.#{i}$value)")
+            data_hash[cat.to_sym][subcategory][curr_name] = [mean, sd] 
+## END
+              graphfile = File.join([graphfile_prefix, curr_name + '.svg'])
+              graphfiles << graphfile
+              r_object.converse(%Q{svg(file="#{graphfile}", bg="transparent", height=3, width=7.5)})
+              r_object.converse('par(mar=c(1,1,1,1), oma=c(2,1,1,1))')
+              r_object.converse do
+                %Q{	tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))
+                      tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))		}
+              end
+              r_object.converse do
+                %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE)
+                      if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_old.#{i}$value), silent=TRUE)		}
+              end
+              r_object.converse( "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])")
+              r_object.converse do
+                %Q{	beanplot(df_old.#{i}$value, df_new.#{i}$value,  side='both', log="", names=df_old$name[[#{i}]], col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)
+                    plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
+                    if (length(df_new.#{i}$value) > 5) {
+                      lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='skyblue3', pch=16, lwd=3 )
+                    } else {
+                      points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='skyblue3', pch=21, cex=1.2)
+                    }
+                    dev.off()
+                }
+              end
+              i +=1
+            end # while loop
+          end # subcats
+        end	# categories
+       # graphfiles
+       data_hash
       end
 
 
@@ -86,6 +161,7 @@ module Ms
         graphfiles = []
         measures = [new_measures, old_measures]
         r_object = Rserve::Simpler.new
+        r_object.converse('library("beanplot")')
         @@categories.map do |cat|
           subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
           Dir.mkdir(cat) if !Dir.exist?(cat)
@@ -136,7 +212,6 @@ module Ms
               end
             # Configure the environment for the graphing, by setting up the numbered categories
               names = r_object.converse("levels(df_old$name)")
-              r_object.converse('library("beanplot")')
               curr_name = r_object.converse("levels(df_old$name)[[#{i}]]")
               graphfile = File.join([graphfile_prefix, curr_name + '.svg'])
               graphfiles << graphfile

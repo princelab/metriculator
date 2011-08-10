@@ -21,6 +21,6 @@ describe 'Ms::ComparisonGrapher' do
     new = Ms::ComparisonGrapher.slice_matches(@match_new)
     old = Ms::ComparisonGrapher.slice_matches(@match_old)
     reply = Ms::ComparisonGrapher.graph_and_stats(new, old)
-    
+    p reply 
   end
 end
