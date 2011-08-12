@@ -7,8 +7,6 @@
 *	Message Passing
 * Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.  
 		`scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => 'my scheduler')`
-*	Add calculator for the variance in each sample, in comparison to the previous filter results
-* Variance comparison to alert settings, generation of alerts
 * EMAIL SMTP ROUTING or I can't test my own email system.
 * GreenThread
 * config needs to have a metric\_instrument\_type
