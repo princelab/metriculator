@@ -6,6 +6,6 @@ class ApplicationController < ActionController::Base
   before_filter :load_alerts
 
   def load_alerts
-    @alerts = Alerts.all
+    @alerts = Alert.all
   end
 end
