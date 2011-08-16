@@ -3,9 +3,9 @@ class ApplicationController < ActionController::Base
   use Rails::DataMapper::Middleware::IdentityMap
   protect_from_forgery
 
-  before :load_alerts
+  before_filter :load_alerts
 
   def load_alerts
-    @alerts = Alerts.all
+    @alerts = Alert.all
   end
 end
