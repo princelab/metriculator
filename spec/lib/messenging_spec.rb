@@ -12,7 +12,7 @@ describe 'Messaging' do
   end
   it 'writes a message to the file' do 
     Messenger.test_write
-    string = File.readlines('tmp.log').first.chomp
+    string = File.readlines('spec/tfiles/tmp.log').first.chomp
     string.should == "Hey, it worked"
   end
 end

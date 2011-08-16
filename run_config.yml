@@ -1,12 +1,15 @@
+---
 # Archiving information
-group: JTP
-username: ryanmt
-user_email: ryanmt@byu.net
-comments: Hello
-sample_taxonomy: human # 5 letter code
-qc_taxonomy: bovin  # 5 letter code
+:group: JTP
+:username: ryanmt
+:user_email: ryanmt@byu.net
+:comments: Hello
+:sample_taxonomy: human # 5 letter code
+:run_metrics: true
+# This one probably isn't necessary
+:qc_taxonomy: bovin  # 5 letter code
 # Search integration?  Future implementation...
-search: 
+:search: 
   mascot: 
     run: true
   omssa: 

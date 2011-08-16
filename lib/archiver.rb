@@ -3,6 +3,7 @@ require 'xcalibur'
 require 'eksigent'
 require 'optparse'
 require 'archive_mount'
+require 'config'
 # this package handles options and configures the packaging and archiving of 
 # data produced by the instrument, as well as archiving of all the files used
 # during the run 
@@ -40,10 +41,17 @@ optparse = OptionParser.new do |opts|
 	opts.on( '-m', '--move_files', "Instead of just copying the files over to the archive, delete them, safely (checks that file has moved) (FALSE)") {options[:move_files] = true}
 
 	options[:xcalibur] = false
-	opts.on( '-x', '--xcalibur', 'Runs this as called from Xcalibur and on an analysis workstation(minimize work down here, move then finish), with appropriate defaults' ){ options[:xcalibur] = true }
+	opts.on( '--xcalibur', 'Runs this as called from Xcalibur and on an analysis workstation(minimize work down here, move then finish), with appropriate defaults' ) do 
+    options[:xcalibur] = true 
+    if ARGV.size != 2
+      puts "Xcalibur can't run without the input file and row number!"
+      puts "Exiting..."
+      exit
+    end
+  end
 
 	options[:server] = false
-	opts.on( '-s', '--server', 'Finishes the analysis, being fed a yaml file which represents the data collected previously, together with the archive location for the files.  These can then be completed by running the remaining options (like graphing, building metrics, and parsing the metrics to the database) ' ) {options[:server] = true }
+	opts.on( '--server', 'Finishes the analysis, being fed a yaml file which represents the data collected previously, together with the archive location for the files.  These can then be completed by running the remaining options (like graphing, building metrics, and parsing the metrics to the database) ' ) {options[:server] = true }
 
   options[:metrics] = false
   opts.on( '--metrics', "Runs a special process which monitors a queue file and runs metric conversions on the specified files") {options[:metrics] = true}
@@ -55,6 +63,8 @@ optparse = OptionParser.new do |opts|
 end.parse!   # outparse and PARSED!! 
 
 if options[:xcalibur]
+  SysInfo = AppConfig[:nodes][:instrument]
+# Prep
 	file = ARGV.shift
 	line_num = ARGV.shift
 	if ARGV.length > 0
@@ -62,6 +72,7 @@ if options[:xcalibur]
 		puts "shouldn't you have not specified --xcalibur?"
 		puts 'continuing........'
 	end
+# Real work
 	raise FileTypeError if File.extname(file) != File.extname('Test.sld')
 	sld = Ms::Xcalibur::Sld.new(file).parse
 	object = Ms::MsrunInfo.new(sld.sldrows[line_num])
@@ -77,3 +88,6 @@ if options[:server]
 
 end
 
+if options[:metrics]
+
+end

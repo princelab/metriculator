@@ -13,6 +13,7 @@
   require 'mount_mapper'
   require 'eksigent'
   require 'merge'
+  require 'comparison_grapher'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -28,8 +29,8 @@
       # config.mock_with :rr
       config.mock_with :rspec
       config.before(:suite) do
-        logger = DataMapper::Logger.new($stdout, :debug)
-        DataMapper.auto_migrate!
+  #      logger = DataMapper::Logger.new($stdout, :debug) ### THIS DOES THE SQL DATABASE DEBUGGING
+    #    DataMapper.auto_migrate!  ## Turn this on whenever you are running testing on the models
       end
       # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
       #config.fixture_path = "#{::Rails.root}/spec/fixtures"

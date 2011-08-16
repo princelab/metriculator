@@ -8,4 +8,7 @@ require 'ms2'
 require 'msrun'
 require 'peptide_ids'
 require 'run_comparison'
-
+require 'alerts'
+require 'analysis'
+require 'second'
+require 'first'

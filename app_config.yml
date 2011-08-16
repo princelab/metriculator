@@ -6,6 +6,7 @@
 #     - Sys_type (Windows/Linux)
 #   - archive_root: #The directory which will be shared among all nodes, and will allow for passing of files between the nodes
 #     - Directory address, of the type specific to the system type
+:admin_email: "ryanmt@byu.net"
 :nodes: 
   :instrument: 
     :system: Windows

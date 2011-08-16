@@ -1,6 +1,6 @@
 namespace :db do
+  desc 'drops the database and repopulates it with the contents of the test metric files'
   task :seed_from_metrics => :environment do
-    desc 'drops the database and repopulates it with the contents of the test metric files'
     DataMapper.auto_migrate!
     Dir["spec/tfiles/metrics/*.txt"].each do |file|
       met = Ms::NIST::Metric.new File.expand_path(file)
