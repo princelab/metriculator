@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'app_communication_messaging'
 
 describe 'Messaging' do

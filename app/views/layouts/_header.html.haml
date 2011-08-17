@@ -5,3 +5,4 @@
       - categories.each do |cat|
         %li= link_to "#{cat.humanize}", 'msrun/index'
   = link_to logo, root_path
+= render 'alerts/alerts'

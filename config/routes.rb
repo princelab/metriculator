@@ -1,6 +1,6 @@
 MetricsSite::Application.routes.draw do
 
-  get '/status' => 'pages#staus'
+  get 'status' => 'pages#staus'
 
   get 'contact' => 'pages#contact'
 
@@ -9,6 +9,9 @@ MetricsSite::Application.routes.draw do
 
   resources :msruns
   resources :comparisons #TODO: change this to hide the URLS.
+
+  #path to delete alerts
+  delete 'alerts/:id' => 'alerts#destroy', :as => 'alert'
 
   match 'chromatography/:id' => 'graph#show'
 
@@ -65,8 +68,4 @@ MetricsSite::Application.routes.draw do
   root to: "pages#home"
 
   # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
 end

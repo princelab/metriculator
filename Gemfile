@@ -36,13 +36,26 @@ group :development do
   gem 'ruby_parser'
   gem 'ruby-debug19'
 end
-group :test, :development do 
+
+group :development, :test do
+  # dependency of guard if on Mac OS X
+  if RUBY_PLATFORM =~ /darwin/i
+    gem 'rb-fsevent'
+    gem 'growl'
+    gem 'growl_notify'
+  end
+  # gem 'guard-rspec'
+  # gem 'guard-bundler'
+  gem 'autotest'
+  gem 'autotest-fsevent'
+  gem 'autotest-growl'
+  gem 'autotest-rails'
   gem 'factory_girl_rails', '~> 1.1.rc1'
-end
-group :test do
   gem 'rspec-rails'
+end
+
+group :test do
   gem 'webrat'
-  gem 'spork'
-  #gem 'bacon'
-  #gem 'rcov'
+  # gem 'spork'
+  gem 'capybara'
 end

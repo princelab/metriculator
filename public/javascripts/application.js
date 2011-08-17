@@ -5,6 +5,11 @@ $(function() {
     $.getScript(this.href);
     return false;
   });
+
+  // Fade the alerts out when the delete link is clicked.
+  $("#alerts span a").live("click", function() {
+    $(this).parent().fadeOut()
+  });
 });
 
 //Define our namespace

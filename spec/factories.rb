@@ -14,7 +14,7 @@ FactoryGirl.define do
     names = %w[ James Joe John ]
     "#{names[rand 3]}_#{n}"
   end
-  
+
   sequence :alert_description do |n|
     descriptions = %w{ chromatography ion_source ion_treatment }
     "#{descriptions[rand 3]}_#{n}"
@@ -25,7 +25,7 @@ FactoryGirl.define do
     "#{opts[rand 2]}"
   end
 
-  factory :alert do 
+  factory :alert do
     show {Factory.next :true_false}
     email {Factory.next :true_false}
     description {Factory.next :alert_description}
