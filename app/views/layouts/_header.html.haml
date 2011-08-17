@@ -5,4 +5,10 @@
       - categories.each do |cat|
         %li= link_to "#{cat.humanize}", 'msrun/index'
   = link_to logo, root_path
+  - if flash[:error]
+    .error=flash[:error]
+  - if flash[:notice]
+    .notice=flash[:notice]
+  -if flash[:success]
+    .success=flash[:success]
 = render 'alerts/alerts'

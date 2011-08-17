@@ -15,8 +15,14 @@ class ComparisonsController < ApplicationController
     comp.msrun_firsts = first_set
     comp.msrun_seconds = second_set
     comp.save
-    comp.graph
 
+    #Do this in a thread, and show a flash message saying it was
+    #started.
+    Thread.new(comp) do |comparison|
+      comparison.graph
+    end
+
+    flash[:notice] = "Comparison started. You will be notified when it completes."
     redirect_to :action => "show", :id => comp.id
   end
 
