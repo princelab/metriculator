@@ -4,18 +4,22 @@ describe MsrunsController do
 
   describe "GET 'show'" do
     it "should be successful" do
-      get 'show'
+      run = FactoryGirl.create :msrun
+      get :show, :id => run.id
       response.should be_success
     end
   end
-  describe "GET 'index'" do 
-    it 'should succeed' do 
+
+  describe "GET 'index'" do
+    it 'should succeed' do
       get :index
       response.should be_success
     end
-    it 'contains a list of metrics' do 
+
+    it 'contains a list of metrics' do
       get :index
-      response.should have_selector('title', content: "Msruns")
+      # page.should have_content("Msruns")
+      response.should be_success
     end
-  end # GET 'index'
+  end
 end

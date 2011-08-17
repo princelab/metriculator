@@ -47,15 +47,17 @@ group :development, :test do
   end
   # gem 'guard-rspec'
   # gem 'guard-bundler'
+=======
+  gem 'launchy'
   gem 'autotest'
   gem 'autotest-growl'
   gem 'autotest-rails'
   gem 'factory_girl_rails', '~> 1.1.rc1'
   gem 'rspec-rails'
+  gem 'capybara'
 end
 
 group :test do
-  gem 'webrat'
+  # gem 'webrat'
   # gem 'spork'
-  gem 'capybara'
 end

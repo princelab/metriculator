@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   def logo
-    image_tag("logo.png", alt: "Metrics", class: 'round', height: "13%", width: "22%")
+    image_tag("logo.png", alt: "Metrics", class: 'round')
   end
 
   # Creates a link to sort table colums.

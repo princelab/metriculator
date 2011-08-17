@@ -4,21 +4,21 @@ describe PagesController do
 
   describe "GET 'home'" do
     it "should be successful" do
-      get 'home'
+      get :home
       response.should be_success
     end
   end
 
   describe "GET 'status'" do
     it "should be successful" do
-      get 'status'
+      get :status
       response.should be_success
     end
   end
 
   describe "GET 'contact'" do
     it "should be successful" do
-      get 'contact'
+      get :contact
       response.should be_success
     end
   end

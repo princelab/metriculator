@@ -13,7 +13,7 @@ describe MetricsController do
   describe "GET show" do
     it 'contains an overview of a metric' do
       get :show, :id => 1
-      response.should have_selector('title')
+      response.should be_success
     end
   end
 end

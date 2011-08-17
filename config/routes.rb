@@ -1,6 +1,6 @@
 MetricsSite::Application.routes.draw do
 
-  get 'status' => 'pages#staus'
+  get 'status' => 'pages#status'
 
   get 'contact' => 'pages#contact'
 
@@ -10,7 +10,6 @@ MetricsSite::Application.routes.draw do
   resources :msruns
   resources :comparisons #TODO: change this to hide the URLS.
 
-  #path to delete alerts
   delete 'alerts/:id' => 'alerts#destroy', :as => 'alert'
 
   match 'chromatography/:id' => 'graph#show'
