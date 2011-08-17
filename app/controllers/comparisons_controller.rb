@@ -4,6 +4,7 @@ class ComparisonsController < ApplicationController
   end
 
   def show
+    @comparison = Comparison.get(params[:id])
   end
 
   def create
@@ -24,6 +25,22 @@ class ComparisonsController < ApplicationController
 
     flash[:notice] = "Comparison started. You will be notified when it completes."
     redirect_to :action => "show", :id => comp.id
+  end
+
+  def get_graph_at_path
+    #try to look up the comparison
+    if comparison = Comparison.get(params[:id]) then
+      if Dir.exist?(params[:graph_path])
+        #make a page with the name
+        #get array of subdirectories
+        #get array of images
+        #pull in the image files
+      else
+        #show graph error
+      end
+
+    end
+    #make sure it exists
   end
 
   private

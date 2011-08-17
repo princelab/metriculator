@@ -1,4 +1,6 @@
 class Comparison
+  #TODO: get the comparisons
+  COMPARISON_DIRECTORY = ""
   include DataMapper::Resource
   property :id, Serial
 
@@ -6,6 +8,7 @@ class Comparison
   property :end_timestamp, DateTime
 
   property :taxonomy, String
+  property :graph_location, FilePath, :default => lambda { |comp, property| File.join(COMPARISON_DIRECTORY, comp.id) }
 
   has n, :firsts
   has n, :msrun_firsts, 'Msrun', :through => :firsts, :via => :msrun
@@ -20,4 +23,6 @@ class Comparison
     second = grapher.slice_matches self.msrun_seconds
     files = grapher.graph_matches first, second
   end
+
+  #how to dynamically generate the routes from the comparison path?
 end
