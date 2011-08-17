@@ -1,7 +1,7 @@
 %p Here is the comparison form. Will it work?
 = form_tag comparisons_path, :method => 'post' do
   = text_field_tag :hurp, params[:hurp]
-  = select_tag :comparison1, {}, :multiple => true
-  = select_tag :comparison2, {}, :multiple => true
+  = select_tag :comparison1, '', :multiple => true
+  = select_tag :comparison2, '', :multiple => true
   = submit_tag "Compare"
 

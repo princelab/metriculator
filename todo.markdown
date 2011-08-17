@@ -24,3 +24,8 @@
   - Fix pagination when there is only one page
 
 ###Database
+
+
+###Tests
+* Why is the integration test stufff not working? MetricsController,
+  MsrunsController.

@@ -38,24 +38,17 @@ group :development do
 end
 
 group :development, :test do
-  # dependency of guard if on Mac OS X
-  if RUBY_PLATFORM =~ /darwin/i
-    gem 'rb-fsevent'
-    gem 'growl'
-    gem 'growl_notify'
-  end
-  # gem 'guard-rspec'
-  # gem 'guard-bundler'
+  gem 'launchy'
   gem 'autotest'
   gem 'autotest-fsevent'
   gem 'autotest-growl'
   gem 'autotest-rails'
   gem 'factory_girl_rails', '~> 1.1.rc1'
   gem 'rspec-rails'
+  gem 'capybara'
 end
 
 group :test do
-  gem 'webrat'
+  # gem 'webrat'
   # gem 'spork'
-  gem 'capybara'
 end
