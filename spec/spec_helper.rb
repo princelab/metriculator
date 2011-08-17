@@ -1,55 +1,59 @@
 #require 'rubygems'
 #require 'spork'
 #Spork.prefork do
-  # Loading more in this block will cause your tests to run faster. However,
-  # if you change any configuration or code from libraries loaded here, you'll
-  # need to restart spork for it take effect.
+# Loading more in this block will cause your tests to run faster. However,
+# if you change any configuration or code from libraries loaded here, you'll
+# need to restart spork for it take effect.
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-    ENV["RAILS_ENV"] ||= 'test'
-    require File.expand_path("../../config/environment", __FILE__)
-    require 'rspec/rails'
-  require 'database_loader'
-  require 'archiver'
-  require 'mount_mapper'
-  require 'eksigent'
-  require 'merge'
-  require 'comparison_grapher'
+
+ENV["RAILS_ENV"] ||= 'test'
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
+require 'capybara/rspec'
+require 'database_loader'
+require 'archiver'
+require 'mount_mapper'
+require 'eksigent'
+require 'merge'
+require 'comparison_grapher'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-    Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
-    RSpec.configure do |config|
-      # == Mock Framework
-      #
-      # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
-      #
-      # config.mock_with :mocha
-      # config.mock_with :flexmock
-      # config.mock_with :rr
-      config.mock_with :rspec
-      config.before(:suite) do
-  #      logger = DataMapper::Logger.new($stdout, :debug) ### THIS DOES THE SQL DATABASE DEBUGGING
-    #    DataMapper.auto_migrate!  ## Turn this on whenever you are running testing on the models
-      end
-      # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-      #config.fixture_path = "#{::Rails.root}/spec/fixtures"
+RSpec.configure do |config|
+  # == Mock Framework
+  #
+  # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
+  #
+  # config.mock_with :mocha
+  # config.mock_with :flexmock
+  # config.mock_with :rr
+  config.mock_with :rspec
+  config.before(:suite) do
+    # logger = DataMapper::Logger.new($stdout, :debug) ### THIS DOES THE SQL DATABASE DEBUGGING
+    DataMapper.auto_migrate!
+  end
 
-      # If you're not using ActiveRecord, or you'd prefer not to run each of your
-      # examples within a transaction, remove the following line or assign false
-      # instead of true.
-      #config.use_transactional_fixtures = true
-    end
+  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
+  #config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
+  # If you're not using ActiveRecord, or you'd prefer not to run each of your
+  # examples within a transaction, remove the following line or assign false
+  # instead of true.
+  #config.use_transactional_fixtures = true
+end
+
+TESTFILE = File.dirname(__FILE__) + '/tfiles'
+#require 'bacon'
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'app', 'models'))
+#
 #end
 
 #Spork.each_run do
-  ## This code will be run each time you run your specs.
-  #TESTFILE = File.dirname(__FILE__) + '/tfiles'
-  #require 'bacon'
-  #$LOAD_PATH.unshift(File.dirname(__FILE__))
-  #$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-  #$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'app', 'models'))
+## This code will be run each time you run your specs.
 #end
 
 # --- Instructions ---
@@ -80,8 +84,3 @@
 #
 # These instructions should self-destruct in 10 seconds.  If they don't, feel
 # free to delete them.
-
-
-
-
-

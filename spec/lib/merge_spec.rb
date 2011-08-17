@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'merge'
 
 describe 'Deep_merge fxn ' do

@@ -1,6 +1,6 @@
 MetricsSite::Application.routes.draw do
 
-  get '/status' => 'pages#staus'
+  get 'status' => 'pages#staus'
 
   get 'contact' => 'pages#contact'
 
