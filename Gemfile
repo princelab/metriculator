@@ -47,7 +47,6 @@ group :development, :test do
   end
   # gem 'guard-rspec'
   # gem 'guard-bundler'
-=======
   gem 'launchy'
   gem 'autotest'
   gem 'autotest-growl'
