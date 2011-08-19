@@ -1,0 +1,12 @@
+%h1=@graph_title
+#subdirectories
+  %ul
+    - @graph_directories.each do |directory|
+      %li
+        %a{ :href => directory }=titleize directory
+
+#graphs
+  - @graph_files.each do |graph|
+    %div
+      %h3=titleize graph
+      = image_tag graph
