@@ -9,7 +9,8 @@ require 'config'
 # during the run 
 
 options = {}
-optparse = OptionParser.new do |opts|
+#this looks like it is conflicting with the rails options parser?
+archiver_optparse = OptionParser.new do |opts|
 		opts.banner = "Usage: #{__FILE__} [options] file1 file2 ..." 
 		opts.banner = %Q{ This archives files.  Basically, it functions in one of three ways:  
     1. As a process to parse and archive files once the instrument is done with a run. 

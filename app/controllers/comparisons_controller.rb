@@ -12,7 +12,9 @@ class ComparisonsController < ApplicationController
     first_set = get_msruns_from_array_of_ids(params[:comparison1])
     second_set = get_msruns_from_array_of_ids(params[:comparison2])
 
-    comp = Comparison.create
+    # comp = Comparison.create
+
+    comp = Comparison.new
     comp.msrun_firsts = first_set
     comp.msrun_seconds = second_set
     comp.save
@@ -20,7 +22,10 @@ class ComparisonsController < ApplicationController
     #Do this in a thread, and show a flash message saying it was
     #started.
     Thread.new(comp) do |comparison|
-      comparison.graph
+      #TODO: make it return some kind of status
+      result = comparison.graph
+      puts "DONE GRAPHING"
+      a = Alert.create({ :email => false, :show => true, :description => "DONE WITH THE COMPARISON" })
     end
 
     flash[:notice] = "Comparison started. You will be notified when it completes."
@@ -28,9 +33,18 @@ class ComparisonsController < ApplicationController
   end
 
   def get_graph_at_path
-    #try to look up the comparison
+    #TODO: what if they are requesting just an image?
     if comparison = Comparison.get(params[:id]) then
-      if Dir.exist?(params[:graph_path])
+      path = File.join(comparison.location_of_graphs, params[:graph_path])
+      relative_path = path.gsub("#{File.join(Rails.root, 'public')}", "")
+      if Dir.exist? path
+        # parts = path.split(File::SEPARATOR).reject { |part| part.empty? }
+        @graph_directories = []
+        @graph_files = []
+        # Each file in the requested directory relative to the public/ directory
+        Dir.new(path).entries.reject { |entry| %w( . .. ).include? entry }.map { |entry| File.join(relative_path, entry) }.each do |f|
+          File.directory? f ? @graph_directories << f : @graph_files << f
+        end
         #make a page with the name
         #get array of subdirectories
         #get array of images

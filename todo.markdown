@@ -19,9 +19,13 @@
   - Server filter AJAX selection list with an Array of desired filterable attributes
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
   - Show the graphs
-  - Alerts in header and view page
-    - Add jQuery to hide deleted alert
-  - Fix pagination when there is only one page
+    - Add breadcrumbs for graph heirarchy?
+  - Alerts should only show up in views if they are marked to show.
+  - Add support for Alerts which autohide?
+  - Deleting alerts shown on the web page should only make them not be
+    shown, not actually delete them. In case they are to be emailed as
+    well.
+  - Pagination is pretty broken
 
 ###Database
 
