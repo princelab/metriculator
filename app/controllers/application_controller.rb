@@ -8,4 +8,9 @@ class ApplicationController < ActionController::Base
   def load_alerts
     @alerts = Alert.all
   end
+
+  def render_404
+    @title = "404 Page Not Found"
+    render :template => "public/404.html.haml", :layout => false, :status => 404
+  end
 end

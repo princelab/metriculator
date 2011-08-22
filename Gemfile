@@ -34,10 +34,10 @@ gem 'rake', "0.8.7"
 group :development do
   gem 'hpricot'
   gem 'ruby_parser'
-  gem 'ruby-debug19'
 end
 
 group :development, :test do
+  gem 'ruby-debug19'
   gem 'launchy'
   gem 'autotest'
   gem 'autotest-fsevent'

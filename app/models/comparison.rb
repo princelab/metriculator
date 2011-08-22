@@ -1,6 +1,8 @@
 class Comparison
   #TODO: get the archiver directory?
-  COMPARISON_DIRECTORY = File.expand_path("comparisons", Rails.root)
+  @@ROOT_COMPARISON_DIRECTORY = File.expand_path(File.join("public", "comparisons"), Rails.root)
+
+  # Where the comparisons directory is on the filesystem
   include DataMapper::Resource
   property :id, Serial
 
@@ -16,12 +18,9 @@ class Comparison
   has n, :seconds
   has n, :msrun_seconds, 'Msrun', :through => :seconds, :via => :msrun
 
-
   def location_of_graphs
     if self.graph_location.nil?
-      self.graph_location = File.join(COMPARISON_DIRECTORY, "1")
-      #TODO: fix this once graph saving is working
-      # self.graph_location = File.join(COMPARISON_DIRECTORY, self.id)
+      self.graph_location = File.join(@@ROOT_COMPARISON_DIRECTORY, self.id.to_s)
       self.save
     end
     self.graph_location
@@ -31,6 +30,11 @@ class Comparison
     self.graph_location = loc
     self.save
   end
+
+  def get_files_for_relative_path(path)
+    return nil unless File.exist? File.join(self.graph_location, path)
+  end
+
   #Produce a graph of the metrics in this comparison, or return it if it already exists.
   def graph
     begin

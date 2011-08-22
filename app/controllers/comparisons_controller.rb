@@ -46,13 +46,12 @@ class ComparisonsController < ApplicationController
           File.directory? f ? @graph_directories << f : @graph_files << f
         end
       else
-        #TODO: how to render a default 404 template?
-        @title = "404 Page Not Found"
-        render :template => "public/404.html.haml", :layout => false, :status => 404
+        render_404
       end
 
+    else
+      render_404
     end
-    #make sure it exists
   end
 
   private
