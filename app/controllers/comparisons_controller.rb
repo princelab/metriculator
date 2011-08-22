@@ -37,20 +37,18 @@ class ComparisonsController < ApplicationController
     if comparison = Comparison.get(params[:id]) then
       path = File.join(comparison.location_of_graphs, params[:graph_path])
       relative_path = path.gsub("#{File.join(Rails.root, 'public')}", "")
+      #TODO: this is wildly insecure, and pretty shoddy design as well
       if Dir.exist? path
-        # parts = path.split(File::SEPARATOR).reject { |part| part.empty? }
         @graph_directories = []
         @graph_files = []
         # Each file in the requested directory relative to the public/ directory
         Dir.new(path).entries.reject { |entry| %w( . .. ).include? entry }.map { |entry| File.join(relative_path, entry) }.each do |f|
           File.directory? f ? @graph_directories << f : @graph_files << f
         end
-        #make a page with the name
-        #get array of subdirectories
-        #get array of images
-        #pull in the image files
       else
-        #show graph error
+        #TODO: how to render a default 404 template?
+        @title = "404 Page Not Found"
+        render :template => "public/404.html.haml", :layout => false, :status => 404
       end
 
     end
