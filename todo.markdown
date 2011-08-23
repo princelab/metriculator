@@ -8,12 +8,11 @@
 * Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.  
 		`scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => 'my scheduler')`
 * EMAIL SMTP ROUTING or I can't test my own email system.
-* Add calculator for the variance in each sample, in comparison to the previous filter results
-* Variance comparison to alert settings, generation of alerts
-* Appconfig level admin email setting
 * Use pony gem for email
 * GreenThread
 * config needs to have a metric\_instrument\_type
+* Alerts generation option to both graphing utilities
+* Comparison id for comparison folder designation in both graphing utilities
 
 ###Website
   - Server filter AJAX selection list with an Array of desired filterable attributes

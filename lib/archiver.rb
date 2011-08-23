@@ -65,6 +65,7 @@ end.parse!   # outparse and PARSED!!
 
 if options[:xcalibur]
   SysInfo = AppConfig[:nodes][:instrument]
+  ArchiveRoot = SysInfo[:archive_root]
 # Prep
 	file = ARGV.shift
 	line_num = ARGV.shift
@@ -83,6 +84,8 @@ if options[:xcalibur]
 end
 
 if options[:server]
+  SysInfo = AppConfig[:nodes][:server]
+  ArchiveRoot = SysInfo[:archive_root]
 	yaml_file = ARGV.first
 	object = YAML::load_file(yaml_file)
 
@@ -90,5 +93,7 @@ if options[:server]
 end
 
 if options[:metrics]
+  SysInfo = AppConfig[:nodes][:metrics]
+  ArchiveRoot = SysInfo[:archive_root]
 
 end

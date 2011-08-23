@@ -38,9 +38,15 @@ end
 
 group :development, :test do
   gem 'ruby-debug19'
+  # dependency of guard if on Mac OS X
+  if RUBY_PLATFORM =~ /darwin/i
+    gem 'rb-fsevent'
+    gem 'growl'
+    gem 'autotest-fsevent'
+    gem 'growl_notify'
+  end
   gem 'launchy'
   gem 'autotest'
-  gem 'autotest-fsevent'
   gem 'autotest-growl'
   gem 'autotest-rails'
   gem 'factory_girl_rails', '~> 1.1.rc1'
