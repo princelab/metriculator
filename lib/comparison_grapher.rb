@@ -1,3 +1,4 @@
+Graphing_defaults = {email_alert: true}
 module Ms
   class ComparisonGrapher
     class << self
@@ -53,7 +54,8 @@ module Ms
 # This function takes the same parameters as {#graph_matches} and accomplishes the same result, as well as generating and returning, instead of the filenames, a hash containing the information needed to do cool stuff
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries, the first of which represents the newest in a QC run, which will be compared to the previous values
       # @return [Hash] ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? ##### ... I'm not yet sure, thank you very much
-      def graph_and_stats(new_measure, old_measures)
+      def graph_and_stats(new_measure, old_measures, comparison_folder_id, opts = {})
+        options = Graphing_defaults.merge(opts)
         default_variance = QcConfig[:default_allowed_variance]
         require 'rserve/simpler'
         graphfiles = []
@@ -67,7 +69,7 @@ module Ms
           Dir.mkdir(cat) if !Dir.exist?(cat)
           subcats.each do |subcategory|
             data_hash[cat.to_sym][subcategory] = {}
-            graphfile_prefix = File.join([Dir.pwd, cat, (subcategory.to_s)])
+            graphfile_prefix = File.join([comparison_folder_id, cat, (subcategory.to_s)])
             Dir.mkdir(graphfile_prefix) if !Dir.exist?(graphfile_prefix)
             # Without removing the file RAWID from the name:
             #graphfile_prefix = File.join([Dir.pwd, cat, (rawid + '_' + subcategory.to_s)])
@@ -124,7 +126,8 @@ module Ms
                 data_hash[cat.to_sym][subcategory][curr_name] = [mean, sd] 
                 new_point = r_object.converse("df_new.#{i}$value")
                 range = mean-variance*sd..mean+variance*sd
-                Alerter.create("#{cat.to_sym}--#{subcategory}--#{curr_name} has exceeded range: #{range} Mean #{mean} Variance #{variance} Standard deviation #{sd} Value #{new_point}") if not ( range === new_point or range.member?(new_point) )
+                Alerter.create("#{cat.to_sym}--#{subcategory}--#{curr_name} has exceeded range: #{range} Mean #{mean} Variance #{variance} Standard deviation #{sd} Value #{new_point}", { :email => options[:email_alert] }) if not ( range === new_point or range.member?(new_point) )
+                
               end
 ## END
               graphfile = File.join([graphfile_prefix, curr_name + '.svg'])
@@ -164,7 +167,8 @@ module Ms
       # This function generates a comparison between the two sets of data, which are sliced by {#slice_matches}, graphing the results as SVG files.
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries
       # @return [Array] An array which contains all of the files produced by the process.  This will likely be an array of approximately 400 filenames.
-      def graph_matches(new_measures, old_measures)
+      def graph_matches(new_measures, old_measures, comparison_folder_id, opts = {})
+        options = Graphing_defaults.merge(opts)
         require 'rserve/simpler'
         graphfiles = []
         measures = [new_measures, old_measures]
@@ -174,7 +178,7 @@ module Ms
           subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
           Dir.mkdir(cat) if !Dir.exist?(cat)
           subcats.each do |subcategory|
-            graphfile_prefix = File.join([Dir.pwd, cat, (subcategory.to_s)])
+            graphfile_prefix = File.join([comparison_folder_id, cat, (subcategory.to_s)])
             Dir.mkdir(graphfile_prefix) if !Dir.exist?(graphfile_prefix)
             # Without removing the file RAWID from the name:
             #graphfile_prefix = File.join([Dir.pwd, cat, (rawid + '_' + subcategory.to_s)])
