@@ -2,8 +2,8 @@
 require_relative 'merge.rb'
 # Default settings for the application
 App_defaults = {
-  admin_email: "admin@example.org", 
-  comparison_directory: File.join(File.expand_path(__FILE__), "..", "public", "comparisons"),
+  admin_email: "admin@example.org",
+  comparison_directory: Pathname.new(File.join(File.expand_path(File.dirname(__FILE__)), "..", "public", "comparisons")).cleanpath.to_s,
 	nodes: {
 		instrument: { system: "Windows", archive_root: "O:\\" },
 		metrics: { system: "Windows", archive_root: "O:\\" },

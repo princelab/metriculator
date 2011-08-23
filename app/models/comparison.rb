@@ -1,8 +1,6 @@
 class Comparison
-  #TODO: get the archiver directory?
-  @@ROOT_COMPARISON_DIRECTORY = File.expand_path(File.join("public", "comparisons"), Rails.root)
+  @@ROOT_COMPARISON_DIRECTORY = AppConfig[:comparison_directory]
 
-  # Where the comparisons directory is on the filesystem
   include DataMapper::Resource
   property :id, Serial
 
@@ -32,7 +30,20 @@ class Comparison
   end
 
   def get_files_for_relative_path(path)
-    return nil unless File.exist? File.join(self.graph_location, path)
+    res = get_files_at_path(path)
+    res.nil? ? nil : res.reject { |f| Dir.exists? f }
+  end
+
+  def get_directories_for_relative_path(path)
+    res = get_files_at_path(path)
+    res.nil? ? nil : res.select { |f| Dir.exist? f }
+  end
+
+  private
+  def get_files_at_path(path)
+    full_path = File.join(self.graph_location, path)
+    return nil unless Dir.exist? full_path
+    Dir.entries(full_path).reject { |f| f == "." or f == ".." }.map { |e| File.join(full_path, e) }
   end
 
   #Produce a graph of the metrics in this comparison, or return it if it already exists.
@@ -43,7 +54,7 @@ class Comparison
       files = Ms::ComparisonGrapher.graph_matches first, second
     rescue
       logger.error "Graphing failed inside Comparison#graph. Ruh oh!"
-      Alert.create({ :email => false, :display => true, :message => "Error creating the comprasion graphs. Sorry!" })
+      Alert.create({ :email => false, :display => true, :message => "Error creating the comparison graphs. Sorry!" })
     end
   end
 end

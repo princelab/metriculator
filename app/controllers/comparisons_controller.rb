@@ -33,18 +33,25 @@ class ComparisonsController < ApplicationController
   end
 
   def get_graph_at_path
-    #TODO: what if they are requesting just an image?
     if comparison = Comparison.get(params[:id]) then
       path = File.join(comparison.location_of_graphs, params[:graph_path])
-      relative_path = path.gsub("#{File.join(Rails.root, 'public')}", "")
-      #TODO: this is wildly insecure, and pretty shoddy design as well
+
       if Dir.exist? path
-        @graph_directories = []
-        @graph_files = []
-        # Each file in the requested directory relative to the public/ directory
-        Dir.new(path).entries.reject { |entry| %w( . .. ).include? entry }.map { |entry| File.join(relative_path, entry) }.each do |f|
-          File.directory? f ? @graph_directories << f : @graph_files << f
+        # turn the directories into the correct paths
+        @graph_directories = comparison.get_directories_for_relative_path(params[:graph_path])
+        p @graph_directories
+        if @graph_directories.nil?
+          @graph_directories = []
+        else
+          @graph_directories = @graph_directories.map { |d| d.gsub(comparison.location_of_graphs.parent.parent, "") }
         end
+        @graph_files = comparison.get_files_for_relative_path(params[:graph_path])
+        if @graph_files.nil?
+          @graph_files = []
+        else
+          @graph_files = @graph_files.map { |f| f.gsub(comparison.location_of_graphs.parent.parent, "") }
+        end
+        render :graphs
       else
         render_404
       end
