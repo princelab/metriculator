@@ -10,6 +10,9 @@ MetricsSite::Application.routes.draw do
   resources :msruns
   resources :comparisons #TODO: change this to hide the URLS.
 
+
+  get 'comparisons/:id/*graph_path' => 'comparisons#get_graph_at_path'
+
   delete 'alerts/:id' => 'alerts#destroy', :as => 'alert'
 
   match 'chromatography/:id' => 'graph#show'
