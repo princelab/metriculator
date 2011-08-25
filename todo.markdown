@@ -11,8 +11,6 @@
 * Use pony gem for email
 * GreenThread
 * config needs to have a metric\_instrument\_type
-* Alerts generation option to both graphing utilities
-* Comparison id for comparison folder designation in both graphing utilities
 
 ###Website
   - Server filter AJAX selection list with an Array of desired filterable attributes
