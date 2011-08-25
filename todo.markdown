@@ -20,9 +20,6 @@
     - When to set the symlink? And do we always assume that they are
       symlinked into the public/ directory?
   - Add support for Alerts which autohide?
-  - Deleting alerts shown on the web page should only make them not be
-    shown, not actually delete them. In case they are to be emailed as
-    well.
   - Pagination is pretty broken
 
 ###Database
