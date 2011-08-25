@@ -6,7 +6,8 @@ class ApplicationController < ActionController::Base
   before_filter :load_alerts
 
   def load_alerts
-    @alerts = Alert.all
+   # @alerts = Alert.all
+    @alerts = Alert.all(:show => true)
   end
 
   def render_404

@@ -19,7 +19,6 @@
     - Add breadcrumbs for graph heirarchy?
     - When to set the symlink? And do we always assume that they are
       symlinked into the public/ directory?
-  - Alerts should only show up in views if they are marked to show.
   - Add support for Alerts which autohide?
   - Deleting alerts shown on the web page should only make them not be
     shown, not actually delete them. In case they are to be emailed as
