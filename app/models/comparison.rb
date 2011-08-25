@@ -51,7 +51,7 @@ class Comparison
     begin
       first = Ms::ComparisonGrapher.slice_matches self.msrun_firsts
       second = Ms::ComparisonGrapher.slice_matches self.msrun_seconds
-      files = Ms::ComparisonGrapher.graph_matches first, second
+      files = Ms::ComparisonGrapher.graph_matches first, second, self.id
     rescue
       logger.error "Graphing failed inside Comparison#graph. Ruh oh!"
       Alert.create({ :email => false, :display => true, :message => "Error creating the comparison graphs. Sorry!" })

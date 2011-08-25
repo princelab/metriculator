@@ -30,8 +30,8 @@ module Ms
         measures = []
         @data = {}
         # Why is this line of code here?
-        #        debugger
-        matches = [matches] if !matches.is_a? DataMapper::Collection
+        # debugger
+        matches = [matches] if !matches.is_a? DataMapper::Collection and !matches.is_a? Array
         matches.each do |msrun|
           next if msrun.nil? or msrun.metric.nil?
           index = msrun.raw_id.to_s
@@ -61,21 +61,21 @@ module Ms
         graphfiles = []
         measures = [new_measure, old_measures]
         data_hash = {}
+        FileUtils.mkdir_p(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s))
         r_object = Rserve::Simpler.new
         r_object.converse('library("beanplot")')
         @@categories.map do |cat|
           data_hash[cat.to_sym] = {}
           subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
-          Dir.mkdir(cat) if !Dir.exist?(cat)
+          FileUtils.mkdir(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s, cat)) if !Dir.exist?(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s, cat))
           subcats.each do |subcategory|
             data_hash[cat.to_sym][subcategory] = {}
-            graphfile_prefix = File.join([comparison_folder_id, cat, (subcategory.to_s)])
+            graphfile_prefix = File.join([AppConfig[:comparison_directory], comparison_folder_id.to_s, cat, (subcategory.to_s)])
             Dir.mkdir(graphfile_prefix) if !Dir.exist?(graphfile_prefix)
             # Without removing the file RAWID from the name:
             #graphfile_prefix = File.join([Dir.pwd, cat, (rawid + '_' + subcategory.to_s)])
             new_structs = measures.first.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
             old_structs = measures.last.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
-
             [new_structs, old_structs].each do |structs|
               structs.each do |str|
                 str.value = str.value.to_f
@@ -115,7 +115,7 @@ module Ms
                     new_time_plot <- data.frame(df_new.#{i}$time, df_new.#{i}$value)
                 }
               end
-            # Configure the environment for the graphing, by setting up the numbered categories
+              # Configure the environment for the graphing, by setting up the numbered categories
               curr_name = r_object.converse("levels(df_old$name)[[#{i}]]")
 ## THIS IS WHERE WE DO THE CALCULATIONS
               if not QcConfig[cat.to_sym][subcategory.to_s.split('_').map{|word| word.capitalize}.join("").to_sym].nil?
@@ -127,7 +127,6 @@ module Ms
                 new_point = r_object.converse("df_new.#{i}$value")
                 range = mean-variance*sd..mean+variance*sd
                 Alerter.create("#{cat.to_sym}--#{subcategory}--#{curr_name} has exceeded range: #{range} Mean #{mean} Variance #{variance} Standard deviation #{sd} Value #{new_point}", { :email => options[:email_alert] }) if not ( range === new_point or range.member?(new_point) )
-                
               end
 ## END
               graphfile = File.join([graphfile_prefix, curr_name + '.svg'])
@@ -136,7 +135,7 @@ module Ms
               r_object.converse('par(mar=c(1,1,1,1), oma=c(2,1,1,1))')
               r_object.converse do
                 %Q{	tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))
-                      tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))		}
+                    tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))		}
               end
               r_object.converse do
                 %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE)
@@ -170,16 +169,20 @@ module Ms
       def graph_matches(new_measures, old_measures, comparison_folder_id, opts = {})
         options = Graphing_defaults.merge(opts)
         require 'rserve/simpler'
+        FileUtils.mkdir_p(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s))
         graphfiles = []
         measures = [new_measures, old_measures]
         r_object = Rserve::Simpler.new
         r_object.converse('library("beanplot")')
         @@categories.map do |cat|
           subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
-          Dir.mkdir(cat) if !Dir.exist?(cat)
+          FileUtils.mkdir(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s, cat)) if !Dir.exist?(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s, cat))
+          #p Dir.exist?(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s, cat))
+          #p subcats
           subcats.each do |subcategory|
-            graphfile_prefix = File.join([comparison_folder_id, cat, (subcategory.to_s)])
-            Dir.mkdir(graphfile_prefix) if !Dir.exist?(graphfile_prefix)
+            graphfile_prefix = File.join([AppConfig[:comparison_directory], comparison_folder_id.to_s, cat, subcategory.to_s])
+            FileUtils.mkdir_p(graphfile_prefix) 
+           # p Dir.exist?(graphfile_prefix)
             # Without removing the file RAWID from the name:
             #graphfile_prefix = File.join([Dir.pwd, cat, (rawid + '_' + subcategory.to_s)])
             new_structs = measures.first.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
