@@ -39,22 +39,33 @@ class Comparison
     res.nil? ? nil : res.select { |f| Dir.exist? f }
   end
 
-  private
   def get_files_at_path(path)
     full_path = File.join(self.graph_location, path)
     return nil unless Dir.exist? full_path
     Dir.entries(full_path).reject { |f| f == "." or f == ".." }.map { |e| File.join(full_path, e) }
   end
+  private :get_files_at_path
 
   #Produce a graph of the metrics in this comparison, or return it if it already exists.
+  # TODO: check if the graph files already exist?
+  # TODO: WHY ARE THESE EXCEPTIONS NOT BEING RESCUED?
   def graph
     begin
+      raise "YO DAWG"
+    rescue
+      # abort "before graphs"
+      puts "#######RESCUED#######"
+    end
+    begin
+      Dir.mkdir self.location_of_graphs unless Dir.exist? self.location_of_graphs
       first = Ms::ComparisonGrapher.slice_matches self.msrun_firsts
       second = Ms::ComparisonGrapher.slice_matches self.msrun_seconds
-      files = Ms::ComparisonGrapher.graph_matches first, second
+      files = Ms::ComparisonGrapher.graph_matches first, second, self.location_of_graphs
     rescue
+      puts "rescued an error"
       logger.error "Graphing failed inside Comparison#graph. Ruh oh!"
       Alert.create({ :email => false, :display => true, :message => "Error creating the comparison graphs. Sorry!" })
+      Dir.delete self.location_of_graphs if Dir.exist? self.location_of_graphs
     end
   end
 end

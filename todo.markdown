@@ -17,10 +17,8 @@
 ###Website
   - Server filter AJAX selection list with an Array of desired filterable attributes
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
-  - Show the graphs
-    - Add breadcrumbs for graph heirarchy?
-    - When to set the symlink? And do we always assume that they are
-      symlinked into the public/ directory?
+  - Add breadcrumbs for graph heirarchy?
+  - Make new comparisons generate their graphs in the correct place
   - Alerts should only show up in views if they are marked to show.
   - Add support for Alerts which autohide?
   - Deleting alerts shown on the web page should only make them not be
