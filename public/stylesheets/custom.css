@@ -29,7 +29,7 @@ nav {
 
 nav { 
   background-color: white;
-  padding: 0 0.7em;
+  padding: 0 0.5em;
   white-space: nowrap;
 }
 
@@ -108,4 +108,17 @@ th .asc {
 
 th .desc {
   background-image: url(/images/up_arrow.png);
+}
+
+span.alert_bad {
+  color: red;
+  font-weight: bold;
+  padding: 0 5px;
+}
+
+span.alert_okay {
+  color: #09c;
+  text-decoration: none;
+  padding: 0 5px;
+  font-weight: bold;
 }

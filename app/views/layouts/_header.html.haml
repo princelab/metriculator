@@ -2,6 +2,7 @@
 %header
   %nav.round
     %ul.header
+      %li= render 'alerts/alert_num'
       - categories.each do |cat|
         %li= link_to "#{cat.humanize}", 'msrun/index'
   = link_to logo, root_path

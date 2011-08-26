@@ -32,9 +32,9 @@ RSpec.configure do |config|
   config.mock_with :rspec
   puts "IN CONFIG BLOCK"
   config.before(:suite) do
-    puts "IN BEFORE CONFIG"
+  #  puts "IN BEFORE CONFIG"
     # logger = DataMapper::Logger.new($stdout, :debug) ### THIS DOES THE SQL DATABASE DEBUGGING
-    ::DataMapper.auto_migrate!
+ #   ::DataMapper.auto_migrate!
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
