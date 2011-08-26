@@ -54,24 +54,23 @@ module Ms
 # This function takes the same parameters as {#graph_matches} and accomplishes the same result, as well as generating and returning, instead of the filenames, a hash containing the information needed to do cool stuff
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries, the first of which represents the newest in a QC run, which will be compared to the previous values
       # @return [Hash] ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? ##### ... I'm not yet sure, thank you very much
-      def graph_and_stats(new_measure, old_measures, comparison_folder_id, opts = {})
+      def graph_and_stats(new_measure, old_measures, comparison_folder, opts = {})
         options = Graphing_defaults.merge(opts)
         default_variance = QcConfig[:default_allowed_variance]
         require 'rserve/simpler'
         graphfiles = []
         measures = [new_measure, old_measures]
         data_hash = {}
-        FileUtils.mkdir_p(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s))
+        FileUtils.mkdir_p(comparison_folder)
         r_object = Rserve::Simpler.new
         r_object.converse('library("beanplot")')
         @@categories.map do |cat|
           data_hash[cat.to_sym] = {}
           subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
-          FileUtils.mkdir(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s, cat)) if !Dir.exist?(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s, cat))
           subcats.each do |subcategory|
             data_hash[cat.to_sym][subcategory] = {}
-            graphfile_prefix = File.join([AppConfig[:comparison_directory], comparison_folder_id.to_s, cat, (subcategory.to_s)])
-            Dir.mkdir(graphfile_prefix) if !Dir.exist?(graphfile_prefix)
+            graphfile_prefix = File.join(comparison_folder, cat, subcategory.to_s)
+            FileUtils.mkdir_p(graphfile_prefix)
             # Without removing the file RAWID from the name:
             #graphfile_prefix = File.join([Dir.pwd, cat, (rawid + '_' + subcategory.to_s)])
             new_structs = measures.first.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
@@ -166,21 +165,20 @@ module Ms
       # This function generates a comparison between the two sets of data, which are sliced by {#slice_matches}, graphing the results as SVG files.
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries
       # @return [Array] An array which contains all of the files produced by the process.  This will likely be an array of approximately 400 filenames.
-      def graph_matches(new_measures, old_measures, comparison_folder_id, opts = {})
+      def graph_matches(new_measures, old_measures, comparison_folder, opts = {})
         options = Graphing_defaults.merge(opts)
         require 'rserve/simpler'
-        FileUtils.mkdir_p(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s))
+        FileUtils.mkdir_p(comparison_folder)
         graphfiles = []
         measures = [new_measures, old_measures]
         r_object = Rserve::Simpler.new
         r_object.converse('library("beanplot")')
         @@categories.map do |cat|
           subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
-          FileUtils.mkdir(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s, cat)) if !Dir.exist?(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s, cat))
-          #p Dir.exist?(File.join(AppConfig[:comparison_directory], comparison_folder_id.to_s, cat))
+          #p Dir.exist?(File.join(AppConfig[:comparison_directory], comparison_folder.to_s, cat))
           #p subcats
           subcats.each do |subcategory|
-            graphfile_prefix = File.join([AppConfig[:comparison_directory], comparison_folder_id.to_s, cat, subcategory.to_s])
+            graphfile_prefix = File.join(comparison_folder, cat, subcategory.to_s)
             FileUtils.mkdir_p(graphfile_prefix) 
            # p Dir.exist?(graphfile_prefix)
             # Without removing the file RAWID from the name:
