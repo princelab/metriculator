@@ -78,18 +78,4 @@ module MountedServer
 	end
 end
 
-#########################333333 RANDOM TIME GENERATOR!!!
 
-class Time
-# This will generate a random time within the previous year, or any number of previous years
-# @param [Integer] Years back to calculate the random time, optional
-# @return [Time] Random time generated
-	def self.random(years_back=1)
-		year = Time.now.year - rand(years_back) - 1
-		month = rand(12) + 1
-		day = rand(31) + 1 
-		hour = rand(23) + 1
-		minute = rand(59) + 1
-		Time.local(year, month, day, hour, minute)
-	end
-end

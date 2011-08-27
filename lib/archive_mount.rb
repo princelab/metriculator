@@ -1,5 +1,7 @@
+#This class provides the utility for organizing the file structure and handling the archive as a Mounted location, simplifying the use elsewhere in the library
 class ArchiveMount
   class << self
+    # Make a new ArchiveMount which will set the new location for the archive, and knows how to find things.
     def initialize(msrun)
       @msrun = msrun
       define_location
@@ -50,9 +52,13 @@ class ArchiveMount
     end
   end
 end
+# Location of cygwin's bin
 CygBin = "C:\\cygwin\\bin"
+# Location of cygwin's home directory
 CygHome = "C:\\cygwin\\home\\LTQ2"
+# The destination SSH location
 UserHost = 'ryanmt@jp1'
+# Location of the program on the {#UserHost}
 ProgramLocale = '/home/ryanmt/Dropbox/coding/ms/archiver/lib/archiver.rb'
 # This is currently the way we are passing the objects around.  In this case, this functions on a windows machine which has cygwin ssh utilities installed to the default directory to pass objects to the specified location
 # @param [Object] the object you wish to pass to the other computer (In this case, a MsRunInfo that is yamled out to file, and then passed to #archiver.rb with a --linux tag

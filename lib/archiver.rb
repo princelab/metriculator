@@ -64,7 +64,9 @@ archiver_optparse = OptionParser.new do |opts|
 end.parse!   # outparse and PARSED!! 
 
 if options[:xcalibur]
+# The information regarding the system type and archive root location
   SysInfo = AppConfig[:nodes][:instrument]
+# A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
 # Prep
 	file = ARGV.shift
@@ -84,7 +86,9 @@ if options[:xcalibur]
 end
 
 if options[:server]
+# The information regarding the system type and archive root location
   SysInfo = AppConfig[:nodes][:server]
+# A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
 	yaml_file = ARGV.first
 	object = YAML::load_file(yaml_file)
@@ -93,7 +97,9 @@ if options[:server]
 end
 
 if options[:metrics]
+# The information regarding the system type and archive root location
   SysInfo = AppConfig[:nodes][:metrics]
+# A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
 
 end

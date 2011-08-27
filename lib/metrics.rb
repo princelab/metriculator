@@ -23,6 +23,7 @@ end
 # This is the set of default settings for the {Ms::NIST::Metric#to_database} method
 DatabaseDefaults = {migrate: false}
 module Ms
+# NIST, for the organization that wrote the METRIC producing programs we are using.
   class NIST
     class Metric		# Metric parsing fxns
       attr_accessor :out_hash, :metricsfile, :rawfile, :raw_ids
