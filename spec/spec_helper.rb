@@ -15,6 +15,7 @@ require 'archiver'
 require 'eksigent'
 require 'merge'
 require 'comparison_grapher'
+require 'app_communication_messaging'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

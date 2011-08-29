@@ -1,7 +1,6 @@
 # This is the function that handles all the Message passing for this application
 class Messenger
 	class << self
-    @@logs = {}
 
     # There need to be some locations defined, relative to the mount, for three files here... A queue, and two completed lists.  
     require_relative 'config.rb'
@@ -9,16 +8,18 @@ class Messenger
     Nodes = AppConfig[:nodes]
 # This is the function which sets up the appropriate logging environment and the tasks to be performed by the process
     def setup
-      @@logs ||= find_files( ArchiveRoot)
+      @@logs ||= find_files(ArchiveRoot)
       find_files(location) if @@logs.empty?
+      update
+    end
+# This will update the @@todo list 
+    def update
       @@todo = File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])
     end
-    
+
 # TESTING Fxns... Written to allow me to unit test the inside fxnality of this class
     def test_write
-      find_files(Dir.pwd)
-      @@logs[:todo] = 'tmp.log'
-      write_message("Hey, it worked")
+      write_message(:todo, "Hey, it worked")
     end
 # Another testing function
     def set_test_location(location)
@@ -30,7 +31,21 @@ class Messenger
     end
 # This lets me read the todo list
     def read_todo
-      @@todo
+      update
+      @@todo.map(&:chomp)
+    end
+# This function adds a completed item to the metrics file
+    def add_metric(string)
+      write_message(:metrics, string)
+    end
+# This function adds a completed item to the server file ### MAYBE?
+    def add_server(string)
+
+    end
+# This function adds an item to the todo list
+# @param [Location_relative_to_mount]
+    def add_todo(string)
+      write_message(:todo, string)
     end
     private
     def find_files(location)
@@ -38,8 +53,8 @@ class Messenger
         :metrics => File.join(location, "metrics.log")
       }
     end
-    def write_message(string)
-      File.open(@@logs[:todo], 'a') {|out| out.puts string }
+    def write_message(log_file, string)
+      File.open(@@logs[log_file], 'a') {|out| out.puts string }
     end
   end  
 end # Messenger
