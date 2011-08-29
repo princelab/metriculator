@@ -1,5 +1,3 @@
-require 'mount_mapper'
-
 
 # Struct that provides the necessary organization of datapoints for graphing Eksigent hplc datafiles.
 PressureTraceDataPoint = Struct.new(:time, :signal, :reference, :qa, :qb, :aux, :pa, :pb, :pc, :pd, :powera, :powerb) do
@@ -27,13 +25,12 @@ module Ms
 			def find_match
 				raise "Wrong file type" if File.extname(@rawfile) != ".RAW"
 				@rawtime = File.mtime(@rawfile); rawdir = File.dirname(@rawfile)
-				mountmap = MountedServer::MountMapper.new('.')
 				eks_folder = "#{@rawtime.year}#{"%02d" % @rawtime.mon}#{"%02d" % @rawtime.day}"
 				eks_dir = "C:\\Program Files\\Eksigent NanoLC\\autosave\\#{eks_folder}\\"
 				times = Dir.entries(eks_dir).map do |each_file|
 					next if File.extname(each_file) != '.txt'
 					next if not File.basename(each_file)[/^ek2.*/]
-					[(File.mtime("#{File.join(mountmap.split_filename(eks_dir), mountmap.split_filename(each_file))}")-@rawtime).abs, each_file] #[Time diff, file name] 
+					[(File.mtime("#{File.join(eks_dir.split(/[\/\\]/), each_file.split(/[\/\\]/.split(/[\/\\]/)))}")-@rawtime).abs, each_file] #[Time diff, file name] 
 				end
 				@eksfile = File.expand_path("#{eks_dir}/#{times.compact!.sort!.first.last}")
 				raise "Match error: #{@eksfile}" if @eksfile[/^.*\/ek2_.*\.txt/] != @eksfile
@@ -62,7 +59,7 @@ module Ms
 				@inj_vol = @data['inj_vol'].to_f/1000
 				@autosampler_vial = @data['vial_position']
 			end
-# This will take the @data (or parse if not found) and generate an array of datapoints which contain the information desired as {PressureTraceDataPoint} structsstored as @datapoints
+# This will take the @data (or parse if not found) and generate an array of datapoints which contain the information desired as {PressureTraceDataPoint} structs, stored as @datapoints
 			def structs
 				parse if @data.nil?
 				@data['plotraw'].shift

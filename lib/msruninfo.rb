@@ -4,7 +4,6 @@ MsrunInfoStruct = Struct.new(:sequencefile, :methodfile, :rawfile, :tunefile, :h
 end
 require 'yaml'
 require 'fileutils'
-require 'mount_mapper'
 # System Specific Constants
 # Location of the NIST directory
 Nist_dir = "C:\\NISTMSQC\\scripts"
