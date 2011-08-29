@@ -66,6 +66,8 @@ end.parse!   # outparse and PARSED!!
 if options[:xcalibur]
 # The information regarding the system type and archive root location
   SysInfo = AppConfig[:nodes][:instrument]
+# A constant telling subsequent processes the program type called
+  Node = :instrument
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
 # Prep
@@ -88,6 +90,8 @@ end
 if options[:server]
 # The information regarding the system type and archive root location
   SysInfo = AppConfig[:nodes][:server]
+# A constant telling subsequent processes the program type called
+  Node = :server
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
 	yaml_file = ARGV.first
@@ -99,6 +103,8 @@ end
 if options[:metrics]
 # The information regarding the system type and archive root location
   SysInfo = AppConfig[:nodes][:metrics]
+# A constant telling subsequent processes the program type called
+  Node = :metrics
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
 
