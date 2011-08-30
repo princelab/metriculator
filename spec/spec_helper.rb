@@ -12,10 +12,10 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'database_loader'
 require 'archiver'
-require 'mount_mapper'
 require 'eksigent'
 require 'merge'
 require 'comparison_grapher'
+require 'app_communication_messaging'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -86,3 +86,20 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'app', 'models'))
 #
 # These instructions should self-destruct in 10 seconds.  If they don't, feel
 # free to delete them.
+
+
+#########################333333 RANDOM TIME GENERATOR!!!
+
+class Time
+# This will generate a random time within the previous year, or any number of previous years
+# @param [Integer] Years back to calculate the random time, optional
+# @return [Time] Random time generated
+	def self.random(years_back=1)
+		year = Time.now.year - rand(years_back) - 1
+		month = rand(12) + 1
+		day = rand(31) + 1 
+		hour = rand(23) + 1
+		minute = rand(59) + 1
+		Time.local(year, month, day, hour, minute)
+	end
+end

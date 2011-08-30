@@ -32,6 +32,9 @@ class Alerter
       Pony.mail(to: email_address, from: admin_email, subject: subject, :body => body_text)
       to_send.update(:email => false)
     end
+# This function controls the output format for the alert message.
+# @param [Alert] Alert class
+# @return Nothing
     def format_alert_for_email(alert)
       "At #{alert.created_at} we found #{alert.description}"
     end

@@ -1,5 +1,7 @@
+# These are the values which are defaults for the Alerter settings in {ComparisonGrapher#graph_and_stats} function
 Graphing_defaults = {email_alert: true}
 module Ms
+# This is the class which handles the responses from DB queries and generates comparison graphs
   class ComparisonGrapher
     class << self
       # Takdes a DataMapper query and turns the matches into the same data structure as is produced by parsing the data file.
@@ -258,6 +260,8 @@ module Ms
       end # graph_files
 
       @@categories = ["chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
+# This would be the place where I would send the stats to a database... TODO
+# Wait, the stats are all generated on the fly... Nothing is in the database.
       def stats_to_database
 
       end #stats_to_database

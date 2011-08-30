@@ -3,14 +3,13 @@
 ##TODO list (110805)
 
 ###Archiver
--	Metric starter fxnality
-*	Message Passing
+-	Metric starter fxnality  # TEST THIS!!
+*	Message Passing # Mostly done, just clean it up!
 * Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.  
 		`scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => 'my scheduler')`
 * EMAIL SMTP ROUTING or I can't test my own email system.
 * Use pony gem for email
-* GreenThread
-* config needs to have a metric\_instrument\_type
+* GreenThread # causes errors?  Trying to do a fork instead?
 
 ###Website
   - Server filter AJAX selection list with an Array of desired filterable attributes

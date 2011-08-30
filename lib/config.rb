@@ -2,6 +2,7 @@
 require_relative 'merge.rb'
 # Default settings for the application
 App_defaults = {
+  metric_instrument_type: "ORBI",
   admin_email: "admin@example.org",
   comparison_directory: Pathname.new(File.join(File.expand_path(File.dirname(__FILE__)), "..", "public", "comparisons")).cleanpath.to_s,
 	nodes: {
@@ -86,7 +87,11 @@ File.open("qc_defaults.yml", 'w') {|out| out.print Qc_defaults.to_yaml }
 QcConfig = Qc_defaults.merge(YAML.load_file("qc_config.yml"))
 
 
+# These are the default settings for the Runs
   Run_defaults = { :run_metrics => false, :group => 'UNKNOWN' }
+# Here we have a function which will load up the runconfig settings for the given directory, iterating through the level of the directory structure
+# @param [String] a Directory from which to start
+# @return sets @runConfig to contain the values
 def load_runconfig(directory)
   p config[:archive_root]
   files = []
