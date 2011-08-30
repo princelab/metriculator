@@ -14,6 +14,7 @@
 <li>Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.<br/>
       <code>scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name =&gt; 'my scheduler')</code></li>
 <li>EMAIL SMTP ROUTING or I can't test my own email system.</li>
+<li>Use pony gem for email</li>
 <li>GreenThread</li>
 <li>config needs to have a metric_instrument_type</li>
 </ul>
@@ -24,38 +25,27 @@
 <ul>
 <li>Server filter AJAX selection list with an Array of desired filterable attributes</li>
 <li>Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)</li>
-<li>Show the graphs</li>
-<li>Alerts in header and view page</li>
-<li>Fix pagination when there is only one page</li>
+<li>Show the graphs
+
+<ul>
+<li>Add breadcrumbs for graph heirarchy?</li>
+<li>When to set the symlink? And do we always assume that they are
+symlinked into the public/ directory?</li>
+</ul>
+</li>
+<li>Add support for Alerts which autohide?</li>
+<li>Pagination is pretty broken</li>
 </ul>
 
 
 <h3>Database</h3>
 
-<h2>DataMapper pagination stuff</h2>
+<h3>Tests</h3>
 
-<p>  if I was going to build a pagination lib today I would build on top of dm-chunked_query
-  [4:42pm] postmodern joined the chat room.
-  [4:48pm] dkubb: postmodern: are you aware of any pagination libs built on top of your dm-chunked<em>query lib?
-  [4:53pm] postmodern: dkubb, nope
-  [4:54pm] postmodern: dkubb, will</em>paginate rails3 branch has a bug, but a coworker submitted a patch
-  [4:54pm] postmodern: dkubb, they were to_a'ing the DM Collection
-  [4:54pm] dkubb: postmodern: ahh ok. since your does the heavy lifting it's what I've been recommending to people to base paginating off, instead of going with one of the random other ones
-  [4:54pm] postmodern: dkubb, i would love to see some pagination helpers built ontop of dm-chunked_query
-  [4:55pm] postmodern: dkubb, it's only a matter of making the partials for the controls, and a bit of code to consume <code>params[:page]</code> or <code>params[:per_page]</code>
-  [4:55pm] dkubb: postmodern: right, so wiring up the HTML output
-[4:56pm] postmodern: @page = <code>Model.query.chunks(params.fetch(:per_page, 10)).at(params.fetch(:page, 1) - 1)</code>
-  [4:56pm] dkubb: beautiful</p>
+<ul>
+<li>Why is the integration test stufff not working? MetricsController,
+MsrunsController.</li>
+</ul>
 
-<p><strong>note:</strong> Due to some weirdness with datamapper + my inexperience with
-it, if you are trying to add a run to a comparison, the comparison won't
-show up on the run unless you add it there as well. For example,</p>
-
-<p><code>ruby  
-  comparison.msrun_firsts &lt;&lt; run  
-  comparison.save  
-  run.comparison_firsts &lt;&lt; comparison  
-  run.save  
-</code></p>
   </body>
 </html>

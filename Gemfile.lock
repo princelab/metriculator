@@ -104,6 +104,9 @@ GEM
       railties (>= 3.0.0)
     fastercsv (1.5.4)
     ffi (1.0.9)
+    growl (1.0.3)
+    growl_notify (0.0.1)
+      rb-appscript
     haml (3.1.2)
     hpricot (0.8.4)
     i18n (0.5.0)
@@ -146,6 +149,8 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.4)
     rake (0.8.7)
+    rb-appscript (0.6.1)
+    rb-fsevent (0.4.3.1)
     rdoc (3.9.1)
     rserve-client (0.2.5)
     rserve-simpler (0.0.5)
@@ -218,6 +223,8 @@ DEPENDENCIES
   dm-types (~> 1.1.0)
   dm-validations (~> 1.1.0)
   factory_girl_rails (~> 1.1.rc1)
+  growl
+  growl_notify
   haml
   hpricot
   jquery-rails
@@ -226,6 +233,7 @@ DEPENDENCIES
   rails (~> 3.0.7)
   railties (~> 3.0.7)
   rake (= 0.8.7)
+  rb-fsevent
   rserve-simpler
   rspec
   rspec-rails

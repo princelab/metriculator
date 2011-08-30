@@ -6,6 +6,12 @@ class ApplicationController < ActionController::Base
   before_filter :load_alerts
 
   def load_alerts
-    @alerts = Alert.all
+   # @alerts = Alert.all
+    @alerts = Alert.all(:show => true)
+  end
+
+  def render_404
+    @title = "404 Page Not Found"
+    render :template => "public/404.html.haml", :layout => false, :status => 404
   end
 end
