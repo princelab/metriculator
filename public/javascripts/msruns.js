@@ -1,4 +1,21 @@
 $(function() {
+  $("#msruns td#group-1-all").live("click", function() {
+    // Add everything on the page to the option
+    $("#msruns tr").each(function(i, row) {
+      if (row.id !== "") {
+        //We are at a row that has data
+        RailsMetrics.comparisonClicked("1", row.children().eq(1).children());
+      }
+    });
+  });
+  $("#msruns td#group-2-all").live("click", function() {
+    $("#msruns tr").each(function(i, row) {
+      if (row.id !== "") {
+        // We are at a row that has data
+        RailsMetrics.comparisonClicked("2", row.children().eq(2).children());
+      }
+    });
+  });
   $("#msruns td.comparison1 button").live("click", function() {
     RailsMetrics.comparisonClicked("1", this);
   });

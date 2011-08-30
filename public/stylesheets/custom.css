@@ -96,17 +96,17 @@ table.data_out {
   border: 4px groove black;
 }
 
-th .sort {
+td .sort {
   padding-right: 19px;
   background-repeat: no-repeat;
   background-position: right center;
 }
 
-th .asc {
+td .asc {
   background-image: url(/images/down_arrow.png);
 }
 
-th .desc {
+td .desc {
   background-image: url(/images/up_arrow.png);
 }
 

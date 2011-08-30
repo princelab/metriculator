@@ -3,12 +3,18 @@
     -# use td so we can nest forms inside the cells if we wan
     %td Compare Set 1
     %td Compare Set 2
-    %td
+    %td{ :rowspan => 2 }
       = sortable "raw_id", "Name"
       = render 'filter'
-    %td= sortable "group"
-    %td= sortable "user"
-    %td= sortable "rawtime", "Date"
+    %td{ :rowspan => 2}= sortable "group"
+    %td{ :rowspan => 2}= sortable "user"
+    %td{ :rowspan => 2}= sortable "rawtime", "Date"
+    %td{ :rowspan => 2}= sortable "taxonomy"
+  %tr
+    %td
+      %button{ :id => 'group-1-all' } Add All To Comparison Set One
+    %td
+      %button{ :id => 'group-2-all' } Add All To Comparison Set Two
   - @msruns.each do |run|
     %tr{:id => "msrunid-#{run.id}"}
       %td.comparison1
@@ -19,5 +25,6 @@
       %td=run.group || "No Group"
       %td=run.user || "No User"
       %td=run.rawtime || "No Date"
+      %td=run.taxonomy || "No Taxonomy"
 
 != #pagination_links(@all, @page_number, @per_page)
