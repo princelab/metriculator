@@ -37,9 +37,9 @@ class Comparison
       first = Ms::ComparisonGrapher.slice_matches self.msrun_firsts
       second = Ms::ComparisonGrapher.slice_matches self.msrun_seconds
       files = Ms::ComparisonGrapher.graph_matches first, second
-    rescue
-      logger.error "Graphing failed inside Comparison#graph. Ruh oh!"
-      Alert.create({ :email => false, :display => true, :message => "Error creating the comprasion graphs. Sorry!" })
+    rescue StandardError, Rserve::Connection::RserveNotStarted => e
+      Rails.logger.error "Graphing failed inside Comparison#graph. Ruh oh! #{e.class}: #{e.message} \n\n\n#{e.backtrace}"
+      Alert.create({ :email => false, :show => true, :description => "Error creating the comprasion graphs. Sorry!" })
     end
   end
 end

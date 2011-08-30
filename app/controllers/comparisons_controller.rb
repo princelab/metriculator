@@ -21,12 +21,12 @@ class ComparisonsController < ApplicationController
 
     #Do this in a thread, and show a flash message saying it was
     #started.
-    Thread.new(comp) do |comparison|
+    # Thread.new(comp) do |comparison|
       #TODO: make it return some kind of status
-      result = comparison.graph
+      result = comp.graph
       puts "DONE GRAPHING"
       a = Alert.create({ :email => false, :show => true, :description => "DONE WITH THE COMPARISON" })
-    end
+    # end
 
     flash[:notice] = "Comparison started. You will be notified when it completes."
     redirect_to :action => "show", :id => comp.id
