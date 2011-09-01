@@ -26,12 +26,12 @@ RailsMetrics.allButtonClicked = function(whichComparisonSet) {
     var count = 0;
     if (row.id !== "") {
       //We are at a row that has data
-      RailsMetrics.comparisonClicked(whichComparisonSet, row.children().eq(parseInt(whichComparisonSet, 10)).children());
+      RailsMetrics.comparisonClicked(whichComparisonSet, $(row).children().eq(parseInt(whichComparisonSet, 10)).children()[0]);
       count++;
     }
     if (count > 0) {
       //Make a message appear.
-      var stamp = new Date.getTime();
+      var stamp = new Date().getTime();
       var added_message = $("#messages").append("<span id='" + stamp + "'>" + count + " comparisons added to Comparison Set " + whichComparisonSet + ".</span>");
       setTimeout(10000, function() {
         $("#"+stamp).hide("fold");
