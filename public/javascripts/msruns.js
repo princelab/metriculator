@@ -1,21 +1,8 @@
 $(function() {
-  $("#msruns td#group-1-all").live("click", function() {
-    // Add everything on the page to the option
-    $("#msruns tr").each(function(i, row) {
-      if (row.id !== "") {
-        //We are at a row that has data
-        RailsMetrics.comparisonClicked("1", row.children().eq(1).children());
-      }
-    });
-  });
-  $("#msruns td#group-2-all").live("click", function() {
-    $("#msruns tr").each(function(i, row) {
-      if (row.id !== "") {
-        // We are at a row that has data
-        RailsMetrics.comparisonClicked("2", row.children().eq(2).children());
-      }
-    });
-  });
+
+  $("#msruns td#group-1-all").live("click", RailsMetrics.allButtonClicked("1"));
+  $("#msruns td#group-2-all").live("click", RailsMetrics.allButtonClicked("2"));
+
   $("#msruns td.comparison1 button").live("click", function() {
     RailsMetrics.comparisonClicked("1", this);
   });
@@ -32,4 +19,23 @@ RailsMetrics.comparisonClicked = function(whichComparisonSet, clickedObject) {
   $("#comparison"+whichComparisonSet).append("<option value='"+ comparisonID + "' selected>" + comparisonName + "</option>");
   //Add some kind of flash notice that it was added.
   return true;
+};
+
+RailsMetrics.allButtonClicked = function(whichComparisonSet) {
+  $("#msruns tr").each(function(i, row) {
+    var count = 0;
+    if (row.id !== "") {
+      //We are at a row that has data
+      RailsMetrics.comparisonClicked(whichComparisonSet, row.children().eq(parseInt(whichComparisonSet, 10)).children());
+      count++;
+    }
+    if (count > 0) {
+      //Make a message appear.
+      var stamp = new Date.getTime();
+      var added_message = $("#messages").append("<span id='" + stamp + "'>" + count + " comparisons added to Comparison Set " + whichComparisonSet + ".</span>");
+      setTimeout(10000, function() {
+        $("#"+stamp).hide("fold");
+      });
+    }
+  });
 };
