@@ -9,11 +9,10 @@
 		`scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => 'my scheduler')`
 * EMAIL SMTP ROUTING or I can't test my own email system.
 * Use pony gem for email
-* GreenThread # causes errors?  Trying to do a fork instead?
 
 ###Website
   - Server filter AJAX selection list with an Array of desired filterable attributes
-  - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
+  - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)  ??? IS THIS STILL A PROBLEM?
   - Show the graphs
     - Add breadcrumbs for graph heirarchy?
     - When to set the symlink? And do we always assume that they are

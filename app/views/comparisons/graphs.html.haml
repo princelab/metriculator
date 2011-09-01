@@ -3,10 +3,10 @@
   %ul
     - @graph_directories.each do |directory|
       %li
-        %a{ :href => directory }=directory.titleize
+        %a{ :href => directory }=directory[/\/comparisons\/\d*\/(.*)/,1].titleize.sub(/\//, ' - ')
 
 #graphs
   - @graph_files.each do |graph|
-    %div
+    %div.svg
       %h3=graph.titleize
       %embed{ :src => graph, :type => "image/svg+xml" }

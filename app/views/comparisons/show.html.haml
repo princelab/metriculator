@@ -1,1 +1,6 @@
+- categories = ["chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
 %h1 Showing A Comparison
+%ul.categories
+  - categories.each do |cat|
+    %li= link_to "#{cat.humanize}", "#{params[:id]}/#{cat}"
+

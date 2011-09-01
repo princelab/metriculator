@@ -146,7 +146,7 @@ module Ms
               r_object.converse do
                 %Q{	beanplot(df_old.#{i}$value, df_new.#{i}$value,  side='both', log="", names=df_old$name[[#{i}]], col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)
                     plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
-                    if (length(df_new.#{i}$value) > 5) {
+                    if (length(df_new.#{i}$value) > 4) {
                       lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='skyblue3', pch=16, lwd=3 )
                     } else {
                       points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='skyblue3', pch=21, cex=1.2)
@@ -244,7 +244,7 @@ module Ms
               r_object.converse do
                 %Q{	beanplot(df_old.#{i}$value, df_new.#{i}$value,  side='both', log="", names=df_old$name[[#{i}]], col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)
                     plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
-                    if (length(df_new.#{i}$value) > 5) {
+                    if (length(df_new.#{i}$value) > 4) {
                       lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='skyblue3', pch=16, lwd=3 )
                     } else {
                       points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='skyblue3', pch=21, cex=1.2)
