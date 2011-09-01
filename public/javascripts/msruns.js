@@ -1,7 +1,12 @@
 $(function() {
 
-  $("#msruns td#group-1-all").live("click", RailsMetrics.allButtonClicked("1"));
-  $("#msruns td#group-2-all").live("click", RailsMetrics.allButtonClicked("2"));
+  $("#msruns td button#group-1-all").live("click", function () {
+    RailsMetrics.allButtonClicked("1");
+  });
+
+  $("#msruns td button#group-2-all").live("click", function () {
+    RailsMetrics.allButtonClicked("2");
+  });
 
   $("#msruns td.comparison1 button").live("click", function() {
     RailsMetrics.comparisonClicked("1", this);
@@ -22,20 +27,23 @@ RailsMetrics.comparisonClicked = function(whichComparisonSet, clickedObject) {
 };
 
 RailsMetrics.allButtonClicked = function(whichComparisonSet) {
+  var count = 0;
   $("#msruns tr").each(function(i, row) {
-    var count = 0;
     if (row.id !== "") {
       //We are at a row that has data
       RailsMetrics.comparisonClicked(whichComparisonSet, $(row).children().eq(parseInt(whichComparisonSet, 10)).children()[0]);
       count++;
     }
-    if (count > 0) {
-      //Make a message appear.
-      var stamp = new Date().getTime();
-      var added_message = $("#messages").append("<span id='" + stamp + "'>" + count + " comparisons added to Comparison Set " + whichComparisonSet + ".</span>");
-      setTimeout(10000, function() {
-        $("#"+stamp).hide("fold");
-      });
-    }
   });
+  if (count > 0) {
+    //Make a message appear.
+    var stamp = new Date().getTime();
+    $("span").attr({
+      id: stamp,
+      "class": ""
+    }).text("" + count + " comaprisons added to Comparison Set " + whichComparisonSet + ".").appendTo("#messages");
+    setTimeout(function() {
+      $("#"+stamp).hide("fold");
+    }, 5000);
+  }
 };
