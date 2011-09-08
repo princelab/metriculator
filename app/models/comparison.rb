@@ -50,7 +50,7 @@ class Comparison
   # TODO: check if the graph files already exist?
   def graph
     begin
-      Dir.mkdir self.location_of_graphs unless Dir.exist? self.location_of_graphs
+      FileUtils.mkdir_p self.location_of_graphs unless Dir.exist? self.location_of_graphs
       first = Ms::ComparisonGrapher.slice_matches self.msrun_firsts
       second = Ms::ComparisonGrapher.slice_matches self.msrun_seconds
       files = Ms::ComparisonGrapher.graph_matches first, second, self.location_of_graphs
