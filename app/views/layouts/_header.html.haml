@@ -7,10 +7,10 @@
       %li= link_to "Msruns", msruns_path
       %li= link_to "Comparisons", comparisons_path
       %li= link_to "Metrics", metrics_path
-      - if ['comparisons'].include?(params[:controller])
+      - if ['comparisons'].include?(params[:controller]) and params[:id]
         %li ||
         - categories.each do |cat|
-          %li= link_to "#{cat.humanize}", 'msrun/index'
+          %li= link_to "#{cat.humanize}", "#{params[:id]}/#{cat.downcase}"
         
   = link_to logo, root_path
   - if flash[:error]
