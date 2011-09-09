@@ -12,12 +12,11 @@
 
 ###Website
   - Server filter AJAX selection list with an Array of desired filterable attributes
-  - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)  ??? IS THIS STILL A PROBLEM?
-  - Show the graphs
-    - Add breadcrumbs for graph heirarchy?
-    - When to set the symlink? And do we always assume that they are
-      symlinked into the public/ directory?
-  - Add support for Alerts which autohide?
+  - Prevent the same comparison from being added multiple times to a
+    comparison set
+  - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
+    - Prevent the same comparison from being created multiple times?
+  - Add breadcrumbs for graph heirarchy?
   - Pagination is pretty broken
 
 ###Database
