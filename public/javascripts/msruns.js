@@ -9,11 +9,33 @@ $(function() {
   });
 
   $("#msruns td.comparison1 button").live("click", function() {
-    RailsMetrics.addToComparisonSet("1", this);
+    var res = RailsMetrics.addToComparisonSet("1", this);
+    if (res) {
+      var stamp = new Date().getTime();
+      $("span").attr({
+        id: stamp,
+        "class": ""
+      }).text("Comparison added to Comparison 1.").appendTo("#messages");
+      setTimeout(function() {
+        $("#"+stamp).hide("fold");
+      }, 5000);
+    }
   });
 
+  //UGHH Repeated code
   $("#msruns td.comparison2 button").live("click", function() {
-    RailsMetrics.addToComparisonSet("2", this);
+    var res = RailsMetrics.addToComparisonSet("2", this);
+
+    if (res) {
+      var stamp = new Date().getTime();
+      $("span").attr({
+        id: stamp,
+        "class": ""
+      }).text("Comparison added to Comparison 2.").appendTo("#messages");
+      setTimeout(function() {
+        $("#"+stamp).hide("fold");
+      }, 5000);
+    }
   });
 });
 

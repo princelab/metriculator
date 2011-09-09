@@ -127,3 +127,8 @@ table#msrunshow, th, td {
   border-collapse: collapse;
   border: 1px solid black;
 }
+
+div#messages span {
+  color:blue;
+  font-weight: bold;
+}
