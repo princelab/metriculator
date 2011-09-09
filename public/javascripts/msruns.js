@@ -9,21 +9,31 @@ $(function() {
   });
 
   $("#msruns td.comparison1 button").live("click", function() {
-    RailsMetrics.comparisonClicked("1", this);
+    RailsMetrics.addToComparisonSet("1", this);
   });
 
   $("#msruns td.comparison2 button").live("click", function() {
-    RailsMetrics.comparisonClicked("2", this);
+    RailsMetrics.addToComparisonSet("2", this);
   });
 });
 
-RailsMetrics.comparisonClicked = function(whichComparisonSet, clickedObject) {
+RailsMetrics.addToComparisonSet = function(whichComparisonSet, clickedObject) {
   var comparisonID = clickedObject.id.split(/-/)[2];
   var comparisonName = $("#msruns tr#msrunid-"+comparisonID).children().eq(2).text();
-  // Check if it is in the select list already. If not, add it in.
-  $("#comparison"+whichComparisonSet).append("<option value='"+ comparisonID + "' selected>" + comparisonName + "</option>");
-  //Add some kind of flash notice that it was added.
-  return true;
+  //TODO: Check if it is in the select list already. If not, add it in.
+  var option = "<option value='"+ comparisonID + "' selected>" + comparisonName + "</option>";
+  var isAlreadyIncluded = false;
+  $("#comparison" + whichComparisonSet).children().each(function(i, comp) {
+    if (comp.value == comparisonID) {
+      isAlreadyIncluded = true;
+    }
+  });
+  if (!isAlreadyIncluded) {
+    $("#comparison"+whichComparisonSet).append(option);
+    // TODO: Add some kind of flash notice that it was added.
+    return true;
+  }
+  return false;
 };
 
 RailsMetrics.allButtonClicked = function(whichComparisonSet) {
@@ -31,8 +41,10 @@ RailsMetrics.allButtonClicked = function(whichComparisonSet) {
   $("#msruns tr").each(function(i, row) {
     if (row.id !== "") {
       //We are at a row that has data
-      RailsMetrics.comparisonClicked(whichComparisonSet, $(row).children().eq(parseInt(whichComparisonSet, 10)).children()[0]);
-      count++;
+      var added = RailsMetrics.addToComparisonSet(whichComparisonSet, $(row).children().eq(parseInt(whichComparisonSet, 10)).children()[0]);
+      if (added) {
+        count++;
+      }
     }
   });
   if (count > 0) {
