@@ -1,3 +1,4 @@
+*.swp
 coverage
 .bundle
 db/*.sqlite3
@@ -8,3 +9,4 @@ tmp/
 *~
 *.log
 doc/
+public/comparisons
