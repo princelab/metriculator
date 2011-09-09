@@ -7,7 +7,8 @@ if ENV["HOME"][/\/home\//] == '/home/'
 	Orbi_drive = "#{ENV["HOME"]}/chem/orbitrap/"
 	Jtp_drive = "#{ENV["HOME"]}/chem/lab/RAW/"
 	Database = "#{ENV["HOME"]}/chem/lab/"
-elsif ENV["OS"][/Windows/] == 'Windows'
+  #ENV["OS"] is not always defined.
+elsif ENV["OS"] and ENV['OS'][/Windows/] == 'Windows'
 	Orbi_drive = "O:\\"
 	Jtp_drive = "S:\\RAW\\"
 	Database = "S:\\"
