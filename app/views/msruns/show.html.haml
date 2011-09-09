@@ -1,2 +1,10 @@
 %h1 Msrun#show
-= p @msrun
+%table#msrunshow
+  %tr
+    %th Property
+    %th Value
+  - @msrun.attributes.each do |k,v|
+    %tr
+      %td= k
+      %td= v
+  

@@ -122,3 +122,8 @@ span.alert_okay {
   padding: 0 5px;
   font-weight: bold;
 }
+
+table#msrunshow, th, td {
+  border-collapse: collapse;
+  border: 1px solid black;
+}
