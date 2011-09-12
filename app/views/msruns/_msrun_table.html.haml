@@ -1,15 +1,23 @@
 %table.msrun
+  %button{ :id => :filter }Filter
   %tr
     -# use td so we can nest forms inside the cells if we wan
     %td Compare Set 1
     %td Compare Set 2
     %td{ :rowspan => 2 }
       = sortable "raw_id", "Name"
-      = render 'filter'
-    %td{ :rowspan => 2}= sortable "group"
-    %td{ :rowspan => 2}= sortable "user"
-    %td{ :rowspan => 2}= sortable "rawtime", "Date"
-    %td{ :rowspan => 2}= sortable "taxonomy"
+      = render :partial => 'filter', :locals => { :search_attribute => :raw_id }
+    %td{ :rowspan => 2}
+      = sortable "group"
+      = render :partial => 'filter', :locals => { :search_attribute => :group }
+    %td{ :rowspan => 2}
+      = sortable "user"
+      = render :partial => 'filter', :locals => { :search_attribute => :user }
+    %td{ :rowspan => 2}
+      = sortable "rawtime", "Date"
+    %td{ :rowspan => 2}
+      = sortable "taxonomy"
+      = render :partial => 'filter', :locals => { :search_attribute => :taxonomy }
   %tr
     %td
       %button{ :id => 'group-1-all' } Add All To Comparison Set One

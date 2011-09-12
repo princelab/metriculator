@@ -6,7 +6,8 @@ class MsrunsController < ApplicationController
   def index
     params[:direction] ||= "asc"
     params[:page] ||= 1
-    params[:search] ||= ""
+    pp params[:search]
+    params[:search] ||= {}
     #default to sorting based on the id column if nothing is given in sort
     sort_column = ((params[:sort] == "" or params[:sort].nil?) ? "id" : params[:sort]).to_sym
     sort_object = params[:direction] == "asc" ? sort_column.asc : sort_column.desc
@@ -14,10 +15,15 @@ class MsrunsController < ApplicationController
     query.merge!({:order => sort_object})
     #make the query have a search for :like in every property
     # nope, that won't work. It means **everything** would have to be LIKE the search param
-    # Msrun.properties.each do |property|
-    #   query.merge!({ property.name.to_sym.like => params[:search] })
-    # end
-    query.merge!({ :raw_id.like => "%#{params[:search]}%" })
+    Msrun.properties.each do |property|
+      if params[:search].has_key? property.name.to_s
+        puts "params[:search] has key #{property.name.to_s}"
+        query.merge!({ property.name.to_sym.like => "%#{params[:search][property.name.to_s]}%" })
+        pp query
+      end
+    end
+    # query.merge!({ :raw_id.like => "%#{params[:search]["raw_id"]}%" })
+    # pp query
     @sort = sort_object
     @page_number = params[:page]
     @per_page = 8

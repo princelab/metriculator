@@ -1,5 +1,27 @@
 $(function() {
 
+  $("button#filter").live("click", function () {
+    //Build the query string from the filter forms
+    var parms = [];
+    $("form div.filter-form :input").each(function(i, obj) {
+      if (obj.type === "submit" || obj.value === "") {
+        return;
+      }
+      var query_string = obj.name + "=" + obj.value;
+      console.log(query_string);
+      if (parms.indexOf(query_string) === -1) {
+        parms.push(query_string);
+      }
+    });
+
+    var query_string = parms.join("&");
+    console.log(query_string);
+
+    $.get("msruns?" + query_string, function(data, status, jqXHR) {
+      console.log("SUCCESS! " + status);
+    });
+  });
+
   $("#msruns td button#group-1-all").live("click", function () {
     RailsMetrics.allButtonClicked("1");
   });
