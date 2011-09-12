@@ -3,7 +3,7 @@
   %nav.round
     %ul.header
       %li= render 'alerts/alert_num'
-      %li= link_to "Home", 'pages/home'
+      %li= link_to "Home", root_path
       %li= link_to "Msruns", msruns_path
       %li= link_to "Comparisons", comparisons_path
       %li= link_to "Metrics", metrics_path
@@ -11,7 +11,6 @@
         %li ||
         - categories.each do |cat|
           %li= link_to "#{cat.humanize}", "#{params[:id]}/#{cat.downcase}"
-        
   = link_to logo, root_path
   - if flash[:error]
     .error=flash[:error]
