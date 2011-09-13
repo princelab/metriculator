@@ -2,11 +2,5 @@
 %p Blah blah... app/views/msrun/index.html.erb
 - @metrics.each do |metric|
   - m = Msrun.get(metric.msrun_id)
-  - p m.methods - Object.methods
-  = "#{m.raw_id} was run at #{m.rawtime} "
-  = p metric.attributes
-  %p
-  = p metric.chromatography.hashes
+  = "#{m.raw_id} was run on #{m.rawtime.readable_inspect} "
   %p -------------
-  \#
-  - p ApplicationHelper::CATEGORIES
