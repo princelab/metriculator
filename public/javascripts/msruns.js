@@ -1,5 +1,11 @@
 $(function() {
 
+  $("#search_rawtime").datepicker({
+    dateFormat: "yy-mm-dd",
+  });
+
+  // When the "Filter" button is clicked, filter based on data
+  // in ALL search forms.
   $("button#filter").live("click", function () {
     //Build the query string from the filter forms
     var parms = [];
@@ -22,6 +28,7 @@ $(function() {
     });
   });
 
+  // Add stuff to comparison form.
   $("#msruns td button#group-1-all").live("click", function () {
     RailsMetrics.allButtonClicked("1");
   });

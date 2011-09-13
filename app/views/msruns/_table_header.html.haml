@@ -1,0 +1,4 @@
+%td{:rowspan => 2}
+  - common_name ||= nil
+  = sortable field_name.to_s, common_name
+  = render :partial => 'filter', :locals => { :search_attribute => field_name }
