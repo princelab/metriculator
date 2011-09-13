@@ -10,7 +10,6 @@ class Hash
 		keys.each do |k|
 			v = self[k]
       y = hash2[k]
-			#puts "k: #{k}\nv: #{v}\t and value: #{y}"
 			if v == y
         out_hash[k] = y
       elsif y.nil?
@@ -21,11 +20,7 @@ class Hash
 				out_hash[k] = v.deep_merge(y)
 			#	puts "outhash[#{k}] looks like: #{out_hash[k]}"
 			elsif v.class == Array
-        if y.empty? or y.length < v.length
-          out_hash[k] = v
-        else
-          out_hash[k] = y
-        end
+        out_hash[k] = (y + v).uniq
       elsif v.class == String
         out_hash[k] = y unless y.empty?
         out_hash[k] ||= v

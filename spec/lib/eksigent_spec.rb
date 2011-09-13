@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-TESTFILE = "~/Dropbox/prince_lab_stuff/rails-metrics-site"
+if RUBY_PLATFORM.downcase.include?("darwin")
+  TESTFILE = "~/Dropbox/prince_lab_stuff/rails-metrics-site"
+end
 describe 'Matches to graph trace file from rawfile time' do
   before :each do
     @tmp = Ms::Eksigent::Ultra2D.new
