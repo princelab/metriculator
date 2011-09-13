@@ -1,5 +1,6 @@
-require 'spec_helper'
-
+#require 'spec_helper'
+require 'merge'
+require 'rspec'
 describe 'Deep_merge fxn ' do
 	before :each do 
     @level1 = {'group' => "JTP", 'username' => 'ryanmt'}
@@ -14,6 +15,9 @@ describe 'Deep_merge fxn ' do
     @array =  { "modifications"=>{"static"=>["MOD:02060"], "variable"=>["MOD:00719", "MOD:01060"]}   }
     @array_fail = { "modifications"=>{"static"=>["MOD:01060"], "variable"=>["MOD:00719"]}  }
     @array_match = { "modifications"=>{"static"=>["MOD:02060"], "variable"=>["MOD:00719", "MOD:01060"]}  }
+    @array_with_nil =  { "modifications"=>{"static"=>["MOD:02060"], "variable"=>nil}   }
+    @array_with_nil_fail = { "modifications"=>{"static"=>["MOD:01060"], "variable"=>["MOD:00719"]}  }
+    @array_with_nil_match = { "modifications"=>{"static"=>["MOD:02060"], "variable"=>["MOD:00719"]}  }
 	end
   it 'returns a Hash object' do 
 		result = @level1_fail.deep_merge(@level1)
@@ -34,6 +38,10 @@ describe 'Deep_merge fxn ' do
   it 'replaces array values with array values' do
     result = @array_fail.deep_merge(@array)
     result.sort.should == @array_match.sort
+  end
+  it 'replaces nil values with array values' do
+    result = @array_with_nil_fail.deep_merge(@array_with_nil)
+    result.sort.should == @array_with_nil_match.sort
   end
   it 'merges a complex thing that represents a likely usage case for this purpose' do 
     result = @total_fail.deep_merge(@total)
