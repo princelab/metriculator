@@ -45,7 +45,7 @@ describe 'Deep_merge fxn ' do
   end
   it 'merges a complex thing that represents a likely usage case for this purpose' do 
     result = @total_fail.deep_merge(@total)
-    result.sort.should == @total_match.sort
+    result.should == @total_match
   end
 end
 

@@ -37,5 +37,5 @@ describe 'Ssh Utility' do
   it 'sends the correct signal' do 
     send_msruninfo_to_linux_via_ssh(@msrun.to_yaml).should == "C:\\cygwin\\bin\\ssh ryanmt@jp1 -C '/home/ryanmt/Dropbox/coding/ms/archiver/lib/archiver.rb --linux /tmp/tmp.yml '"
   end
-=end
 end
+=end
