@@ -14,7 +14,7 @@ class Messenger
     end
 # This will update the @@todo list 
     def update
-      @@todo = File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])
+      @@todo = (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])).map(&:chomp)
     end
 
 # TESTING Fxns... Written to allow me to unit test the inside fxnality of this class
@@ -32,7 +32,6 @@ class Messenger
 # This lets me read the todo list
     def read_todo
       update
-      @@todo.map(&:chomp)
     end
 # This function adds a completed item to the metrics file
     def add_metric(string)
