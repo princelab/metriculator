@@ -7,8 +7,6 @@
 *	Message Passing # Mostly done, just clean it up!
 * Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.  
 		`scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => 'my scheduler')`
-* EMAIL SMTP ROUTING or I can't test my own email system.
-* Use pony gem for email
 
 ###Website
   - Server filter AJAX selection list with an Array of desired filterable attributes

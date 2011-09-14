@@ -13,8 +13,6 @@
 <li>Message Passing # Mostly done, just clean it up!</li>
 <li>Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.<br/>
       <code>scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name =&gt; 'my scheduler')</code></li>
-<li>EMAIL SMTP ROUTING or I can't test my own email system.</li>
-<li>Use pony gem for email</li>
 </ul>
 
 
@@ -22,16 +20,15 @@
 
 <ul>
 <li>Server filter AJAX selection list with an Array of desired filterable attributes</li>
-<li>Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)  ??? IS THIS STILL A PROBLEM?</li>
-<li>Show the graphs
+<li>Prevent the same comparison from being added multiple times to a
+comparison set</li>
+<li>Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
 
 <ul>
-<li>Add breadcrumbs for graph heirarchy?</li>
-<li>When to set the symlink? And do we always assume that they are
-symlinked into the public/ directory?</li>
+<li>Prevent the same comparison from being created multiple times?</li>
 </ul>
 </li>
-<li>Add support for Alerts which autohide?</li>
+<li>Add breadcrumbs for graph heirarchy?</li>
 <li>Pagination is pretty broken</li>
 </ul>
 
