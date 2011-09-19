@@ -9,20 +9,14 @@ class ComparisonsController < ApplicationController
 
   def create
     #TODO: first check if one exists already, and redirect to it.
-    first_set = get_msruns_from_array_of_ids(params[:comparison1])
-    second_set = get_msruns_from_array_of_ids(params[:comparison2])
-
-    # comp = Comparison.create
+    first_set = get_msruns_from_array_of_ids(params[:comparison1].uniq)
+    second_set = get_msruns_from_array_of_ids(params[:comparison2].uniq)
 
     comp = Comparison.new
     comp.msrun_firsts = first_set
     comp.msrun_seconds = second_set
     comp.save
 
-    #Do this in a thread, and show a flash message saying it was
-    #started.
-    # Thread.new(comp) do |comparison|
-      #TODO: make it return some kind of status
     fork do
       result = comp.graph
       puts "DONE GRAPHING"

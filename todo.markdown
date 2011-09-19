@@ -11,9 +11,6 @@
 * Use pony gem for email
 
 ###Website
-  - Server filter AJAX selection list with an Array of desired filterable attributes
-  - Prevent the same comparison from being added multiple times to a
-    comparison set
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
     - Prevent the same comparison from being created multiple times?
   - Add breadcrumbs for graph heirarchy?
