@@ -1,5 +1,4 @@
 require 'spec_helper'
-=begin
 describe 'generates metrics' do 
 
   it 'runs the NIST package to generate metrics over SSH' do 
@@ -13,7 +12,7 @@ describe 'generates metrics' do
 end
 describe 'parses metrics and databases them' do
   before do 
-    @metric = Metric.new( TESTFILE + '/test3__1.txt')
+    @metric = Ms::NIST::Metric.new(TESTFILE + '/test3__1.txt')
     @metric.slice_hash
     @metric.to_database
     @matches = Msrun.all # matches is the result of a Msrun.all OR Msrun.first OR Msrun.get(*args)
@@ -21,7 +20,8 @@ describe 'parses metrics and databases them' do
   it 'has appropriate test values... (find test values)' do 
     @metric.parse.class.should.equal Hash
   end
-
+end
+=begin
   it 'sends the data to the database' do
     measure = @metric.slice_hash.first
     raw_id = measure.raw_id
@@ -56,7 +56,7 @@ describe 'generates a lot of metrics' do
   end
 end
 =end
-#=begin
+=begin
 
 
 describe '#archiver' do
@@ -86,4 +86,4 @@ end
 #   end
 # end
 
-#=end
+=end

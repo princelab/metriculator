@@ -14,7 +14,8 @@ class ::Measurement <
   Struct.new(:name, :raw_id, :time, :value, :category, :subcat) do
     # Standard comparison operator defined for sorting by time
     def <=>(other)
-      self[:time] <=> other[:time]
+      self[:name] <=> other[:name]
+    #  self[:time] <=> other[:time]
     end
 
     # Defined the output format to make the printout more concise.
@@ -69,6 +70,7 @@ module Ms
       # @param None, but it references the @metricsfile
       # @return [Hash] the out_hash which contains the parsed data
       def parse				# Returns the out_hash
+        output = {}
         array = IO.readlines(@metricsfile, 'r:us-ascii').first.split("\r\n")
         outs_hash = {}; key = ""
         measures = []
@@ -106,6 +108,7 @@ module Ms
             end
           end
         end
+        File.open("tmp_key.yml", 'w') {|f| f.write output.to_yaml }
         ["files_analyzed_#{@num_files}", 'begin_runseries_results', 'begin_series_1', "run_number_#{(1..@num_files).to_a.join('_')}", 'end_series_1', 'fraction_of_repeat_peptide_ids_with_divergent_rt_rt_vs_rt_best_id_chromatographic_bleed'].each {|item| @out_hash.delete(item)}
         @out_hash
       end
@@ -119,7 +122,7 @@ module Ms
         @metrics_input_files.each do |file|
           @out_hash.each_pair do |subcategory, value_hash|
             value_hash.each_pair do |property, value|
-              @measures << Measurement.new( property, File.basename(file,".RAW.MGF.TSV"), @rawtime || Time.random(2), value[item], @@ref_hash[subcategory.to_sym].to_sym, subcategory.to_sym)
+              @measures << Measurement.new( property.to_sym, File.basename(file,".RAW.MGF.TSV"), @rawtime || Time.random(2), value[item], @@ref_hash[subcategory.to_sym].to_sym, subcategory.to_sym)
             end
           end
           item +=1
