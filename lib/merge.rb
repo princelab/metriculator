@@ -4,7 +4,7 @@ class Hash
 # This function provides a deep merge feature for hashes, which will handle any level of hash depth, merging hashes and replacings Strings and combining Arrays
 # @param [Hash] Hash to merge into the self Hash
 # @return [Hash] Hash which contains the merge of the source hashes
-  def deep_merge(hash2)
+  def deeper_merge(hash2)
     out_hash = {}
     keys = (self.keys + hash2.keys).uniq
     keys.each do |k|
@@ -17,7 +17,7 @@ class Hash
       elsif v.nil? # Unnecessary?
         out_hash[k] = y
       elsif v.is_a?(Hash) and y.is_a?(Hash)
-        out_hash[k] = v.deep_merge(y)
+        out_hash[k] = v.deeper_merge(y)
 #	puts "outhash[#{k}] looks like: #{out_hash[k]}"
       elsif v.class == Array and y.class == Array
         out_hash[k] = y 

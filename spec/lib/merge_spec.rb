@@ -1,7 +1,6 @@
-#require 'spec_helper'
+require 'spec_helper'
 require 'merge'
-require 'rspec'
-describe 'Deep_merge fxn ' do
+describe 'Hash::deeper_merge fxn ' do
 	before :each do 
     @level1 = {'group' => "JTP", 'username' => 'ryanmt'}
     @level1_fail = { 'group' => 'ERR', 'username' => 'failure', 'taxonomy' => 'should exist' }
@@ -20,31 +19,31 @@ describe 'Deep_merge fxn ' do
     @array_with_nil_match = { "modifications"=>{"static"=>["MOD:02060"], "variable"=>["MOD:00719"]}  }
 	end
   it 'returns a Hash object' do 
-		result = @level1_fail.deep_merge(@level1)
+		result = @level1_fail.deeper_merge(@level1)
     result.class.should == Hash.new.class
   end
   it 'merges an empty string with a full string' do 
-    result = {string: ""}.deep_merge({string: "yes"})
+    result = {string: ""}.deeper_merge({string: "yes"})
     result.should == {string: "yes"}
   end
 	it 'merges first level hash keys / values' do 
-		result = @level1_fail.deep_merge(@level1)
+		result = @level1_fail.deeper_merge(@level1)
 		result.sort.should == @level1_match.sort
   end
 	it 'merges second level hash keys/values' do 
-    result = @level2_fail.deep_merge(@level2)
+    result = @level2_fail.deeper_merge(@level2)
 	  result.sort.should == @level2_match.sort
   end
   it 'replaces array values with array values' do
-    result = @array_fail.deep_merge(@array)
+    result = @array_fail.deeper_merge(@array)
     result.sort.should == @array_match.sort
   end
   it 'replaces nil values with array values' do
-    result = @array_with_nil_fail.deep_merge(@array_with_nil)
+    result = @array_with_nil_fail.deeper_merge(@array_with_nil)
     result.sort.should == @array_with_nil_match.sort
   end
   it 'merges a complex thing that represents a likely usage case for this purpose' do 
-    result = @total_fail.deep_merge(@total)
+    result = @total_fail.deeper_merge(@total)
     result.should == @total_match
   end
 end

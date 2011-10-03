@@ -16,11 +16,11 @@ end
 
 describe 'Archiver writes to network location' do 
   it 'copied files' do 
-
+    pending "test copy"
   end
 
   it 'updated locations' do 
-
+    pending 'implement updating and testing of updating locations'
   end
 
 end
