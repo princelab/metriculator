@@ -1,7 +1,10 @@
 $(function() {
 
-  $("#search_rawtime").datepicker({
-    dateFormat: "yy-mm-dd",
+  $("#search_rawtime_start").live("click", function() {
+    $(this).datepicker({dateFormat: "yy-mm-dd",});
+  });
+  $("#search_rawtime_end").live("click", function() {
+    $(this).datepicker({dateFormat: "yy-mm-dd",});
   });
 
   // When the "Filter" button is clicked, filter based on data
