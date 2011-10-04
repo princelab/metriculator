@@ -1,5 +1,36 @@
 require 'spec_helper'
 
+describe "Rserve::Simpler" do 
+	before :all do 
+		@r = Rserve::Simpler.new
+	end
+	it 'plots to X11' do 
+		@r.converse "plot(c(1,2,3,4), c(5,6,7,8))"
+		@r.pause 
+		@r.converse "dev.off"
+	end
+	it 'plots to *.png' do 
+		t = Time.now.to_i.to_s
+		@r.converse "png('#{t}.png')"
+		@r.converse "plot(c(1,2,3,4), c(5,6,7,8)"
+		@r.converse "dev.off()"
+		File.exist?("#{t}.png").should be(true)
+	it 'plots to *.svg' do 
+		t = Time.now.to_i.to_s
+		@r.converse "svg('#{t}.svg')"
+		@r.converse "plot(c(1,2,3,4), c(5,6,7,8)"
+		@r.converse "dev.off()"
+		File.exist?("#{t}.svg".should be(true)
+	end
+	it 'plots beanplots' do 
+		@r.converse "library('beanplot')"
+		@r.converse "beanplot(c(1,2,2,3), c(2,3,4,4,5,6))"
+		@r.pause
+	end
+end
+
+
+
 comparison_id = Time.now.to_i
 describe 'Ms::ComparisonGrapher' do 
 puts "RAILS_ENV: #{::Rails.env}"
