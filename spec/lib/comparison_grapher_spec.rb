@@ -11,7 +11,7 @@ puts "RAILS_ENV: #{::Rails.env}"
 	end
 	it 'generates images' do 
 		puts "\n"
-		Ms::ComparisonGrapher.graph_matches(Ms::ComparisonGrapher.slice_matches(@match_new), Ms::ComparisonGrapher.slice_matches(@match_old), comparison_id  )
+		Ms::ComparisonGrapher.graph_matches(Ms::ComparisonGrapher.slice_matches(@match_new), Ms::ComparisonGrapher.slice_matches(@match_old), comparison_id.to_s  )
 		File.exist?("public/comparisons/#{comparison_id}/chromatography/first_and_last_ms1_rt_min/first_ms1.svg").should == true
 	end
 	it 'has a website' do
@@ -21,7 +21,7 @@ puts "RAILS_ENV: #{::Rails.env}"
   it 'calculates the stats as well' do 	
     new = Ms::ComparisonGrapher.slice_matches(@match_new)
     old = Ms::ComparisonGrapher.slice_matches(@match_old)
-    reply = Ms::ComparisonGrapher.graph_and_stats(new, old, comparison_id)
+    reply = Ms::ComparisonGrapher.graph_and_stats(new, old, comparison_id.to_s)
     reply.class.should == Hash
   end
 end

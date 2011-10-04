@@ -29,8 +29,7 @@ module Ms
       # @param [Array] an Array of matches
       # @return [Array] an Array containing all the measurements found in the DB matches given
       def slice_matches(matches)
-        measures = []
-        @data = {}
+        measures = []; @data = {}
         # Why is this line of code here?
         # debugger
         matches = [matches] if !matches.is_a? DataMapper::Collection and !matches.is_a? Array
@@ -173,8 +172,10 @@ module Ms
         FileUtils.mkdir_p(comparison_folder)
         graphfiles = []
         measures = [new_measures, old_measures]
+        #$DEBUG = true
         r_object = Rserve::Simpler.new
         r_object.converse('library("beanplot")')
+        r_object.converse('library("Cairo")')
         @@categories.map do |cat|
           subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
           #p Dir.exist?(File.join(AppConfig[:comparison_directory], comparison_folder.to_s, cat))
@@ -182,17 +183,16 @@ module Ms
           subcats.each do |subcategory|
             graphfile_prefix = File.join(comparison_folder, cat, subcategory.to_s)
             FileUtils.mkdir_p(graphfile_prefix) 
-           # p Dir.exist?(graphfile_prefix)
-            # Without removing the file RAWID from the name:
-            #graphfile_prefix = File.join([Dir.pwd, cat, (rawid + '_' + subcategory.to_s)])
+            #p Dir.exist?(graphfile_prefix)
             new_structs = measures.first.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
             old_structs = measures.last.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
+            a = new_structs
             [new_structs, old_structs].each do |structs|
               structs.each do |str|
                 str.value = str.value.to_f
-                str.name = @@name_legend[str.name.to_s]
-                str.category = str.category.to_s
-                str.subcat = str.subcat.to_s
+                str.name = str.name.to_s
+                str.category = @@name_legend[str.category.to_s]
+                str.subcat = @@name_legend[str.subcat.to_s]
                 str.time = str.time.to_s.gsub(/T/, ' ').gsub(/-(\d*):00/,' \100')
               end
             end
@@ -206,6 +206,7 @@ module Ms
                     df_new$raw_id <- factor(df_new$raw_id)
               }
             end # new datafr converse
+            p r_object.converse "summary(df_new$name)"
             r_object.converse( df_old: datafr_old) do
               %Q{df_old$time <- strptime(as.character(df_old$time), "%Y-%m-%d %X")
                   df_old$name <- factor(df_old$name)
@@ -214,35 +215,44 @@ module Ms
                   df_old$raw_id <- factor(df_old$raw_id)
               }
             end # old datafr converse
+            r_object.converse "summary(df_old$name)"
             count = new_structs.map {|str| str.name }.uniq.compact.length
             i = 1;
             while i <= count
               r_object.converse do
                 %Q{	df_new.#{i} <- subset(df_new, name == levels(df_new$name)[[#{i}]])
-                    df_old.#{i} <- subset(df_old, name == levels(df_old$name)[[#{i}]])			
+                    df_old.#{i} <- subset(df_old, name == levels(df_old$name)[[#{i}]])
 
                     old_time_plot <- data.frame(df_old.#{i}$time, df_old.#{i}$value)
                     new_time_plot <- data.frame(df_new.#{i}$time, df_new.#{i}$value)
                 }
               end
+              p r_object.converse "summary(df_old.#{i})"
+              p r_object.converse "summary(df_new.#{i})"
             # Configure the environment for the graphing, by setting up the numbered categories
               names = r_object.converse("levels(df_old$name)")
               curr_name = r_object.converse("levels(df_old$name)[[#{i}]]")
-              graphfile = File.join([graphfile_prefix, curr_name + '.svg'])
+              image_type = 'svg'
+              graphfile = File.join([graphfile_prefix, curr_name + ".#{image_type}"])
               graphfiles << graphfile
               r_object.converse(%Q{svg(file="#{graphfile}", bg="transparent", height=3, width=7.5)})
+              p r_object.converse "capabilities()['cairo']"
               r_object.converse('par(mar=c(1,1,1,1), oma=c(2,1,1,1))')
               r_object.converse do
                 %Q{	tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))
-                      tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))		}
+                    tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))		}
               end
-              r_object.converse do
-                %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE)
+              r_object.converse %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE)
                       if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_old.#{i}$value), silent=TRUE)		}
-              end
               r_object.converse( "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])")
+              name = @@name_legend[r_object.converse("df_old$name[[#{i}]]").first]
+              p r_object.converse( "df_old.#{i}$value" )
+              p r_object.converse( "df_new.#{i}$value" )
+#              r_object.converse( "beanplot(c(1,2,3),c(4,5,6))" )
+              p name
+              r_object.converse "beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names=#{name}, col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)"  
               r_object.converse do
-                %Q{	beanplot(df_old.#{i}$value, df_new.#{i}$value,  side='both', log="", names=df_old$name[[#{i}]], col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)
+                %Q{	
                     plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
                     if (length(df_new.#{i}$value) > 4) {
                       lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='skyblue3', pch=16, lwd=3 )
@@ -260,7 +270,7 @@ module Ms
       end # graph_files
 
       @@categories = ["chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
-      @@name_legend = { "id_charge_distributions_at_different_ms1max_quartiles_for_charges_1_4"=>"ID Charge Distributions At Different MS1max Quartiles For Charges 1-4", "precursor_m_z_averages_and_differences_from_1st_quartile_largest_of_different_ms1total_tic_quartiles_over_full_elution_period"=>"Precursor m/z Averages and Differences from 1st Quartile (Largest) of Different MS1Total (TIC) Quartiles Over Full Elution Period", 
+      @@name_legend = { "chromatography"=>"Chromatography", "ms1"=>"MS1", "ms2"=>"MS2", "dynamic_sampling"=>"Dynamic Sampling", "ion_source"=>"Ion Source", "ion_treatment"=>"Ion Treatment", "peptide_ids"=> "Peptide IDs", "run_comparison"=>"Run Comparison", "id_charge_distributions_at_different_ms1max_quartiles_for_charges_1_4"=>"ID Charge Distributions At Different MS1max Quartiles For Charges 1-4", "precursor_m_z_averages_and_differences_from_1st_quartile_largest_of_different_ms1total_tic_quartiles_over_full_elution_period"=>"Precursor m/z Averages and Differences from 1st Quartile (Largest) of Different MS1Total (TIC) Quartiles Over Full Elution Period", 
       "number_of_compounds_in_common"=>"Number of Compounds in Common", "fraction_of_overlapping_compounds_relative_to_first_index"=>"Fraction of Overlapping Compounds - relative to first index", "fraction_of_overlapping_compounds_relative_to_second_index"=>"Fraction of Overlapping Compounds - relative to second index", "median_retention_rank_differences_for_compounds_in_common_percent"=>"Median Retention Rank Differences for Compounds in Common (Percent)", "avg_1_60_1_60"=>"Avg\t1.60\t1.60", 
       "average_retention_rank_differences_for_compounds_in_common_percent"=>"Average Retention Rank Differences for Compounds in Common (Percent)", "avg_2_30_2_30"=>"Avg\t2.30\t2.30", "number_of_matching_identified_ions_between_runs"=>"Number of Matching Identified Ions Between Runs", "relative_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative Deviations in MS1 Max For Matching Identified Ions Between Runs", "avg_1_00_1_00"=>"Avg\t1.00\t1.00", "relative_uncorrected_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative Uncorrected Deviations in MS1 Max For Matching Identified Ions Between Runs", "avg_0_00_0_00"=>"Avg\t0.00\t0.00", 
       "relative_corrected_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative Corrected Deviations in MS1 Max For Matching Identified Ions Between Runs", "relative_rt_trends_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative RT Trends in MS1 Max For Matching Identified Ions Between Runs", 
