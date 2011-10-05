@@ -55,16 +55,17 @@ module Ms
 # This function takes the same parameters as {#graph_matches} and accomplishes the same result, as well as generating and returning, instead of the filenames, a hash containing the information needed to do cool stuff
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries, the first of which represents the newest in a QC run, which will be compared to the previous values
       # @return [Hash] ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? ##### ... I'm not yet sure, thank you very much
-      def graph_and_stats(new_measure, old_measures, comparison_folder, opts = {})
+     def graph_and_stats(new_measure, old_measures, comparison_folder, opts = {})
         options = Graphing_defaults.merge(opts)
         default_variance = QcConfig[:default_allowed_variance]
         require 'rserve/simpler'
+        FileUtils.mkdir_p(comparison_folder)
         graphfiles = []
         measures = [new_measure, old_measures]
         data_hash = {}
-        FileUtils.mkdir_p(comparison_folder)
         r_object = Rserve::Simpler.new
         r_object.converse('library("beanplot")')
+        r_object.converse "setwd('#{Dir.pwd}')"
         @@categories.map do |cat|
           data_hash[cat.to_sym] = {}
           subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
@@ -72,16 +73,14 @@ module Ms
             data_hash[cat.to_sym][subcategory] = {}
             graphfile_prefix = File.join(comparison_folder, cat, subcategory.to_s)
             FileUtils.mkdir_p(graphfile_prefix)
-            # Without removing the file RAWID from the name:
-            #graphfile_prefix = File.join([Dir.pwd, cat, (rawid + '_' + subcategory.to_s)])
             new_structs = measures.first.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
             old_structs = measures.last.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
             [new_structs, old_structs].each do |structs|
               structs.each do |str|
                 str.value = str.value.to_f
-                str.name = @@name_legend[str.name.to_s]
-                str.category = str.category.to_s
-                str.subcat = str.subcat.to_s
+                str.name = str.name.to_s
+                str.category = @@name_legend[str.category.to_s]
+                str.subcat = @@name_legend[str.subcat.to_s]
                 str.time = str.time.to_s.gsub(/T/, ' ').gsub(/-(\d*):00/,' \100')
               end
             end
@@ -109,13 +108,16 @@ module Ms
             while i <= count
               r_object.converse do
                 %Q{	df_new.#{i} <- subset(df_new, name == levels(df_new$name)[[#{i}]])
-                    df_old.#{i} <- subset(df_old, name == levels(df_old$name)[[#{i}]])			
+                    df_old.#{i} <- subset(df_old, name == levels(df_old$name)[[#{i}]])
 
                     old_time_plot <- data.frame(df_old.#{i}$time, df_old.#{i}$value)
                     new_time_plot <- data.frame(df_new.#{i}$time, df_new.#{i}$value)
+                    old_time_plot <- old_time_plot[order(df_old.#{i}$time), ]
+                    new_time_plot <- new_time_plot[order(df_new.#{i}$time), ]
                 }
               end
-              # Configure the environment for the graphing, by setting up the numbered categories
+            # Configure the environment for the graphing, by setting up the numbered categories
+
               curr_name = r_object.converse("levels(df_old$name)[[#{i}]]")
 ## THIS IS WHERE WE DO THE CALCULATIONS
               if not QcConfig[cat.to_sym][subcategory.to_s.split('_').map{|word| word.capitalize}.join("").to_sym].nil?
@@ -131,28 +133,29 @@ module Ms
 ## END
               graphfile = File.join([graphfile_prefix, curr_name + '.svg'])
               graphfiles << graphfile
+              name = @@name_legend[curr_name]
               r_object.converse(%Q{svg(file="#{graphfile}", bg="transparent", height=3, width=7.5)})
               r_object.converse('par(mar=c(1,1,1,1), oma=c(2,1,1,1))')
               r_object.converse do
                 %Q{	tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))
                     tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))		}
               end
-              r_object.converse do
-                %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE)
+              r_object.converse %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE)
                       if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_old.#{i}$value), silent=TRUE)		}
-              end
-              r_object.converse( "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])")
+              r_object.converse "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])"
+
+              r_object.converse %Q{ beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="#{name}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)}  
               r_object.converse do
-                %Q{	beanplot(df_old.#{i}$value, df_new.#{i}$value,  side='both', log="", names=df_old$name[[#{i}]], col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)
-                    plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
+                %Q{ plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
                     if (length(df_new.#{i}$value) > 4) {
                       lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='skyblue3', pch=16, lwd=3 )
                     } else {
                       points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='skyblue3', pch=21, cex=1.2)
                     }
-                    dev.off()
+                    mtext("#{@@name_legend[cat]}--#{@@name_legend[subcategory.to_s]}--#{name}", side=3, line=0, outer=TRUE)
                 }
               end
+              r_object.converse "dev.off()" # This line must end the loop, to prevent R from crashing.
               i +=1
             end # while loop
           end # subcats
@@ -160,8 +163,7 @@ module Ms
        # graphfiles
 # TODO Do I send the email here?
        data_hash
-      end
-
+      end # graph_and_stats
 
       # This function generates a comparison between the two sets of data, which are sliced by {#slice_matches}, graphing the results as SVG files.
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries
@@ -175,7 +177,8 @@ module Ms
         #$DEBUG = true
         r_object = Rserve::Simpler.new
         r_object.converse('library("beanplot")')
-        r_object.converse('library("Cairo")')
+        r_object.converse "setwd('#{Dir.pwd}')"
+        #r_object.converse('library("Cairo")')
         @@categories.map do |cat|
           subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
           #p Dir.exist?(File.join(AppConfig[:comparison_directory], comparison_folder.to_s, cat))
@@ -186,7 +189,6 @@ module Ms
             #p Dir.exist?(graphfile_prefix)
             new_structs = measures.first.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
             old_structs = measures.last.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
-            a = new_structs
             [new_structs, old_structs].each do |structs|
               structs.each do |str|
                 str.value = str.value.to_f
@@ -206,7 +208,6 @@ module Ms
                     df_new$raw_id <- factor(df_new$raw_id)
               }
             end # new datafr converse
-            p r_object.converse "summary(df_new$name)"
             r_object.converse( df_old: datafr_old) do
               %Q{df_old$time <- strptime(as.character(df_old$time), "%Y-%m-%d %X")
                   df_old$name <- factor(df_old$name)
@@ -215,9 +216,9 @@ module Ms
                   df_old$raw_id <- factor(df_old$raw_id)
               }
             end # old datafr converse
-            r_object.converse "summary(df_old$name)"
             count = new_structs.map {|str| str.name }.uniq.compact.length
             i = 1;
+            names = r_object.converse("levels(df_old$name)")
             while i <= count
               r_object.converse do
                 %Q{	df_new.#{i} <- subset(df_new, name == levels(df_new$name)[[#{i}]])
@@ -225,18 +226,18 @@ module Ms
 
                     old_time_plot <- data.frame(df_old.#{i}$time, df_old.#{i}$value)
                     new_time_plot <- data.frame(df_new.#{i}$time, df_new.#{i}$value)
+                    old_time_plot <- old_time_plot[order(df_old.#{i}$time), ]
+                    new_time_plot <- new_time_plot[order(df_new.#{i}$time), ]
                 }
               end
-              p r_object.converse "summary(df_old.#{i})"
-              p r_object.converse "summary(df_new.#{i})"
+#              p r_object.converse "summary(df_old.#{i})" if $DEBUG
+#              p r_object.converse "summary(df_new.#{i})" if $DEBUG
             # Configure the environment for the graphing, by setting up the numbered categories
-              names = r_object.converse("levels(df_old$name)")
               curr_name = r_object.converse("levels(df_old$name)[[#{i}]]")
-              image_type = 'svg'
-              graphfile = File.join([graphfile_prefix, curr_name + ".#{image_type}"])
+              graphfile = File.join([graphfile_prefix, curr_name + ".svg"])
               graphfiles << graphfile
+              name = @@name_legend[curr_name]
               r_object.converse(%Q{svg(file="#{graphfile}", bg="transparent", height=3, width=7.5)})
-              p r_object.converse "capabilities()['cairo']"
               r_object.converse('par(mar=c(1,1,1,1), oma=c(2,1,1,1))')
               r_object.converse do
                 %Q{	tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))
@@ -244,24 +245,21 @@ module Ms
               end
               r_object.converse %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE)
                       if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_old.#{i}$value), silent=TRUE)		}
-              r_object.converse( "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])")
-              name = @@name_legend[r_object.converse("df_old$name[[#{i}]]").first]
-              p r_object.converse( "df_old.#{i}$value" )
-              p r_object.converse( "df_new.#{i}$value" )
-#              r_object.converse( "beanplot(c(1,2,3),c(4,5,6))" )
-              p name
-              r_object.converse "beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names=#{name}, col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)"  
+              r_object.converse "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])"
+#              p r_object.converse( "df_old.#{i}$value" ) if $DEBUG
+#              p r_object.converse( "df_new.#{i}$value" ) if $DEBUG
+              r_object.converse %Q{beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="#{name}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)}  
               r_object.converse do
-                %Q{	
-                    plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
+                %Q{ plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
                     if (length(df_new.#{i}$value) > 4) {
                       lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='skyblue3', pch=16, lwd=3 )
                     } else {
                       points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='skyblue3', pch=21, cex=1.2)
                     }
-                    dev.off()
+                    mtext("#{@@name_legend[cat]}--#{@@name_legend[subcategory.to_s]}--#{name}", side=3, line=0, outer=TRUE)
                 }
               end
+              r_object.converse "dev.off()" #### This line must conclude each loop, as far as R is concerned.
               i +=1
             end # while loop
           end # subcats
