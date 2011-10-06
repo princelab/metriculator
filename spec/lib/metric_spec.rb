@@ -18,7 +18,7 @@ describe 'parses metrics and databases them' do
     @matches = Msrun.all # matches is the result of a Msrun.all OR Msrun.first OR Msrun.get(*args)
   end	
   it 'has appropriate test values... (find test values)' do 
-    @metric.parse.class.should.equal Hash
+    @metric.parse.class.should == Hash
   end
 end
 =begin
