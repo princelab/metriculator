@@ -25,7 +25,7 @@ class ::Measurement <
   end
 end
 # This is the set of default settings for the {Ms::NIST::Metric#to_database} method
-DatabaseDefaults = {migrate: false}
+DatabaseDefaults = {migrate: false, upgrade: false}
 module Ms
 # NIST, for the organization that wrote the METRIC producing programs we are using.
   class NIST
@@ -138,9 +138,11 @@ module Ms
         if database_opts[:migrate]
           require 'dm-migrations'
           DataMapper.auto_migrate!  # This one wipes things!
+          puts "DataMapper#auto_migrate-ing"
         elsif database_opts[:upgrade]
           require 'dm-migrations'
           DataMapper.auto_upgrade!
+          puts "DataMapper#auto_upgrade-ing"
         end
         objects = []; item = 0
         slice_hash if @measures.nil?
