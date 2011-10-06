@@ -33,14 +33,12 @@ module Ms
     # @param None
     # @return Nothing specific
     def grab_files
-      puts "Why are you in the grab_files thing?\tTunefile: #{@tunefile}"
       tunefile = Ms::Xcalibur::Method.new(methodfile).tunefile
       @hplc_object = Ms::Eksigent::Ultra2D.new(rawfile)
       hplcfile = @hplc_object.eksfile
     end
     # This function pulls information from the hplc_file parsing to fill in more details to this MsRunInfo object.
     def fill_in 
-      puts "Why are you in fill_in?\tTunefile: #{tunefile}"
       grab_files if tunefile.nil?
       inj_volume = @hplc_object.inj_vol
       hplc_vial = @hplc_object.autosampler_vial
