@@ -15,12 +15,12 @@ describe 'Matches to graph trace file from rawfile time' do
   end
   it 'finds ek2_*.txt file' do
     #@tmp.hplcfile.should.equal @tmp.eksfile
-    File.extname(@tmp.eksfile).should.equal '.txt'
+    File.extname(@tmp.eksfile).should == '.txt'
     @tmp.eksfile[/^.*\/ek2_.*\.txt/].should.equal @tmp.eksfile
   end
   it 'parses the ek2_*.txt file correctly' do
     @tmp.eksfile = TESTFILE + '/ek2_test.txt'
-
+    File.extname(@tmp.graph).should == ".svg"
   end
 end
 
@@ -30,8 +30,8 @@ describe 'graphs eksigent output' do
     @tmp.rawfile = TESTFILE + '/time_test.RAW'
     @tmp.eksfile = TESTFILE + '/ek2_test.txt'
   end
-  it 'generates a .pdf with the appropriate name' do
+  it 'generates a .svg with the appropriate name' do
     file = @tmp.graph
-    @tmp.graphfile.should.equal file
+    @tmp.graphfile.should == file
   end
 end

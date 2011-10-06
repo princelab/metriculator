@@ -16,7 +16,6 @@ class Msrun
       incr_digest.hexdigest
     end
   }
-  #	Digest::MD5.hexdigest(File.read(r.rawfile)) if r.rawfile and File.exist?(r.rawfile)}
 
   # Owner
   property :group,			 	String
@@ -52,6 +51,10 @@ class Msrun
   # Values
   property :autosampler_vial,		String
   property :inj_volume, 				Integer
+
+  property :hplc_maxP, Integer
+  property :hplc_avgP, Integer
+  property :hplc_stdP, Integer
 
   # Associations
   has 1, :metric

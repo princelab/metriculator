@@ -20,8 +20,8 @@ require 'comparison_grapher'
 module Ms
   # This class serves as a container for the information acquired from parsing Xcalibur files and finding Eksigent files which pertain to a MsRun.  This information can then be used directly, or passed into a Database for future reference.
   class MsrunInfo < 
-    Struct.new(:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :archive_location, :rawid, :group, :user, :taxonomy)  # Every file must have a source hash id that helps us know that things are working.
-    attr_accessor :data_struct 
+    Struct.new(:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :archive_location, :rawid, :group, :user, :taxonomy, :hplc_maxP, :hplc_avgP, :hplc_stdP)  # Every file must have a source hash id that helps us know that things are working.
+    attr_accessor :data_struct, :msrun_id, :hplc_object
     def initialize(struct = nil)
       if struct
         struct.members.each do |sym|
@@ -33,21 +33,33 @@ module Ms
     # @param None
     # @return Nothing specific
     def grab_files
-      @tunefile = Ms::Xcalibur::Method.new(@methodfile).tunefile
-      @hplc_object = Ms::Eksigent::Ultra2D.new(@rawfile)
-      @hplcfile = @hplc_object.eksfile
+      puts "Why are you in the grab_files thing?\tTunefile: #{@tunefile}"
+      tunefile = Ms::Xcalibur::Method.new(methodfile).tunefile
+      @hplc_object = Ms::Eksigent::Ultra2D.new(rawfile)
+      hplcfile = @hplc_object.eksfile
     end
     # This function pulls information from the hplc_file parsing to fill in more details to this MsRunInfo object.
     def fill_in 
-      grab_files if @tunefile.nil?
-      @inj_volume = @hplc_object.inj_vol
-      @hplcfile = @hplc_object.eksfile
-      @hplc_vial = @hplc_object.autosampler_vial
+      puts "Why are you in fill_in?\tTunefile: #{tunefile}"
+      grab_files if tunefile.nil?
+      inj_volume = @hplc_object.inj_vol
+      hplc_vial = @hplc_object.autosampler_vial
+      hplc_maxP = @hplc_object.maxpressure
+      hplc_avgP = @hplc_object.meanpressure
+      hplc_stdP = @hplc_object.pressure_stdev
     end
 
     # This method calls the grapher to generate a pressure trace from the data parsed from the recently located hplc file
     def graph_pressure
-      @graphfile = @hplc_object.graph
+      graphfile = @hplc_object.graph
     end
+    def to_database
+      fill_in if hplc_maxP.nil?
+      graph_pressure if @graphfile.nil?
+      @db = Msrun.first_or_create(:raw_id => File.basename(rawfile, ".raw"), :group => group, :rawfile => rawfile, :methodfile => methodfile, :tunefile => tunefile, :hplcfile => hplcfile, :graphfile => graphfile, :archive_location => "", :taxonomy => taxonomy, :inj_volume => inj_volume, :autosampler_vial => hplc_vial, :hplc_maxP => hplc_maxP, :hplc_stdP => hplc_stdP, :hplc_avgP => hplc_avgP)
+      @db.id
+    end
+      
+
   end # MsrunInfo
 end # Ms

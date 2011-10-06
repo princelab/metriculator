@@ -12,7 +12,7 @@ module Ms
 	class Eksigent
 # this is the class which contains methods specific to the Ultra2D UPLC system
 		class Ultra2D
-			attr_accessor :rawfile, :eksfile, :graphfile, :autosampler_vial, :inj_vol, :rawtime, :datapoints
+			attr_accessor :rawfile, :eksfile, :graphfile, :autosampler_vial, :inj_vol, :rawtime, :datapoints, :maxpressure, :meanpressure, :pressure_stdev, :data
 			def initialize(rawfile = nil)
 				if rawfile
 					@rawfile = rawfile
@@ -37,7 +37,8 @@ module Ms
 				self
 			end
 # This parses the eksigent hplc file and creates the @data hash containing the values found
-			def parse
+			def parse(eksfile = nil)
+        @eksfile ||= eksfile
 				hash_out = {}; data_block = []
 				file = File.open(@eksfile, 'r:iso-8859-1')
 				file_test, sample_test, autosampler_test, data_test = false, false, false, false
@@ -61,7 +62,7 @@ module Ms
 			end
 # This will take the @data (or parse if not found) and generate an array of datapoints which contain the information desired as {PressureTraceDataPoint} structs, stored as @datapoints
 			def structs
-				parse if @data.nil?
+				parse unless @data
 				@data['plotraw'].shift
 				@datapoints = []
 				@data['plotraw'].each do |line|
@@ -74,17 +75,22 @@ module Ms
 # This will graph the @datapoints and return the filename of the graphfile produced.  
 			def graph
 				structs if @datapoints.nil?
-				@graphfile =  File.absolute_path(File.expand_path(@rawfile).chomp(File.extname(@rawfile)) + '.pdf')
+				@graphfile ||=  File.absolute_path(File.expand_path(@rawfile).chomp(File.extname(@rawfile)) + '.svg')
 				require 'rserve/simpler'
 				output = Rserve::Simpler.new
+        output.converse("setwd('#{Dir.pwd}')")
 				datafr = Rserve::DataFrame.from_structs(@datapoints)
 # 	Struct.new(:time, :signal, :reference, :qa, :qb, :aux, :pa, :pb, :pc, :pd, :powera, :powerb)
-				File.open('/home/ryanmt/eksigent_datafr.yml', 'w') {|out| YAML::dump(datafr, out) }
-				captured = output.converse( eks_trace: datafr )  do 
-					%Q{pdf(file="#{@graphfile}", height=8, width=10)
-					par(mar=c(3,4,3,4)+0.1)
-					attach(eks_trace)
-				  plot(pc~time, axes=FALSE, type='l', ylim=range(qa,qb,pc), xlab='', ylab='')	
+				File.open('eksigent_datafr.yml', 'w') {|out| YAML::dump(datafr, out) }
+				output.converse( eks_trace: datafr ) 
+        output.converse %Q{svg(file="#{@graphfile}", height=8, width=10)}
+        output.converse %Q{ par(mar=c(3,4,3,4)+0.1)}
+        output.converse %Q{	attach(eks_trace) }
+        output.converse %Q{ plot(pc~time, axes=FALSE, type='l', ylim=range(eks_trace$qa,eks_trace$qb,eks_trace$pc), xlab='', ylab='')	}
+        
+        output.converse %Q{ }
+				output.converse do 
+					%Q{	
 					axis(side=2, at = pretty(range(pc)),las=1)
 					mtext("Column Pressure (psi)", side=2, line=3)
 					box()
@@ -95,12 +101,38 @@ module Ms
 					par(new=TRUE)
 					plot(qb~time, axes=FALSE, type='l', ylim=c(0,max(qb)), xlab='', ylab='', col='red')
 					legend('left', legend=c("Pc", 'Flowrate of Solvent A', "Flowrate of Solvent B"), text.col=c('black', 'blue', 'red'),pch=c(16,16,16),col=c('black', 'blue', 'red'))
-					dev.off()
 					}
 				end
+        sleep(4)
+        output.converse %Q{dev.off() }
+        @maxpressure = output.converse "max(pc)"
+        @meanpressure = output.converse "mean(pc)"
+        @pressure_stdev = output.converse "sd(pc)"
 				@graphfile
 			end #graph
 		end # Ultra2d
 	end # Eksigent
 end # Ms
 				
+=begin
+Type 'q()' to quit R.
+
+> svg(file="/home/ryanmt/Dropbox/coding/rails/metrics_site/JTP/ryanmt/20111004/xlinking/1/smple2B.svg", height=8, width=10)
+> plot( c(1,2,3))
+Error in plot.new() : cairo error 'error while writing to output stream'
+> 
+> 
+> 
+> 
+> plot( c(1,2,3))
+
+ *** caught segfault ***
+address 0x4, cause 'memory not mapped'
+
+Traceback:
+ 1: plot.new()
+ 2: plot.default(c(1, 2, 3))
+ 3: plot(c(1, 2, 3))
+
+
+=end
