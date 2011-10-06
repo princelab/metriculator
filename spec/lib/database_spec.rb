@@ -3,13 +3,13 @@ require 'spec_helper'
 describe 'DBing' do
   describe "Metric" do
     before :all do 
-      input = TESTFILE + '/single_metric.txt'
-      @metric = Metric.new(input)
+      @input = TESTFILE + '/single_metric.txt'
+      @metric = Ms::NIST::Metric.new(@input)
       @measures = @metric.slice_hash
       @metric.to_database
     end
     it 'contains the information parsed' do 
-      a, b = @measures.sort.first, Ms::ComparisonGrapher.slice_matches(Msrun.all(:metricsfile => input)).sort.first
+      a, b = @measures.sort.first, Ms::ComparisonGrapher.slice_matches(Msrun.all(:metricsfile => @input)).sort.first
       p a
       p b
       a.name.to_sym.should == b.name
@@ -20,10 +20,10 @@ describe 'DBing' do
     end
 =begin
     it 'contains only a single set of data for each time run' do 
-      @metric = Metric.new(input)
+      @metric = Metric.new(@input)
       @metric.to_database
-      @measures.length.should.equal @metric.slice_matches(Msrun.all(:metricsfile => input)).length
-      @measures.sort.slice(0..5).map(&:value).map(&:to_f).should.equal @metric.slice_matches(Msrun.all(:metricsfile => input)).sort.slice(0..5).map(&:value)
+      @measures.length.should.equal @metric.slice_matches(Msrun.all(:metricsfile => @input)).length
+      @measures.sort.slice(0..5).map(&:value).map(&:to_f).should.equal @metric.slice_matches(Msrun.all(:metricsfile => @input)).sort.slice(0..5).map(&:value)
     end
 =end
   end # Metric

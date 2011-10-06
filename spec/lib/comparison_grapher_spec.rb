@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-comparison_id = Time.now.to_i
+comparison_id = TESTFILE + '/' + Time.now.to_i.to_s
 describe 'Ms::ComparisonGrapher' do 
 puts "RAILS_ENV: #{::Rails.env}"
 @match_old = Msrun.all
