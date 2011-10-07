@@ -13,14 +13,16 @@ footer, header {
 }
 
 header {
-  padding-top: 15px;
-  padding-right: 30px; 
-  padding-left: 20px;
+
 }
 
 header img {
   padding: 0.8em;
   background: #fff;
+}
+
+.subheader {
+  
 }
 /* NAVIGATION */
 nav {
@@ -131,4 +133,12 @@ table#msrunshow, th, td {
 div#messages span {
   color:blue;
   font-weight: bold;
+}
+
+#graphs>div.svg>embed {
+  width: 540pt;
+  height: 216pt;
+}
+
+#graphs>div.svg { 
 }
