@@ -9,8 +9,9 @@
       %li= link_to "Metrics", metrics_path
     %ul.subheader
       - if ['comparisons'].include?(params[:controller]) and params[:id]
+        %li= link_to "Comparison Home", comparisons_path + '/' + params[:id]
         - categories.each do |cat|
-          %li= link_to "#{cat.humanize}", "#{params[:id]}/#{cat.downcase}"
+          %li= link_to "#{cat.humanize}", "#{cat.downcase}"
   = link_to logo, root_path
   - if flash[:error]
     .error=flash[:error]
