@@ -2,5 +2,6 @@
 %h1 Showing A Comparison
 %ul.categories
   - categories.each do |cat|
-    %li= link_to "#{cat.humanize}", "#{params[:id]}/#{cat}"
+    %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat}"
+    
 
