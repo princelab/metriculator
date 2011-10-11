@@ -13,6 +13,8 @@
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
     - Prevent the same comparison from being created multiple times?
   - Add breadcrumbs for graph heirarchy?
+    - Links through the layers
+  - Embedding of UPLC trace
   - Pagination is pretty broken
 
 ###Database
