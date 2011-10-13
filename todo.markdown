@@ -12,6 +12,8 @@
 ###Website
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
     - Prevent the same comparison from being created multiple times?
+      - How can this be done??
+    - Maybe it would be best to just create a comparison description that could be user edited and searched?
   - Add breadcrumbs for graph heirarchy?
     - Links through the layers
   - Embedding of UPLC trace
