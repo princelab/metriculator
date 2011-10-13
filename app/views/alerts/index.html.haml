@@ -1,0 +1,7 @@
+%h1 Alerts Overview
+%ul
+- @alerts.each do |alert|
+  %li= "#{alert.description} | #{alert.created_at}"
+
+
+
