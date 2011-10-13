@@ -1,12 +1,16 @@
 %h1=@graph_title
+- @up = "#{comparison_path(params[:id])}/#{params[:graph_path][/(.*)\/.*/,1]}"
+%a{ :href => @up} Up
 #subdirectories
   %ul
     - @graph_directories.each do |directory|
+      - cat = directory[/\/comparisons\/\d*\/(.*)\/.*/,1].titleize
+      - name = ApplicationController::Name_legend[directory[/\/comparisons\/\d*\/.*\/(.*)/,1]]
       %li
-        %a{ :href => directory }=directory[/\/comparisons\/\d*\/(.*)/,1].titleize.sub(/\//, ' - ')
+        %a{ :href => directory }= cat + " - " + name
 
 #graphs
   - @graph_files.each do |graph|
     %div.svg
-      %h3=graph.titleize
+      /%h3=graph.titleize
       %embed{ :src => graph, :type => "image/svg+xml" }

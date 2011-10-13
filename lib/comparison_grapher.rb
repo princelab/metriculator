@@ -141,7 +141,9 @@ module Ms
                     tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))		}
               end
               r_object.converse %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE)
-                      if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_old.#{i}$value), silent=TRUE)		}
+                      if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_old.#{i}$value), silent=TRUE)		
+                      if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_new.#{i}$value), silent=TRUE)		
+                      if(inherits(band1, 'try-error')) band1 <- 0.99   }
               r_object.converse "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])"
 
               r_object.converse %Q{ beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="#{name}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)}  
@@ -152,7 +154,16 @@ module Ms
                     } else {
                       points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='skyblue3', pch=21, cex=1.2)
                     }
-                    mtext("#{@@name_legend[cat]}--#{@@name_legend[subcategory.to_s]}--#{name}", side=3, line=0, outer=TRUE)
+                    title <- "#{@@name_legend[cat]}--#{@@name_legend[subcategory.to_s]}--#{name}"
+                    if (nchar(title) > 80) {
+                      mtext(title, side=3, line=0, outer=TRUE, cex=0.7)
+                    } else if (nchar(title) > 100 ) {
+                      mtext(title, side=3, line=0, outer=TRUE, cex=0.6)
+                    } else if (nchar(title) > 120 ) {
+                      mtext(title, side=3, line=0, outer=TRUE, cex=0.5)
+                    } else {
+                      mtext(title, side=3, line=0, outer=TRUE)
+                    }
                 }
               end
               r_object.converse "dev.off()" # This line must end the loop, to prevent R from crashing.
@@ -244,7 +255,10 @@ module Ms
                     tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))		}
               end
               r_object.converse %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE)
-                      if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_old.#{i}$value), silent=TRUE)		}
+                      if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_old.#{i}$value), silent=TRUE)
+                      if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_new.#{i}$value), silent=TRUE)		
+                      if(inherits(band1, 'try-error')) band1 <- 0.99
+              }
               r_object.converse "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])"
 #              p r_object.converse( "df_old.#{i}$value" ) if $DEBUG
 #              p r_object.converse( "df_new.#{i}$value" ) if $DEBUG
@@ -256,7 +270,16 @@ module Ms
                     } else {
                       points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='skyblue3', pch=21, cex=1.2)
                     }
-                    mtext("#{@@name_legend[cat]}--#{@@name_legend[subcategory.to_s]}--#{name}", side=3, line=0, outer=TRUE)
+                    title <- "#{@@name_legend[cat]}--#{@@name_legend[subcategory.to_s]}--#{name}"
+                    if (nchar(title) > 80) {
+                      mtext(title, side=3, line=0, outer=TRUE, cex=0.75)
+                    } else if (nchar(title) > 100 ) {
+                      mtext(title, side=3, line=0, outer=TRUE, cex=0.65)
+                    } else if (nchar(title) > 120 ) {
+                      mtext(title, side=3, line=0, outer=TRUE, cex=0.55)
+                    } else {
+                      mtext(title, side=3, line=0, outer=TRUE)
+                    }
                 }
               end
               r_object.converse "dev.off()" #### This line must conclude each loop, as far as R is concerned.
