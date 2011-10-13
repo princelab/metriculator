@@ -50,6 +50,9 @@ nav ul li a {
   padding: 0 5px;
   font-weight: bold;
 }
+a.alerts {
+  padding: 0 0px;
+}
 
 nav ul li a:visited {
   color: #09c;
