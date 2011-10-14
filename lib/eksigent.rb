@@ -6,7 +6,8 @@ PressureTraceDataPoint = Struct.new(:time, :signal, :reference, :qa, :qb, :aux, 
 	end
 end
 
-
+  @@ROOT_GRAPH_DIRECTORY = AppConfig[:hplc_graph_directory]
+  FileUtils.mkdir_p(@@ROOT_GRAPH_DIRECTORY)
 module Ms
 # this is the class which contains methods specific to Eksigent Products
 	class Eksigent
@@ -76,6 +77,8 @@ module Ms
 			def graph
 				structs if @datapoints.nil?
 				@graphfile ||=  File.absolute_path(File.expand_path(@rawfile).chomp(File.extname(@rawfile)) + '.svg')
+        @graphfile = File.join(@@ROOT_GRAPH_DIRECTORY, File.basename(@graphfile))
+        p @graphfile
 				require 'rserve/simpler'
 				output = Rserve::Simpler.new
         output.converse("setwd('#{Dir.pwd}')")
@@ -83,6 +86,11 @@ module Ms
 # 	Struct.new(:time, :signal, :reference, :qa, :qb, :aux, :pa, :pb, :pc, :pd, :powera, :powerb)
 				File.open('eksigent_datafr.yml', 'w') {|out| YAML::dump(datafr, out) }
 				output.converse( eks_trace: datafr ) 
+				p output.converse( " ls() " )
+				p output.converse( " attach(eks_trace) " )
+				p output.converse( " ls() " )
+				#p output.converse( " ls() " )
+        output.converse %Q{svg(file="tmp.svg", height=8, width=10)}
         output.converse %Q{svg(file="#{@graphfile}", height=8, width=10)}
         output.converse %Q{ par(mar=c(3,4,3,4)+0.1)}
         output.converse %Q{	attach(eks_trace) }

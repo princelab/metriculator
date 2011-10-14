@@ -1,9 +1,9 @@
+require 'config'
 require 'msruninfo'
 require 'xcalibur'
 require 'eksigent'
 require 'optparse'
 require 'archive_mount'
-require 'config'
 # this package handles options and configures the packaging and archiving of 
 # data produced by the instrument, as well as archiving of all the files used
 # during the run 

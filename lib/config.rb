@@ -5,6 +5,7 @@ App_defaults = {
   metric_instrument_type: "ORBI",
   admin_email: "admin@example.org",
   comparison_directory: Pathname.new(File.join(File.expand_path(File.dirname(__FILE__)), "..", "public", "comparisons")).cleanpath.to_s,
+  hplc_graph_directory: Pathname.new(File.join(File.expand_path(File.dirname(__FILE__)), "..", "public", "hplc_graphs")).cleanpath.to_s,
 	nodes: {
 		instrument: { system: "Windows", archive_root: "O:\\" },
 		metrics: { system: "Windows", archive_root: "O:\\" },
