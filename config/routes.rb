@@ -15,6 +15,9 @@ MetricsSite::Application.routes.draw do
 
   get 'alerts' => 'alerts#index'
   delete 'alerts/:id' => 'alerts#destroy', :as => 'alert'
+  resource :alerts do 
+    delete :remove_all, :to => "alerts#remove_all", :on => :collection
+  end
 
   match 'chromatography/:id' => 'graph#show'
 

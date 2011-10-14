@@ -11,14 +11,11 @@ class AlertsController < ApplicationController
       format.js { render :nothing => true }
     end
   end
-  def destroy_all
-  p @alerts
-  p params
-    @alerts.each do |alert|
-      alert.update(show: false) if alert
-      respond_to do |format|
-        format.js {render :nothing => true}
-      end
+  def remove_all
+    puts "IN REMOVE_ALL METHOD"
+    Alert.update_all({ show: false }, { show: true })
+    respond_to do |format|
+      format.js {render :nothing => true}
     end
   end
 end
