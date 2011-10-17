@@ -7,4 +7,7 @@
     %tr
       %td= k
       %td= v
-  
+%span#graphs
+  %h2 UPLC Pressure Trace
+  %div.hplcgraph
+    %embed{ src: @image_path, type: "image/svg+xml"}

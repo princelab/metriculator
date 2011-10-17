@@ -143,5 +143,9 @@ div#messages span {
   height: 216pt;
 }
 
+#graphs>div.hplcgraph>embed {
+  width: 100%;
+  height: 100%;
+}
 #graphs>div.svg { 
 }
