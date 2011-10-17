@@ -18,6 +18,7 @@
     - Links through the layers
   - Embedding of UPLC trace
   - Pagination is pretty broken
+  - figure out how to AJAX update the alerts page
 
 ###Database
 

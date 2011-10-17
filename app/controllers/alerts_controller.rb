@@ -13,7 +13,7 @@ class AlertsController < ApplicationController
   end
   def remove_all
     puts "IN REMOVE_ALL METHOD"
-    Alert.update_all({ show: false }, { show: true })
+    Alert.all(show: true).update({ show: false })
     respond_to do |format|
       format.js {render :nothing => true}
     end

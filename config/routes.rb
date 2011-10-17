@@ -14,10 +14,10 @@ MetricsSite::Application.routes.draw do
   get 'comparisons/:id/*graph_path' => 'comparisons#get_graph_at_path'
 
   get 'alerts' => 'alerts#index'
-  delete 'alerts/:id' => 'alerts#destroy', :as => 'alert'
   resource :alerts do 
     delete :remove_all, :to => "alerts#remove_all", :on => :collection
   end
+  delete 'alerts/:id' => 'alerts#destroy', :as => 'alert'
 
   match 'chromatography/:id' => 'graph#show'
 
