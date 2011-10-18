@@ -3,9 +3,11 @@ class MsrunsController < ApplicationController
   def show
     @msrun = Msrun.get(params[:id])
  #   @embed_svg = send_file("/home/ryanmt/Dropbox/coding/rails/metrics_site/testing.svg", disposition: 'inline', type: 'image/svg+xml', stream: false, filename: "#{@msrun.raw_id}.svg")
-    @image_path = "public/hplc_graphs/#{Time.now.to_i.to_s}.svg"
-    FileUtils.copy(@msrun.graphfile, @image_path)
-    @image_path = @image_path.sub("public",'')
+    if @msrun.graphfile
+      @image_path = "public/hplc_graphs/#{Time.now.to_i.to_s}.svg"
+      FileUtils.copy(@msrun.graphfile, @image_path)
+      @image_path = @image_path.sub("public",'')
+    end
   end
 
   def index

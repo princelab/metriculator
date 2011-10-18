@@ -2,7 +2,7 @@
   %h1 Alerts Overview
   %ul
   - @alerts.each do |alert|
-    %li= "#{alert.description} | #{alert.created_at}"
+    %li= "#{alert.description} | #{alert.created_at.httpdate}"
   - if @alerts.size > 0
     = link_to "Remove All", remove_all_alerts_path, :confirm => "Are you sure", :method => :delete, :remote => :true
 

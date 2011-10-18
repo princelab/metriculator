@@ -5,9 +5,14 @@
     %th Value
   - @msrun.attributes.each do |k,v|
     %tr
+    - if k['rawtime']
+      %td= k
+      %td= v.httpdate
+    - else
       %td= k
       %td= v
-%span#graphs
-  %h2 UPLC Pressure Trace
-  %div.hplcgraph
-    %embed{ src: @image_path, type: "image/svg+xml"}
+-if @image_path
+  %span#graphs
+    %h2 UPLC Pressure Trace
+    %div.hplcgraph
+      %embed{ src: @image_path, type: "image/svg+xml"}
