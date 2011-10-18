@@ -152,7 +152,7 @@ module Ms
                 when Float
                   t_test_out = "%.2g" % t_test
               end
-              r_object.converse %Q{ beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="#{name}\np-value:#{t_test_out}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)}  
+              r_object.converse %Q{ beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="p-value:#{t_test_out}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)}  
               r_object.converse do
                 %Q{ plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
                     if (length(df_new.#{i}$value) > 4) {
@@ -275,7 +275,7 @@ module Ms
                 when Float
                   t_test_out = "%.2g" % t_test
               end
-              r_object.converse %Q{beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="#{name}\np-value: #{t_test_out}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)} #  
+              r_object.converse %Q{beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="p-value: #{t_test_out}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)} 
               r_object.converse do
                 %Q{ plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
                     if (length(df_new.#{i}$value) > 4) {
@@ -283,7 +283,7 @@ module Ms
                     } else {
                       points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='skyblue3', pch=21, cex=1.2)
                     }
-                    title <- "#{@@name_legend[cat]}--#{@@name_legend[subcategory.to_s]}--#{name}"
+                    title <- "#{@@name_legend[cat]}\t#{@@name_legend[subcategory.to_s]}\t#{name}"
                     if (nchar(title) > 80) {
                       mtext(title, side=3, line=0, outer=TRUE, cex=0.75)
                     } else if (nchar(title) > 100 ) {

@@ -26,7 +26,7 @@ puts "RAILS_ENV: #{::Rails.env}"
   it 'calculates the stats as well' do 	
     new = Ms::ComparisonGrapher.slice_matches(@match_new)
     old = Ms::ComparisonGrapher.slice_matches(@match_old)
-    reply = Ms::ComparisonGrapher.graph_and_stats(new, old, comparison_id.to_s)
+    reply = Ms::ComparisonGrapher.graph_and_stats(new, old, "#{comparison_id.to_s}_stats")
     reply.class.should == Hash
   end
 end
