@@ -8,7 +8,7 @@
 * Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.  
 		`scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => 'my scheduler')`
 * Colored arrows defining the positive or negative trends when known for each metric
-* Add a T-test or P-tests for the beanplots
+* Make a special viewing page for any graphs that are significantly different (T-test) __????  Would this really help???__
 
 ###Website
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
