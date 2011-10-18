@@ -145,8 +145,14 @@ module Ms
                       if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_new.#{i}$value), silent=TRUE)		
                       if(inherits(band1, 'try-error')) band1 <- 0.99   }
               r_object.converse "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])"
-
-              r_object.converse %Q{ beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="#{name}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)}  
+              t_test = r_object.converse ("try(t.test(df_old.#{i}$value, df_new.#{i}$value), silent=TRUE)")
+              case t_test
+                when String
+                  t_test_out = "ERR: Data are constant"
+                when Float
+                  t_test_out = "%.2g" % t_test
+              end
+              r_object.converse %Q{ beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="#{name}\np-value:#{t_test_out}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)}  
               r_object.converse do
                 %Q{ plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
                     if (length(df_new.#{i}$value) > 4) {
@@ -260,9 +266,16 @@ module Ms
                       if(inherits(band1, 'try-error')) band1 <- 0.99
               }
               r_object.converse "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])"
+              t_test = r_object.converse ("try(t.test(df_old.#{i}$value, df_new.#{i}$value)$p.value, silent=TRUE)")
 #              p r_object.converse( "df_old.#{i}$value" ) if $DEBUG
 #              p r_object.converse( "df_new.#{i}$value" ) if $DEBUG
-              r_object.converse %Q{beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="#{name}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)}  
+              case t_test
+                when String
+                  t_test_out = "ERR: Data are constant"
+                when Float
+                  t_test_out = "%.2g" % t_test
+              end
+              r_object.converse %Q{beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="#{name}\np-value: #{t_test_out}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)} #  
               r_object.converse do
                 %Q{ plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
                     if (length(df_new.#{i}$value) > 4) {
