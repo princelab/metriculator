@@ -20,6 +20,7 @@
   - figure out how to AJAX update the alerts page
 * Colored arrows defining the positive or negative trends when known for each metric
 * Make a special viewing page for any graphs that are significantly different (T-test) __????  Would this really help???__
+  * Or a page of links to the images?
 
 ###Database
 
