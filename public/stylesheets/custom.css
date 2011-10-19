@@ -149,3 +149,7 @@ div#messages span {
 }
 #graphs>div.svg { 
 }
+
+td#lists {
+  font-size: 10px;
+}

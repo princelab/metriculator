@@ -52,9 +52,9 @@ class Msrun
   property :autosampler_vial,		String
   property :inj_volume, 				Integer
 
-  property :hplc_maxP, Integer
-  property :hplc_avgP, Integer
-  property :hplc_stdP, Integer
+  property :hplc_max_p, Integer
+  property :hplc_avg_p, Integer
+  property :hplc_std_p, Integer
 
   # Associations
   has 1, :metric
