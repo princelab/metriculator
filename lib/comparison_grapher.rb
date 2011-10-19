@@ -38,19 +38,26 @@ module Ms
           index = msrun.raw_id.to_s
           @data[index] = {'timestamp' => msrun.rawtime || Time.random(1)}
           @@categories.each do |cat|
-            @data[index][cat] = msrun.metric.send(cat.to_sym).hashes
-            @data[index][cat].keys.each do |subcat|	
-              @data[index][cat][subcat].delete('id'.to_sym)
-              @data[index][cat][subcat].delete("#{cat}_id".to_sym)
-              @data[index][cat][subcat].delete("#{cat}_metric_msrun_id".to_sym)
-              @data[index][cat][subcat].delete("#{cat}_metric_msrun_raw_id".to_sym)
-              @data[index][cat][subcat].delete("#{cat}_metric_metric_input_file".to_sym)
-              @data[index][cat][subcat].each { |property, value|
-                measures << Measurement.new( property, index, @data[index]['timestamp'], value, cat.to_sym, subcat.to_sym) }
+            if cat == "uplc"
+              arr = [{"hplc_max_p" => msrun.hplc_max_p || 0}, {'hplc_avg_p' => msrun.hplc_avg_p || 0}, {'hplc_std_p' => msrun.hplc_std_p || 0}]
+              arr.each do |prop|
+                measures << Measurement.new(prop.keys.first, index, @data[index]['timestamp'], prop[prop.keys.first], cat.to_sym, :pressure_trace)
+              end
+            else
+              @data[index][cat] = msrun.metric.send(cat.to_sym).hashes
+              @data[index][cat].keys.each do |subcat|	
+                @data[index][cat][subcat].delete('id'.to_sym)
+                @data[index][cat][subcat].delete("#{cat}_id".to_sym)
+                @data[index][cat][subcat].delete("#{cat}_metric_msrun_id".to_sym)
+                @data[index][cat][subcat].delete("#{cat}_metric_msrun_raw_id".to_sym)
+                @data[index][cat][subcat].delete("#{cat}_metric_metric_input_file".to_sym)
+                @data[index][cat][subcat].each { |property, value|
+                  measures << Measurement.new( property, index, @data[index]['timestamp'], value, cat.to_sym, subcat.to_sym) }
+              end
             end
           end
         end
-        measures.sort
+        measures.sort_by {|measure| measure.category}
       end
 # This function takes the same parameters as {#graph_matches} and accomplishes the same result, as well as generating and returning, instead of the filenames, a hash containing the information needed to do cool stuff
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries, the first of which represents the newest in a QC run, which will be compared to the previous values
@@ -124,7 +131,7 @@ module Ms
                 t = QcConfig[cat.to_sym][subcategory.to_s.split('_').map{|word| word.capitalize}.join("").to_sym][curr_name]
                 variance = t.is_a?(Numeric) ? t : default_variance
                 mean = r_object.converse("mean(df_old.#{i}$value)")
-                sd = r_object.converse("sd(df_old.#{i}$value)")
+                sd = r_object.converse("try(sd(df_old.#{i}$value), silent=TRUE)")
                 data_hash[cat.to_sym][subcategory][curr_name] = [mean, sd] 
                 new_point = r_object.converse("df_new.#{i}$value")
                 range = mean-variance*sd..mean+variance*sd
@@ -303,8 +310,8 @@ module Ms
         graphfiles
       end # graph_files
 
-      @@categories = ["chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
-      @@name_legend = { "chromatography"=>"Chromatography", "ms1"=>"MS1", "ms2"=>"MS2", "dynamic_sampling"=>"Dynamic Sampling", "ion_source"=>"Ion Source", "ion_treatment"=>"Ion Treatment", "peptide_ids"=> "Peptide IDs", "run_comparison"=>"Run Comparison", "id_charge_distributions_at_different_ms1max_quartiles_for_charges_1_4"=>"ID Charge Distributions At Different MS1max Quartiles For Charges 1-4", "precursor_m_z_averages_and_differences_from_1st_quartile_largest_of_different_ms1total_tic_quartiles_over_full_elution_period"=>"Precursor m/z Averages and Differences from 1st Quartile (Largest) of Different MS1Total (TIC) Quartiles Over Full Elution Period", 
+      @@categories = ["uplc", "chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
+      @@name_legend = { "uplc"=>"UPLC","chromatography"=>"Chromatography", "ms1"=>"MS1", "ms2"=>"MS2", "dynamic_sampling"=>"Dynamic Sampling", "ion_source"=>"Ion Source", "ion_treatment"=>"Ion Treatment", "peptide_ids"=> "Peptide IDs", "run_comparison"=>"Run Comparison", "id_charge_distributions_at_different_ms1max_quartiles_for_charges_1_4"=>"ID Charge Distributions At Different MS1max Quartiles For Charges 1-4", "precursor_m_z_averages_and_differences_from_1st_quartile_largest_of_different_ms1total_tic_quartiles_over_full_elution_period"=>"Precursor m/z Averages and Differences from 1st Quartile (Largest) of Different MS1Total (TIC) Quartiles Over Full Elution Period", 
       "number_of_compounds_in_common"=>"Number of Compounds in Common", "fraction_of_overlapping_compounds_relative_to_first_index"=>"Fraction of Overlapping Compounds - relative to first index", "fraction_of_overlapping_compounds_relative_to_second_index"=>"Fraction of Overlapping Compounds - relative to second index", "median_retention_rank_differences_for_compounds_in_common_percent"=>"Median Retention Rank Differences for Compounds in Common (Percent)", "avg_1_60_1_60"=>"Avg\t1.60\t1.60", 
       "average_retention_rank_differences_for_compounds_in_common_percent"=>"Average Retention Rank Differences for Compounds in Common (Percent)", "avg_2_30_2_30"=>"Avg\t2.30\t2.30", "number_of_matching_identified_ions_between_runs"=>"Number of Matching Identified Ions Between Runs", "relative_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative Deviations in MS1 Max For Matching Identified Ions Between Runs", "avg_1_00_1_00"=>"Avg\t1.00\t1.00", "relative_uncorrected_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative Uncorrected Deviations in MS1 Max For Matching Identified Ions Between Runs", "avg_0_00_0_00"=>"Avg\t0.00\t0.00", 
       "relative_corrected_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative Corrected Deviations in MS1 Max For Matching Identified Ions Between Runs", "relative_rt_trends_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative RT Trends in MS1 Max For Matching Identified Ions Between Runs", 

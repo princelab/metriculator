@@ -20,7 +20,7 @@ class ComparisonsController < ApplicationController
     fork do
       result = comp.graph
       puts "DONE GRAPHING"
-      a = Alert.create({ :email => false, :show => true, :description => "DONE WITH THE COMPARISON" })
+      a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{comp.id}" })
     end
 
     flash[:notice] = "Comparison started. You will be notified when it completes."

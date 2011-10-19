@@ -3,6 +3,11 @@
 :alert: true
 :alert_email: ryanmt@byu.net
 :default_allowed_variance: 2
+:uplc:
+  :PressureTrace:
+    :hplc_max_p: true
+    :hplc_avg_p: true
+    :hplc_std_p: false
 :peptide_ids: 
   :AveragesVsRtForIdedPeptides: 
     :charge_q4: false

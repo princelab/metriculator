@@ -22,6 +22,10 @@ gem 'dm-timestamps',        DM_VERSION
 gem 'dm-observer',          DM_VERSION
 gem 'dm-chunked_query'
 
+# Testing/benchmarking gems
+gem 'newrelic_rpm'
+gem 'ruby-prof'
+## End
 gem 'pony'
 gem 'rserve-simpler', :require => 'rserve/simpler'
 gem 'haml'
