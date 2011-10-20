@@ -4,11 +4,11 @@
     %th ID
     %th Name
     %th Run Time
-
-- @metrics.each do |metric|
-  %tr
+  - @metrics.each do |metric|
+    %tr
     - m = Msrun.get(metric.msrun_id)
-    %td= (link_to metric.msrun_id, msrun_path(metric) )
+    %td= (link_to metric.msrun_id, metric_path(metric) )
     %td= m.raw_id
     %td= m.rawtime.readable_inspect
+  
 
