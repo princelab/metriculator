@@ -37,7 +37,7 @@
       %td= link_to run.raw_id, msrun_path(run)
       %td=run.group || "No Group"
       %td=run.user || "No User"
-      %td=run.rawtime.httpdate || "No Date"
+      %td=run.rawtime.readable_inspect || "No Date"
       %td=run.taxonomy || "No Taxonomy"
 
 != #pagination_links(@all, @page_number, @per_page)

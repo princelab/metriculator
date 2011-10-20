@@ -7,7 +7,7 @@
     %tr
     - if k['rawtime']
       %td= k
-      %td= v.httpdate
+      %td= v.readable_inspect
     - else
       %td= k
       %td= v
