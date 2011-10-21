@@ -1,7 +1,12 @@
 - categories = ["uplc", "chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
-%h1 Showing A Comparison
+%h1= "Comparison ##{params[:id]}"
 %ul.categories
   - categories.each do |cat|
     %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat}"
     
-
+%table#comparisons-show
+  %th Msrun set #1
+  %th Msrun set #2
+  %tr
+  %td#lists= raw(@comparison.msrun_firsts.map{|i| link_to i.raw_id, msrun_path(i)}.join("<br>"))
+  %td#lists= raw(@comparison.msrun_seconds.map{|i| link_to i.raw_id, msrun_path(i)}.join("<br>"))
