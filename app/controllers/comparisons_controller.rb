@@ -34,7 +34,6 @@ class ComparisonsController < ApplicationController
       if Dir.exist? path
         # turn the directories into the correct paths
         @graph_directories = comparison.get_directories_for_relative_path(params[:graph_path])
-        p @graph_directories
         if @graph_directories.nil?
           @graph_directories = []
         else

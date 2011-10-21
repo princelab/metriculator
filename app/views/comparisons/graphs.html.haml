@@ -5,6 +5,7 @@
   %ul
     - @graph_directories.each do |directory|
       - cat = directory[/\/comparisons\/\d*\/(.*)\/.*/,1].titleize
+      - p directory[/\/comparisons\/\d*\/.*\/(.*)/,1]
       - name = ApplicationController::Name_legend[directory[/\/comparisons\/\d*\/.*\/(.*)/,1]]
       %li
         %a{ :href => directory }= cat + " - " + name
