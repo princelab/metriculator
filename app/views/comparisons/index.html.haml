@@ -1,12 +1,12 @@
 %h1 Comparisons
-  %table#comparisons-index
-    %th #
-    %th Msrun set #1
-    %th Msrun set #2
-    %th Boo
-    - @comparisons.each do |comp|
-      %tr
-        %td= link_to comp.id, comparison_path(comp)
-        %td#lists= raw(comp.msrun_firsts.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>")) #.each_slice(2).map {|a| a.join(" , ")}.join("<br>"))
-        %td#lists= raw(comp.msrun_seconds.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>"))#.each_slice(2).map {|a| a.join("\t\t\t\t")}.join("<br>"))
-        %td
+%table#comparisons-index
+  %th #
+  %th Msrun set #1
+  %th Msrun set #2
+  %th Boo
+  - @comparisons.each do |comp|
+    %tr
+      %td= link_to comp.id, comparison_path(comp)
+      %td#lists= raw(comp.msrun_firsts.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>")) #.each_slice(2).map {|a| a.join(" , ")}.join("<br>"))
+      %td#lists= raw(comp.msrun_seconds.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>"))#.each_slice(2).map {|a| a.join("\t\t\t\t")}.join("<br>"))
+      %td
