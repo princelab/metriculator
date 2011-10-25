@@ -17,3 +17,14 @@ If you are unfamiliar with the process of installing R packages, the following t
  install.packages('beanplot')
 
 
+Unfortunately, the webserver aspect of this will also require some effort, at least for the best user experience possible.  To that end, it should be achievable by following the directions that are given when you run:
+
+  gem install passenger 
+
+  and
+
+  passenger-install-apache2-module 
+
+[Source: http://www.modrails.com/install.html ]
+
+

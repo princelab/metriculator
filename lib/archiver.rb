@@ -14,8 +14,8 @@ archiver_optparse = OptionParser.new do |opts|
 		opts.banner = "Usage: #{__FILE__} [options] file1 file2 ..." 
 		opts.banner = %Q{ This archives files.  Basically, it functions in one of three ways:  
     1. As a process to parse and archive files once the instrument is done with a run. 
-    2. As a client which runs a server which allows for easy viewing of performance metrics and general file information, including a database which archives information regarding each file.
-    3. As a client on a windows machine which runs a NIST Metrics suite to generate the performance metrics data
+    2. As a client which runs a server which allows for easy viewing of performance metrics and general file information, including a database which archives information regarding each file, which, for server responsiveness, should probably be a *NIX client.
+    3. As a client on a windows machine which runs a NIST Metrics suite to generate the performance metrics data.
     These functions can be on separate boxes, or run on the same system, as the only requirement for each system is that they can access the same shared file directory.  We recommend offloading as much of the processing as is possible from the instrument computer.
     }
 		#opts.banner = "RAW file should have this name format 'GROUP_username_sample-id-info.RAW'"
@@ -45,7 +45,7 @@ archiver_optparse = OptionParser.new do |opts|
 	opts.on( '--xcalibur', 'Runs this as called from Xcalibur and on an analysis workstation(minimize work down here, move then finish), with appropriate defaults' ) do 
     options[:xcalibur] = true 
     if ARGV.size != 2
-      puts "Xcalibur can't run without the input file and row number!"
+      puts "Archiver's 'Xcalibur' mode can't run without the input file and row number!"
       puts "Exiting..."
       exit
     end
@@ -57,6 +57,8 @@ archiver_optparse = OptionParser.new do |opts|
   options[:metrics] = false
   opts.on( '--metrics', "Runs a special process which monitors a queue file and runs metric conversions on the specified files") {options[:metrics] = true}
 
+  options[:server_setup] = false
+  opts.on( '--server_setup', "Attempts to initialize all settings and configure the webserver to enable the best way to run for the OS of this machine.  If this is a Windows machine, it will run the rails WEBrick server, if it is a *NIX box, it will configure an Apache installation to run this server") {options[:server_setup] = true}
 	opts.on('-h', '--help', 'Display this screen' ) do 
 		puts opts
 		exit
@@ -96,8 +98,14 @@ if options[:server]
   ArchiveRoot = SysInfo[:archive_root]
 	yaml_file = ARGV.first
 	object = YAML::load_file(yaml_file)
-
-
+# Start the server
+  # Rails server is limited to processing a single request at a time...
+  # You should use Apache, probably.  Hence, configure things with passenger for a *NIX environment
+  if SysInfo[:system] == "Windows"
+    %x[ rails s]
+  else
+    %x[ passenger start ]
+  end
 end
 
 if options[:metrics]
