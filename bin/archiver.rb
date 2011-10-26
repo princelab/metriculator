@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby 
+
 require 'config'
 require 'msruninfo'
 require 'xcalibur'

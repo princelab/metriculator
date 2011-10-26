@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+gemspec
+
 RAILS_VERSION = '~> 3.0.7'
 DM_VERSION    = '~> 1.1.0'
 gem 'rails', RAILS_VERSION

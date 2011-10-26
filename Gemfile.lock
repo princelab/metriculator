@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    archiver (0.0.1)
+      bundler (>= 1.0.15)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -201,6 +207,7 @@ DEPENDENCIES
   actionmailer (~> 3.0.7)
   actionpack (~> 3.0.7)
   activesupport (~> 3.0.7)
+  archiver!
   autotest
   autotest-growl
   autotest-rails
