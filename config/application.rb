@@ -14,7 +14,7 @@ require 'dm-rails/railtie'
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env) if defined?(Bundler)
-require 'archiver'
+require_relative '../bin/archiver'
 
 module MetricsSite
   class Application < Rails::Application
