@@ -3,8 +3,13 @@
 Metric Tracker is a Ruby on Rails application for displaying and interacting with data from
 mass spec proteomics experiments.
 
+Initially, the install can be mostly done by running the command 
+  
+  bundle install
 
-This requires R and the R libraries "beanplot" and "Rserve" to be installed.
+This will require the installation of a dev-kit when running in windows.  Fortunately, there are instructions provided when bundle install fails.  When that has been done, bundle install again.
+
+This also requires R and the R libraries "beanplot" and "Rserve" to be installed.
 
 R can be found at http://www.r-project.org/
 
@@ -16,7 +21,6 @@ If you are unfamiliar with the process of installing R packages, the following t
 
  install.packages('beanplot')
 
-
 Unfortunately, the webserver aspect of this will also require some effort, at least for the best user experience possible.  To that end, it should be achievable by following the directions that are given when you run:
 
   gem install passenger 
@@ -27,4 +31,4 @@ Unfortunately, the webserver aspect of this will also require some effort, at le
 
 [Source: http://www.modrails.com/install.html ]
 
-
+Honestly, I'm still struggling to get this to work, only because I'm running it together with other web apps on an existing Apache server.  I think it should be doable for simpler installs with relative ease.  If not, I'm unqualified to really help out much.  
