@@ -1,4 +1,5 @@
 #
+require 'pathname'
 require_relative 'merge.rb'
 # Default settings for the application
 App_defaults = {
