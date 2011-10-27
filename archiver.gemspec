@@ -6,7 +6,6 @@ spec = Gem::Specification.new do |s|
   s.files = Dir['lib/**/*.rb'] + Dir['spec/**/*.rb'] + %w[README Gemfile Rakefile] + Dir['lib/**/*.rake']
   s.require_path = 'lib'
   s.executables = 'archiver.rb'
-  s.has_rdoc = true
   s.add_dependency('bundler', '>=1.0.15')
   s.extra_rdoc_files = Dir['[A-Z]*']
   #s.rdoc_options << '--title' <<  'Builder -- Easy XML Building'
