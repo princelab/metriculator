@@ -1,0 +1,77 @@
+Number of runs: 1
+M/Z range selection code: 2
+Go to next run if unique peptide ions are less than 0
+
+
+
+
+Run 1 starts at 06/01/11 16:02:00
+MS file name: C:\projects\distribution\NISTMSQCv1_2_0\out_dirs\10-08-12_02_HSA1653_2h.ms8msms60min-1R1_0-50_40C.Dionex-C18-300-col_1ul.RAW.mzXML
+Data file of identified ions: C:\projects\distribution\NISTMSQCv1_2_0\out_dirs\10-08-12_02_HSA1653_2h.ms8msms60min-1R1_0-50_40C.Dionex-C18-300-col_1ul.RAW.MGF.TSV
+Data file of calculated result: C:\projects\distribution\NISTMSQCv1_2_0\out_dirs\10-08-12_02_HSA1653_2h.ms8msms60min-1R1_0-50_40C.Dionex-C18-300-col_1ul.RAW.TXT
+Search engine: mspepsearch		Code: 1
+Instrument type: LTQ		Code: 1		Sub_type: 1
+Begin to find instrument type
+errorReadFile: 0
+Total scan number: 11779
+ms file name: C:\projects\distribution\NISTMSQCv1_2_0\out_dirs\10-08-12_02_HSA1653_2h.ms8msms60min-1R1_0-50_40C.Dionex-C18-300-col_1ul.RAW.mzXML
+errorReadFile: 0
+Instrument type: LTQ
+Instrument code: 1
+
+Instrument type: LTQ
+Instrument code: 2
+
+initial parameters: 
+Data Range: 2
+Start time(s): 0
+End time(s): 6000
+Included smallest m/z: 300
+Included largest m/z: 2000
+match score threshold = 0.45
+The initial threshold of peak intensity (RA) when reading raw data: 5e-006
+
+Section of massParameters()
+Extract peptide identification infomation
+Extract initial unique peptide identification infomation
+Identified total peptide ions = 2116
+Identified unique peptide ions = 538
+
+Check if this run has N15 data
+Find RT and m/z ranges
+End of finding RT and m/z ranges
+parameters used in the following calculation: 
+Data Range: 2
+Start time(s): 82.92
+End time(s): 2703.72
+Included smallest m/z: 245
+Included largest m/z: 1664
+match score threshold = 0.45
+The initial threshold of peak intensity (RA) when reading raw data: 5e-006
+
+Process general and unique identification info
+End of processing general and unique identification info
+Time used to read and process msp data: 1.218s
+Total identified peptide ion number with 0.45 as match-score cutoff: 1718
+Unique identified peptide ion number with 0.45 as match-score cutoff: 534
+Unique identified peptide number with 0.45 as match-score cutoff: 347
+Estimated systematic error according to the difference between precursor m/z and theoretical m/z.
+Total ions: 1718
+Ion number with m/z deviation between theoretical and observed m/z less than 0.02: 29
+m/z range	ion number	average error
+The actually used instrument type for ms1 spectra may be: LTQ
+The ms1 data will be processed as from: LTQ
+Read raw MS data
+totalMS1 = 1521
+totalMS2 = 10257
+End of reading raw MS data
+Start Time 0.5331
+End Time 3601.38
+Perform program SampledPeaks to label sampled peaks
+Delete noisy peaks and full calculation
+Cluster analysis begins
+Cluster analysis ends
+Run 1 was finished.
+
+
+

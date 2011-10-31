@@ -1,0 +1,7 @@
+06/01/11 09:34:22
+ProMS Version: May 25, 2011
+MS data file: Z:\Share4All\Users\Paul\4Eric\test_mzXML\HSA_ce20-r001.d.mzXML
+Identified ions data file: Z:\Share4All\Users\Paul\4Eric\test_mzXML\HSA_ce20-r001.d.MGF.TSV
+Output data file: Z:\Share4All\Users\Paul\4Eric\test_mzXML\HSA_ce20-r001.d.TXT
+Search engine: 1
+Instrument type: QTOF		Code: 2
