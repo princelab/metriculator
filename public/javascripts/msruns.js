@@ -95,7 +95,7 @@ RailsMetrics.allButtonClicked = function(whichComparisonSet) {
   $("#msruns tr").each(function(i, row) {
     if (row.id !== "") {
       //We are at a row that has data
-      var added = RailsMetrics.addToComparisonSet(whichComparisonSet, $(row).children().eq(parseInt(whichComparisonSet - 1, 10)).children()[0]);
+      var added = RailsMetrics.addToComparisonSet(whichComparisonSet, $(row).children().eq(parseInt(whichComparisonSet , 10) - 1).children()[0]);
       if (added) {
         count++;
       }
