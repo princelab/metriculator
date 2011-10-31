@@ -65,7 +65,10 @@ archiver_optparse = OptionParser.new do |opts|
 		puts opts
 		exit
 	end
-end.parse!   # outparse and PARSED!! 
+end
+if $0 == __FILE__
+  archiver_optparse.parse!# outparse and PARSED!! 
+end
 
 if options[:xcalibur]
 # The information regarding the system type and archive root location
