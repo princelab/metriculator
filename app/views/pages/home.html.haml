@@ -1,2 +1,9 @@
-%h1 Pages#home
-%p Find me in app/views/pages/home.haml.html
+%h1 Welcome to Archiver
+%p I trust that the install directions were sufficient if you are reading this.  I'd like to briefly explain what this site should do for you.  
+%h3 Msruns
+%p For each msrun that is generated, you should be able to see all the data represented on a page for that run on the #{ link_to("Msruns" , msruns_path) } page, which you can also go to by navigating via the header above.  
+%h3 Metrics
+%p Each Msrun will also be run through a metric suite written by NIST, as also here: #{ link_to "http://peptide.nist.gov/metrics/" } .  These performance metrics allow for troubleshooting of chromatographic or MS instrumentation performance issues and sample preparation 
+%h3 Comparisons
+%p Each Msrun/Metric combo can also be selected for a comparison to other runs via the #{ link_to "Msruns", msruns_path } page.  By selecting sets of comparisons, a comparion is built.  You'll see some alerts made to inform you that a comparison finished.  You can also find them by looking on the #{ link_to "Comparisons", comparisons_path} page, also in the header.  Comparisons will generate graphs which compare data by distribution and average (including a t-test) and over time.  This enables you to easily see a significant difference between samples in any of the ~300 metrics, as well as any observable trending.  For more information visit the beanplot explanation page #{ link_to "Beanplot explanation", beanplot_path }. 
+
