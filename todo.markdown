@@ -7,6 +7,7 @@
 *	Message Passing # Mostly done, just clean it up!
 * Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.  
 		`scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => 'my scheduler')`
+* Example data generation Rake Task
 
 ###Website
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
