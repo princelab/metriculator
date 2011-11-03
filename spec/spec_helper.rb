@@ -10,7 +10,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
 require 'database_loader'
-require 'archiver'
+require_relative '../bin/archiver'
 require 'eksigent'
 require 'merge'
 require 'comparison_grapher'
