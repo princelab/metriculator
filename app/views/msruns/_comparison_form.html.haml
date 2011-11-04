@@ -6,5 +6,8 @@
   %div
     %label{ :for => 'comparison2' }Comparison 2
     = select_tag :comparison2, '', :multiple => true
+  %div
+    %label{ :for => 'description' }Description of set: 
+    = text_field_tag :description, '', :maxlength => 255
   = submit_tag "Compare"
 

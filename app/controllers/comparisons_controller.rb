@@ -33,6 +33,7 @@ class ComparisonsController < ApplicationController
     comp = Comparison.new
     comp.msrun_firsts = first_set
     comp.msrun_seconds = second_set
+    comp.description = params[:description]
     comp.save
 
     fork do
