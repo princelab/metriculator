@@ -7,6 +7,24 @@ class ComparisonsController < ApplicationController
     @comparison = Comparison.get(params[:id])
   end
 
+  def edit
+    @comparison = Comparison.get(params[:id])
+  end
+
+  def update
+    @comparison = Comparison.get(params[:id])
+
+    respond_to do |format|
+      if @comparison.update(params[:comparison])
+        format.html {redirect_to(@comparison, notice: "Comparison was successfully updated") }
+        format.json { render :json => {}, :status => :ok }
+      else
+        format.html { render :action => "edit" }
+        format.json { render json: @comparison.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def create
     #TODO: first check if one exists already, and redirect to it.
     first_set = get_msruns_from_array_of_ids(params[:comparison1].uniq)

@@ -1,0 +1,13 @@
+%h1 Editing Comparison Description
+= form_for @comparison do |f|
+  =if @comparison.errors.any? 
+    %div.errorExplanation
+      %h2 #{ pluralize(@comparison.errors.count, "error") } prohibited this post from being saved 
+      %ul
+      - @comparison.errors.full_messages.each do |msg|
+        %li= msg
+  %div#field
+    = f.label :description
+    = f.text_field :description
+  %div#actions
+    = f.submit

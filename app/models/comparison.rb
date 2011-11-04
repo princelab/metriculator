@@ -3,7 +3,8 @@ class Comparison
 
   include DataMapper::Resource
   property :id, Serial
-
+  
+  property :description, String
   property :start_timestamp, DateTime
   property :end_timestamp, DateTime
 
