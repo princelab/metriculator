@@ -1,7 +1,10 @@
 namespace :db do 
   desc 'Put some example data into the databases, to provide both some example pages for perusal, and also some complete testing dta.  ATTN:  WIPES the previous DB entries'
-  task :seed_example => :environment do 
+  task :seed_only_example => :environment do 
     DataMapper.auto_migrate!
+    Rake::Task[:seed_example].invoke
+  end
+  task :seed_example => :environment do 
     met = Ms::NIST::Metric.new File.expand_path("spec/tfiles/metrics/single_metric.txt")
     if !met.to_database
       puts "error saving file to database"

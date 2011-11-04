@@ -3,6 +3,7 @@ PATH
   specs:
     archiver (0.0.1)
       bundler (>= 1.0.15)
+      rake
 
 GEM
   remote: http://rubygems.org/
