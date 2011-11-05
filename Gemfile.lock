@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/amatsuda/kaminari.git
+  revision: f41de10abb1079bfccefbcbef691c8a5388901f3
+  specs:
+    kaminari (0.12.4)
+      railties (>= 3.0.0)
+
 PATH
   remote: .
   specs:
@@ -228,6 +235,7 @@ DEPENDENCIES
   haml
   hpricot
   jquery-rails
+  kaminari!
   launchy
   newrelic_rpm
   pony

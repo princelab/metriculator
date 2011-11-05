@@ -1,6 +1,6 @@
 class ComparisonsController < ApplicationController
   def index
-    @comparisons = Comparison.all
+    @comparisons = Comparison.all.page(params[:page])
   end
 
   def show

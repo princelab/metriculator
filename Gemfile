@@ -23,6 +23,7 @@ gem 'dm-aggregates',        DM_VERSION
 gem 'dm-timestamps',        DM_VERSION
 gem 'dm-observer',          DM_VERSION
 gem 'dm-chunked_query'
+gem 'kaminari', :git => 'git://github.com/amatsuda/kaminari.git'
 
 # Testing/benchmarking gems
 gem 'newrelic_rpm'

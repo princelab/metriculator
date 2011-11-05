@@ -3,8 +3,11 @@
   = javascript_include_tag 'jquery-ui'
 
 %h1 Msruns
+#paginate 
+  = paginate @msruns
 #msruns
   = render :partial => 'msrun_table'
-
+#paginate 
+  = paginate @msruns
 #comparison-form
   = render :partial => 'comparison_form'

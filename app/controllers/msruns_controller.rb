@@ -59,9 +59,9 @@ class MsrunsController < ApplicationController
 
     @sort = sort_object
     @page_number = params[:page]
-    @per_page = 8
+    @per_page = 20
     # @msruns = Msrun.all(query).chunks(@per_page).at(@page_number.to_i - 1)
-    @msruns = Msrun.all(query)
+    @msruns = Msrun.all(query).page(@page_number).per(@per_page)
     @all = Msrun.all
     respond_to do |format|
       format.js { render :index }

@@ -2,10 +2,10 @@ class MetricsController < ApplicationController
   #layout "metric"
   #TODO - why is this here?
   def show
-    @metric = Metric.all(:msrun_id => params[:id]).first
+    @metric = Metric.get(params[:id])
   end
 
   def index
-    @metrics = Metric.all
+    @metrics = Metric.all.page(params[:page])
   end
 end

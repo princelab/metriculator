@@ -1,4 +1,6 @@
 %h1 Metrics#index
+#paginate
+  = paginate @metrics
 %table#metricshow
   %tr
     %th ID
@@ -10,5 +12,7 @@
     %td= (link_to metric.msrun_id, metric_path(metric) )
     %td= m.raw_id
     %td= m.rawtime.readable_inspect
-  
+#paginate
+  = paginate @metrics
+
 
