@@ -13,7 +13,8 @@ Installation is fairly straightforward, but requires other software to run.
 Prerequisites
 -------------
 * Python 2.7 (http://python.org)
-* Python Imaging Library
+* Python Imaging Library (http://www.pythonware.com/products/pil/)
+* simplejson (http://pypi.python.org/pypi/simplejson)
 
 Configuration
 =============
