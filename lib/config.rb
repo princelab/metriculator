@@ -9,7 +9,7 @@ App_defaults = {
   hplc_graph_directory: Pathname.new(File.join(File.expand_path(File.dirname(__FILE__)), "..", "public", "hplc_graphs")).cleanpath.to_s,
 	nodes: {
 		instrument: { system: "Windows", archive_root: "O:\\" },
-		metrics: { system: "Windows", archive_root: "O:\\" },
+		metrics: { system: "Windows", archive_root: "O:\\", program_locale: "fill_this_in" },
 		server: { system: "Linux", archive_root: "/media/orbitrap" }
 	}, 
 	quality_control: [

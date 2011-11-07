@@ -4,9 +4,8 @@
 
 ###Archiver
 -	Metric starter fxnality  # TEST THIS!!
-*	Message Passing # Mostly done, just clean it up!
-* Cron fxnality can be had by the rufus-scheduler gem, which implements cron stuff in ruby.  Looks pretty easy to use.  
-		`scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => 'my scheduler')`
+*	Message Passing # TEST IT and the accompanying metric starting...
+* Implement database updating of locations and the file moving system
 
 ###Website
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)

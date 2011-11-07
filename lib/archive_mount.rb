@@ -48,25 +48,8 @@ class ArchiveMount
     # @return location array
     def define_location
       @location = [@msrun.group, @msrun.user, File.mtime(@msrun.rawfile), @msrun.rawid]
+# TODO this should be updating the model to contain the new locations, relative to the path
       @msrun.archive_location = @location
     end
   end
-end
-# Location of cygwin's bin
-CygBin = "C:\\cygwin\\bin"
-# Location of cygwin's home directory
-CygHome = "C:\\cygwin\\home\\LTQ2"
-# The destination SSH location
-UserHost = 'ryanmt@jp1'
-# Location of the program on the {#UserHost}
-ProgramLocale = '/home/ryanmt/Dropbox/coding/ms/archiver/lib/archiver.rb'
-# This is currently the way we are passing the objects around.  In this case, this functions on a windows machine which has cygwin ssh utilities installed to the default directory to pass objects to the specified location
-# @param [Object] the object you wish to pass to the other computer (In this case, a MsRunInfo that is yamled out to file, and then passed to #archiver.rb with a --linux tag
-# return [String] A string representing the command delivered at the UserHost computer location
-def send_msruninfo_to_linux_via_ssh(object)
-  File.open('tmp.yml', 'w') {|out| YAML.dump(object, out)}
-  file_move = %Q[#{CygBin}\\scp tmp.yml #{UserHost}:/tmp/]
-  kick = %Q[#{CygBin}\\ssh #{UserHost} -C '#{ProgramLocale} --linux /tmp/tmp.yml ']
-  %x[#{kick}]
-  kick
 end

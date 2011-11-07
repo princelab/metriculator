@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby 
 
-puts "HELLO, I'm working!"
+# Verbose dependent printing statement
+def putsv(string)
+  puts string if $VERBOSE
+end
+    
 require 'config'
 require 'msruninfo'
 require 'xcalibur'
@@ -70,6 +74,10 @@ end
 if $0 == __FILE__
   archiver_optparse.parse!# outparse and PARSED!! 
 end
+if options[:verbose]
+  $VERBOSE = 1
+end
+
 
 if options[:xcalibur]
 # The information regarding the system type and archive root location
@@ -121,5 +129,29 @@ if options[:metrics]
   Node = :metrics
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
+  Program = SysInfo[:program_locale]
+  Messenger.setup
+  scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => "NIST_metrics_daemon")
+  scheduler.every '1m' do 
+    putsv 'Checking todo list...'
+    list = Messenger.update
+    if list.size > 0
+      putsv "Todo items found: #{list}"
 
+    end
+
+  end # every 1m
+  scheduler.every '1d' do 
+    # TODO Clear lists fxn
+  end
+end
+
+if options[:server_setup]
+  # The information regarding the system type and archive root location
+  SysInfo = AppConfig[:nodes][:server]
+# A constant telling subsequent processes the program type called
+  Node = :server
+# A constant to make accessing the root directory for the archives easier
+  ArchiveRoot = SysInfo[:archive_root]
+  puts "Honestly, this is probably too ambitious of a project.  You'll have to configure your own server environment at this point."
 end
