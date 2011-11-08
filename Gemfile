@@ -41,6 +41,7 @@ gem 'rake', "0.8.7"
 group :development do
   gem 'hpricot'
   gem 'ruby_parser'
+  gem 'pry'
 end
 
 group :development, :test do

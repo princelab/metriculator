@@ -4,7 +4,7 @@
 def putsv(string)
   puts string if $VERBOSE
 end
-    
+require 'pry' 
 require 'config'
 require 'msruninfo'
 require 'xcalibur'
@@ -16,7 +16,6 @@ require 'archive_mount'
 # during the run 
 
 options = {}
-#this looks like it is conflicting with the rails options parser?
 archiver_optparse = OptionParser.new do |opts|
 		opts.banner = "Usage: #{__FILE__} [options] file1 file2 ..." 
 		opts.banner = %Q{ This archives files.  Basically, it functions in one of three ways:  
@@ -73,14 +72,13 @@ archiver_optparse = OptionParser.new do |opts|
 end
 ##  Program starts here!!!! 
 
-if $0 == __FILE__
+if File.basename($0) == 'archiver'
   archiver_optparse.parse!# outparse and PARSED!! 
 end
 if options[:verbose]
   $VERBOSE = 1
   putsv "Verbosity set to true"
 end
-
 
 if options[:xcalibur]
 # The information regarding the system type and archive root location
