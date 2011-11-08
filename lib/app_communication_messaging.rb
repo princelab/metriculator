@@ -14,7 +14,11 @@ class Messenger
     end
 # This will update the @@todo list 
     def update
-      @@todo = (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])).map(&:chomp)
+      begin 
+        @@todo = (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])).map(&:chomp)
+      rescue 
+        p $!
+      end
     end
 
 # TESTING Fxns... Written to allow me to unit test the inside fxnality of this class
