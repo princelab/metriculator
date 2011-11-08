@@ -7,5 +7,8 @@ class PagesController < ApplicationController
 
   def contact
   end
+  
+  def beanplot
+  end
 
 end

@@ -1,10 +1,28 @@
 class ComparisonsController < ApplicationController
   def index
-    @comparisons = Comparison.all
+    @comparisons = Comparison.all.page(params[:page])
   end
 
   def show
     @comparison = Comparison.get(params[:id])
+  end
+
+  def edit
+    @comparison = Comparison.get(params[:id])
+  end
+
+  def update
+    @comparison = Comparison.get(params[:id])
+
+    respond_to do |format|
+      if @comparison.update(params[:comparison])
+        format.html {redirect_to(@comparison, notice: "Comparison was successfully updated") }
+        format.json { render :json => {}, :status => :ok }
+      else
+        format.html { render :action => "edit" }
+        format.json { render json: @comparison.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def create
@@ -15,6 +33,7 @@ class ComparisonsController < ApplicationController
     comp = Comparison.new
     comp.msrun_firsts = first_set
     comp.msrun_seconds = second_set
+    comp.description = params[:description]
     comp.save
 
     fork do

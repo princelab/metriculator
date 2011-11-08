@@ -1,6 +1,6 @@
 class AlertsController < ApplicationController
   def index
-    @alerts = Alert.all(show: true)
+    @alerts = Alert.all(show: true).page(params[:page])
   end
   def destroy
     puts "IN DESTROY METHOD"

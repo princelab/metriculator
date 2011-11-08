@@ -55,6 +55,7 @@ module Ms
         if @rawfile
           @rawfile = rawfile
           @rawtime = File.mtime(@rawfile)
+          putsv "Metrics program location = #{Program}"
           # working on some major changes to the mount thing... that lets me have it do the work for me!!
           #%Q{C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl --in_dir "#{ArchiveMount.archive_location}" --out_dir "#{ArchiveMount.metrics}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
         end

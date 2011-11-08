@@ -1,8 +1,12 @@
 #index
   %h1 Alerts Overview
+#paginate
+  = paginate @alerts
   %ul
   - @alerts.each do |alert|
     %li= "#{alert.description} | #{alert.created_at.readable_inspect}"
   - if @alerts.size > 0
     = link_to "Remove All", remove_all_alerts_path, :confirm => "Are you sure", :method => :delete, :remote => :true
+#paginate
+  = paginate @alerts
 

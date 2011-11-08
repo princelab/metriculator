@@ -3,10 +3,9 @@ MetricsSite::Application.routes.draw do
   get 'status' => 'pages#status'
 
   get 'contact' => 'pages#contact'
+  get 'beanplot' => 'pages#beanplot'
 
-  get 'metrics' => 'metrics#index'
-  get 'metrics/:id' => 'metrics#show'
-
+  resources :metrics
   resources :msruns
   resources :comparisons #TODO: change this to hide the URLS.
 

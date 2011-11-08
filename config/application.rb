@@ -4,7 +4,7 @@ require File.expand_path('../boot', __FILE__)
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'dm-rails/railtie'
-
+require 'kaminari'
 # This is a line suggested by my (Ryan) question on Stackoverflow regarding the issue... He suggested adding this line to avoid a "false DM save"
 #  DataMapper::Model.raise_on_save_failure = true
 
@@ -14,7 +14,7 @@ require 'dm-rails/railtie'
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env) if defined?(Bundler)
-require_relative '../bin/archiver'
+#require_relative '../lib/archiver'
 
 module MetricsSite
   class Application < Rails::Application
