@@ -1,3 +1,6 @@
+$:.push File.expand_path("../lib", __FILE__)
+require 'archiver'
+
 spec = Gem::Specification.new do |s|
   s.name = 'archiver'
   s.version = '0.0.1'
