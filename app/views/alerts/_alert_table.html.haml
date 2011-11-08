@@ -1,0 +1,3 @@
+%ul
+- @alerts.each do |alert|
+  %li= "#{alert.description} | #{alert.created_at.readable_inspect}"

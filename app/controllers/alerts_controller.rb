@@ -15,7 +15,8 @@ class AlertsController < ApplicationController
     puts "IN REMOVE_ALL METHOD"
     Alert.all(show: true).update({ show: false })
     respond_to do |format|
-      format.js {render :nothing => true}
+      format.js {render :index }
+      format.html {render :index }
     end
   end
 end
