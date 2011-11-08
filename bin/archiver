@@ -125,6 +125,9 @@ if options[:server]
 end
 
 if options[:metrics]
+  # Metrics Gems:
+  require 'rufus/scheduler'
+
 # The information regarding the system type and archive root location
   SysInfo = AppConfig[:nodes][:metrics]
 # A constant telling subsequent processes the program type called

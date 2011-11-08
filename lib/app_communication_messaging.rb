@@ -16,8 +16,8 @@ class Messenger
     def update
       begin 
         @@todo = (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])).map(&:chomp)
-      rescue 
-        p $!
+      rescue StandardError => bang
+        print "Error: File doesn't exist!! " + bang
       end
     end
 
