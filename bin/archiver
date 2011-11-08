@@ -71,11 +71,14 @@ archiver_optparse = OptionParser.new do |opts|
 		exit
 	end
 end
+##  Program starts here!!!! 
+
 if $0 == __FILE__
   archiver_optparse.parse!# outparse and PARSED!! 
 end
 if options[:verbose]
   $VERBOSE = 1
+  putsv "Verbosity set to true"
 end
 
 
