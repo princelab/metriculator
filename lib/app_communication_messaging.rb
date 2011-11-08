@@ -14,11 +14,18 @@ class Messenger
     end
 # This will update the @@todo list 
     def update
+      @@todo = []
+      tmp = 0
       begin 
-        @@todo = (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])).map(&:chomp)
+        tmp +=1
+        @@todo << (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])).map(&:chomp)
       rescue StandardError => bang
-        print "Error: File doesn't exist!! " + bang
+        find_files(AppConfig[:nodes][:server][:archive_root])
+        print "Error: Hacking a fix..." + bang.message
+        retry unless tmp > 1
+        print "Error: File doesn't exist!!" + bang.message + bang.backtrace.join("\n")
       end
+      @@todo
     end
 
 # TESTING Fxns... Written to allow me to unit test the inside fxnality of this class
