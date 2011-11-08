@@ -136,7 +136,11 @@ if options[:metrics]
   ArchiveRoot = SysInfo[:archive_root]
   Program = SysInfo[:program_locale]
   Messenger.setup
+  puts "before scheduler"
+  binding.pry
+
   scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => "NIST_metrics_daemon")
+  puts "past scheduler"
   scheduler.every '1m' do 
     putsv 'Checking todo list...'
     list = Messenger.update
@@ -149,6 +153,8 @@ if options[:metrics]
   scheduler.every '1d' do 
     # TODO Clear lists fxn
   end
+
+  binding.pry
 end
 
 if options[:server_setup]
