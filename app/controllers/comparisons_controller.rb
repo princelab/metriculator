@@ -35,7 +35,11 @@ class ComparisonsController < ApplicationController
     comp.msrun_seconds = second_set
     comp.description = params[:description]
     comp.save
+    
+    p comp
 
+    p comp.saved?
+    
     fork do
       result = comp.graph
       puts "DONE GRAPHING"
