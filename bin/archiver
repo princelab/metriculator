@@ -90,7 +90,7 @@ if options[:xcalibur]
   ArchiveRoot = SysInfo[:archive_root]
 # Prep
 	file = ARGV.shift
-	line_num = ARGV.shift
+	line_num = ARGV.shift.to_i
 	if ARGV.length > 0
 		puts "Possible error: There are #{ARGV.length} arguments remaining in the program call..."
 		puts "shouldn't you have not specified --xcalibur?"
