@@ -1,4 +1,4 @@
-= paginate @msruns
+= paginate @msruns, :remote => true 
 %table.msrun
   %button{ :id => :filter }Filter
   %tr
@@ -42,4 +42,4 @@
       %td=run.taxonomy || "No Taxonomy"
 
 != #pagination_links(@all, @page_number, @per_page)
-= paginate @msruns
+= paginate @msruns, :remote => true 
