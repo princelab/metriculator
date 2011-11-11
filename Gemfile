@@ -46,7 +46,8 @@ group :development do
 end
 
 group :development, :test do
-  gem 'ruby-debug19'
+### WINDOWS DEPENDENT Version...?
+#  gem 'ruby-debug19'
   # dependency of guard if on Mac OS X
   if RUBY_PLATFORM =~ /darwin/i
     gem 'rb-fsevent'

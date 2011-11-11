@@ -31,7 +31,7 @@ module Ms
 				times = Dir.entries(eks_dir).map do |each_file|
 					next if File.extname(each_file) != '.txt'
 					next if not File.basename(each_file)[/^ek2.*/]
-					[(File.mtime("#{File.join(eks_dir.split(/[\/\\]/), each_file.split(/[\/\\]/.split(/[\/\\]/)))}")-@rawtime).abs, each_file] #[Time diff, file name] 
+					[(File.mtime(File.join(eks_dir, each_file))-@rawtime).abs, each_file] #[Time diff, file name] 
 				end
 				@eksfile = File.expand_path("#{eks_dir}/#{times.compact!.sort!.first.last}")
 				raise "Match error: #{@eksfile}" if @eksfile[/^.*\/ek2_.*\.txt/] != @eksfile
