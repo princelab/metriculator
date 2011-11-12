@@ -6,6 +6,7 @@
 -	Metric starter fxnality  # TEST THIS!!
 *	Message Passing # TEST IT and the accompanying metric starting...
 * Implement database updating of locations and the file moving system
+* maxpressure... etc are needed in the eksigent class before the spec testing can continue.
 
 ###Website
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)

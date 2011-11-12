@@ -101,7 +101,7 @@ if options[:xcalibur]
 	sld = Ms::Xcalibur::Sld.new(file).parse
 	object = Ms::MsrunInfo.new(sld.sldrows[line_num])
 	object.grab_files
-	Ms::ArchiveMount.archive(object)
+  Ms::ArchiveMount.send_to_mount(object)
 	send_msruninfo_to_linux_via_ssh(object.to_yaml)
 end
 

@@ -78,7 +78,6 @@ module Ms
 				structs if @datapoints.nil?
 				@graphfile ||=  File.absolute_path(File.expand_path(@rawfile).chomp(File.extname(@rawfile)) + '.svg')
         @graphfile = File.join(@@ROOT_GRAPH_DIRECTORY, File.basename(@graphfile))
-        p @graphfile
 				require 'rserve/simpler'
 				output = Rserve::Simpler.new
         output.converse("setwd('#{Dir.pwd}')")
@@ -86,10 +85,6 @@ module Ms
 # 	Struct.new(:time, :signal, :reference, :qa, :qb, :aux, :pa, :pb, :pc, :pd, :powera, :powerb)
 				File.open('eksigent_datafr.yml', 'w') {|out| YAML::dump(datafr, out) }
 				output.converse( eks_trace: datafr ) 
-				p output.converse( " ls() " )
-				p output.converse( " attach(eks_trace) " )
-				p output.converse( " ls() " )
-				#p output.converse( " ls() " )
         output.converse %Q{svg(file="tmp.svg", height=8, width=10)}
         output.converse %Q{svg(file="#{@graphfile}", height=8, width=10)}
         output.converse %Q{ par(mar=c(3,4,3,4)+0.1)}
@@ -111,7 +106,7 @@ module Ms
 					legend('left', legend=c("Pc", 'Flowrate of Solvent A', "Flowrate of Solvent B"), text.col=c('black', 'blue', 'red'),pch=c(16,16,16),col=c('black', 'blue', 'red'))
 					}
 				end
-        sleep(4)
+        #sleep(4)
         output.converse %Q{dev.off() }
         @maxpressure = output.converse "max(pc)"
         @meanpressure = output.converse "mean(pc)"

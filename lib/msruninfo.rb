@@ -44,6 +44,14 @@ module Ms
       hplc_vial = @hplc_object.autosampler_vial
       hplc_maxP = @hplc_object.maxpressure
       hplc_avgP = @hplc_object.meanpressure
+      p @hplc_object.meanpressure
+      p hplc_avgP
+      @hplc_avgP = @hplc_object.meanpressure
+      p @hplc_avgP
+      p self.hplc_avgP
+      p self.rawfile
+      p self.tunefile
+      raise "WTF ERROR" if self.hplc_avgP.nil?
       hplc_stdP = @hplc_object.pressure_stdev
     end
 

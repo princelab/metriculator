@@ -11,6 +11,7 @@ require 'xcalibur'
 require 'eksigent'
 require 'optparse'
 require 'archive_mount'
+require 'app_communication_messaging'
 # this package handles options and configures the packaging and archiving of 
 # data produced by the instrument, as well as archiving of all the files used
 # during the run 
@@ -89,7 +90,7 @@ if options[:xcalibur]
   ArchiveRoot = SysInfo[:archive_root]
 # Prep
 	file = ARGV.shift
-	line_num = ARGV.shift
+	line_num = ARGV.shift.to_i
 	if ARGV.length > 0
 		puts "Possible error: There are #{ARGV.length} arguments remaining in the program call..."
 		puts "shouldn't you have not specified --xcalibur?"
@@ -100,7 +101,9 @@ if options[:xcalibur]
 	sld = Ms::Xcalibur::Sld.new(file).parse
 	object = Ms::MsrunInfo.new(sld.sldrows[line_num])
 	object.grab_files
-	Ms::ArchiveMount.archive(object)
+  Ms::ArchiveMount.new(object)
+  Ms::ArchiveMount.build_archive
+	Ms::ArchiveMount.archive
 	send_msruninfo_to_linux_via_ssh(object.to_yaml)
 end
 
@@ -124,6 +127,9 @@ if options[:server]
 end
 
 if options[:metrics]
+  # Metrics Gems:
+  require 'rufus/scheduler'
+
 # The information regarding the system type and archive root location
   SysInfo = AppConfig[:nodes][:metrics]
 # A constant telling subsequent processes the program type called
@@ -138,13 +144,13 @@ if options[:metrics]
     list = Messenger.update
     if list.size > 0
       putsv "Todo items found: #{list}"
-
     end
-
   end # every 1m
   scheduler.every '1d' do 
     # TODO Clear lists fxn
   end
+  binding.pry
+  scheduler.join
 end
 
 if options[:server_setup]

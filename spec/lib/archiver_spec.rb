@@ -6,11 +6,26 @@ describe 'MsrunInfo Object behaves' do
     @sld = Ms::Xcalibur::Sld.new(file).parse
     @sld.sldrows[0].rawfile = TESTFILE + '/time_test.RAW'
     @msrun = Ms::MsrunInfo.new(@sld.sldrows[0])
-    @msrun.grab_files
+    @msrun.tunefile = TESTFILE + '/example_tune.LTQTune'
+    @msrun.hplc_object = Ms::Eksigent::Ultra2D.new
+    @msrun.hplc_object.rawfile = TESTFILE + "/time_test.RAW"
+    @msrun.hplc_object.eksfile = TESTFILE + "/ek2_test.txt"
+    @msrun.hplc_object.parse
+    @msrun.hplc_object.graph
+    @msrun.hplcfile = TESTFILE + "/ek2_test.txt"
+    @msrun.fill_in
     @yaml = @msrun.to_yaml
   end
   it 'goes to and from yaml identically' do 
+    binding.pry
     YAML.load(@yaml).should == @msrun
+  end
+  it 'parses things correctly' do 
+    @msrun.hplc_maxP.should == 7209.0
+  end
+  it "grabs files" do 
+    @msrun.grab_files
+    @msrun.hplc_maxP.should == 7209.0
   end
 end
 
