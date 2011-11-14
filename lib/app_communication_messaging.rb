@@ -25,7 +25,7 @@ class Messenger
         retry unless tmp > 1
         print "Error: File doesn't exist!!" + bang.message + bang.backtrace.join("\n")
       end
-      @@todo
+      @@todo.flatten
     end
 
 # TESTING Fxns... Written to allow me to unit test the inside fxnality of this class

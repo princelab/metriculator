@@ -19,8 +19,8 @@ require 'comparison_grapher'
 # This module serves to hold all the MS features into one namespace.  Granted, in the case of proteomics, this is the only namespace in which I care to work.
 module Ms
   # This class serves as a container for the information acquired from parsing Xcalibur files and finding Eksigent files which pertain to a MsRun.  This information can then be used directly, or passed into a Database for future reference.
-  class MsrunInfo < 
-    Struct.new(:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :archive_location, :rawid, :group, :user, :taxonomy, :hplc_maxP, :hplc_avgP, :hplc_stdP)  # Every file must have a source hash id that helps us know that things are working.
+  class MsrunInfo  
+    [:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :archive_location, :rawid, :group, :user, :taxonomy, :hplc_maxP, :hplc_avgP, :hplc_stdP].each {|item| attr_accessor item }  # Every file must have a source hash id that helps us know that things are working.
     attr_accessor :data_struct, :msrun_id, :hplc_object
     def initialize(struct = nil)
       if struct
@@ -40,19 +40,12 @@ module Ms
     # This function pulls information from the hplc_file parsing to fill in more details to this MsRunInfo object.
     def fill_in 
       grab_files if tunefile.nil?
-      inj_volume = @hplc_object.inj_vol
-      hplc_vial = @hplc_object.autosampler_vial
-      hplc_maxP = @hplc_object.maxpressure
-      hplc_avgP = @hplc_object.meanpressure
-      p @hplc_object.meanpressure
-      p hplc_avgP
-      @hplc_avgP = @hplc_object.meanpressure
-      p @hplc_avgP
-      p self.hplc_avgP
-      p self.rawfile
-      p self.tunefile
-      raise "WTF ERROR" if self.hplc_avgP.nil?
-      hplc_stdP = @hplc_object.pressure_stdev
+      self.inj_volume = @hplc_object.inj_vol
+      self.hplc_vial = @hplc_object.autosampler_vial
+      self.hplc_maxP = @hplc_object.maxpressure
+      self.hplc_avgP = @hplc_object.meanpressure
+      self.hplc_avgP = @hplc_object.meanpressure
+      self.hplc_stdP = @hplc_object.pressure_stdev
     end
 
     # This method calls the grapher to generate a pressure trace from the data parsed from the recently located hplc file
