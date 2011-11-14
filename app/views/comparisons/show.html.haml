@@ -1,7 +1,6 @@
 - categories = ["uplc", "chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
-%h1= "Comparison ##{params[:id]}"
 = @comparison ||= Comparison.get(params[:id])
-= puts @comparison.inspect
+%h1= "Comparison ##{@comparison.id}"
 %p <strong>User Description: </strong> #{ @comparison.description } <br> #{link_to "Edit", edit_comparison_path(@comparison)}
 %ul.categories
   - categories.each do |cat|

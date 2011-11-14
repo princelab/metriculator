@@ -13,4 +13,4 @@
   - @graph_files.each do |graph|
     %div.svg
       /%h3=graph.titleize
-      %embed{ :src => graph, :type => "image/svg+xml" }
+      %object{ :data => graph, :type => "image/svg+xml" }
