@@ -6,20 +6,20 @@ defaults: &defaults
 
 
 development:
-  database: db/metrics_site_development.db
+  database: <% ArchiveRoot %>/metrics_site_development.db
   adapter: sqlite3
   pool: 5
   timeout: 5000
 
 test:
-  database: db/metrics_site_test.db
+  database: <% ArchiveRoot %>/metrics_site_test.db
   adapter: sqlite3
   pool: 5
   timeout: 5000
 
 
 production:
-  database: db/metrics_site_production.db
+  database: <% ArchiveRoot %>/metrics_site_production.db
   adapter: sqlite3
   pool: 5
   timeout: 5000

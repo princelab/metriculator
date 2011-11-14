@@ -32,3 +32,5 @@ Unfortunately, the webserver aspect of this will also require some effort, at le
 [Source: http://www.modrails.com/install.html ]
 
 Honestly, I'm still struggling to get this to work, only because I'm running it together with other web apps on an existing Apache server.  I think it should be doable for simpler installs with relative ease.  If not, I'm unqualified to really help out much.  
+
+One final step appears to be necessary... You'll need to set the location of the database in the database.yml file to match the configuration for each computer.  
