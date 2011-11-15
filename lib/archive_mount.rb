@@ -22,7 +22,7 @@ module Ms
         # Dir.chdir(
         # cp the config file from the higher level down
         @@build_directories.each do |dir|
-          mkdir dir
+          FileUtils.mkdir dir unless Dir.exist?(dir)
         end
         # Find a config file and move it down to this directory... right?
       end
@@ -37,10 +37,11 @@ module Ms
       end
 
       def archive # MOVE THE FILES OVER TO THE LOCATION
-        files = @msrun[0..6]
+        files = [:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile].map {|name| @msrun.send(name) }
         config = load_runconfig(@location)
-	      files.each do |file|
-          binding.pry
+	files.each do |file|
+	  binding.pry
+	  cp_to file, @archive_location
         end
       end
       # This defines the location for the archived directory and can be used by a File.join command to generate a FilePath
@@ -48,8 +49,7 @@ module Ms
       # @param None, uses #msrun initialized
       # @return location array
       def define_location
-        @location = [@msrun.group, @msrun.user, File.mtime(@msrun.rawfile), @msrun.rawid]
-        # TODO this should be updating the model to contain the new locations, relative to the path
+        @location = File.join(ArchiveRoot, [@msrun.group, @msrun.user, File.mtime(@msrun.rawfile), @msrun.rawid])
         @msrun.archive_location = @location
       end
     end	
