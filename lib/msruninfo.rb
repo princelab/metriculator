@@ -46,6 +46,7 @@ module Ms
       self.hplc_avgP = @hplc_object.meanpressure
       self.hplc_avgP = @hplc_object.meanpressure
       self.hplc_stdP = @hplc_object.pressure_stdev
+      self.rawid = File.basename(rawfile, ".raw")
     end
 
     # This method calls the grapher to generate a pressure trace from the data parsed from the recently located hplc file
@@ -55,7 +56,7 @@ module Ms
     def to_database
       fill_in if hplc_maxP.nil?
       graph_pressure if @graphfile.nil?
-      @db = Msrun.first_or_create(:raw_id => File.basename(rawfile, ".raw"), :group => group, :rawfile => rawfile, :methodfile => methodfile, :tunefile => tunefile, :hplcfile => hplcfile, :graphfile => graphfile, :archive_location => "", :taxonomy => taxonomy, :inj_volume => inj_volume, :autosampler_vial => hplc_vial, :hplc_max_p => hplc_maxP, :hplc_std_p => hplc_stdP, :hplc_avg_p => hplc_avgP)
+      @db = Msrun.first_or_create(:raw_id => rawid, :group => group, :rawfile => rawfile, :methodfile => methodfile, :tunefile => tunefile, :hplcfile => hplcfile, :graphfile => graphfile, :archive_location => archive_location, :taxonomy => taxonomy, :inj_volume => inj_volume, :autosampler_vial => hplc_vial, :hplc_max_p => hplc_maxP, :hplc_std_p => hplc_stdP, :hplc_avg_p => hplc_avgP)
       @db.id
     end
       
