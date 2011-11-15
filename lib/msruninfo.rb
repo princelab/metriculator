@@ -36,6 +36,7 @@ module Ms
       tunefile = Ms::Xcalibur::Method.new(methodfile).tunefile
       @hplc_object = Ms::Eksigent::Ultra2D.new(rawfile)
       hplcfile = @hplc_object.eksfile
+      @hplc_object.parse
     end
     # This function pulls information from the hplc_file parsing to fill in more details to this MsRunInfo object.
     def fill_in 
