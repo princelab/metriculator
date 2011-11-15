@@ -51,6 +51,8 @@ module Ms
       def define_location
 	arr = [@msrun.group, @msrun.user, File.mtime(@msrun.rawfile), @msrun.rawid]
 	p arr
+	binding.pry
+	p @msrun
 	tmp = arr.zip( ["No Group", "No User", "#{Time.now}", "Never see this"] ).map {|a| a.first.nil? ? a.last : a.first }  
 	p tmp
         @location = File.join(ArchiveRoot, tmp)
