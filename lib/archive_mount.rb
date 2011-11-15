@@ -2,6 +2,7 @@
 module Ms
   class ArchiveMount
     class << self
+      @mount_dir = ::ArchiveRoot
       # Make a new ArchiveMount which will set the new location for the archive, and knows how to find things.
       @@build_directories = ['init', 'metrics', 'ident', 'quant', 'results', 'graphs', 'mzML', 'archive' ]
       # Builds the archive directory structure in the root, according to this model:
@@ -49,60 +50,55 @@ module Ms
       # @param None, uses #msrun initialized
       # @return location array
       def define_location
-	arr = [@msrun.group, @msrun.user, File.mtime(@msrun.rawfile), @msrun.rawid]
-	p arr
-	binding.pry
-	p @msrun
-	tmp = arr.zip( ["None", "None", "#{Time.now.to_s}", "Never see this"] ).map {|a| a.first.nil? ? a.last : a.first }  
-	p tmp
-        @location = File.join(ArchiveRoot, tmp)
-	binding.pry
+	mtime = File.mtime(@msrun.rawfile)
+	arr = [@msrun.group, @msrun.user, "#{mtime.year}#{"%02d" % mtime.mon}#{"%02d" % mtime.day}", @msrun.rawid]
+	t = Time.now
+	@location = File.join(arr.zip( ["None", "None", "#{t.year}#{"%02d" % t.mon}#{"%02d" % t.day}", "Never see this"] ).map {|a| a.first.nil? ? a.last : a.first }  )
         @msrun.archive_location = @location
       end
-    end	
-    # OS independent filename splitter "/path/to/file" =>
-		# ['path','to','file']
-		def split_filename(fn)
-			fn.split(/[\/\\]/)
-		end
+      # OS independent filename splitter "/path/to/file" =>
+      # ['path','to','file']
+      def split_filename(fn)
+	fn.split(/[\/\\]/)
+      end
 
-		# OS independent basename getter
-		def basename(fn)
-			split_filename(fn).last
-		end
+      # OS independent basename getter
+      def basename(fn)
+	split_filename(fn).last
+      end
 
-		def under_mount?(filename)
-			split_filename(File.expand_path(filename))[0,@mount_dir_pieces.size] == @mount_dir_pieces
-		end
+      def under_mount?(filename)
+	split_filename(File.expand_path(filename))[0,@mount_dir_pieces.size] == @mount_dir_pieces
+      end
 
-		# assumes the file is already under the mount
-		# returns its path relative to the mount
-		def relative_path(filename)
-			pieces = split_filename(File.expand_path(filename))
-			File.join(pieces[@mount_dir_pieces.size..-1])
-		end
+      # assumes the file is already under the mount
+      # returns its path relative to the mount
+      def relative_path(filename)
+	pieces = split_filename(File.expand_path(filename))
+	File.join(pieces[@mount_dir_pieces.size..-1])
+      end
 
-		# move the file under the mount.  If @tmp_subdir is defined, it will use that directory.
-		# returns the expanded path of the file
-		def cp_under_mount(filename)
-			dest = File.join(@mount_dir, tmp_subdir || "", File.basename(filename))
-			FileUtils.cp( filename, dest, preserve=true )
-			dest
-		end
+      # move the file under the mount.  If @tmp_subdir is defined, it will use that directory.
+      # returns the expanded path of the file
+      def cp_under_mount(filename)
+	dest = File.join(@mount_dir, tmp_subdir || "", File.basename(filename))
+	FileUtils.cp( filename, dest, preserve=true )
+	dest
+      end
 
-		def cp_to(filename, mounted_dest) # Always returns the destination as an explicit location relative to the mount directory
-			dest = File.join(@mount_dir, mounted_dest, File.basename(filename))
-			puts 'DESTINATION:   															______________'
-			p dest
-			puts "mounted_dest: #{mounted_dest}"
-			FileUtils.mkdir_p(dest)
-			FileUtils.cp( filename, dest, preserve=true)
-			dest
-		end
+      def cp_to(filename, mounted_dest) # Always returns the destination as an explicit location relative to the mount directory
+	dest = File.join(@mount_dir, mounted_dest, File.basename(filename))
+	puts 'DESTINATION: ______________'
+	p dest
+	puts "mounted_dest: #{mounted_dest}"
+	FileUtils.mkdir_p(dest)
+	FileUtils.cp( filename, dest, preserve=true)
+	dest
+      end
 
-		def full_path(relative_filename)
-			File.join(@mount_dir, relative_filename)
-		end
-
-  end
+      def full_path(relative_filename)
+	File.join(@mount_dir, relative_filename)
+      end
+    end # class << self
+  end # class ArchiveMount
 end # Module
