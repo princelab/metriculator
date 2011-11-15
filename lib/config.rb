@@ -95,9 +95,9 @@ QcConfig = Qc_defaults.merge(YAML.load_file("qc_config.yml"))
 # @param [String] a Directory from which to start
 # @return sets @runConfig to contain the values
 def load_runconfig(directory)
-  p config[:archive_root]
+  p ArchiveRoot
   files = []
-  while Dir.pwd != config[:archive_root]
+  while Dir.pwd != ArchiveRoot
     file = Dir.glob('run_config.yml')
     files << file.first unless file.empty?
   end
