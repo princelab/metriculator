@@ -49,7 +49,7 @@ module Ms
       # @param None, uses #msrun initialized
       # @return location array
       def define_location
-	tmp = [@msrun.group, @msrun.user, File.mtime(@msrun.rawfile), @msrun.rawid].zip( ["No Group", "No User", Time.now, "Never see this"] ).map {|a| a.first.nil? ? a.last : a.first }  
+	tmp = [@msrun.group, @msrun.user, File.mtime(@msrun.rawfile), @msrun.rawid].zip( ["No Group", "No User", "#{Time.now}", "Never see this"] ).map {|a| a.first.nil? ? a.last : a.first }  
         @location = File.join(ArchiveRoot, tmp)
 	binding.pry
         @msrun.archive_location = @location
