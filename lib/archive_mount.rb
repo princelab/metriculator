@@ -53,7 +53,7 @@ module Ms
 	p arr
 	binding.pry
 	p @msrun
-	tmp = arr.zip( ["No Group", "No User", "#{Time.now}", "Never see this"] ).map {|a| a.first.nil? ? a.last : a.first }  
+	tmp = arr.zip( ["None", "None", "#{Time.now.to_s}", "Never see this"] ).map {|a| a.first.nil? ? a.last : a.first }  
 	p tmp
         @location = File.join(ArchiveRoot, tmp)
 	binding.pry
