@@ -99,10 +99,12 @@ if options[:xcalibur]
 # Real work
 	raise FileTypeError if File.extname(file) != File.extname('Test.sld')
 	sld = Ms::Xcalibur::Sld.new(file).parse
-	object = Ms::MsrunInfo.new(sld.sldrows[line_num])
-	object.grab_files
-  Ms::ArchiveMount.send_to_mount(object)
-	send_msruninfo_to_linux_via_ssh(object.to_yaml)
+	msrun = Ms::MsrunInfo.new(sld.sldrows[line_num])
+	msrun.grab_files
+	msrun.fill_in
+	Ms::ArchiveMount.send_to_mount(msrun)
+  # TODO Deprecated send_msruninfo_to_linux_via_ssh, therefore remove it
+	send_msruninfo_to_linux_via_ssh(msrun.to_yaml)
 end
 
 if options[:server]
