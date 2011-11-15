@@ -38,6 +38,7 @@ module Ms
 
       def archive # MOVE THE FILES OVER TO THE LOCATION
         files = @msrun[0..6]
+# TODO: This is the wrong place to run #load_runconfig ... this should be run from the Msruninfo so that the group, user, taxonomy, etc are filled in accurately.  
         config = load_runconfig(@location)
 	      files.each do |file|
           binding.pry

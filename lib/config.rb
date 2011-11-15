@@ -103,5 +103,4 @@ def load_runconfig(directory)
   end
   @runConfig = Run_defaults.deeper_merge(YAML.load_file(file.shift))
   files.each {|file| @runConfig = @runConfig.deeper_merge(YAML.load_file(file))}
-  
 end
