@@ -3,15 +3,15 @@ require 'spec_helper'
 describe 'DBing' do
   describe "Metric" do
     before :all do 
-      @input = TESTFILE + '/single_metric.txt'
+      @input = Pathname.new(File.absolute_path(TESTFILE + '/single_metric.txt'))
       @metric = Ms::NIST::Metric.new(@input)
       @measures = @metric.slice_hash
       @metric.to_database
     end
     it 'contains the information parsed' do 
-      a, b = @measures.sort.first, Ms::ComparisonGrapher.slice_matches(Msrun.all(:metricsfile => @input)).sort.first
-      p a
-      p b
+      a = @measures.sort.first
+      b = Ms::ComparisonGrapher.slice_matches(Msrun.all(:metricsfile => @input))
+      b = b.select {|v| v.name == a.name and v.subcat == a.subcat }.first
       a.name.to_sym.should == b.name
       a.raw_id.should == b.raw_id
       a.category.should == b.category
@@ -41,7 +41,7 @@ describe 'DBing' do
     end
     it 'contains the same information' do 
       @db = Msrun.first(:id => @response)
-      @db.hplc_maxP.should == @msruninfo.hplc_maxP
+      @db.hplc_max_p.should == @msruninfo.hplc_maxP
     end
   end
 end # DBing

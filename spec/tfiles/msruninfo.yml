@@ -1,4 +1,4 @@
---- !ruby/struct:Ms::MsrunInfo
+--- !ruby/object:Ms::MsrunInfo
 sldfile: "JTP/ryanmt/20111004/xlinking/1/init/ryan_xlinking.sld"
 methodfile: "JTP/ryanmt/20111004/xlinking/1/init/45min.meth"
 rawfile: "JTP/ryanmt/20111004/xlinking/1/smple2B.raw"
