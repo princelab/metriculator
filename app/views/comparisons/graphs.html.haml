@@ -1,6 +1,7 @@
 %h1=@graph_title
 - @up = "#{comparison_path(params[:id])}/#{params[:graph_path][/(.*)\/.*/,1]}"
 %a{ :href => @up} Up
+%p= @graph_directories
 #subdirectories
   %ul
     - @graph_directories.each do |directory|
@@ -9,6 +10,7 @@
       %li
         %a{ :href => directory }= cat + " - " + name
 
+%p= @graph_files
 #graphs
   - @graph_files.each do |graph|
     %div.svg

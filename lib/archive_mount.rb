@@ -2,7 +2,6 @@
 module Ms
   class ArchiveMount
     class << self
-      @mount_dir = ::ArchiveRoot
       # Make a new ArchiveMount which will set the new location for the archive, and knows how to find things.
       @@build_directories = ['init', 'metrics', 'ident', 'quant', 'results', 'graphs', 'mzML', 'archive' ]
       # Builds the archive directory structure in the root, according to this model:
@@ -20,6 +19,7 @@ module Ms
       # @param None
       # @return Nothing specific yet ### TODO
       def build_archive # @location == LOCATION(group, user, mtime, experiment_id)
+        @mount_dir ||= ::ArchiveRoot
         # Dir.chdir(
         # cp the config file from the higher level down
         @@build_directories.each do |dir|
@@ -40,10 +40,9 @@ module Ms
       def archive # MOVE THE FILES OVER TO THE LOCATION
 # TODO: This is the wrong place to run #load_runconfig ... this should be run from the Msruninfo so that the group, user, taxonomy, etc are filled in accurately.  
         files = [:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile].map {|name| @msrun.send(name) }
->>>>>>> ddb02fa59adac33155d00e9747a050ba907afce9
         config = load_runconfig(@location)
-	files.each do |file|
-	  cp_to file, @archive_location
+        files.each do |file|
+          cp_to file, @archive_location
         end
       end
       # This defines the location for the archived directory and can be used by a File.join command to generate a FilePath
