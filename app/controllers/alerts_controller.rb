@@ -3,7 +3,6 @@ class AlertsController < ApplicationController
     @alerts = Alert.all(show: true).page(params[:page])
   end
   def destroy
-    puts "IN DESTROY METHOD"
     alert = Alert.get(params[:id])
     alert.update(show: false) if alert
     

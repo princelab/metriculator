@@ -77,7 +77,14 @@ class ComparisonsController < ApplicationController
       render_404
     end
   end
-
+  def destroy
+    comparison = Comparison.get(params[:id])
+    
+    respond_to do |format|
+      format.js { render :nothing => true }
+      format.html { redirect_to comparisons_path }
+    end
+  end
   private
   def get_msruns_from_array_of_ids(ids)
     ret = ids.map do |id|
