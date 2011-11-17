@@ -115,9 +115,13 @@ def load_runconfig(directory)
     last_dir = Dir.pwd 
     Dir.chdir('..')
   end
-  binding.pry 
   files.compact
-  @runConfig = Run_defaults.deeper_merge(YAML.load_file(files.shift))
-  files.each {|file| @runConfig = @runConfig.deeper_merge(YAML.load_file(file))}
+  if files.empty?
+    putsv "No runconfig files found:  Running under defaults"
+    @runConfig = Run_defaults
+  else
+    @runConfig = Run_defaults.deeper_merge(YAML.load_file(files.shift))
+    files.each {|file| @runConfig = @runConfig.deeper_merge(YAML.load_file(file))}
+  end
   Dir.chdir restore_dir
 end
