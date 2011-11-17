@@ -18,7 +18,6 @@
 - Colored arrows defining the positive or negative trends when known for each metric
 - Make a special viewing page for any graphs that are significantly different (T-test) __????  Would this really help???__
   * Or a page of links to the images?
-* Delete comparison option
 * http://www.datatables.net/ ????  Would this make that table easier?
 
 ###Database
