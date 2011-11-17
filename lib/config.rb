@@ -115,6 +115,8 @@ def load_runconfig(directory)
     last_dir = Dir.pwd 
     Dir.chdir('..')
   end
+  binding.pry 
+  files.compact
   @runConfig = Run_defaults.deeper_merge(YAML.load_file(files.shift))
   files.each {|file| @runConfig = @runConfig.deeper_merge(YAML.load_file(file))}
   Dir.chdir restore_dir
