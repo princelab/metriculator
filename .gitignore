@@ -9,5 +9,4 @@ tmp/
 *~
 *.log
 doc/
-public/
 config/database.yml
