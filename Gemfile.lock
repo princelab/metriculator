@@ -216,7 +216,7 @@ GEM
       ffi (~> 1.0.9)
       json_pure
       rubyzip
-    sexp_processor (3.0.7)
+    sexp_processor (3.0.8)
     slop (2.1.0)
     sqlite3-ruby (1.3.2)
     sqlite3-ruby (1.3.2-x86-mingw32)
