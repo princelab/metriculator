@@ -90,6 +90,9 @@ module Ms
 				@tunefile = BinReader.new.string_extractor(data, 12728)
 				if @tunefile[/^[A-Z]:.*/] != @tunefile and File.extname(@tunefile) != ".LTQTune"
 					@tunefile = BinReader.new.string_extractor(data, 12872)
+        end
+				if @tunefile[/^[A-Z]:.*/] != @tunefile and File.extname(@tunefile) != ".LTQTune"
+					@tunefile = BinReader.new.string_extractor(data, 13750)
 				end
 				@tunefile
 			end
