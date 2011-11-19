@@ -102,9 +102,9 @@ if options[:xcalibur]
 	msrun = Ms::MsrunInfo.new(sld.sldrows[line_num])
 	msrun.grab_files
 	msrun.fill_in
+	p msrun
 	Ms::ArchiveMount.send_to_mount(msrun)
-  # TODO Deprecated send_msruninfo_to_linux_via_ssh, therefore remove it
-	send_msruninfo_to_linux_via_ssh(msrun.to_yaml)
+	# TODO Add the AppMessenger in
 end
 
 if options[:server]

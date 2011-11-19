@@ -34,9 +34,10 @@ module Ms
     # @param None
     # @return Nothing specific
     def grab_files
-      tunefile = Ms::Xcalibur::Method.new(methodfile).tunefile
+      self.tunefile = Ms::Xcalibur::Method.new(methodfile).parse
+      puts "Tunefile: #{tunefile}"
       @hplc_object = Ms::Eksigent::Ultra2D.new(rawfile)
-      hplcfile = @hplc_object.eksfile
+      self.hplcfile = @hplc_object.eksfile
       @hplc_object.parse
     end
     # This function pulls information from the hplc_file parsing to fill in more details to this MsRunInfo object.

@@ -19,12 +19,15 @@ module Ms
       # @param None
       # @return Nothing specific yet ### TODO
       def build_archive # @location == LOCATION(group, user, mtime, experiment_id)
+	restore_dir = Dir.pwd
         @mount_dir ||= ::ArchiveRoot
-        # Dir.chdir(
+	FileUtils.mkdir_p(File.join(@mount_dir, @location))
+        Dir.chdir(File.join(@mount_dir, @location))
         # cp the config file from the higher level down
         @@build_directories.each do |dir|
           FileUtils.mkdir dir unless Dir.exist?(dir)
         end
+	Dir.chdir(restore_dir)
         # Find a config file and move it down to this directory... right?
       end
       # Moves the files to the location by calling {#define_location}, {#build_archive}, and ... 
@@ -39,21 +42,29 @@ module Ms
 
       def archive # MOVE THE FILES OVER TO THE LOCATION
 # TODO: This is the wrong place to run #load_runconfig ... this should be run from the Msruninfo so that the group, user, taxonomy, etc are filled in accurately.  
-        files = [:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile].map {|name| @msrun.send(name) }
-        config = load_runconfig(@location)
-        files.each do |file|
-          cp_to file, @archive_location
+        files = [:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile].map {|name| puts "#{name}:  #{@msrun.send(name)}"}
+        files.compact.each do |file|
+	  puts "File: #{file}"
+          cp_to file, @msrun.archive_location
         end
+      end
+      # This loads the runconfig settings into the msrun object
+      def config
+        runconfig = load_runconfig(File.dirname(@msrun.rawfile))
+	@msrun.group ||= runconfig[:group]
+	@msrun.user ||= runconfig[:user]
+	@msrun.rawid ||= File.basename(@msrun.rawfile, ".RAW")
       end
       # This defines the location for the archived directory and can be used by a File.join command to generate a FilePath
       # location = (group, user, mtime, experiment_name)
       # @param None, uses #msrun initialized
       # @return location array
       def define_location
+	config
 	mtime = File.mtime(@msrun.rawfile)
 	arr = [@msrun.group, @msrun.user, "#{mtime.year}#{"%02d" % mtime.mon}#{"%02d" % mtime.day}", @msrun.rawid]
 	t = Time.now
-	@location = File.join(arr.zip( ["None", "None", "#{t.year}#{"%02d" % t.mon}#{"%02d" % t.day}", "Never see this"] ).map {|a| a.first.nil? ? a.last : a.first }  )
+	@location = File.join(arr.zip( ["Unknown", "unknown", "#{t.year}#{"%02d" % t.mon}#{"%02d" % t.day}", "Never see this"] ).map {|a| a.first.nil? ? a.last : a.first }  )
         @msrun.archive_location = @location
       end
       # OS independent filename splitter "/path/to/file" =>
@@ -87,12 +98,10 @@ module Ms
       end
 
       def cp_to(filename, mounted_dest) # Always returns the destination as an explicit location relative to the mount directory
+	p filename
 	dest = File.join(@mount_dir, mounted_dest, File.basename(filename))
-	puts 'DESTINATION: ______________'
-	p dest
-	puts "mounted_dest: #{mounted_dest}"
 	FileUtils.mkdir_p(dest)
-	FileUtils.cp( filename, dest, preserve=true)
+	FileUtils.cp( filename, dest, :preserve => true)
 	dest
       end
 

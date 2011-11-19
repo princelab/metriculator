@@ -124,4 +124,5 @@ def load_runconfig(directory)
     files.each {|file| @runConfig = @runConfig.deeper_merge(YAML.load_file(file))}
   end
   Dir.chdir restore_dir
+  @runConfig
 end
