@@ -38,15 +38,17 @@ module Ms
         define_location unless @location
         build_archive
         archive
+        Messenger.add_todo(relative_path(@msrun.rawfile))
       end
 
       def archive # MOVE THE FILES OVER TO THE LOCATION
 # TODO: This is the wrong place to run #load_runconfig ... this should be run from the Msruninfo so that the group, user, taxonomy, etc are filled in accurately.  
         files = [:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile].map {|name| puts "#{name}:  #{@msrun.send(name)}"}
-        files.compact.each do |file|
+        files.compact.map do |file|
 	  puts "File: #{file}"
           cp_to file, @msrun.archive_location
         end
+        p files
       end
       # This loads the runconfig settings into the msrun object
       def config
@@ -99,10 +101,10 @@ module Ms
 
       def cp_to(filename, mounted_dest) # Always returns the destination as an explicit location relative to the mount directory
 	p filename
-	dest = File.join(@mount_dir, mounted_dest, File.basename(filename))
+	dest = File.join(@mount_dir, mounted_dest )#, File.basename(filename))
 	FileUtils.mkdir_p(dest)
 	FileUtils.cp( filename, dest, :preserve => true)
-	dest
+	File.join(dest, File.basename(filename))
       end
 
       def full_path(relative_filename)
