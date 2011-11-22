@@ -34,7 +34,7 @@ module Ms
       # @param None
       # @return Nothing specific yet ### TODO
       def send_to_mount(object)
-	Messenger.setup
+        Messenger.setup
         @msrun = object
         define_location unless @location
         build_archive
@@ -50,7 +50,8 @@ module Ms
 	  file = arr.last
 	  next if file.nil?
           location = cp_to file, @msrun.archive_location
-	  @msrun.send("#{key}=", location)
+    puts "RelativePath: #{relative_path(location)}"
+	  @msrun.send("#{key}=", relative_path(location) )
         end
       end
       # This loads the runconfig settings into the msrun object
