@@ -8,6 +8,7 @@ class Messenger
     Nodes = AppConfig[:nodes]
 # This is the function which sets up the appropriate logging environment and the tasks to be performed by the process
     def setup
+      puts "ArchiveRoot: #{ArchiveRoot}"
       @@logs ||= find_files(ArchiveRoot)
       find_files(location) if @@logs.empty?
       update
@@ -21,11 +22,11 @@ class Messenger
         @@todo << (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])).map(&:chomp)
       rescue StandardError => bang
         find_files(AppConfig[:nodes][:server][:archive_root])
-        print "Error: Hacking a fix..." + bang.message
+        print "Error: Hacking a fix... " + bang.message
         retry unless tmp > 1
         print "Error: File doesn't exist!!" + bang.message + bang.backtrace.join("\n")
       end
-      @@todo.flatten
+      @@todo.flatten.compact
     end
 
 # TESTING Fxns... Written to allow me to unit test the inside fxnality of this class
@@ -58,11 +59,13 @@ class Messenger
       write_message(:todo, string)
     end
     private
+# This function defines the location of the log files
     def find_files(location)
       @@logs = {:todo => File.join(location, "todo.log"), 
         :metrics => File.join(location, "metrics.log")
       }
     end
+# This function writes to the specified log file
     def write_message(log_file, string)
       File.open(@@logs[log_file], 'a') {|out| out.puts string }
     end

@@ -34,6 +34,7 @@ module Ms
       # @param None
       # @return Nothing specific yet ### TODO
       def send_to_mount(object)
+	Messenger.setup
         @msrun = object
         define_location unless @location
         build_archive
@@ -43,12 +44,14 @@ module Ms
 
       def archive # MOVE THE FILES OVER TO THE LOCATION
 # TODO: This is the wrong place to run #load_runconfig ... this should be run from the Msruninfo so that the group, user, taxonomy, etc are filled in accurately.  
-        files = [:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile].map {|name| puts "#{name}:  #{@msrun.send(name)}"}
-        files.compact.map do |file|
-	  puts "File: #{file}"
-          cp_to file, @msrun.archive_location
+        files = [:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile].map {|name| puts "#{name}:  #{@msrun.send(name)}"; [name, @msrun.send(name)]}
+        files = files.map do |arr|
+	  key = arr.first
+	  file = arr.last
+	  next if file.nil?
+          location = cp_to file, @msrun.archive_location
+	  @msrun.send("#{key}=", location)
         end
-        p files
       end
       # This loads the runconfig settings into the msrun object
       def config
@@ -87,6 +90,7 @@ module Ms
       # assumes the file is already under the mount
       # returns its path relative to the mount
       def relative_path(filename)
+	@mount_dir_pieces ||= @mount_dir.size
 	pieces = split_filename(File.expand_path(filename))
 	File.join(pieces[@mount_dir_pieces.size..-1])
       end
@@ -100,7 +104,6 @@ module Ms
       end
 
       def cp_to(filename, mounted_dest) # Always returns the destination as an explicit location relative to the mount directory
-	p filename
 	dest = File.join(@mount_dir, mounted_dest )#, File.basename(filename))
 	FileUtils.mkdir_p(dest)
 	FileUtils.cp( filename, dest, :preserve => true)
