@@ -2,6 +2,7 @@
 coverage
 .bundle
 db/*.sqlite3
+db/*.db
 db/*.db*
 log/*.log
 tmp/
@@ -10,3 +11,6 @@ tmp/
 *.log
 doc/
 config/database.yml
+public/comparisons/
+public/hplc_graphs/
+spec/tfiles/132*

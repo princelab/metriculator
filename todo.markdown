@@ -11,7 +11,6 @@
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
     - Prevent the same comparison from being created multiple times?
       - How can this be done??
-  - Comparison description field for user created labeling of comparisons
   - Add breadcrumbs for graph heirarchy?
       -- might be had by the simple "up" link I've added.
   - figure out how to AJAX update the alerts page  
