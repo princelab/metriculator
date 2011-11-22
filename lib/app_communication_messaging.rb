@@ -28,6 +28,16 @@ class Messenger
       end
       @@todo.flatten.compact
     end
+    def clear_completed!
+      update
+      @@logs.each do |k, file|
+        FileUtils.rm(file)
+        FileUtils.touch(file)
+      end
+      @@todo.each do |line|
+        add_todo(line)
+      end
+    end
 
 # TESTING Fxns... Written to allow me to unit test the inside fxnality of this class
     def test_write

@@ -14,3 +14,4 @@ config/database.yml
 public/comparisons/
 public/hplc_graphs/
 spec/tfiles/132*
+spec/tfiles/*.log

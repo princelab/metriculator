@@ -32,9 +32,11 @@ describe 'Messaging' do
     Messenger.add_todo(File.absolute_path($0))
     a = Messenger.read_todo 
     a.size.should == 2 
+    p a
     Messenger.add_metric(a.first)
-    Messenger.clear_completed
+    Messenger.clear_completed!
     a = Messenger.read_todo
+    p a
     a.size.should == 1
     a.should == [File.absolute_path($0)]
   end
