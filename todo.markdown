@@ -5,6 +5,7 @@
 ###Archiver
 -	Metric starter fxnality  # TEST THIS!!
 *	Message Passing # TEST IT and the accompanying metric starting...
+* Message clearing fxns so that I can clean out the lists... maybe monthly?
 * Implement database updating of locations and the file moving system
 
 ###Website
