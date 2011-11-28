@@ -57,6 +57,7 @@ table {
 
 body {
   background: #eaefea;
+  line-height: 1.5em; /* To improve legibility */
 }
 
 footer, header {
@@ -78,6 +79,28 @@ header img {
 
 .subheader {
   
+}
+
+/* HEADER LEVELS */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  padding: 1em 0 1em 0;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.6em;
+}
+
+h3 {
+  font-size: 1.4em;
+}
+
+h4 {
+  font-size: 1.2em;
 }
 
 /* NAVIGATION */
