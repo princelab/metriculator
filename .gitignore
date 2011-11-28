@@ -11,3 +11,4 @@ tmp/
 doc/
 public/
 config/database.yml
+archiver_defaults.yml
