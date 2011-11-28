@@ -192,11 +192,18 @@ td .desc {
 }
 
 #alert_num {
-  display: block;
+  margin: 4px auto;
+  line-height: 22px;
+  min-width: 15px;
+  text-align: center;
 }
 
 .alert_bad {
   background-color: red;
+}
+
+a#alert_num:link, a#alert_num:visited {
+  color: #fff;
 }
 
 .alert_okay {
