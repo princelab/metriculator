@@ -9,7 +9,7 @@
     %ul.subheader
       - if ['comparisons'].include?(params[:controller]) and params[:id]
         %li= link_to "Comparison Home", comparison_path(@comparison)# + '/' + params[:id]
-        - CATEGORIES.each do |cat|
+        - ApplicationHelper::Categories.each do |cat|
           %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat.downcase}"
   = link_to logo, root_path
   - if flash[:error]

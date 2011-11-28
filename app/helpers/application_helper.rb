@@ -1,7 +1,7 @@
 # Helper functions for the Application
 module ApplicationHelper
 # This is the list of categories which are used for sorting and grouping the metrics
-  CATEGORIES = ["uplc", "chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
+  Categories = ["uplc", "chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
 # Return a title which wisely configures itself correctly
   def title
     base_title = "Mass Spectrometry/Analysis Performance Metrics"
@@ -10,6 +10,10 @@ module ApplicationHelper
     else
       "#{@title} | #{base_title}"
     end
+  end
+# Logo method 
+  def logo
+    image_tag("logo.png", alt: "Metrics", class: 'round')
   end
 
 # Creates a link to sort table colums.
