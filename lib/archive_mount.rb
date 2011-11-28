@@ -1,5 +1,6 @@
-#This class provides the utility for organizing the file structure and handling the archive as a Mounted location, simplifying the use elsewhere in the library
+
 module Ms
+#This class provides the utility for organizing the file structure and handling the archive as a Mounted location, simplifying the use elsewhere in the library
   class ArchiveMount
     class << self
       # Make a new ArchiveMount which will set the new location for the archive, and knows how to find things.

@@ -1,20 +1,24 @@
 require 'dm-rails/middleware/identity_map'
+# This is the base controller for the entire site, and also provides some storage of reference objects (hashes) that are used throughout the site
 class ApplicationController < ActionController::Base
   use Rails::DataMapper::Middleware::IdentityMap
   protect_from_forgery
 
   before_filter :load_alerts
 
+# This loads up the alerts from the database, setting the @alerts object
   def load_alerts
    # @alerts = Alert.all
     @alerts = Alert.all(:show => true)
   end
 
+# This sets our custom 404 page up
   def render_404
     @title = "404 Page Not Found"
     render :template => "public/404.html.haml", :layout => false, :status => 404
   end
 
+# This hash contains a reference for each subcategory, allowing for the setting of a trend arrow to help in comprehension of the meaning of each trend.  All are not set, but the obvious ones are.  Please update this if you know anything about a particular trend
   Known_trends = {"id_charge_distributions_at_different_ms1max_quartiles_for_charges_1_4"=>nil, "precursor_m_z_averages_and_differences_from_1st_quartile_largest_of_different_ms1total_tic_quartiles_over_full_elution_period"=>nil, 
       "number_of_compounds_in_common"=>nil, "fraction_of_overlapping_compounds_relative_to_first_index"=>nil, "fraction_of_overlapping_compounds_relative_to_second_index"=>nil, "median_retention_rank_differences_for_compounds_in_common_percent"=>nil, "avg_1_60_1_60"=>nil, 
       "average_retention_rank_differences_for_compounds_in_common_percent"=>nil, "avg_2_30_2_30"=>nil, "number_of_matching_identified_ions_between_runs"=>nil, "relative_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>nil, "avg_1_00_1_00"=>nil, "relative_uncorrected_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>nil, "avg_0_00_0_00"=>nil, 
@@ -57,6 +61,7 @@ class ApplicationController < ActionController::Base
       "comp_to_last"=>nil, "average_diff"=>nil, "median_2_diff"=>nil, "comp_to_first_2"=>nil, "comp_to_last_2"=>nil, "uncor_rel_first"=>nil, "uncor_rel_last"=>nil, 
       "corr_rel_first"=>nil, "corr_rel_last"=>nil, "top_10_abund"=>nil, "top_25_abund"=>nil, "top_50_abund"=>nil, "fractab_top"=>nil, "fractab_top_10"=>nil, "fractab_top_100"=>nil}
 
+# This contains a reference for converting database names back into the actual metric name.  
   Name_legend = { "uplc"=> "UPLC", "pressure_trace"=> "Pressure Trace", "chromatography"=>"Chromatography", "ms1"=>"MS1", "ms2"=>"MS2", "dynamic_sampling"=>"Dynamic Sampling", "ion_source"=>"Ion Source", "ion_treatment"=>"Ion Treatment", "peptide_ids"=> "Peptide IDs", "run_comparison"=>"Run Comparison", "id_charge_distributions_at_different_ms1max_quartiles_for_charges_1_4"=>"ID Charge Distributions At Different MS1max Quartiles For Charges 1-4", "precursor_m_z_averages_and_differences_from_1st_quartile_largest_of_different_ms1total_tic_quartiles_over_full_elution_period"=>"Precursor m/z Averages and Differences from 1st Quartile (Largest) of Different MS1Total (TIC) Quartiles Over Full Elution Period", 
       "number_of_compounds_in_common"=>"Number of Compounds in Common", "fraction_of_overlapping_compounds_relative_to_first_index"=>"Fraction of Overlapping Compounds - relative to first index", "fraction_of_overlapping_compounds_relative_to_second_index"=>"Fraction of Overlapping Compounds - relative to second index", "median_retention_rank_differences_for_compounds_in_common_percent"=>"Median Retention Rank Differences for Compounds in Common (Percent)", "avg_1_60_1_60"=>"Avg\t1.60\t1.60", 
       "average_retention_rank_differences_for_compounds_in_common_percent"=>"Average Retention Rank Differences for Compounds in Common (Percent)", "avg_2_30_2_30"=>"Avg\t2.30\t2.30", "number_of_matching_identified_ions_between_runs"=>"Number of Matching Identified Ions Between Runs", "relative_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative Deviations in MS1 Max For Matching Identified Ions Between Runs", "avg_1_00_1_00"=>"Avg\t1.00\t1.00", "relative_uncorrected_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative Uncorrected Deviations in MS1 Max For Matching Identified Ions Between Runs", "avg_0_00_0_00"=>"Avg\t0.00\t0.00", 

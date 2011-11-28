@@ -28,6 +28,7 @@ class Messenger
       end
       @@todo.flatten.compact
     end
+# This function will clear the completed items of out the logs, leaving only uncompleted items.  This can run periodically to keep things nice and clean
     def clear_completed!
       update
       @@logs.each do |k, file|

@@ -56,6 +56,7 @@ module Ms
     def graph_pressure
       graphfile = @hplc_object.graph
     end
+# This function checks that everything is prepped and sends the data to the database.
     def to_database
       fill_in if hplc_maxP.nil?
       graph_pressure if @graphfile.nil?

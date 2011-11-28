@@ -1,16 +1,21 @@
+# Controller for Comparisons
 class ComparisonsController < ApplicationController
+# Delivers index page
   def index
     @comparisons = Comparison.all.page(params[:page])
   end
 
+# Delivers a single Comparison
   def show
     @comparison = Comparison.get(params[:id])
   end
 
+# Allows for editing of a single Comparison
   def edit
     @comparison = Comparison.get(params[:id])
   end
 
+# Updates the chosen comparison and responds or redirects
   def update
     @comparison = Comparison.get(params[:id])
 
@@ -25,6 +30,7 @@ class ComparisonsController < ApplicationController
     end
   end
 
+# This is the action which allows for generation of a new comparison.  It uses a fork to spawn a child process which generates the comparison. Notifications will appear when this fails or finishes.  
   def create
     #TODO: first check if one exists already, and redirect to it.
     first_set = get_msruns_from_array_of_ids(params[:comparison1].uniq)
@@ -36,10 +42,6 @@ class ComparisonsController < ApplicationController
     comp.description = params[:description]
     comp.save
     
-    p comp
-
-    p comp.saved?
-    
     fork do
       result = comp.graph
       puts "DONE GRAPHING"
@@ -50,6 +52,7 @@ class ComparisonsController < ApplicationController
     redirect_to :action => "show", :id => comp.id
   end
 
+# This is a helper route which helps deliver the comparison graphs from the public folders.  It utilizes the folder structure to help serve the content in a clear manner.
   def get_graph_at_path
     if comparison = Comparison.get(params[:id]) then
       path = File.join(comparison.location_of_graphs, params[:graph_path])
@@ -77,6 +80,7 @@ class ComparisonsController < ApplicationController
       render_404
     end
   end
+# Allows for destruction of a comparison.  This means that you have an option for clearing out old, useless comparisons.
   def destroy
     comparison = Comparison.get(params[:id])
     
@@ -86,11 +90,10 @@ class ComparisonsController < ApplicationController
     end
   end
   private
+
+# A helper method to grab Msruns from the database.  This is slow and should be changed to a datamapper function to reduce calls to the database? ###TODO???
   def get_msruns_from_array_of_ids(ids)
-    ret = ids.map do |id|
-      Msrun.get(id)
-    end
-    ret
+    ids.map {|id| Msrun.get(id) }
   end
 end
 
