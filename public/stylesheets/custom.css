@@ -123,12 +123,9 @@ nav ul li {
   padding: 0;
 }
 
-nav ul li a {
+nav ul li a:link {
+  display: block;
   padding: 0 5px;
-  font-weight: bold;
-}
-a.alerts {
-  padding: 0 0px;
 }
 
 nav ul li a:visited {
@@ -136,7 +133,9 @@ nav ul li a:visited {
 }
 
 nav ul li a:hover {
-  text-decoration: underline;
+  color: #000;
+  background-color: #999;
+  text-decoration: none;
 }
 
 section {
@@ -158,18 +157,18 @@ section h1 {
 }
 /* Links */
 
-a {
+a:link {
   color: #09c;
   text-decoration: none;
+}
+
+a:visited {
+  color: #09c;
 }
 
 a:hover {
   color: #069;
   text-decoration: underline;
-}
-
-a:visited {
-  color: #069;
 }
 
 
@@ -192,17 +191,18 @@ td .desc {
   background-image: url(/images/up_arrow.png);
 }
 
-span.alert_bad {
-  color: red;
-  font-weight: bold;
-  padding: 0 5px;
+#alert_num {
+  display: block;
 }
 
-span.alert_okay {
+.alert_bad {
+  background-color: red;
+}
+
+.alert_okay {
   color: #09c;
+  background-color: #333;
   text-decoration: none;
-  padding: 0 5px;
-  font-weight: bold;
 }
 
 table#msrunshow, th, td {
