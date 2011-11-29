@@ -210,8 +210,14 @@ td .desc {
   text-align: center;
 }
 
+#alerts {
+  display: block; /* By default, hide the alerts. They'll be displayed through javascript. */
+  position: fixed;
+  right: 200px;
+}
+
 .alert_bad {
-  background-color: red;
+  background-color: #900;
 }
 
 a#alert_num:link, a#alert_num:visited {
@@ -220,7 +226,7 @@ a#alert_num:link, a#alert_num:visited {
 
 .alert_okay {
   color: #09c;
-  background-color: #333;
+  background-color: #555;
   text-decoration: none;
 }
 
