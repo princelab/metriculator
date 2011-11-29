@@ -3,8 +3,7 @@
 require 'msruninfo'
 
 #To make sure Time.random() is available. This really should go somewhere else.
-require 'mount_mapper'
-require 'rubygems'
+require 'meta_programming'
 require 'yaml'
 
 # A fancy struct which is used to contain each measurement and streamline the internal handling of the metric data

@@ -2,7 +2,7 @@
 - @up = "#{comparison_path(params[:id])}/#{params[:graph_path][/(.*)\/.*/,1]}"
 %a{ :href => @up} Up
 
-/ TODO: This is the best I can pull off to clean and fix these paths to work despite changing the root path
+/ TODO: This is the best I can pull off to clean and fix these paths to work despite changing the root path, it works... but probably isn't kosher Rails practice
 /%p= "#{comparison_path(params[:id])}/#{@graph_directories.first}".split('/').uniq.join('/')
 #subdirectories
   %ul
@@ -11,9 +11,19 @@
       - name = ApplicationController::Name_legend[directory[/\/comparisons\/\d*\/.*\/(.*)/,1]]
       %li
         %a{ :href => (comparison_path(params[:id]) + directory).split('/').uniq.join('/') }= cat + " - " + name
-
 #graphs
   - @graph_files.each do |graph|
     %div.svg
+      - category = graph.split('/')[-3].to_sym
+      - subcat = graph.split('/')[-2].split('_').map{|word| word.capitalize}.join('').to_sym
+      - name = File.basename(graph.split('/')[-1], '.svg').to_sym
       /%h3=graph.titleize
+      - arrow = case ApplicationController::Known_trends[category][subcat][name]
+        - when "down"
+          - 'down_arrow.svg'
+        - when "up"
+          - "up_arrow.svg"
+        - else
+          - nil
+      = image_tag arrow if arrow
       %object{ :data => (comparison_path(params[:id]) + graph).split('/').uniq.join('/'), :type => "image/svg+xml" }

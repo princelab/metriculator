@@ -2,6 +2,7 @@
 coverage
 .bundle
 db/*.sqlite3
+db/*.db
 db/*.db*
 log/*.log
 tmp/
@@ -9,6 +10,5 @@ tmp/
 *~
 *.log
 doc/
-public/
 config/database.yml
 archiver_defaults.yml

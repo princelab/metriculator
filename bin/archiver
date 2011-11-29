@@ -58,6 +58,9 @@ archiver_optparse = OptionParser.new do |opts|
     end
   end
 
+  options[:test] = false
+  opts.on( '--test', 'Prevents the rails_env from being set to production.  This is useful for allowing testing situations from this command prompt')
+
 	options[:server] = false
 	opts.on( '--server', 'Finishes the analysis, being fed a yaml file which represents the data collected previously, together with the archive location for the files.  These can then be completed by running the remaining options (like graphing, building metrics, and parsing the metrics to the database) ' ) {options[:server] = true }
 
@@ -81,6 +84,12 @@ if options[:verbose]
   putsv "Verbosity set to true"
 end
 
+if options[:test]
+  ENV["RAILS_ENV"] = 'test'
+else 
+  ENV["RAILS_ENV"] = 'production'
+end
+
 if options[:xcalibur]
 # The information regarding the system type and archive root location
   SysInfo = AppConfig[:nodes][:instrument]
@@ -97,14 +106,14 @@ if options[:xcalibur]
 		puts 'continuing........'
 	end
 # Real work
-	raise FileTypeError if File.extname(file) != File.extname('Test.sld')
+	raise TypeError, "File given is not an SLD file" if File.extname(file) != File.extname('Test.sld') 
 	sld = Ms::Xcalibur::Sld.new(file).parse
 	msrun = Ms::MsrunInfo.new(sld.sldrows[line_num])
 	msrun.grab_files
 	msrun.fill_in
+	p msrun
 	Ms::ArchiveMount.send_to_mount(msrun)
-  # TODO Deprecated send_msruninfo_to_linux_via_ssh, therefore remove it
-	send_msruninfo_to_linux_via_ssh(msrun.to_yaml)
+	# TODO Add the AppMessenger in
 end
 
 if options[:server]
@@ -124,6 +133,7 @@ if options[:server]
   if SysInfo[:system] == "Windows"
     %x[ rails s]
   else
+
     %x[ passenger start ]
   end
 end
@@ -162,5 +172,5 @@ if options[:server_setup]
   Node = :server
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
-  puts "Honestly, this is probably too ambitious of a project.  You'll have to configure your own server environment at this point."
+  puts "Honestly, this is probably too ambitious of little feature.  You'll have to configure your own server environment at this point."
 end
