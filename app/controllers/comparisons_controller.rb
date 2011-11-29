@@ -42,14 +42,22 @@ class ComparisonsController < ApplicationController
     comp.description = params[:description]
     comp.save
     
-    fork do
+    if RbConfig['host_os'] === 'windows'
+      flash[:notice] = "Comparison started. You will be notified when it completes."
+      redirect_to :action => "show", :id => comp.id
       result = comp.graph
       puts "DONE GRAPHING"
       a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{comp.id}" })
+    else
+      fork do
+        result = comp.graph
+        puts "DONE GRAPHING"
+        a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{comp.id}" })
+      end
+      flash[:notice] = "Comparison started. You will be notified when it completes."
+      redirect_to :action => "show", :id => comp.id
     end
 
-    flash[:notice] = "Comparison started. You will be notified when it completes."
-    redirect_to :action => "show", :id => comp.id
   end
 
 # This is a helper route which helps deliver the comparison graphs from the public folders.  It utilizes the folder structure to help serve the content in a clear manner.
