@@ -159,6 +159,13 @@ section h1 {
   -webkit-border-radius: 8px;
   border-radius: 8px;
 }
+
+.round-small {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
 /* Links */
 
 a:link {
@@ -198,6 +205,7 @@ td .desc {
 #alert_num {
   margin: 4px auto;
   line-height: 22px;
+  font-weight: 700;
   min-width: 15px;
   text-align: center;
 }
