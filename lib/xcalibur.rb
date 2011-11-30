@@ -56,7 +56,7 @@ module Ms
 					rawfile = block[2] + block[1] + '.RAW'
 					vial = block[3]
           begin
-            raise ParseError, "SLD format won't parse into a valid sample" if vial.size != 4
+            raise StandardError, "SLD format won't parse into a valid sample" if vial.size != 4
           rescue 
             puts "SLD format won't parse as a valid sample.\nSkipping without saving information..." 
             break
@@ -101,6 +101,12 @@ module Ms
 					@tunefile = BinReader.new.string_extractor(data, 13750)
 				end
 				@tunefile
+				begin 
+				  raise StandardError, "Failed to correctly parse method file for Tunefile location" if @tunefile[/^[A-Z]:.*/] != @tunefile and File.extname(@tunefile) != ".LTQTune"
+				rescue StandardError
+				  @tunefile = nil
+				  puts "ParseError, skipping tunefile"
+				end
 			end
 		end # Method
 	end # Xcalibur
