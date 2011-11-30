@@ -40,6 +40,8 @@ module Ms
         define_location unless @location
         build_archive
         archive
+        puts relative_path @msrun.rawfile
+        puts @msrun.rawfile
         puts Messenger.add_todo(relative_path(@msrun.rawfile))
       end
 
@@ -95,7 +97,7 @@ module Ms
       def relative_path(filename)
         @mount_dir_pieces ||= @mount_dir.size
         pieces = split_filename(File.expand_path(filename))
-        File.join(pieces[@mount_dir_pieces.size..-1])
+        File.join(pieces[@mount_dir_pieces..-1])
       end
 
       # move the file under the mount.  If @tmp_subdir is defined, it will use that directory.
