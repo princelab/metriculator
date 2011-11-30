@@ -37,7 +37,7 @@ module Ms
       def send_to_mount(object)
         Messenger.setup
         @msrun = object
-        define_location unless @location
+        define_location
         build_archive
         archive
         puts relative_path @msrun.rawfile
