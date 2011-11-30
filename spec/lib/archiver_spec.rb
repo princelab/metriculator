@@ -16,13 +16,11 @@ describe 'MsrunInfo Object behaves' do
     @msrun.fill_in
     @yaml = @msrun.to_yaml
   end
-  it 'goes to and from yaml identically' do 
-    YAML.load(@yaml).tunefile.should == @msrun.tunefile
-  end
   it 'parses things correctly' do 
     @msrun.hplc_maxP.should == 7209.0
   end
   it "grabs files" do 
+    @msrun.hplc_maxP.should_not == 7209.0
     @msrun.grab_files
     @msrun.hplc_maxP.should == 7209.0
   end

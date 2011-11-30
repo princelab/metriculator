@@ -1,16 +1,10 @@
 require 'spec_helper'
 describe 'generates metrics' do 
-
   it 'runs the NIST package to generate metrics' do 
     Messenger.setup
     Messenger.add_metric(TESTFILE + '/time_test.raw')
    #TODO this should use a tmp directory to store the results, from which the file can then be moved over to the server subsequently?  Should that be the #metrics_to_database method? 
   end
-
-  it 'returns a "next" signal from the metrics generation process by SSH' do 
-
-  end
-
 end
 describe 'parses metrics and databases them' do
   before do 

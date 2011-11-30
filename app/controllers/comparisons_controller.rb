@@ -42,6 +42,7 @@ class ComparisonsController < ApplicationController
     comp.description = params[:description]
     comp.save
     
+# This should capture the windows fork and prevent it.
     if RbConfig['host_os'] === 'windows'
       flash[:notice] = "Comparison started. You will be notified when it completes."
       redirect_to :action => "show", :id => comp.id

@@ -36,6 +36,9 @@ describe 'DBing' do
       @msruninfo.hplc_object.graphfile = TESTFILE + '/ek2_test.svg'
       @response = @msruninfo.to_database
     end
+    after :each do 
+      Msrun.get(@response).destroy!
+    end
     it 'feeds into the database' do 
       @response.class.should == Fixnum
     end
