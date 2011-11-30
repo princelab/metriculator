@@ -20,7 +20,6 @@ describe 'MsrunInfo Object behaves' do
     @msrun.hplc_maxP.should == 7209.0
   end
   it "grabs files" do 
-    @msrun.hplc_maxP.should_not == 7209.0
     @msrun.grab_files
     @msrun.hplc_maxP.should == 7209.0
   end

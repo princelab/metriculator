@@ -6,9 +6,9 @@ class Messenger
     require_relative 'config.rb'
 # This holds a hash directory of the node parameters
     Nodes = AppConfig[:nodes]
+    
 # This is the function which sets up the appropriate logging environment and the tasks to be performed by the process
     def setup
-      puts "ArchiveRoot: #{ArchiveRoot}"
       @@logs ||= find_files(ArchiveRoot)
       find_files(location) if @@logs.empty?
       update
