@@ -161,7 +161,6 @@ if options[:metrics]
   scheduler.every '1d' do 
     # TODO Clear lists fxn
   end
-  binding.pry
   scheduler.join
 end
 
