@@ -58,6 +58,15 @@ archiver_optparse = OptionParser.new do |opts|
     end
   end
 
+  options[:sequences] = false
+  opts.on( '--sequences', "This will allow you to feed entire sequence files for parsing. It requires sequence files and will throw an error if you feed it the wrong food.  If fed correctly, it will parse each sequence file given for the contained raw files and archive them.  This should result in the archival of all existing sequence files into the database and storage locations. ") do 
+    options[:sequences] = true 
+    if ARGV.size < 1
+      puts "The 'sequences' option requires at least one argument.\nExiting..."
+      exit
+    end
+  end
+
   options[:test] = false
   opts.on( '--test', 'Prevents the rails_env from being set to production.  This is useful for allowing testing situations from this command prompt')
 
@@ -114,7 +123,26 @@ if options[:xcalibur]
 	msrun.fill_in
 	p msrun
 	Ms::ArchiveMount.send_to_mount(msrun)
-	# TODO Add the AppMessenger in
+end
+
+if options[:sequences]
+# The information regarding the system type and archive root location
+  SysInfo = AppConfig[:nodes][:instrument]
+# A constant telling subsequent processes the program type called
+  Node = :instrument
+# A constant to make accessing the root directory for the archives easier
+  ArchiveRoot = SysInfo[:archive_root]
+# Prep
+  ARGV.each do |file|
+    raise TypeError, "File given is not an SLD file" if File.extname(file) != File.extname('Test.sld') 
+    sld = Ms::Xcalibur::Sld.new(file).parse
+    sld.sldrows.each do |row|
+      msrun = Ms::MsrunInfo.new(row)
+      msrun.grab_files
+      msrun.fill_in
+      Ms::ArchiveMount.send_to_mount(msrun)
+    end
+  end
 end
 
 if options[:server]

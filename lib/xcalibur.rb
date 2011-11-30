@@ -55,6 +55,12 @@ module Ms
 					methodfile = block[0] + '.meth'
 					rawfile = block[2] + block[1] + '.RAW'
 					vial = block[3]
+          begin
+            raise ParseError, "SLD format won't parse into a valid sample" if vial.size != 4
+          rescue 
+            puts "SLD format won't parse as a valid sample.\nSkipping without saving information..." 
+            break
+          end
 					@sldrows << Sld_Row.new(@sldfile, methodfile, rawfile, vial)
 				end
 				self
