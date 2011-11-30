@@ -52,6 +52,7 @@ module Ms
           next if file.nil?
           location = cp_to file, @msrun.archive_location
           puts "RelativePath: #{relative_path(location)}"
+	  puts "absolutePath: #{location}"
           @msrun.send("#{key}=", relative_path(location) )
         end
       end
@@ -59,7 +60,7 @@ module Ms
       def config
         runconfig = load_runconfig(File.dirname(@msrun.rawfile))
         @msrun.group ||= runconfig[:group]
-        @msrun.user ||= runconfig[:user]
+        @msrun.user ||= runconfig[:username]
         @msrun.rawid ||= File.basename(@msrun.rawfile, ".RAW")
       end
       # This defines the location for the archived directory and can be used by a File.join command to generate a FilePath

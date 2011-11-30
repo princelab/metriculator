@@ -28,6 +28,7 @@ module Ms
           self.send("#{sym}="	, struct[sym])
         end
       end
+      binding.pry
       load_runconfig(File.dirname(@rawfile))
     end
     # This function calls 2 parsers to get the filenames required for the MsRunInfo object.  These are the files that aren't already known from parsing the Sequence file as called from {file:archiver.rb}

@@ -108,6 +108,7 @@ if options[:xcalibur]
 # Real work
 	raise TypeError, "File given is not an SLD file" if File.extname(file) != File.extname('Test.sld') 
 	sld = Ms::Xcalibur::Sld.new(file).parse
+	binding.pry
 	msrun = Ms::MsrunInfo.new(sld.sldrows[line_num])
 	msrun.grab_files
 	msrun.fill_in
