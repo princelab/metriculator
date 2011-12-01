@@ -187,8 +187,8 @@ if options[:metrics]
       putsv "Todo items found: #{list}"
     end
   end # every 1m
-  scheduler.every '1d' do 
-    # TODO Clear lists fxn
+  scheduler.every '1w' do 
+    Messenger.clear_completed!
   end
   scheduler.join
 end
