@@ -136,6 +136,7 @@ if options[:metrics]
   Node = :metrics
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
+# A constant containing the location of the metric program
   Program = SysInfo[:program_locale]
   Messenger.setup
   scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => "NIST_metrics_daemon")

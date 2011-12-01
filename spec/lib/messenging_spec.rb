@@ -27,4 +27,17 @@ describe 'Messaging' do
     b = Messenger.read_todo
     b.should == []
   end
+  it 'should have the function to clear the logs of completed items' do
+    Messenger.add_todo(File.absolute_path(__FILE__))
+    Messenger.add_todo(File.absolute_path($0))
+    a = Messenger.read_todo 
+    a.size.should == 2 
+    p a
+    Messenger.add_metric(a.first)
+    Messenger.clear_completed!
+    a = Messenger.read_todo
+    p a
+    a.size.should == 1
+    a.should == [File.absolute_path($0)]
+  end
 end

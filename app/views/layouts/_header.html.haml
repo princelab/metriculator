@@ -1,8 +1,8 @@
-- categories = ["uplc", "chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
 %header
   %nav.round
     %ul.header
-      %li= link_to (render 'alerts/alert_num'), alerts_path, :class => "alerts"
+      - alert_color =  @alerts.size < 1 ? "alert_okay" : "alert_bad"
+      %li= link_to @alerts.size, alerts_path, :id => "alert_num", :class => "#{alert_color} round-small", :title => "#{@alerts.size} Alert" + (@alerts.size == 1 ? "" : "s")
       %li= link_to "Home", root_path
       %li= link_to "Msruns", msruns_path
       %li= link_to "Comparisons", comparisons_path
@@ -10,7 +10,7 @@
     %ul.subheader
       - if ['comparisons'].include?(params[:controller]) and params[:id]
         %li= link_to "Comparison Home", comparison_path(@comparison)# + '/' + params[:id]
-        - categories.each do |cat|
+        - ApplicationHelper::Categories.each do |cat|
           %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat.downcase}"
   = link_to logo, root_path
   - if flash[:error]
