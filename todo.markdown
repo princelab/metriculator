@@ -5,8 +5,8 @@
 ###Archiver
 -	Metric starter fxnality  # TEST THIS!!
 *	Message Passing # TEST IT and the accompanying metric starting...
-* Message clearing fxns so that I can clean out the lists... maybe monthly?
 * Implement database updating of locations and the file moving system
+* Error handling modes for all the issues that missing files can produce. (I miss files if Xcalibur mode isn't the way the files are being input... so to handle acquiring previous data... I need error handling)
 
 ###Website
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
@@ -30,4 +30,5 @@
 
 
 #Finished
+* Message clearing fxns so that I can clean out the lists... monthly
 * Convert the Knowntrends hash to one more like the QC defaults one... where each object can be set individually
