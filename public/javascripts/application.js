@@ -48,16 +48,6 @@ var RailsMetrics = {
         }
       }
     });
-    if (count > 0) {
-      //Make a message appear.
-      stamp = new Date().getTime();
-      $("span").attr({
-        id: stamp,
-        "class": ""
-      }).text("" + count + " comaprisons added to Comparison Set " + whichComparisonSet + ".").appendTo("#messages");
-      setTimeout(function() {
-        $("#"+stamp).hide("fold");
-      }, 5000);
-    }
+    return count;
   }
 };

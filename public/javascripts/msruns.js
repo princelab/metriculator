@@ -1,6 +1,12 @@
 $(function() {
   "use strict";
 
+  //Encapsulate the notification stuff in here, so it
+  //is not strewn about everywhere.
+  function displayNotification(notificationText) {
+    humane.log(notificationText);
+  }
+
   $("#search_rawtime_start").live("click", function() {
     $(this).datepicker({dateFormat: "yy-mm-dd",});
   });
@@ -38,26 +44,27 @@ $(function() {
 
   // Add stuff to comparison form.
   $("#msruns td button#group-1-all").live("click", function () {
-    RailsMetrics.allButtonClicked("1");
+    var count
+      ;
+    count = RailsMetrics.allButtonClicked("1");
+    displayNotification("" + count + " comparisons added to Comparison Set 1.");
   });
 
   $("#msruns td button#group-2-all").live("click", function () {
-    RailsMetrics.allButtonClicked("2");
+    var count
+      ;
+    count = RailsMetrics.allButtonClicked("2");
+    displayNotification("" + count + " comparisons added to Comparison Set 2.");
   });
 
   $("#msruns td.comparison1 button").live("click", function() {
-    var res = RailsMetrics.addToComparisonSet("1", this)
+    var res
       , stamp
       ;
+
+    res = RailsMetrics.addToComparisonSet("1", this);
     if (res) {
-      stamp = new Date().getTime();
-      $("span").attr({
-        "id": stamp,
-        "class": stamp
-      }).text("Comparison added to Comparison 1.").appendTo("#messages");
-      setTimeout(function() {
-        $("#"+stamp).hide("fold");
-      }, 5000);
+      displayNotification("Comparison added to Comparison 1.");
     }
   });
 
@@ -68,14 +75,7 @@ $(function() {
       ;
 
     if (res) {
-      stamp = new Date().getTime();
-      $("span").attr({
-        "id": stamp,
-        "class": stamp
-      }).text("Comparison added to Comparison 2.").appendTo("#messages");
-      setTimeout(function() {
-        $("."+stamp).hide("fold");
-      }, 5000);
+      displayNotification("Comparison added to Comparison 2.");
     }
   });
 });
