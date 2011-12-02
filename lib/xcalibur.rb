@@ -67,8 +67,9 @@ module Ms
 					methodfile = block[0] + '.meth'
 					rawfile = block[2] + block[1] + '.RAW'
 					vial = block[3]
-          if vial.nil? or rawfile[/^[A-Z]:\\/].nil? or methodfile[/^[A-Z]:\\/].nil? or vial.size != 4
-            raise StandardError, "ParseError: SLD format won't parse into a valid sample"
+          begin 
+            raise StandardError, "ParseError: SLD format won't parse into a valid sample" if vial.nil? or rawfile[/^[A-Z]:\\/].nil? or methodfile[/^[A-Z]:\\/].nil? or vial.size != 4
+          rescue 
             puts "SLD format won't parse as a valid sample.\nSkipping without saving information..." 
             break
           end
@@ -116,6 +117,12 @@ module Ms
           raise StandardError, "ParseError: Tunefile doesn't have a drive letter"
         end
 				@tunefile
+				begin 
+				  raise StandardError, "Failed to correctly parse method file for Tunefile location" if @tunefile[/^[A-Z]:.*/] != @tunefile and File.extname(@tunefile) != ".LTQTune"
+				rescue StandardError
+				  @tunefile = nil
+				  puts "ParseError, skipping tunefile"
+				end
 			end
 		end # Method
 	end # Xcalibur
