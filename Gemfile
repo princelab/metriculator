@@ -2,8 +2,8 @@ source 'http://rubygems.org'
 
 gemspec
 
-RAILS_VERSION = '~> 3.0.7'
-DM_VERSION    = '~> 1.1.0'
+RAILS_VERSION = '~> 3.1.0'
+DM_VERSION    = '~> 1.2.0'
 gem 'rails', RAILS_VERSION
 gem 'railties', RAILS_VERSION, :require => 'rails'
 gem 'activesupport', RAILS_VERSION
@@ -11,7 +11,7 @@ gem 'actionpack', RAILS_VERSION
 gem 'actionmailer', RAILS_VERSION
 
 gem 'sqlite3-ruby', '1.3.2', :require => 'sqlite3'
-gem 'dm-rails',          '~> 1.1.0'
+gem 'dm-rails',          DM_VERSION
 gem 'dm-sqlite-adapter', DM_VERSION
 
 gem 'dm-migrations',        DM_VERSION

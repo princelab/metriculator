@@ -1,5 +1,7 @@
+# Controller for Msruns
 class MsrunsController < ApplicationController
 
+# This will show an Msrun.  
   def show
     @msrun = Msrun.get(params[:id])
  #   @embed_svg = send_file("/home/ryanmt/Dropbox/coding/rails/metrics_site/testing.svg", disposition: 'inline', type: 'image/svg+xml', stream: false, filename: "#{@msrun.raw_id}.svg")
@@ -10,6 +12,7 @@ class MsrunsController < ApplicationController
     end
   end
 
+# This shows the lists of metrics, and also provides sorting functions, pagination, and allows for generation of comparisons. 
   def index
     params[:direction] ||= "asc"
     params[:page] ||= 1

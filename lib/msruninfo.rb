@@ -34,9 +34,10 @@ module Ms
     # @param None
     # @return Nothing specific
     def grab_files
-      tunefile = Ms::Xcalibur::Method.new(methodfile).tunefile
+      self.tunefile = Ms::Xcalibur::Method.new(methodfile).parse
+      puts "Tunefile: #{tunefile}"
       @hplc_object = Ms::Eksigent::Ultra2D.new(rawfile)
-      hplcfile = @hplc_object.eksfile
+      self.hplcfile = @hplc_object.eksfile
       @hplc_object.parse
     end
     # This function pulls information from the hplc_file parsing to fill in more details to this MsRunInfo object.
@@ -55,6 +56,7 @@ module Ms
     def graph_pressure
       graphfile = @hplc_object.graph
     end
+# This function checks that everything is prepped and sends the data to the database.
     def to_database
       fill_in if hplc_maxP.nil?
       graph_pressure if @graphfile.nil?

@@ -84,12 +84,17 @@ module Ms
 				end
 			end
 # This fxn does all the parsing of the method file, filling in the tunefile location, running off of the given methodname
+			# returns @tunefile
 			def parse
 				data = unpack(File.open(@filename, 'rb') {|io| io.read})
 				@tunefile = BinReader.new.string_extractor(data, 12728)
 				if @tunefile[/^[A-Z]:.*/] != @tunefile and File.extname(@tunefile) != ".LTQTune"
 					@tunefile = BinReader.new.string_extractor(data, 12872)
+        end
+				if @tunefile[/^[A-Z]:.*/] != @tunefile and File.extname(@tunefile) != ".LTQTune"
+					@tunefile = BinReader.new.string_extractor(data, 13750)
 				end
+				@tunefile
 			end
 		end # Method
 	end # Xcalibur

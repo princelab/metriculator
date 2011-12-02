@@ -1,6 +1,8 @@
+# Helper functions for the Application
 module ApplicationHelper
-  CATEGORIES = ["chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
-  # Return a title which wisely configures itself correctly
+# This is the list of categories which are used for sorting and grouping the metrics
+  Categories = ["uplc", "chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
+# Return a title which wisely configures itself correctly
   def title
     base_title = "Mass Spectrometry/Analysis Performance Metrics"
     if @title.nil?
@@ -9,12 +11,12 @@ module ApplicationHelper
       "#{@title} | #{base_title}"
     end
   end
-
+# Logo method 
   def logo
     image_tag("logo.png", alt: "Metrics", class: 'round')
   end
 
-  # Creates a link to sort table colums.
+# Creates a link to sort table colums.
   def sortable(column_name, title = nil)
     title ||= column_name.titleize
     direction = params[:sort] == column_name && params[:direction] == "asc" ? "desc" : "asc"

@@ -23,14 +23,28 @@ describe 'Parses SLD files' do
 end
 
 describe 'Parses method files' do
-  it 'returns a .LTQTune' do
-    methodfiles = [TESTFILE + '/45min.meth', TESTFILE + '/BSA.meth']
-    methodfiles.each do |file|
-      method = Ms::Xcalibur::Method.new(file)
+  describe "v2.07" do 
+    it 'returns a .LTQTune' do
+      methodfile = TESTFILE + '/45min.meth'
+      method = Ms::Xcalibur::Method.new(methodfile)
       method.parse
-      method.tunefile[/(\..*)$/].should == ".LTQTune"
+      method.tunefile.should == "C:\\Xcalibur\\methods\\12012010.LTQTune"
     end
-  end
+    it "does it twice" do 
+      methodfile = TESTFILE + '/BSA.meth'
+      method = Ms::Xcalibur::Method.new(methodfile)
+      method.parse
+      method.tunefile.should == "C:\\Xcalibur\\methods\\12012010.LTQTune"
+    end
+  end # v2.07
+  describe "v2.10" do 
+    it 'returns a .LTQTune' do
+      methodfile = TESTFILE + '/2d_lsingleload.meth'
+      method = Ms::Xcalibur::Method.new(methodfile)
+      method.parse
+      method.tunefile.should == "C:\\Xcalibur\\methods\\07132011_angiotensin.LTQTune"
+    end
+  end #v2.1
 end
 
 if ENV["OS"] && ENV["OS"][/Windows/] == 'Windows'
