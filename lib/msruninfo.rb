@@ -28,7 +28,6 @@ module Ms
           self.send("#{sym}="	, struct[sym])
         end
       end
-      binding.pry
       load_runconfig(File.dirname(@rawfile))
     end
     # This function calls 2 parsers to get the filenames required for the MsRunInfo object.  These are the files that aren't already known from parsing the Sequence file as called from {file:archiver.rb}
@@ -36,7 +35,7 @@ module Ms
     # @return Nothing specific
     def grab_files
       self.tunefile = Ms::Xcalibur::Method.new(methodfile).parse
-      puts "Tunefile: #{tunefile}"
+      putsv "Tunefile: #{tunefile}"
       @hplc_object = Ms::Eksigent::Ultra2D.new(rawfile)
       self.hplcfile = @hplc_object.eksfile
       @hplc_object.parse

@@ -34,15 +34,14 @@ module Ms
       # Moves the files to the location by calling {#define_location}, {#build_archive}, and ... 
       # @param None
       # @return Nothing specific yet ### TODO
-      def send_to_mount(object)
+      def send_to_mount(msrun)
         Messenger.setup
-        @msrun = object
         define_location
         build_archive
         archive
-        puts relative_path @msrun.rawfile
-        puts @msrun.rawfile
-        puts Messenger.add_todo(relative_path(@msrun.rawfile))
+        puts relative_path msrun.rawfile
+        puts msrun.rawfile
+        puts Messenger.add_todo(relative_path(msrun.rawfile))
       end
 
       def archive # MOVE THE FILES OVER TO THE LOCATION

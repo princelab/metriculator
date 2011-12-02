@@ -14,6 +14,7 @@ class Messenger
       update
     end
 # This will update the @@todo list 
+# @return Array An array of todo list items.  These are paths which are relative with respect to the mount.
     def update
       @@todo = []
       tmp = 0

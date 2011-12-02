@@ -125,6 +125,7 @@ if options[:xcalibur]
 	Ms::ArchiveMount.send_to_mount(msrun)
 end
 
+## SEQUENCES 
 if options[:sequences]
 # The information regarding the system type and archive root location
   SysInfo = AppConfig[:nodes][:instrument]
@@ -152,18 +153,15 @@ if options[:server]
   Node = :server
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
-## TODO: Figure out what in the world I was trying to do here... 
-	#yaml_file = ARGV.first
-	#object = YAML::load_file(yaml_file)
-## END TODO
 # Start the server
   # Rails server is limited to processing a single request at a time...
   # You should use Apache, probably.  Hence, configure things with passenger for a *NIX environment
   if SysInfo[:system] == "Windows"
     %x[ rails s]
   else
-
-    %x[ passenger start ]
+# This is automatic... so maybe the thing to actually do here is to restart the server... ?  
+#   %x[ touch tmp/restart.txt ]
+#   %x[ passenger start ]
   end
 end
 
