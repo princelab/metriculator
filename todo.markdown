@@ -7,6 +7,7 @@
 *	Message Passing # TEST IT and the accompanying metric starting...
 * Implement database updating of locations and the file moving system
 * Error handling modes for all the issues that missing files can produce. (I miss files if Xcalibur mode isn't the way the files are being input... so to handle acquiring previous data... I need error handling)
+* Create a generator for the \*.bat script used for calling archiver from xcalibur.  Motivation?  Automate the setting of the log location from the app\_config.  
 
 ###Website
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
