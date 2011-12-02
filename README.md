@@ -41,8 +41,8 @@ mass spec proteomics experiments.
    If you are unfamiliar with the process of installing R packages,
    the following two commands, run from R, should suffice to install the packages.
 
-      install.packages('Rserve', 'http://www.rforge.net/')
-      install.packages('beanplot')
+       install.packages('Rserve', 'http://www.rforge.net/')
+       install.packages('beanplot')
 
 ###Installing The Metric Tracker
 
