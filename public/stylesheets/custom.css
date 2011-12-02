@@ -1,10 +1,10 @@
-/* 
+/*****************************************************************************************
  * Eric Meyer's Global CSS Reset
  * 
  * Including this because it's good to ensure
  * that browsers render the same things the same
  * way.
- */
+ ****************************************************************************************/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -49,7 +49,9 @@ table {
   border-spacing: 0;
 }
 
-/* Main Page Styles */
+/*****************************************************************************************
+ * Main styles
+ ****************************************************************************************/
 .container {
   padding-top: 5px;
   width: 710px;
@@ -57,6 +59,9 @@ table {
 
 body {
   background: #eaefea;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  line-height: 1.5em; /* To improve legibility */
 }
 
 footer, header {
@@ -80,6 +85,28 @@ header img {
   
 }
 
+/* HEADER LEVELS */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  padding: 1em 0 1em 0;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.6em;
+}
+
+h3 {
+  font-size: 1.4em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
 /* NAVIGATION */
 nav {
   float: right;
@@ -97,15 +124,12 @@ nav ul {
 nav ul li {
   list-style-type: none;
   display: inline-block;
-  padding: 0.2em 0;
+  padding: 0;
 }
 
-nav ul li a {
+nav ul li a:link {
+  display: block;
   padding: 0 5px;
-  font-weight: bold;
-}
-a.alerts {
-  padding: 0 0px;
 }
 
 nav ul li a:visited {
@@ -113,7 +137,9 @@ nav ul li a:visited {
 }
 
 nav ul li a:hover {
-  text-decoration: underline;
+  color: #000;
+  background-color: #999;
+  text-decoration: none;
 }
 
 section {
@@ -133,20 +159,27 @@ section h1 {
   -webkit-border-radius: 8px;
   border-radius: 8px;
 }
+
+.round-small {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
 /* Links */
 
-a {
+a:link {
   color: #09c;
   text-decoration: none;
+}
+
+a:visited {
+  color: #09c;
 }
 
 a:hover {
   color: #069;
   text-decoration: underline;
-}
-
-a:visited {
-  color: #069;
 }
 
 
@@ -169,17 +202,32 @@ td .desc {
   background-image: url(/images/up_arrow.png);
 }
 
-span.alert_bad {
-  color: red;
-  font-weight: bold;
-  padding: 0 5px;
+#alert_num {
+  margin: 4px auto;
+  line-height: 22px;
+  font-weight: 700;
+  min-width: 15px;
+  text-align: center;
 }
 
-span.alert_okay {
+#alerts {
+  display: block; /* By default, hide the alerts. They'll be displayed through javascript. */
+  position: fixed;
+  right: 200px;
+}
+
+.alert_bad {
+  background-color: #900;
+}
+
+a#alert_num:link, a#alert_num:visited {
+  color: #fff;
+}
+
+.alert_okay {
   color: #09c;
+  background-color: #555;
   text-decoration: none;
-  padding: 0 5px;
-  font-weight: bold;
 }
 
 table#msrunshow, th, td {

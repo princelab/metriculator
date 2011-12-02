@@ -1,7 +1,8 @@
 %header
   %nav.round
     %ul.header
-      %li= link_to (render 'alerts/alert_num'), alerts_path, :class => "alerts"
+      - alert_color =  @alerts.size < 1 ? "alert_okay" : "alert_bad"
+      %li= link_to @alerts.size, alerts_path, :id => "alert_num", :class => "#{alert_color} round-small", :title => "#{@alerts.size} Alert" + (@alerts.size == 1 ? "" : "s")
       %li= link_to "Home", root_path
       %li= link_to "Msruns", msruns_path
       %li= link_to "Comparisons", comparisons_path
