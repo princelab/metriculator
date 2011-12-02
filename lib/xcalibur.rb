@@ -58,7 +58,7 @@ module Ms
           puts "offset: #{i}\tdata: #{data[starts[index]+i]}" unless data[starts[index]+i].nil?
         end 
         #puts ".chr gives: '#{data[starts[index]+40].chr}'"
-          next if data[starts[index]+32] == 63
+          #next if data[starts[index]+32] == 63
 					block = sld_data_block_extractor(data, starts[index])
           p block
 					block.map!{|val| val if val[/\w/]}.compact!
