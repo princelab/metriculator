@@ -79,19 +79,6 @@ Now we set up the database:
     bundle exec rake db:automigrate
 
 
-
-This also requires R and the R libraries "beanplot" and "Rserve" to be installed.
-
-R can be found at http://www.r-project.org/
-
-If you are unfamiliar with the process of installing R packages, the following two commands, run from R, should suffice to install the packages.
-
-   install.packages('Rserve',,'http://www.rforge.net/')
-
- and
-
-   install.packages('beanplot')
-
 Unfortunately, the webserver aspect of this will also require some effort,
 at least for the best user experience possible.  To that end, it should
 be achievable by following the directions that are given when you run:
@@ -109,6 +96,19 @@ running it together with other web apps on an existing Apache server.
 I think it should be doable for simpler installs with relative ease.
 If not, I'm unqualified to really help out much.
 
-One final step appears to be necessary... You'll need to set the
-location of the database in the database.yml file to match
-the configuration for each computer.
+##Running The Metric Tracker
+
+Rserve must be running. From within R, run the following commands:
+
+    library('Rserve')
+    Rserve()
+
+This wills start Rserve as a daemon in the background.
+
+Now start the metric tracker server of choice. If you want to use the
+built-in server that comes with Rails, run:
+
+    bundle exec rails s
+
+Now go to [http://localhost:3000](http://localhost:3000) to see the site
+in action.
