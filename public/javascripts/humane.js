@@ -197,6 +197,6 @@
 
   win.humane.timeout = 2500;
   win.humane.waitForMove = false;
-  win.humane.forceNew = false;
+  win.humane.forceNew = true;
 
 }( window, document));
