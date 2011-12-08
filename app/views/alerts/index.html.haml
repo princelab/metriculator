@@ -5,7 +5,7 @@
 #alerts
   =render :partial => 'alert_table' 
   - if @alerts.size > 0
-    = link_to "Remove All", remove_all_alerts_path, :confirm => "Are you sure", :method => :delete, :remote => :true
+    = link_to "Remove All", remove_all_alerts_path, :confirm => "Are you sure?", :method => :delete, :remote => :true
 #paginate
   = paginate @alerts
 

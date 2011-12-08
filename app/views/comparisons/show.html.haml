@@ -13,6 +13,6 @@
   %td#lists= raw(@comparison.msrun_seconds.map{|i| link_to i.raw_id, msrun_path(i)}.join("<br>"))
 
 %span#comparison-delete
-  = link_to "Destroy", @comparison, :confirm => "Are you sure", :method => :delete 
+  = link_to "Destroy", @comparison, :confirm => "Are you sure?", :method => :delete 
 
   
