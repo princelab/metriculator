@@ -10,6 +10,11 @@ $(function() {
   $("#alerts span a").live("click", function() {
     $(this).parent().fadeOut()
   });
+
+  $("#alert_num").click(function(event) {
+    event.preventDefault();
+    $("#alerts").css("display", "block");
+  });
 });
 
 var RailsMetrics = {
