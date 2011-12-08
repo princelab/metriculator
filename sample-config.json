@@ -1,0 +1,24 @@
+{
+	"configuration": {
+		"source": "C:/Dropbox/Wallpapers/Source",
+		"destination": "C:/Dropbox/Wallpapers/",
+		"computer": {
+			"name": "Jupiter",
+			"display": {
+				"hres": 1920,
+				"vres": 1080
+			},
+			"display": {
+				"hres": 1920,
+				"vres": 1080
+			}
+		},
+		"computer": {
+			"name": "Apollo",
+			"display": {
+				"hres": 1920,
+				"vres": 1200
+			}
+		}
+	}
+}
