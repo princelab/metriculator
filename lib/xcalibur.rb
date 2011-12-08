@@ -53,9 +53,9 @@ module Ms
 				starts.each_index do |index|
         p @sldfile
         p starts
-        a = (22..50).to_a + (60..75).to_a
+        a = (22..75).to_a
         a.each do |i|
-          puts "offset: #{i}\tdata: #{data[starts[index]+i]}" unless data[starts[index]+i].nil?
+          puts "index = #{starts[index]+i}\toffset: #{i}\tdata: #{data[starts[index]+i].chr}" unless data[starts[index]+i].nil?
         end 
         #puts ".chr gives: '#{data[starts[index]+40].chr}'"
           #next if data[starts[index]+32] == 63
@@ -93,6 +93,10 @@ module Ms
 				extr = Ms::Xcalibur::BinReader.new(location_of_question_mark)
 				OFFSETS.values.map {|offset| extr.string_extractor(array, extr.index+offset) }
 			end
+      def sld_data_block_extractor(array, location_of_question_mark)
+        extracter = Ms::Xcalibur::BinReader.new(location_of_question_mark)
+        OFFSETS.map {|offset| index = extracter.index ; p extracter.string_extractor(array, extracter.index + offset.last - 5); extracter.string_extractor(array, index + offset.last)}
+      end
 		end # Sld
 		class Method
 			attr_accessor :tunefile

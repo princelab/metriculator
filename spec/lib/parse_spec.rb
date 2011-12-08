@@ -2,6 +2,21 @@ require 'spec_helper'
 require 'xcalibur'
 Test_sld = { v2_0: TESTFILE + '/SWG_serum_100511165501.sld', v2_1: TESTFILE + '/_110131184745.sld'}
 Test_meth = { v2_0: 'C:\\Xcalibur\\methods\\SWG_serum_sample.meth', v2_1: 'C:\\Xcalibur\\methods\\test1_1_etd.meth'}
+tmp = []
+puts "Xcalibur 2.1"
+[ Test_sld[:v2_1], Dir.glob(File.join( TESTFILE + '/matt*.sld'))].flatten.each do |f|
+  puts "File: #{f}"
+  a = IO.read(File.open(f, 'rb')).unpack("C100").map(&:chr)
+  p a
+  puts "A-tmp:"
+  p a - tmp
+  tmp = a
+end
+puts "Xcalibur 2.0.7"
+a= IO.read(File.open(Test_sld[:v2_0], 'rb')).unpack("C100").map(&:chr)
+p a
+puts "A-tmp:"
+p a-tmp
 
 describe 'Parses SLD files' do
   it 'parses v2.1 w/postprocessing files' do
