@@ -50,7 +50,7 @@ table {
 }
 
 /*****************************************************************************************
- * Main styles
+ * Main Styles
  ****************************************************************************************/
 .container {
   padding-top: 5px;
@@ -64,15 +64,14 @@ body {
   line-height: 1.5em; /* To improve legibility */
 }
 
-footer, header {
+footer {
   padding-left: 5px;
   padding-right: 8px;
 }
 
 header {
-  height: 30px;
+  height: 60px;
   line-height: 30px;
-  background-color: #333;
 }
 
 header img {
@@ -81,11 +80,29 @@ header img {
   background: #fff;
 }
 
-.subheader {
-  
+header>nav {
+  background-color: #333;
+  width: 100%;
 }
 
-/* HEADER LEVELS */
+#subheader {
+  /* <Awesome gradient-style action> */
+  background: #9f9f9f; /* Old browsers */
+  background: -moz-linear-gradient(top,  #9f9f9f 0%, #c3c3c3 45%, #ccc 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9f9f9f), color-stop(45%,#c3c3c3), color-stop(100%,#ccc)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #9f9f9f 0%,#c3c3c3 45%,#ccc 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #9f9f9f 0%,#c3c3c3 45%,#ccc 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #9f9f9f 0%,#c3c3c3 45%,#ccc 100%); /* IE10+ */
+  background: linear-gradient(top,  #9f9f9f 0%,#c3c3c3 45%,#ccc 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9f9f9f', endColorstr='#ccc',GradientType=0 ); /* IE6-9 */
+  /* </Awesome gradient-style action> */
+  font-size: 0.8em;
+}
+
+/*****************************************************************************************
+ * Header Levels 
+ ****************************************************************************************/
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   padding: 1em 0 1em 0;
@@ -107,16 +124,60 @@ h4 {
   font-size: 1.2em;
 }
 
-/* NAVIGATION */
-nav {
-  float: right;
+/*****************************************************************************************
+ * Links 
+ ****************************************************************************************/
+
+a:link {
+  color: #09c;
+  text-decoration: none;
 }
 
-nav { 
+a:visited {
+  color: #09c;
+}
+
+a:hover {
+  color: #069;
+  text-decoration: underline;
+}
+
+/* Nav links */
+
+nav ul li a:link {
+  display: block;
+  padding: 0 5px;
+  color: #ccc;
+}
+
+nav li a:visited {
+  color: #ccc;
+}
+
+nav li a:hover {
+  color: #000;
+  background-color: #999;
+  text-decoration: none;
+} 
+
+nav ul#subheader a:link {
+  color: #000;
+} 
+
+nav ul#subheader a:visited {
+  color: #000;
+}
+
+/*****************************************************************************************
+ * Navigation 
+ ****************************************************************************************/
+nav {
+  position: fixed;
   white-space: nowrap;
 }
 
 nav ul {
+  text-align: right;
   margin: 0;
   padding: 0;
 }
@@ -127,20 +188,41 @@ nav ul li {
   padding: 0;
 }
 
-nav ul li a:link {
-  display: block;
-  padding: 0 5px;
+/*****************************************************************************************
+ * Alerts
+ ****************************************************************************************/
+
+#alert_num {
+  margin: 4px auto;
+  line-height: 22px;
+  font-weight: 700;
+  min-width: 15px;
+  text-align: center;
 }
 
-nav ul li a:visited {
+#alerts {
+  display: none; /* By default, hide the alerts. They'll be displayed through javascript. */
+  position: fixed;
+  right: 200px;
+}
+
+.alert_bad {
+  background-color: #900;
+}
+
+a#alert_num:link, a#alert_num:visited {
+  color: #fff;
+}
+
+.alert_okay {
   color: #09c;
-}
-
-nav ul li a:hover {
-  color: #000;
-  background-color: #999;
+  background-color: #555;
   text-decoration: none;
 }
+
+/*****************************************************************************************
+ * Reusable Styles
+ ****************************************************************************************/
 
 section {
   margin-top: 1em;
@@ -166,24 +248,10 @@ section h1 {
   border-radius: 4px;
 }
 
-/* Links */
 
-a:link {
-  color: #09c;
-  text-decoration: none;
-}
-
-a:visited {
-  color: #09c;
-}
-
-a:hover {
-  color: #069;
-  text-decoration: underline;
-}
-
-
-/* Metric/Msrun Data Tables */
+/*****************************************************************************************
+ * Metric/Msrun Data Tables 
+ ****************************************************************************************/
 table.data_out {
   border: 4px groove black;
 }
@@ -200,34 +268,6 @@ td .asc {
 
 td .desc {
   background-image: url(/images/up_arrow.png);
-}
-
-#alert_num {
-  margin: 4px auto;
-  line-height: 22px;
-  font-weight: 700;
-  min-width: 15px;
-  text-align: center;
-}
-
-#alerts {
-  display: block; /* By default, hide the alerts. They'll be displayed through javascript. */
-  position: fixed;
-  right: 200px;
-}
-
-.alert_bad {
-  background-color: #900;
-}
-
-a#alert_num:link, a#alert_num:visited {
-  color: #fff;
-}
-
-.alert_okay {
-  color: #09c;
-  background-color: #555;
-  text-decoration: none;
 }
 
 table#msrunshow, th, td {
