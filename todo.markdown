@@ -3,7 +3,8 @@
 ##TODO list (111102)
 
 ###Archiver
--	Metric starter fxnality  # TEST THIS!!
+- Provide a legend and two fields for the description of the datasets, use them at the top of each page to define the datasets.
+-	Test the metric starting
 *	Message Passing # TEST IT and the accompanying metric starting...
 * Implement database updating of locations and the file moving system
 * Error handling modes for all the issues that missing files can produce. (I miss files if Xcalibur mode isn't the way the files are being input... so to handle acquiring previous data... I need error handling)
