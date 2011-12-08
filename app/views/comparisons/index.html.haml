@@ -9,8 +9,8 @@
   - @comparisons.each do |comp|
     %tr
       %td= link_to comp.id, comparison_path(comp)
-      %td#lists= raw(comp.msrun_firsts.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>")) #.each_slice(2).map {|a| a.join(" , ")}.join("<br>"))
-      %td#lists= raw(comp.msrun_seconds.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>"))#.each_slice(2).map {|a| a.join("\t\t\t\t")}.join("<br>"))
+      /%td#lists= raw(comp.msrun_firsts.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>")) #.each_slice(2).map {|a| a.join(" , ")}.join("<br>"))
+      /%td#lists= raw(comp.msrun_seconds.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>"))#.each_slice(2).map {|a| a.join("\t\t\t\t")}.join("<br>"))
       %td= comp.description || ""
 #paginate
   = paginate @comparisons

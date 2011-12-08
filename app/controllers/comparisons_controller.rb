@@ -92,7 +92,7 @@ class ComparisonsController < ApplicationController
 # Allows for destruction of a comparison.  This means that you have an option for clearing out old, useless comparisons.
   def destroy
     comparison = Comparison.get(params[:id])
-    comparison.destroy
+    puts comparison.destroy!
     respond_to do |format|
       format.js { render :nothing => true }
       format.html { redirect_to comparisons_path }
@@ -100,9 +100,9 @@ class ComparisonsController < ApplicationController
   end
   private
 
-# A helper method to grab Msruns from the database.  This is slow and should be changed to a datamapper function to reduce calls to the database? ###TODO???
+# A helper method to grab Msruns from the database. 
   def get_msruns_from_array_of_ids(ids)
-    ids.map {|id| Msrun.get(id) }
+    Msrun.all(:id => ids)
   end
 end
 
