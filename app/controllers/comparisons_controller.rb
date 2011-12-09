@@ -42,8 +42,8 @@ class ComparisonsController < ApplicationController
     comp.description = params[:description]
     comp.save
     
-    if RbConfig['host_os'] === 'windows'
-      flash[:notice] = "Comparison started. You will be notified when it completes."
+# This should capture the windows fork and prevent it.
+    if RbConfig::CONFIG['host_os'] === 'mingw32'
       redirect_to :action => "show", :id => comp.id
       result = comp.graph
       puts "DONE GRAPHING"
@@ -91,7 +91,7 @@ class ComparisonsController < ApplicationController
 # Allows for destruction of a comparison.  This means that you have an option for clearing out old, useless comparisons.
   def destroy
     comparison = Comparison.get(params[:id])
-    
+    comparison.destroy
     respond_to do |format|
       format.js { render :nothing => true }
       format.html { redirect_to comparisons_path }

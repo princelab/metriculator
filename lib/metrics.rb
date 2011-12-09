@@ -43,7 +43,7 @@ module Ms
       def snakecase(str)
         str.gsub(/(\s|\W)/, '_').gsub(/(_+)/, '_').gsub(/(_$)/, "").gsub(/^(\d)/, '_\1').downcase
       end
-
+# Takes a new Metric file.
       def initialize(file = nil)
         @metricsfile = file
       end

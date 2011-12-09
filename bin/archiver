@@ -58,6 +58,15 @@ archiver_optparse = OptionParser.new do |opts|
     end
   end
 
+  options[:sequences] = false
+  opts.on( '--sequences', "This will allow you to feed entire sequence files for parsing. It requires sequence files and will throw an error if you feed it the wrong food.  If fed correctly, it will parse each sequence file given for the contained raw files and archive them.  This should result in the archival of all existing sequence files into the database and storage locations. ") do 
+    options[:sequences] = true 
+    if ARGV.size < 1
+      puts "The 'sequences' option requires at least one argument.\nExiting..."
+      exit
+    end
+  end
+
   options[:test] = false
   opts.on( '--test', 'Prevents the rails_env from being set to production.  This is useful for allowing testing situations from this command prompt')
 
@@ -108,12 +117,33 @@ if options[:xcalibur]
 # Real work
 	raise TypeError, "File given is not an SLD file" if File.extname(file) != File.extname('Test.sld') 
 	sld = Ms::Xcalibur::Sld.new(file).parse
+	binding.pry
 	msrun = Ms::MsrunInfo.new(sld.sldrows[line_num])
 	msrun.grab_files
 	msrun.fill_in
 	p msrun
 	Ms::ArchiveMount.send_to_mount(msrun)
-	# TODO Add the AppMessenger in
+end
+
+## SEQUENCES 
+if options[:sequences]
+# The information regarding the system type and archive root location
+  SysInfo = AppConfig[:nodes][:instrument]
+# A constant telling subsequent processes the program type called
+  Node = :instrument
+# A constant to make accessing the root directory for the archives easier
+  ArchiveRoot = SysInfo[:archive_root]
+# Prep
+  ARGV.each do |file|
+    raise TypeError, "File given is not an SLD file" if File.extname(file) != File.extname('Test.sld') 
+    sld = Ms::Xcalibur::Sld.new(file).parse
+    sld.sldrows.each do |row|
+      msrun = Ms::MsrunInfo.new(row)
+      msrun.grab_files
+      msrun.fill_in
+      Ms::ArchiveMount.send_to_mount(msrun)
+    end
+  end
 end
 
 if options[:server]
@@ -123,18 +153,15 @@ if options[:server]
   Node = :server
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
-## TODO: Figure out what in the world I was trying to do here... 
-	#yaml_file = ARGV.first
-	#object = YAML::load_file(yaml_file)
-## END TODO
 # Start the server
   # Rails server is limited to processing a single request at a time...
   # You should use Apache, probably.  Hence, configure things with passenger for a *NIX environment
   if SysInfo[:system] == "Windows"
     %x[ rails s]
   else
-
-    %x[ passenger start ]
+# This is automatic... so maybe the thing to actually do here is to restart the server... ?  
+#   %x[ touch tmp/restart.txt ]
+#   %x[ passenger start ]
   end
 end
 
@@ -158,10 +185,9 @@ if options[:metrics]
       putsv "Todo items found: #{list}"
     end
   end # every 1m
-  scheduler.every '1d' do 
-    # TODO Clear lists fxn
+  scheduler.every '1w' do 
+    Messenger.clear_completed!
   end
-  binding.pry
   scheduler.join
 end
 

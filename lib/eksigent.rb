@@ -24,7 +24,7 @@ module Ms
 # @param None, assumes access to @rawfile
 # @return [Object] self.
 			def find_match
-				raise "Wrong file type" if File.extname(@rawfile) != ".RAW"
+				raise StandardError, "ParseError: Rawfile file type" if File.extname(@rawfile) != ".RAW"
 				@rawtime = File.mtime(@rawfile); rawdir = File.dirname(@rawfile)
 				eks_folder = "#{@rawtime.year}#{"%02d" % @rawtime.mon}#{"%02d" % @rawtime.day}"
 				eks_dir = "C:\\Program Files\\Eksigent NanoLC\\autosave\\#{eks_folder}\\"
@@ -34,7 +34,7 @@ module Ms
 					[(File.mtime(File.join(eks_dir, each_file))-@rawtime).abs, each_file] #[Time diff, file name] 
 				end
 				@eksfile = File.expand_path("#{eks_dir}/#{times.compact!.sort!.first.last}")
-				raise "Match error: #{@eksfile}" if @eksfile[/^.*\/ek2_.*\.txt/] != @eksfile
+				raise StandardError, "ParseError: Match error: #{@eksfile}" if @eksfile[/^.*\/ek2_.*\.txt/] != @eksfile
 				self
 			end
 # This parses the eksigent hplc file and creates the @data hash containing the values found
@@ -56,6 +56,7 @@ module Ms
 					data_block << line if data_test
 				end
 				file.close()
+        puts "ParseError possible: file:#{@eksfile} as vial positon looks like this: #{hash_out['vial_position']} and didn't pass the check" if hash_out['vial_position'].size != 4
 				hash_out['plotraw'] = data_block.values_at(1..data_block.length).compact
 				@data = hash_out # file_name, inj_vol, vial_position, data()
 				@inj_vol = @data['inj_vol'].to_f/1000

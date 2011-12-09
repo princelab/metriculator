@@ -35,7 +35,7 @@ module Ms
     # @return Nothing specific
     def grab_files
       self.tunefile = Ms::Xcalibur::Method.new(methodfile).parse
-      puts "Tunefile: #{tunefile}"
+      putsv "Tunefile: #{tunefile}"
       @hplc_object = Ms::Eksigent::Ultra2D.new(rawfile)
       self.hplcfile = @hplc_object.eksfile
       @hplc_object.parse

@@ -5,8 +5,8 @@
 ###Archiver
 - Add a yaml app_config and QC_config edit page into the website?
     - This would help make it easier to configure for people... right?
--	Metric starter fxnality  # TEST THIS!!
-*	Message Passing # TEST IT and the accompanying metric starting...
+- Metric starter fxnality  # TEST THIS!!
+* Message Passing # TEST IT and the accompanying metric starting...
 * Message clearing fxns so that I can clean out the lists... maybe monthly?
 * Implement database updating of locations and the file moving system
 

@@ -20,10 +20,10 @@
       /%h3=graph.titleize
       - arrow = case ApplicationController::Known_trends[category][subcat][name]
         - when "down"
-          - 'down_arrow.svg'
+          - 'down.png'
         - when "up"
-          - "up_arrow.svg"
+          - "up.png"
         - else
           - nil
-      = image_tag arrow if arrow
+      = image_tag arrow, :size => '32x128' if arrow
       %object{ :data => (comparison_path(params[:id]) + graph).split('/').uniq.join('/'), :type => "image/svg+xml" }
