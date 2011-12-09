@@ -13,7 +13,13 @@ $(function() {
 
   $("#alert_num").click(function(event) {
     event.preventDefault();
-    $("#alerts").css("display", "block");
+    $("#alerts").toggleClass("show"); // Show the alerts box
+    $("#not-alerts").toggleClass("show"); // Show the hidden div across the rest of the page
+  });
+
+  $("#not-alerts").click(function(event) {
+    $("#alerts").removeClass("show");
+    $("#not-alerts").removeClass("show");
   });
 });
 

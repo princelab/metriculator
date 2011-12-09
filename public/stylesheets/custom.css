@@ -204,6 +204,18 @@ nav ul li {
   display: none; /* By default, hide the alerts. They'll be displayed through javascript. */
   position: fixed;
   right: 200px;
+  top: 30px;
+  background-color: #fff;
+  z-index: 100;
+  padding: 0.5em;
+  /* Lovely box shadows! */
+  -moz-box-shadow: 1px 3px 3px #ccc;
+  -webkit-box-shadow: 1px 3px 3px #ccc;
+  box-shadow: 1px 3px 3px #ccc;
+}
+
+#alerts.show {
+  display: block;
 }
 
 .alert_bad {
@@ -218,6 +230,16 @@ a#alert_num:link, a#alert_num:visited {
   color: #09c;
   background-color: #555;
   text-decoration: none;
+}
+
+#not-alerts { /* This handles hiding the alerts menu */
+  background: transparent;
+  display: none;
+  z-index: 99;
+}
+
+#not-alerts.show {
+  
 }
 
 /*****************************************************************************************
