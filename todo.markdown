@@ -3,6 +3,8 @@
 ##TODO list (111102)
 
 ###Archiver
+- Add searchable fields to the comparisons list
+- Fix deletions of comparisons
 - Provide a legend and two fields for the description of the datasets, use them at the top of each page to define the datasets.
 -	Test the metric starting
 - Add a yaml app\_config and QC\_config edit page into the website?
