@@ -67,6 +67,19 @@ body {
 footer {
   padding-left: 5px;
   padding-right: 8px;
+  position: relative;
+  margin-top: -50px;
+  height: 50px;
+  clear: both;
+}
+
+#wrapper {
+  min-height: 100%;
+}
+
+#main {
+  overflow: auto;
+  padding-bottom: 50px;
 }
 
 header {
@@ -80,20 +93,15 @@ header img {
   background: #fff;
 }
 
-header>nav {
-  background-color: #333;
-  width: 100%;
-}
-
 #subheader {
   /* <Awesome gradient-style action> */
   background: #9f9f9f; /* Old browsers */
-  background: -moz-linear-gradient(top,  #9f9f9f 0%, #c3c3c3 45%, #ccc 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9f9f9f), color-stop(45%,#c3c3c3), color-stop(100%,#ccc)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #9f9f9f 0%,#c3c3c3 45%,#ccc 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #9f9f9f 0%,#c3c3c3 45%,#ccc 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #9f9f9f 0%,#c3c3c3 45%,#ccc 100%); /* IE10+ */
-  background: linear-gradient(top,  #9f9f9f 0%,#c3c3c3 45%,#ccc 100%); /* W3C */
+  background: -moz-linear-gradient(top,  #9f9f9f 0%, #c3c3c3 20%, #ccc 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9f9f9f), color-stop(20%,#c3c3c3), color-stop(100%,#ccc)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #9f9f9f 0%,#c3c3c3 20%,#ccc 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #9f9f9f 0%,#c3c3c3 20%,#ccc 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #9f9f9f 0%,#c3c3c3 20%,#ccc 100%); /* IE10+ */
+  background: linear-gradient(top,  #9f9f9f 0%,#c3c3c3 20%,#ccc 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9f9f9f', endColorstr='#ccc',GradientType=0 ); /* IE6-9 */
   /* </Awesome gradient-style action> */
   font-size: 0.8em;
@@ -142,42 +150,47 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Nav links */
+/* Header Nav links */
 
-nav ul li a:link {
+header nav ul li a:link {
   display: block;
   padding: 0 5px;
   color: #ccc;
 }
 
-nav li a:visited {
+header nav li a:visited {
   color: #ccc;
 }
 
-nav li a:hover {
+header nav li a:hover {
   color: #000;
   background-color: #999;
   text-decoration: none;
 } 
 
-nav ul#subheader a:link {
+header nav ul#subheader a:link {
   color: #000;
 } 
 
-nav ul#subheader a:visited {
+header nav ul#subheader a:visited {
   color: #000;
 }
 
 /*****************************************************************************************
  * Navigation 
  ****************************************************************************************/
-nav {
+header nav {
   position: fixed;
   white-space: nowrap;
   /* Lovely box shadows! */
   -moz-box-shadow: 0px 1px 5px #999;
   -webkit-box-shadow: 0px 1px 5px #999;
   box-shadow: 0px 1px 5px #999;
+}
+
+header>nav {
+  background-color: #333;
+  width: 100%;
 }
 
 nav ul {
@@ -265,6 +278,10 @@ li.show {
 #not-alerts.show {
   display: block;
 }
+
+/*****************************************************************************************
+ * 
+
 
 /*****************************************************************************************
  * Reusable Styles
