@@ -2,4 +2,6 @@
   - @alerts.each do |alert|
     %div
       %span{ :class => 'description' }=alert.description
-      = link_to "Destroy", alert, :confirm => "Are you sure?", :method => :delete, :remote => :true
+      = link_to "Destroy", alert, :method => :delete, :remote => :true
+  - if @alerts.empty? 
+    %div No alerts.

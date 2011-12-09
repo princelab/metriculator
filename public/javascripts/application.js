@@ -7,17 +7,26 @@ $(function() {
   });
 
   // Fade the alerts out when the delete link is clicked.
-  $("#alerts span a").click(function(event) {
-    $(this).parent().fadeOut()
+  $("#alerts div a").click(function() {
+    $(this).parent().fadeOut(500, function () {
+      $(this).remove();
+      // TODO: Change the count
+      // If this was the last alert, set the div to 'No alerts'
+      if ($("#alerts").children().length == 0) {
+        $("#alerts").text("No alerts.");
+      }
+    });
   });
 
   $("#alert_num").click(function(event) {
     event.preventDefault();
     $("#alerts, #not-alerts, #alert_num").toggleClass("show"); // Show the alerts box and related elements
+    $("#alert_num").parent().toggleClass("show");
   });
 
   $("#not-alerts").click(function(event) {
     $("#alerts, #not-alerts, #alert_num").removeClass("show");
+    $("#alert_num").parent().removeClass("show");
   });
 });
 
