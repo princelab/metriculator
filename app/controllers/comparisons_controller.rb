@@ -44,7 +44,6 @@ class ComparisonsController < ApplicationController
     
 # This should capture the windows fork and prevent it.
     if RbConfig::CONFIG['host_os'] === 'mingw32'
-      flash[:notice] = "Comparison started. You will be notified when it completes."
       redirect_to :action => "show", :id => comp.id
       result = comp.graph
       puts "DONE GRAPHING"
