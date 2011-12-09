@@ -3,6 +3,7 @@
   %head
     = render 'layouts/head'
   %body
-    = render 'layouts/header'
-    #wrapper= yield
+    #wrapper
+      = render 'layouts/header'
+      = yield
     = render 'layouts/footer'
