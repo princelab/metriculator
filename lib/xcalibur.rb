@@ -5,7 +5,7 @@ def unpack(string)
 	string.unpack("C*").map{|val| val if val == 9 || val == 10 || val == 13 || (val > 31 && val < 127) }
 end
 # This struct holds the information parsed from a row in the sequence file *.SLD
-Sld_Row = Struct.new(:sldfile, :methodfile, :rawfile, :sequence_vial)
+Sld_Row = Struct.new(:sldfile, :methodfile, :rawfile, :sequence_vial, :parsed)
 
 module Ms
 # This is the class containing all the functions specific to the Xcalibur software package, and hence, the Thermo Scientific Instruments.
@@ -51,16 +51,18 @@ module Ms
           starts << index if data[index] == 63 && index > 37 and (index - check_value) > 120
         end
 				starts.each_index do |index|
-        p @sldfile
-        p starts
-        a = (22..75).to_a
-        a.each do |i|
-          puts "index = #{starts[index]+i}\toffset: #{i}\tdata: #{data[starts[index]+i].chr}" unless data[starts[index]+i].nil?
-        end 
-        #puts ".chr gives: '#{data[starts[index]+40].chr}'"
+=begin
+          p @sldfile
+          p starts
+          a = (22..75).to_a
+          #a.each do |i|
+          #  puts "index = #{starts[index]+i}\toffset: #{i}\tdata: #{data[starts[index]+i].chr}" unless data[starts[index]+i].nil?
+          #end 
+          #puts ".chr gives: '#{data[starts[index]+40].chr}'"
           #next if data[starts[index]+32] == 63
+=end
 					block = sld_data_block_extractor(data, starts[index])
-          p block
+          #p block
 					block.map!{|val| val if val[/\w/]}.compact!
 					block.delete_at(1) if block.length == 5
 					block[2] = block[2] + "\\" if not block[2][/.*\\$/]
@@ -73,15 +75,19 @@ module Ms
             puts "SLD format won't parse as a valid sample.\nSkipping without saving information..." 
             break
           end
-					@sldrows << Sld_Row.new(@sldfile, methodfile, rawfile, vial)
-          p @sldrows.last
+					@sldrows << Sld_Row.new(@sldfile, methodfile, rawfile, vial, true)
+         # p @sldrows.last
 				end
+        if @sldrows.empty?
+          @sldrows << Sld_Row.new(@sldfile, nil, nil, nil, false)
+        end
+        @sldrows.compact!
 				self
 			end
 # This Hash contains the distances, in terms of the indices which separate the fields from each other in the binary encoding of the SLD file.
 			OFFSETS = {
 				#:type => 11,
-				:methodfile => 30+10,#35+11			# -14 if from the end of the type...
+				:methodfile => 35+12,#35+11			# -14 if from the end of the type...
 				:postprocessing => 1,
 				:filename_raw => 1,
 				:filelocale => 1,
@@ -93,10 +99,6 @@ module Ms
 				extr = Ms::Xcalibur::BinReader.new(location_of_question_mark)
 				OFFSETS.values.map {|offset| extr.string_extractor(array, extr.index+offset) }
 			end
-      def sld_data_block_extractor(array, location_of_question_mark)
-        extracter = Ms::Xcalibur::BinReader.new(location_of_question_mark)
-        OFFSETS.map {|offset| index = extracter.index ; p extracter.string_extractor(array, extracter.index + offset.last - 5); extracter.string_extractor(array, index + offset.last)}
-      end
 		end # Sld
 		class Method
 			attr_accessor :tunefile

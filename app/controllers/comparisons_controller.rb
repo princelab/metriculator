@@ -39,7 +39,8 @@ class ComparisonsController < ApplicationController
     comp = Comparison.new
     comp.msrun_firsts = first_set
     comp.msrun_seconds = second_set
-    comp.description = params[:description]
+    comp.first_description = params[:first_description]
+    comp.second_description = params[:second_description]
     comp.save
     
 # This should capture the windows fork and prevent it.

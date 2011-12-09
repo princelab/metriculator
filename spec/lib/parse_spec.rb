@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'xcalibur'
 Test_sld = { v2_0: TESTFILE + '/SWG_serum_100511165501.sld', v2_1: TESTFILE + '/_110131184745.sld'}
 Test_meth = { v2_0: 'C:\\Xcalibur\\methods\\SWG_serum_sample.meth', v2_1: 'C:\\Xcalibur\\methods\\test1_1_etd.meth'}
+=begin # This is a section for debugging the parser
 tmp = []
 puts "Xcalibur 2.1"
 [ Test_sld[:v2_1], Dir.glob(File.join( TESTFILE + '/matt*.sld'))].flatten.each do |f|
@@ -17,6 +18,7 @@ a= IO.read(File.open(Test_sld[:v2_0], 'rb')).unpack("C100").map(&:chr)
 p a
 puts "A-tmp:"
 p a-tmp
+=end
 
 describe 'Parses SLD files' do
   it 'parses v2.1 w/postprocessing files' do
@@ -31,6 +33,7 @@ describe 'Parses SLD files' do
     sld_file = Test_sld[:v2_0]
     @sld = Ms::Xcalibur::Sld.new(sld_file)
     @sld.parse
+    @sld.sldrows.first.parsed.should == true
     @sld.sldrows.first.methodfile.should == Test_meth[:v2_0]
     @sld.sldrows.first.sequence_vial.should == '2B01'
   end
@@ -39,9 +42,9 @@ describe 'Parses SLD files' do
     @slds = sld_files.map {|f| Ms::Xcalibur::Sld.new(f)}
     @slds.each(&:parse)
     vial_nums = @slds.map do |s| 
-      s.sldrows.map {|row| row.sequence_vial }
+      s.sldrows.map {|row| row.sequence_vial if row.parsed }
     end
-    vial_nums.should == [["2F01"], ["2F01", "2F02", "2F03", "2F04", "2F05", "2F06"], []]
+    vial_nums.should == [[nil], ["2F01", "2F02", "2F03", "2F04", "2F05", "2F06"],["2F01"] ]
   end
 end
 

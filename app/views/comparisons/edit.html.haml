@@ -7,7 +7,10 @@
       - @comparison.errors.full_messages.each do |msg|
         %li= msg
   %div#field
-    = f.label :description
-    = f.text_field :description
+    = f.label :first_description
+    = f.text_field :first_description
+  %div#field
+    = f.label :second_description
+    = f.text_field :second_description
   %div#actions
     = f.submit

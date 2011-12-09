@@ -24,7 +24,9 @@ module Ms
     attr_accessor :data_struct, :msrun_id, :hplc_object
     def initialize(struct = nil)
       if struct
-        struct.members.each do |sym|
+        membs = struct.members
+        membs.delete(:parsed)
+        membs.compact.each do |sym|
           self.send("#{sym}="	, struct[sym])
         end
       end

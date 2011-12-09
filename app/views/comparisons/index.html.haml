@@ -5,7 +5,8 @@
   %th #
   %th #Msruns in set #1
   %th #Msruns in set #2
-  %th Description
+  %th Set #1 Description
+  %th Set #2 Description
   - @comparisons.each do |comp|
     %tr
       %td= link_to comp.id, comparison_path(comp)
@@ -13,6 +14,7 @@
       /%td#lists= raw(comp.msrun_firsts.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>")) #.each_slice(2).map {|a| a.join(" , ")}.join("<br>"))
       /%td#lists= raw(comp.msrun_seconds.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>"))#.each_slice(2).map {|a| a.join("\t\t\t\t")}.join("<br>"))
       %td#lists= comp.msrun_seconds.size #map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>")).size#.each_slice(2).map {|a| a.join("\t\t\t\t")}.join("<br>"))
-      %td= comp.description || ""
+      %td= comp.first_description || ""
+      %td= comp.second_description || ""
 #paginate
   = paginate @comparisons

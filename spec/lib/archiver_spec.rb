@@ -3,8 +3,10 @@ require 'spec_helper'
 describe 'MsrunInfo Object behaves' do 
   before do 
     file = TESTFILE + '/SWG_serum_100511165501.sld'
+    @sld = Ms::Xcalibur::Sld.new(file)
     @sld = Ms::Xcalibur::Sld.new(file).parse
     @sld.sldrows[0].rawfile = TESTFILE + '/time_test.RAW'
+    @sld.sldrows[0].methodfile = TESTFILE + '/BSA.meth'
     @msrun = Ms::MsrunInfo.new(@sld.sldrows[0])
     @msrun.tunefile = TESTFILE + '/example_tune.LTQTune'
     @msrun.hplc_object = Ms::Eksigent::Ultra2D.new
@@ -19,9 +21,13 @@ describe 'MsrunInfo Object behaves' do
   it 'parses things correctly' do 
     @msrun.hplc_maxP.should == 7209.0
   end
-  it "grabs files" do 
-    @msrun.grab_files
-    @msrun.hplc_maxP.should == 7209.0
+  context "windows" do 
+    if RbConfig::CONFIG['host_os'] === "mingw32"
+      it "grabs files" do 
+        @msrun.grab_files
+        @msrun.hplc_maxP.should == 7209.0
+      end
+    end
   end
 end
 
