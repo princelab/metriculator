@@ -1,6 +1,5 @@
 #alerts
   - @alerts.each do |alert|
-    %span
+    %div
       %span{ :class => 'description' }=alert.description
       = link_to "Destroy", alert, :confirm => "Are you sure?", :method => :delete, :remote => :true
-    %br
