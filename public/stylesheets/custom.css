@@ -202,14 +202,28 @@ nav ul li {
   font-weight: 700;
   min-width: 15px;
   text-align: center;
+  color: #09c;
+  background-color: #555;
 }
 
-#alert_num.show {
+#alert_num:link, #alert_num:visited {
+  color: #fff;
+}
+
+#alert_num:hover, #alert_num.alert_bad:hover {
+  background-color: #ccc;
+}
+
+#alert_num.show, #alert_num.alert_bad.show {
   background-color: transparent;
 }
 
 #alert_num.show:link, #alert_num.show:visited {
   color: #333;
+}
+
+#alert_num.alert_bad {
+  background-color: #900;
 }
 
 /* For the parent li of #alert_num */
@@ -235,20 +249,6 @@ li.show {
 
 #alerts.show {
   display: block;
-}
-
-.alert_bad {
-  background-color: #900;
-}
-
-a#alert_num:link, a#alert_num:visited {
-  color: #fff;
-}
-
-.alert_okay {
-  color: #09c;
-  background-color: #555;
-  text-decoration: none;
 }
 
 #not-alerts { /* This allows us to hide the alerts menu when other parts of the page are clicked */

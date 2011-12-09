@@ -10,7 +10,16 @@ $(function() {
   $("#alerts div a").click(function() {
     $(this).parent().fadeOut(500, function () {
       $(this).remove();
-      // TODO: Change the count
+      // Decrement the count
+      alertcount = $("#alert_num").text();
+      alertcount--;
+
+      if (alertcount == 0) {
+        $("#alert_num").removeClass("alert_bad");
+      }
+
+      $("#alert_num").text(alertcount);
+
       // If this was the last alert, set the div to 'No alerts'
       if ($("#alerts").children().length == 0) {
         $("#alerts").text("No alerts.");
