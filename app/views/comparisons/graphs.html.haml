@@ -25,5 +25,5 @@
           - "up.png"
         - else
           - nil
-      = image_tag arrow, :size => '32x160' if arrow
+      = image_tag arrow, :size => '32x128' if arrow
       %object{ :data => (comparison_path(params[:id]) + graph).split('/').uniq.join('/'), :type => "image/svg+xml" }
