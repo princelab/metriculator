@@ -200,10 +200,14 @@ nav ul li {
   text-align: center;
 }
 
+#alert_num.show {
+  background-color: #fff;
+}
+
 #alerts {
   display: none; /* By default, hide the alerts. They'll be displayed through javascript. */
   position: fixed;
-  right: 200px;
+  right: 20px;
   top: 30px;
   background-color: #fff;
   z-index: 100;
@@ -232,14 +236,19 @@ a#alert_num:link, a#alert_num:visited {
   text-decoration: none;
 }
 
-#not-alerts { /* This handles hiding the alerts menu */
+#not-alerts { /* This allows us to hide the alerts menu when other parts of the page are clicked */
   background: transparent;
   display: none;
   z-index: 99;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
 
 #not-alerts.show {
-  
+  display: block;
 }
 
 /*****************************************************************************************
