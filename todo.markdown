@@ -6,6 +6,8 @@
 - Add searchable fields to the comparisons list
 - Fix deletions of comparisons
 - Provide a legend and two fields for the description of the datasets, use them at the top of each page to define the datasets.
+  - color red: #900
+  - color blue: #09C
 -	Test the metric starting
 - Add a yaml app\_config and QC\_config edit page into the website?
     - This would help make it easier to configure for people... right?

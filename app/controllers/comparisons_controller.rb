@@ -64,6 +64,7 @@ class ComparisonsController < ApplicationController
 # This is a helper route which helps deliver the comparison graphs from the public folders.  It utilizes the folder structure to help serve the content in a clear manner.
   def get_graph_at_path
     if comparison = Comparison.get(params[:id]) then
+      @comparison = comparison
       path = File.join(comparison.location_of_graphs, params[:graph_path])
 
       if Dir.exist? path
