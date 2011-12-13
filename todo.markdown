@@ -8,6 +8,8 @@
 - Provide a legend and two fields for the description of the datasets, use them at the top of each page to define the datasets.
   - color red: #900
   - color blue: #09C
+- Fix the ordering for the graphs... why aren't graphs working on ValidusArmo?
+- Change alerts to the push alerts system by humane.js instead of custom alerts?  Still retain the header count?
 -	Test the metric starting
 - Add a yaml app\_config and QC\_config edit page into the website?
     - This would help make it easier to configure for people... right?
