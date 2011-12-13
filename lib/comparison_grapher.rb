@@ -62,7 +62,7 @@ module Ms
 # This function takes the same parameters as {#graph_matches} and accomplishes the same result, as well as generating and returning, instead of the filenames, a hash containing the information needed to do cool stuff
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries, the first of which represents the newest in a QC run, which will be compared to the previous values
       # @return [Hash] ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? ##### ... I'm not yet sure, thank you very much
-     def graph_and_stats(new_measure, old_measures, comparison_folder, opts = {})
+     def graph_and_stats(old_measures, new_measure, comparison_folder, opts = {})
         options = Graphing_defaults.merge(opts)
         default_variance = QcConfig[:default_allowed_variance]
         require 'rserve/simpler'
@@ -192,7 +192,7 @@ module Ms
       # This function generates a comparison between the two sets of data, which are sliced by {#slice_matches}, graphing the results as SVG files.
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries
       # @return [Array] An array which contains all of the files produced by the process.  This will likely be an array of approximately 400 filenames.
-      def graph_matches(new_measures, old_measures, comparison_folder, opts = {})
+      def graph_matches(old_measures, new_measures, comparison_folder, opts = {})
         options = Graphing_defaults.merge(opts)
         require 'rserve/simpler'
         FileUtils.mkdir_p(comparison_folder)
