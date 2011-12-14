@@ -159,9 +159,10 @@ module Ms
                 when Float
                   t_test_out = "%.2g" % t_test
               end
+              r_object.converse %Q{ xlim = range(old_time_plot$df_old.#{i}.time, new_time_plot$df_new.#{i}.time) }
               r_object.converse %Q{ beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="p-value:#{t_test_out}", col=list('deepskyblue4',c('firebrick', 'black')), innerborder='black', bw=band1)}  
               r_object.converse do
-                %Q{ plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='deepskyblue4', pch=15)
+                %Q{ plot(old_time_plot, type='l', lwd=2.5, xlim = xlim, ylim = ylim, col='deepskyblue4', pch=15)
                     if (length(df_new.#{i}$value) > 4) {
                       lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='firebrick', pch=16, lwd=3 )
                     } else {
@@ -282,9 +283,11 @@ module Ms
                 when Float
                   t_test_out = "%.2g" % t_test
               end
+              r_object.converse %Q{ xlim = range(old_time_plot$df_old.#{i}.time, new_time_plot$df_new.#{i}.time) }
               r_object.converse %Q{beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="p-value: #{t_test_out}", col=list('deepskyblue4',c('firebrick', 'black')), innerborder='black', bw=band1)} 
               r_object.converse do
-                %Q{ plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='deepskyblue4', pch=15)
+# TODO!!!
+                %Q{ plot(old_time_plot, type='l', lwd=2.5, xlim = xlim, ylim = ylim, col='deepskyblue4', pch=15)
                     if (length(df_new.#{i}$value) > 4) {
                       lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='firebrick', pch=16, lwd=3 )
                     } else {
