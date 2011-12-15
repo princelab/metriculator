@@ -363,10 +363,21 @@ td#lists {
  ****************************************************************************************/
 #legends>div.colors p.first_description {
   font-weight: bold;
-  color: #900;
+  color: #09C;
 }
 #legends>div.colors p.second_description {
   font-weight: bold;
-  color: #09C;
+  color: #900;
+}
+div.legend div.box-first_description {
+  width: 15px; 
+  height: 15px;
+  background: #09C;
 }
 
+div.legend div.box-second_description {
+  text-align: right;
+  width: 15px; 
+  height: 15px;
+  background: #900;
+}
