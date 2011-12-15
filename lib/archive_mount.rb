@@ -34,13 +34,14 @@ module Ms
       # Moves the files to the location by calling {#define_location}, {#build_archive}, and ... 
       # @param None
       # @return Nothing specific yet ### TODO
-      def send_to_mount(object)
+      def send_to_mount(msrun)
         Messenger.setup
-        @msrun = object
-        define_location unless @location
+        define_location
         build_archive
         archive
-        puts Messenger.add_todo(relative_path(@msrun.rawfile))
+        puts relative_path msrun.rawfile
+        puts msrun.rawfile
+        puts Messenger.add_todo(relative_path(msrun.rawfile))
       end
 
       def archive # MOVE THE FILES OVER TO THE LOCATION
@@ -52,6 +53,7 @@ module Ms
           next if file.nil?
           location = cp_to file, @msrun.archive_location
           puts "RelativePath: #{relative_path(location)}"
+	  puts "absolutePath: #{location}"
           @msrun.send("#{key}=", relative_path(location) )
         end
       end
@@ -59,7 +61,7 @@ module Ms
       def config
         runconfig = load_runconfig(File.dirname(@msrun.rawfile))
         @msrun.group ||= runconfig[:group]
-        @msrun.user ||= runconfig[:user]
+        @msrun.user ||= runconfig[:username]
         @msrun.rawid ||= File.basename(@msrun.rawfile, ".RAW")
       end
       # This defines the location for the archived directory and can be used by a File.join command to generate a FilePath
@@ -94,7 +96,7 @@ module Ms
       def relative_path(filename)
         @mount_dir_pieces ||= @mount_dir.size
         pieces = split_filename(File.expand_path(filename))
-        File.join(pieces[@mount_dir_pieces.size..-1])
+        File.join(pieces[@mount_dir_pieces..-1])
       end
 
       # move the file under the mount.  If @tmp_subdir is defined, it will use that directory.

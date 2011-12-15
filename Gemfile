@@ -29,8 +29,7 @@ gem 'passenger'
 
 # Testing/benchmarking gems
 gem 'newrelic_rpm'
-gem 'ruby-prof'
-## End
+
 gem 'pony'
 gem 'rserve-simpler', :require => 'rserve/simpler', :git => "git://github.com/ryanmt/rserve-simpler.git"
 gem 'haml'
@@ -47,6 +46,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'ruby-prof'
 ### WINDOWS DEPENDENT Version...?
 #  gem 'ruby-debug19'
   # dependency of guard if on Mac OS X

@@ -39,11 +39,12 @@ class ComparisonsController < ApplicationController
     comp = Comparison.new
     comp.msrun_firsts = first_set
     comp.msrun_seconds = second_set
-    comp.description = params[:description]
+    comp.first_description = params[:first_description]
+    comp.second_description = params[:second_description]
     comp.save
     
-    if RbConfig['host_os'] === 'windows'
-      flash[:notice] = "Comparison started. You will be notified when it completes."
+# This should capture the windows fork and prevent it.
+    if RbConfig::CONFIG['host_os'] === 'mingw32'
       redirect_to :action => "show", :id => comp.id
       result = comp.graph
       puts "DONE GRAPHING"
@@ -63,6 +64,7 @@ class ComparisonsController < ApplicationController
 # This is a helper route which helps deliver the comparison graphs from the public folders.  It utilizes the folder structure to help serve the content in a clear manner.
   def get_graph_at_path
     if comparison = Comparison.get(params[:id]) then
+      @comparison = comparison
       path = File.join(comparison.location_of_graphs, params[:graph_path])
 
       if Dir.exist? path
@@ -91,7 +93,7 @@ class ComparisonsController < ApplicationController
 # Allows for destruction of a comparison.  This means that you have an option for clearing out old, useless comparisons.
   def destroy
     comparison = Comparison.get(params[:id])
-    
+    puts comparison.destroy!
     respond_to do |format|
       format.js { render :nothing => true }
       format.html { redirect_to comparisons_path }
@@ -99,9 +101,9 @@ class ComparisonsController < ApplicationController
   end
   private
 
-# A helper method to grab Msruns from the database.  This is slow and should be changed to a datamapper function to reduce calls to the database? ###TODO???
+# A helper method to grab Msruns from the database. 
   def get_msruns_from_array_of_ids(ids)
-    ids.map {|id| Msrun.get(id) }
+    Msrun.all(:id => ids)
   end
 end
 

@@ -4,6 +4,10 @@
 
 / TODO: This is the best I can pull off to clean and fix these paths to work despite changing the root path, it works... but probably isn't kosher Rails practice
 /%p= "#{comparison_path(params[:id])}/#{@graph_directories.first}".split('/').uniq.join('/')
+#legends
+  %div.colors
+    %p.first_description= @comparison.first_description
+    %p.second_description= @comparison.second_description
 #subdirectories
   %ul
     - @graph_directories.each do |directory|
@@ -20,10 +24,15 @@
       /%h3=graph.titleize
       - arrow = case ApplicationController::Known_trends[category][subcat][name]
         - when "down"
-          - 'down_arrow.svg'
+          - 'down.png'
         - when "up"
-          - "up_arrow.svg"
+          - "up.png"
         - else
           - nil
-      = image_tag arrow if arrow
+      = image_tag arrow, :size => '32x128' if arrow
       %object{ :data => (comparison_path(params[:id]) + graph).split('/').uniq.join('/'), :type => "image/svg+xml" }
+      %div.legend
+        %div.box-first_description
+        %p.description= @comparison.first_description
+        %div.box-second_description
+        %p.description= @comparison.second_description

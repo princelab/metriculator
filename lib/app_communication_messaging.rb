@@ -6,14 +6,15 @@ class Messenger
     require_relative 'config.rb'
 # This holds a hash directory of the node parameters
     Nodes = AppConfig[:nodes]
+    
 # This is the function which sets up the appropriate logging environment and the tasks to be performed by the process
     def setup
-      puts "ArchiveRoot: #{ArchiveRoot}"
       @@logs ||= find_files(ArchiveRoot)
       find_files(location) if @@logs.empty?
       update
     end
 # This will update the @@todo list 
+# @return Array An array of todo list items.  These are paths which are relative with respect to the mount.
     def update
       @@todo = []
       tmp = 0

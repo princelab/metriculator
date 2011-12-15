@@ -5,7 +5,7 @@ def unpack(string)
 	string.unpack("C*").map{|val| val if val == 9 || val == 10 || val == 13 || (val > 31 && val < 127) }
 end
 # This struct holds the information parsed from a row in the sequence file *.SLD
-Sld_Row = Struct.new(:sldfile, :methodfile, :rawfile, :sequence_vial)
+Sld_Row = Struct.new(:sldfile, :methodfile, :rawfile, :sequence_vial, :parsed)
 
 module Ms
 # This is the class containing all the functions specific to the Xcalibur software package, and hence, the Thermo Scientific Instruments.
@@ -46,23 +46,48 @@ module Ms
 			def parse		# Returns Sld
 				data = unpack(IO.read(File.open(@sldfile, 'r')))
 				starts = [];
-				data.each_index{|index| starts << index if data[index] == 63 && index > 37}
+				data.each_index do |index| 
+          check_value = starts.last ? starts.last : 0
+          starts << index if data[index] == 63 && index > 37 and (index - check_value) > 120
+        end
 				starts.each_index do |index|
+=begin
+          p @sldfile
+          p starts
+          a = (22..75).to_a
+          #a.each do |i|
+          #  puts "index = #{starts[index]+i}\toffset: #{i}\tdata: #{data[starts[index]+i].chr}" unless data[starts[index]+i].nil?
+          #end 
+          #puts ".chr gives: '#{data[starts[index]+40].chr}'"
+          #next if data[starts[index]+32] == 63
+=end
 					block = sld_data_block_extractor(data, starts[index])
+          #p block
 					block.map!{|val| val if val[/\w/]}.compact!
 					block.delete_at(1) if block.length == 5
 					block[2] = block[2] + "\\" if not block[2][/.*\\$/]
 					methodfile = block[0] + '.meth'
 					rawfile = block[2] + block[1] + '.RAW'
 					vial = block[3]
-					@sldrows << Sld_Row.new(@sldfile, methodfile, rawfile, vial)
+          begin 
+            raise StandardError, "ParseError: SLD format won't parse into a valid sample" if vial.nil? or rawfile[/^[A-Z]:\\/].nil? or methodfile[/^[A-Z]:\\/].nil? or vial.size != 4
+          rescue 
+            puts "SLD format won't parse as a valid sample.\nSkipping without saving information..." 
+            break
+          end
+					@sldrows << Sld_Row.new(@sldfile, methodfile, rawfile, vial, true)
+         # p @sldrows.last
 				end
+        if @sldrows.empty?
+          @sldrows << Sld_Row.new(@sldfile, nil, nil, nil, false)
+        end
+        @sldrows.compact!
 				self
 			end
 # This Hash contains the distances, in terms of the indices which separate the fields from each other in the binary encoding of the SLD file.
 			OFFSETS = {
 				#:type => 11,
-				:methodfile => 35+11,			# -14 if from the end of the type...
+				:methodfile => 35+12,#35+11			# -14 if from the end of the type...
 				:postprocessing => 1,
 				:filename_raw => 1,
 				:filelocale => 1,
@@ -94,7 +119,16 @@ module Ms
 				if @tunefile[/^[A-Z]:.*/] != @tunefile and File.extname(@tunefile) != ".LTQTune"
 					@tunefile = BinReader.new.string_extractor(data, 13750)
 				end
+        if @tunefile[/^[A-Z]:\\/].nil? or File.extname(@tunefile) != ".LTQTune"
+          raise StandardError, "ParseError: Tunefile doesn't have a drive letter"
+        end
 				@tunefile
+				begin 
+				  raise StandardError, "Failed to correctly parse method file for Tunefile location" if @tunefile[/^[A-Z]:.*/] != @tunefile and File.extname(@tunefile) != ".LTQTune"
+				rescue StandardError
+				  @tunefile = nil
+				  puts "ParseError, skipping tunefile"
+				end
 			end
 		end # Method
 	end # Xcalibur

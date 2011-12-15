@@ -1,6 +1,9 @@
 - @comparison ||= Comparison.get(params[:id])
 %h1= "Comparison ##{@comparison.id}"
-%p <strong>User Description: </strong> #{ @comparison.description } <br> #{link_to "Edit", edit_comparison_path(@comparison)}
+%p <strong>User Description: </strong>
+<p> Set#1: #{ @comparison.first_description }
+<p> Set#2: #{@comparison.second_description }
+<p> #{link_to "Edit", edit_comparison_path(@comparison)}
 %ul.categories
   - ApplicationHelper::Categories.each do |cat|
     %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat}"
@@ -13,6 +16,6 @@
   %td#lists= raw(@comparison.msrun_seconds.map{|i| link_to i.raw_id, msrun_path(i)}.join("<br>"))
 
 %span#comparison-delete
-  = link_to "Destroy", @comparison, :confirm => "Are you sure", :method => :delete 
+  = link_to "Destroy", @comparison, :confirm => "Are you sure?", :method => :delete 
 
   

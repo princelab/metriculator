@@ -1,23 +1,25 @@
+-# Transparent div (hidden by default) that is shown when alerts are selected.
+#not-alerts
 %header
-  %nav.round
-    %ul.header
+  %nav
+    %ul#header
       - alert_color =  @alerts.size < 1 ? "alert_okay" : "alert_bad"
       %li= link_to @alerts.size, alerts_path, :id => "alert_num", :class => "#{alert_color} round-small", :title => "#{@alerts.size} Alert" + (@alerts.size == 1 ? "" : "s")
       %li= link_to "Home", root_path
       %li= link_to "Msruns", msruns_path
       %li= link_to "Comparisons", comparisons_path
       %li= link_to "Metrics", metrics_path
-    %ul.subheader
+    %ul#subheader
       - if ['comparisons'].include?(params[:controller]) and params[:id]
         %li= link_to "Comparison Home", comparison_path(@comparison)# + '/' + params[:id]
         - ApplicationHelper::Categories.each do |cat|
           %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat.downcase}"
   = link_to logo, root_path
-  - if flash[:error]
-    .error=flash[:error]
-  - if flash[:notice]
-    .notice=flash[:notice]
-  -if flash[:success]
-    .success=flash[:success]
 #messages
 = render 'alerts/alerts'
+- if flash[:error]
+  .error=flash[:error]
+- if flash[:notice]
+  .notice=flash[:notice]
+-if flash[:success]
+  .success=flash[:success]

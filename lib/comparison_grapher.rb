@@ -62,7 +62,7 @@ module Ms
 # This function takes the same parameters as {#graph_matches} and accomplishes the same result, as well as generating and returning, instead of the filenames, a hash containing the information needed to do cool stuff
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries, the first of which represents the newest in a QC run, which will be compared to the previous values
       # @return [Hash] ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? ##### ... I'm not yet sure, thank you very much
-     def graph_and_stats(new_measure, old_measures, comparison_folder, opts = {})
+     def graph_and_stats(old_measures, new_measure, comparison_folder, opts = {})
         options = Graphing_defaults.merge(opts)
         default_variance = QcConfig[:default_allowed_variance]
         require 'rserve/simpler'
@@ -159,13 +159,14 @@ module Ms
                 when Float
                   t_test_out = "%.2g" % t_test
               end
-              r_object.converse %Q{ beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="p-value:#{t_test_out}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)}  
+              r_object.converse %Q{ xlim = range(old_time_plot$df_old.#{i}.time, new_time_plot$df_new.#{i}.time) }
+              r_object.converse %Q{ beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="p-value:#{t_test_out}", col=list('deepskyblue4',c('firebrick', 'black')), innerborder='black', bw=band1)}  
               r_object.converse do
-                %Q{ plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
+                %Q{ plot(old_time_plot, type='l', lwd=2.5, xlim = xlim, ylim = ylim, col='deepskyblue4', pch=15)
                     if (length(df_new.#{i}$value) > 4) {
-                      lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='skyblue3', pch=16, lwd=3 )
+                      lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='firebrick', pch=16, lwd=3 )
                     } else {
-                      points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='skyblue3', pch=21, cex=1.2)
+                      points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='firebrick', pch=21, cex=1.2)
                     }
                     title <- "#{@@name_legend[cat]}--#{@@name_legend[subcategory.to_s]}--#{name}"
                     if (nchar(title) > 80) {
@@ -192,7 +193,7 @@ module Ms
       # This function generates a comparison between the two sets of data, which are sliced by {#slice_matches}, graphing the results as SVG files.
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries
       # @return [Array] An array which contains all of the files produced by the process.  This will likely be an array of approximately 400 filenames.
-      def graph_matches(new_measures, old_measures, comparison_folder, opts = {})
+      def graph_matches(old_measures, new_measures, comparison_folder, opts = {})
         options = Graphing_defaults.merge(opts)
         require 'rserve/simpler'
         FileUtils.mkdir_p(comparison_folder)
@@ -282,15 +283,17 @@ module Ms
                 when Float
                   t_test_out = "%.2g" % t_test
               end
-              r_object.converse %Q{beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="p-value: #{t_test_out}", col=list('sandybrown',c('skyblue3', 'black')), innerborder='black', bw=band1)} 
+              r_object.converse %Q{ xlim = range(old_time_plot$df_old.#{i}.time, new_time_plot$df_new.#{i}.time) }
+              r_object.converse %Q{beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="p-value: #{t_test_out}", col=list('deepskyblue4',c('firebrick', 'black')), innerborder='black', bw=band1)} 
               r_object.converse do
-                %Q{ plot(old_time_plot, type='l', lwd=2.5, ylim = ylim, col='sandybrown', pch=15)
+# TODO!!!
+                %Q{ plot(old_time_plot, type='l', lwd=2.5, xlim = xlim, ylim = ylim, col='deepskyblue4', pch=15)
                     if (length(df_new.#{i}$value) > 4) {
-                      lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='skyblue3', pch=16, lwd=3 )
+                      lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='firebrick', pch=16, lwd=3 )
                     } else {
-                      points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='skyblue3', pch=21, cex=1.2)
+                      points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='firebrick', pch=21, cex=1.2)
                     }
-                    title <- "#{@@name_legend[cat]}\t#{@@name_legend[subcategory.to_s]}\t#{name}"
+                    title <- "#{@@name_legend[cat]}-\t-#{@@name_legend[subcategory.to_s]}-\t-#{name}"
                     if (nchar(title) > 80) {
                       mtext(title, side=3, line=0, outer=TRUE, cex=0.75)
                     } else if (nchar(title) > 100 ) {

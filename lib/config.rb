@@ -123,6 +123,8 @@ def load_runconfig(directory)
   else
     @runConfig = Run_defaults.deeper_merge(YAML.load_file(files.shift))
     files.each {|file| @runConfig = @runConfig.deeper_merge(YAML.load_file(file))}
+    puts "RUNDEFAULTS: #{Run_defaults}"
+    puts "RUNCONFIG: #{@runConfig}" 
   end
   Dir.chdir restore_dir
   @runConfig
