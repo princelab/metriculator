@@ -369,15 +369,24 @@ td#lists {
   font-weight: bold;
   color: #900;
 }
-div.legend div.box-first_description {
+span.legend {
+  text-align: left;
+}
+  
+span.legend div.box-first_description {
+  display: inline-block;
   width: 15px; 
   height: 15px;
   background: #09C;
 }
 
-div.legend div.box-second_description {
-  text-align: right;
+span.legend div.box-second_description {
+  display: inline-block;
+  /*text-align: right; */
   width: 15px; 
   height: 15px;
   background: #900;
+}
+span.legend p.description {
+  display: inline-block;
 }

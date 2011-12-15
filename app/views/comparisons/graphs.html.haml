@@ -31,8 +31,8 @@
           - nil
       = image_tag arrow, :size => '32x128' if arrow
       %object{ :data => (comparison_path(params[:id]) + graph).split('/').uniq.join('/'), :type => "image/svg+xml" }
-      %div.legend
+      %span.legend
         %div.box-first_description
-        %p= @comparison.first_description
+        %p.description= @comparison.first_description
         %div.box-second_description
-        %p= @comparison.second_description
+        %p.description= @comparison.second_description
