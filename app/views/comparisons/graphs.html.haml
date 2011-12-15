@@ -4,10 +4,6 @@
 
 / TODO: This is the best I can pull off to clean and fix these paths to work despite changing the root path, it works... but probably isn't kosher Rails practice
 /%p= "#{comparison_path(params[:id])}/#{@graph_directories.first}".split('/').uniq.join('/')
-#legends
-  %div.colors
-    %p.first_description= @comparison.first_description
-    %p.second_description= @comparison.second_description
 #subdirectories
   %ul
     - @graph_directories.each do |directory|

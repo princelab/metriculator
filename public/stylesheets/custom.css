@@ -364,16 +364,6 @@ td#lists {
   padding-bottom: 2em;
 }
 
-#legends>div.colors p.first_description {
-  font-weight: bold;
-  color: #09C;
-}
-
-#legends>div.colors p.second_description {
-  font-weight: bold;
-  color: #900;
-}
-
 div.legend {
   text-align: left;
 }
