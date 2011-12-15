@@ -293,7 +293,7 @@ module Ms
                     } else {
                       points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='firebrick', pch=21, cex=1.2)
                     }
-                    title <- "#{@@name_legend[cat]}\t#{@@name_legend[subcategory.to_s]}\t#{name}"
+                    title <- "#{@@name_legend[cat]}-\t-#{@@name_legend[subcategory.to_s]}-\t-#{name}"
                     if (nchar(title) > 80) {
                       mtext(title, side=3, line=0, outer=TRUE, cex=0.75)
                     } else if (nchar(title) > 100 ) {
