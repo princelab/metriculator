@@ -343,6 +343,13 @@ div#messages span {
   font-weight: bold;
 }
 
+
+td#lists {
+  font-size: 10px;
+}
+/*****************************************************************************************
+ * Graphs Stuff???? Fix this Russ... I'd hate to break things... 
+ ****************************************************************************************/
 #graphs>div.svg>embed {
   width: 540pt;
   height: 216pt;
@@ -352,41 +359,40 @@ div#messages span {
   width: 720pt;
   height: 576pt;
 }
+
 #graphs>div.svg { 
+  padding-bottom: 2em;
 }
 
-td#lists {
-  font-size: 10px;
-}
-/*****************************************************************************************
- * Graphs Stuff???? Fix this Russ... I'd hate to break things... `
- ****************************************************************************************/
 #legends>div.colors p.first_description {
   font-weight: bold;
   color: #09C;
 }
+
 #legends>div.colors p.second_description {
   font-weight: bold;
   color: #900;
 }
-span.legend {
+
+div.legend {
   text-align: left;
 }
-  
-span.legend div.box-first_description {
+
+div.legend div {
+  border: 1px solid #000;
   display: inline-block;
-  width: 15px; 
+  width: 15px;
   height: 15px;
-  background: #09C;
+}
+  
+div.legend div.box-first_description {
+  background: #00688B;
 }
 
-span.legend div.box-second_description {
-  display: inline-block;
-  /*text-align: right; */
-  width: 15px; 
-  height: 15px;
-  background: #900;
+div.legend div.box-second_description {
+  background: #B22222;
 }
-span.legend p.description {
+
+div.legend p.description {
   display: inline-block;
 }
