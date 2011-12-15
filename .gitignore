@@ -11,4 +11,5 @@ tmp/
 *.log
 doc/
 config/database.yml
+public/comparisons/*
 archiver_defaults.yml
