@@ -78,6 +78,8 @@ archiver_optparse = OptionParser.new do |opts|
 
   options[:server_setup] = false
   opts.on( '--server_setup', "Attempts to initialize all settings and configure the webserver to enable the best way to run for the OS of this machine.  If this is a Windows machine, it will run the rails WEBrick server, if it is a *NIX box, it will configure an Apache installation to run this server") {options[:server_setup] = true}
+  options[:run_raw] = false
+  opts.on( '-r', '--run_raw', "This setting will process a rawfile to populate the database with metric and msrun information for that file. This allows for use of archiver's metric and database features independent of the archival features.") { options[:run_raw] = true }
 	opts.on('-h', '--help', 'Display this screen' ) do 
 		puts opts
 		exit
@@ -117,7 +119,6 @@ if options[:xcalibur]
 # Real work
 	raise TypeError, "File given is not an SLD file" if File.extname(file) != File.extname('Test.sld') 
 	sld = Ms::Xcalibur::Sld.new(file).parse
-	binding.pry
 	msrun = Ms::MsrunInfo.new(sld.sldrows[line_num])
 	msrun.grab_files
 	msrun.fill_in
@@ -200,3 +201,41 @@ if options[:server_setup]
   ArchiveRoot = SysInfo[:archive_root]
   puts "Honestly, this is probably too ambitious of little feature.  You'll have to configure your own server environment at this point."
 end
+
+if options[:run_raw]
+  # TODO find which node you are on
+    if RbConfig::CONFIG['host_os'] === 'mingw32'
+      SysInfo = AppConfig[:nodes][:instrument]
+      ArchiveRoot = SysInfo[:archive_root]
+    elsif RbConfig::CONFIG['host_os'] === "linux-gnu"
+      SysInfo = AppConfig[:nodes][:server]
+      ArchiveRoot = SysInfo[:archive_root]
+    end
+  # TODO rawfile handling
+    if ARGV.size != 1 and File.extname(ARGV.first).downcase != ".raw"
+      puts "Error: Wrong argument given.  This option wants a single 'filename.raw' file to be given"
+      exit
+    end
+    file = ARGV.first
+  # TODO transfer to shared space if file isn't available to the metrics computer
+  if Ms::ArchiveMount.under_mount?(file)
+    putsv "All is well"
+  else
+    putsv "Ah!  What do I do now?"
+    dest = Ms::ArchiveMount.cp_under_mount(file)
+    relative_file = Ms::ArchiveMount.relative_path(dest)
+  end
+
+  # TODO Send information to the database
+    msrun = Ms::MsrunInfo.new
+    id = msrun.raw_only_archive relative_file
+    # Adds rawfile to the todo list
+    Messenger.add_todo( msrun.rawfile )
+  # TODO Generate, parse, and database metric information
+## Currently, this will happen from the metrics server... Should I address it differently?  No, I think that is a good way to handle it.
+  # TODO clear tmp cache if necessary
+## This will require something automated on the Metric server side, right?
+  # TODO write alert to notify of completion
+  ### Again, this should happen on the Metric server side of things, right?
+end
+  
