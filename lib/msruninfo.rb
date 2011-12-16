@@ -32,6 +32,16 @@ module Ms
       end
       load_runconfig(File.dirname(@rawfile))
     end
+# This fxn sets archive conditions for when you only want to archive the rawfile information itself, prior to metric generation
+# @param Filename The rawfile you wish to add to the database
+# @return Integer The id number for the Msrun object just created
+    def raw_only_archive(rawfile)
+      self.rawfile = rawfile
+      self.rawid = File.basename(rawfile, '.raw')
+      [:sldfile, :methodfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :hplc_maxP, :hplc_avgP, :hplc_stdP].each { |sym| self.send("#{sym}=".to_sym, nil)}
+      @db = Msrun.first_or_create(:raw_id => rawid, :rawfile => rawfile )
+      @db.id
+    end
     # This function calls 2 parsers to get the filenames required for the MsRunInfo object.  These are the files that aren't already known from parsing the Sequence file as called from {file:archiver.rb}
     # @param None
     # @return Nothing specific
@@ -59,13 +69,12 @@ module Ms
       graphfile = @hplc_object.graph
     end
 # This function checks that everything is prepped and sends the data to the database.
+# @return Integer The id number for the Msrun object just created
     def to_database
       fill_in if hplc_maxP.nil?
       graph_pressure if @graphfile.nil?
       @db = Msrun.first_or_create(:raw_id => rawid, :group => group, :rawfile => rawfile, :methodfile => methodfile, :tunefile => tunefile, :hplcfile => hplcfile, :graphfile => graphfile, :archive_location => archive_location, :taxonomy => taxonomy, :inj_volume => inj_volume, :autosampler_vial => hplc_vial, :hplc_max_p => hplc_maxP, :hplc_std_p => hplc_stdP, :hplc_avg_p => hplc_avgP)
       @db.id
     end
-      
-
   end # MsrunInfo
 end # Ms
