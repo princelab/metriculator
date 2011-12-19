@@ -333,9 +333,8 @@ td .desc {
   background-image: url(/images/up_arrow.png);
 }
 
-table#msrunshow, th, td {
+table {
   border-collapse: collapse;
-  border: 1px solid black;
 }
 
 div#messages span {
@@ -343,10 +342,24 @@ div#messages span {
   font-weight: bold;
 }
 
+thead {
+  border-bottom: 2px solid #000;
+}
+
+thead th {
+  background-color: #ccc;
+  padding: .25em .75em;
+  border: none;
+}
+
+tr:nth-child(2n) {
+  background-color: #ddd;
+}
 
 td#lists {
   font-size: 10px;
 }
+
 /*****************************************************************************************
  * Graphs Stuff???? Fix this Russ... I'd hate to break things... 
  ****************************************************************************************/
