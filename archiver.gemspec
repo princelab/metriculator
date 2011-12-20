@@ -9,6 +9,7 @@ spec = Gem::Specification.new do |s|
   s.files = Dir['lib/**/*.rb'] + Dir['spec/**/*.rb'] + %w[README.md Gemfile Rakefile] + Dir['lib/**/*.rake']
   s.require_path = 'lib'
   s.executables << 'archiver'
+  s.executables << 'archiver-install'
   s.add_dependency('bundler', '>=1.0.15')
   s.add_dependency('rake')
   s.extra_rdoc_files = Dir['[A-Z]*']

@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby 
+
+puts "Takes a RAW file, runs metrics on it, and parses the output into the database" 
+
+puts "Optionally, it will send an email alert to let you know the data processing has completed"
+
+puts "Usage: -m email@example.com file1.RAW ... file[n].raw"
+
+

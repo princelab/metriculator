@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby 
+separator = 50.times.map{"-"}.join
+puts "This will build a local installation of the application"
+
+puts "You'll just need to answer a few questions for me first... "
+type = nil
+while type.nil?
+  puts "Archiver runs in a few different ways... Which one is most accurate on this install: \n 1) Server node which will run an Apache or Rails server\n 2) Metric node (Windows) machine with Xcalibur libraries installed. \n 3) Data acquisition workstation with opportunity to fork into Xcalibur for run-time automation of Archiver"
+  print "Enter your number choice: "
+  choice = gets.chomp
+  type = case choice
+    when 1.to_s
+      :server
+    when 2.to_s
+      :metrics
+    when 3.to_s
+      :instrument
+    else puts "Retry"
+  end
+end
+puts "Setting up for #{type.to_s} mode..." 
+
+puts "Great, thanks\n#{separator}"
+puts "I'll need to know the path to the shared location from this computer.  Give me the complete synactically valid path to the root location.  I'll add the '\db' and '\log' paths afterwards.  Your data will be stored by 'GROUP/username' from this location."
+print "Archiver Root: "
+arch_root = gets.chomp
+
+# ? Do I want this to be an option?
+#puts "Do you want to configure any automated alerts for quality control filters?"
+
+puts separator
+puts "Well, I think I have everything I need, so I'm going to get to work..." 
+
+# Prep work:
+
+require 'config'
+system = case RbConfig::CONFIG['host_os']
+  when "mingw32"
+    'Windows'
+  when 'darwin'
+    'OSX'
+  when 'linux-gnu'
+    "Linux"
+end
+tmp = { :system => system, :archive_root => arch_root }
+#
+ArchiveConfig = tmp.merge({ quality_control: AppConfig[:quality_control] })
+p ArchiveConfig
+
+# Conditional stuff
+if type == :server 
+  puts "server"
+end
+
+if type == :metrics 
+  puts "metrics"
+end
+
+if type == :instrument 
+  puts "instrument"
+end
+
+
+
+##CONCLUSION
+
+#require 'pry' ; binding.pry
