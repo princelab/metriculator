@@ -113,7 +113,7 @@ header img {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
-  padding: 1em 0 1em 0;
+  margin: 1em 0 1em 0;
 }
 
 h1 {
@@ -280,10 +280,6 @@ li.show {
 }
 
 /*****************************************************************************************
- * 
-
-
-/*****************************************************************************************
  * Reusable Styles
  ****************************************************************************************/
 
@@ -361,7 +357,7 @@ td#lists {
 }
 
 /*****************************************************************************************
- * Graphs Stuff???? Fix this Russ... I'd hate to break things... 
+ * Graphs Styles
  ****************************************************************************************/
 #graphs>div.svg>embed {
   width: 540pt;
@@ -374,38 +370,68 @@ td#lists {
 }
 
 #graphs>div.svg { 
-  padding-bottom: 2em;
+  height: 300px;
 }
 
 #legends>div.colors p.first_description {
   font-weight: bold;
-  color: #09C;
+  color: #00688B;
 }
 
 #legends>div.colors p.second_description {
   font-weight: bold;
-  color: #900;
+  color: #B22222;
 }
 
 div.legend {
   text-align: left;
+  float: left;
+  height: 268px;
+  min-width: 150px;
+  background-color: #ddd;
+  margin: 8px;
+  padding: 8px;
 }
 
-div.legend div {
+div.legend h5 {
+  margin-top: 0;
+  border-bottom: 1px solid #999;
+}
+
+div.legend .box {
   border: 1px solid #000;
   display: inline-block;
   width: 15px;
   height: 15px;
+  margin: 5px;
+  clear: both;
+  float: left;
 }
-  
-div.legend div.box-first_description {
+
+div.legend .description {
+  float: left;
+  display: inline-block;
+  line-height: 25px;
+}
+
+div.legend div.first-desc {
   background: #00688B;
 }
 
-div.legend div.box-second_description {
+div.legend div.second-desc {
   background: #B22222;
 }
 
-div.legend p.description {
-  display: inline-block;
+.arrow-container {
+  height: 16px;
+  width: 16px;
+  margin: 5px;
+  float: left;
+  clear: left;
+}
+
+.trend {
+  float: left;
+  font-size: .8em;
+  line-height: 26px;
 }
