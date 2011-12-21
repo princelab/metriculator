@@ -24,7 +24,7 @@ end
 require 'config' ##TODO this needs to be all I have to do to load my environment settings
 
 files = ARGV.map do |f| 
-  if File.extname( f ) ~= /.RAW/i
+  if File.extname( f ).casecmp('.RAW')
     puts "File doesn't appear to be a rawfile, so we are skipping it:"
     puts "Filename: #{f}"
     nil
@@ -33,7 +33,7 @@ files = ARGV.map do |f|
   end
 end # files
 
-raise StandardError, "Config not loaded Error" unless ArchiveRoot
+raise StandardError, "Config not loaded Error" unless Kernel.const_defined?(ArchiveRoot)
 files.compact.each do |file|
   if Node != :metrics
     if Ms::ArchiveMount.under_mount?(file)

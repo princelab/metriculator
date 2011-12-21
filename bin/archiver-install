@@ -1,14 +1,15 @@
 #!/usr/bin/env ruby 
-separator = 50.times.map{"-"}.join
+Separator = 50.times.map{"-"}.join
+Allowed_instrument_types = %w{LCQ LTQ LXQ ORBI FT}
 puts "This will build a local installation of the application"
 
 puts "You'll just need to answer a few questions for me first... "
-type = nil
-while type.nil?
+node = nil
+while node.nil?
   puts "Archiver runs in a few different ways... Which one is most accurate on this install: \n 1) Server node which will run an Apache or Rails server\n 2) Metric node (Windows) machine with Xcalibur libraries installed. \n 3) Data acquisition workstation with opportunity to fork into Xcalibur for run-time automation of Archiver"
   print "Enter your number choice: "
   choice = gets.chomp
-  type = case choice
+  node = case choice
     when 1.to_s
       :server
     when 2.to_s
@@ -18,17 +19,64 @@ while type.nil?
     else puts "Retry"
   end
 end
-puts "Setting up for #{type.to_s} mode..." 
+puts "Setting up for #{node.to_s} mode..." 
 
-puts "Great, thanks\n#{separator}"
+puts "Great, thanks"
+puts Separator
 puts "I'll need to know the path to the shared location from this computer.  Give me the complete synactically valid path to the root location.  I'll add the '\db' and '\log' paths afterwards.  Your data will be stored by 'GROUP/username' from this location."
 print "Archiver Root: "
 arch_root = gets.chomp
 
-# ? Do I want this to be an option?
-#puts "Do you want to configure any automated alerts for quality control filters?"
+puts "Let's talk about the metrics."
 
-puts separator
+# The filter configuration block
+print "First off, do you want to automate any alerts? \n (Y or N)"
+filter = gets.chomp.casecmp('y')
+if filter
+  puts "yes, we want to set up filters"
+  puts "Great, we'll set up processing filters based upon some settings we'll configure right now."
+# Quality control filters
+  puts "We will set up filters so that if a RAW file is named a certain way, it will automatically trigger email/website alerts that inform you of the findings.  This way, you can be instantly apprised of any problems in your data runs."
+  puts "As an example, this is one of the filters I have set up:\n name: \"Tryptic BSA digest standard\"\t\t filter: \"QC_bsa\"\n This way, if I name a file 'QC_bsa_experiment-211_sample-3.raw' then it will trigger alerts when it runs and parses the metrics"
+  continue = true 
+  array = {}
+  while continue
+    print "First, I'll need a name for this filter: "
+    name = gets.chomp
+    puts "Next, I'll need a filter to use for parsing the filenames and determining if alerts should be generated.\n This string will be used as a literal comparison with the filenames."
+    print "Filter string:"
+    filter = gets.chomp
+    puts Separator
+    print "Would you like to configure another filter? \n (Y or N)"
+    continue = gets.chomp.casecmp("y")
+  end #while continue
+end
+
+# Generic Metrics configuration options
+puts "NIST metrics need to know a few things about each sample before they can run.  Each sample can be defined separately by defining command line arguments to #{__FILE__}.  If not defined there, they will default to these settings. "
+puts "First, I'll need to know where you've installed the NISTMSQC directory."
+print "Location:"
+nist_dir = gets.chomp
+# TODO validate directory
+print "Default 'instrument_type': \t\t\t\t\t(allowable values: #{Allowed_instrument_types.join(',')})"
+instrument_type = gets.chomp
+if not Allowed_instrument_types.include? instrument_type
+  puts "Error, unacceptable instrument type" 
+  puts "Default 'instrument_type': \t\t\t\t\t(allowable values: #{Allowed_instrument_types.join(',')})"
+  instrument_type = gets.chomp
+  puts "WRONG AGAIN!!! but moving on" if not Allowed_instrument_types.include? instrument_type
+end
+puts "You can install more library files from the NIST website and enable more options.  For now, your allowable library choices are: \n#{Dir.glob(nist_dir+'/libs/*.fasta').join(', ')}"
+puts "Default 'library' file:"
+default_library = gets.chomp
+
+
+
+
+
+
+# Setup
+puts Separator
 puts "Well, I think I have everything I need, so I'm going to get to work..." 
 
 # Prep work:
@@ -48,15 +96,15 @@ ArchiveConfig = tmp.merge({ quality_control: AppConfig[:quality_control] })
 p ArchiveConfig
 
 # Conditional stuff
-if type == :server 
+if node == :server 
   puts "server"
 end
 
-if type == :metrics 
+if node == :metrics 
   puts "metrics"
 end
 
-if type == :instrument 
+if node == :instrument 
   puts "instrument"
 end
 
