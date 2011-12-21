@@ -386,11 +386,12 @@ td#lists {
 div.legend {
   text-align: left;
   float: left;
-  height: 268px;
+  height: 248px; /* 248 to the bottom of the p-value text, 268 to fill the space, 208 to align with the graphs */
   min-width: 150px;
   background-color: #ddd;
   margin: 8px;
   padding: 8px;
+  margin-bottom: 18px;
 }
 
 div.legend h5 {
