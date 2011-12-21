@@ -20,15 +20,19 @@
       /%h3=graph.titleize
       - arrow = case ApplicationController::Known_trends[category][subcat][name]
         - when "down"
-          - 'down.png'
+          - 'down-arrow.png'
         - when "up"
-          - "up.png"
+          - "up-arrow.png"
         - else
           - nil
-      = image_tag arrow, :size => '32x128' if arrow
-      %object{ :data => (comparison_path(params[:id]) + graph).split('/').uniq.join('/'), :type => "image/svg+xml" }
-      %div.legend
-        %div.box-first_description
+      %div.legend.round
+        %h5= "Legend"
+        %div.first-desc.box
         %p.description= @comparison.first_description
-        %div.box-second_description
+        %div.second-desc.box
         %p.description= @comparison.second_description
+        - if arrow 
+          %div.arrow-container
+            = image_tag arrow, :size => '16x16'
+          %p.trend= "Desired trend"
+      %object{ :data => (comparison_path(params[:id]) + graph).split('/').uniq.join('/'), :type => "image/svg+xml" }
