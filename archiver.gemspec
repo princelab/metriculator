@@ -10,6 +10,7 @@ spec = Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.executables << 'archiver'
   s.executables << 'archiver-install'
+  s.executables << 'metriculator'
   s.add_dependency('bundler', '>=1.0.15')
   s.add_dependency('rake')
   s.extra_rdoc_files = Dir['[A-Z]*']

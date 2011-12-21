@@ -4,6 +4,56 @@ puts "Takes a RAW file, runs metrics on it, and parses the output into the datab
 
 puts "Optionally, it will send an email alert to let you know the data processing has completed"
 
-puts "Usage: -m email@example.com file1.RAW ... file[n].raw"
+require 'optparse'
+options = {}
+metriculator_optparse = OptionParser.new do |opts|
+  opts.banner = "Usage: -m email@example.com file1.RAW ... file[n].raw"
+  opts.banner = "This takes a RAW file, runs the NIST proteomics metrics on it, and parses the output metric data into the Archiver database and website for viewing. If you'd like, you can pass an email address for an automated alert when the metrics have completed"
+
+# Define options:
+  opts.on('-m', '--email [email_address]', String, "Set an email address for a completion alert") do |addy|
+    options[:email] = addy
+  end
+
+  opts.on_tail('-h', '--help', "Prints help information") do 
+    puts opts
+    exit
+  end
+end
+
+require 'config' ##TODO this needs to be all I have to do to load my environment settings
+
+files = ARGV.map do |f| 
+  if File.extname( f ) ~= /.RAW/i
+    puts "File doesn't appear to be a rawfile, so we are skipping it:"
+    puts "Filename: #{f}"
+    nil
+  else
+    f
+  end
+end # files
+
+raise StandardError, "Config not loaded Error" unless ArchiveRoot
+files.compact.each do |file|
+  if Node != :metrics
+    if Ms::ArchiveMount.under_mount?(file)
+      putsv "All is well"
+    else
+      putsv "Handling a file which isn't under the mount..."
+      dest = Ms::Archiver.cp_under_mount(file)
+      relative_file = Ms::ArchiveMount.relative_path(dest)
+    end
+  end
+  file = relative_file ? relative_file : file
+  msrun = Ms::MsrunInfo.new
+  id = msrun.raw_only_archive file
+  Messenger.add_todo msrun.rawfile
+  # TODO Generate, parse, and database metric information
+## Currently, this will happen from the metrics server... Should I address it differently?  No, I think that is a good way to handle it.
+  # TODO clear tmp cache if necessary
+## This will require something automated on the Metric server side, right?
+  # TODO write alert to notify of completion
+  ### Again, this should happen on the Metric server side of things, right?
 
 
+end # Files.each 
