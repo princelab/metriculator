@@ -35,11 +35,15 @@ filter = gets.chomp.casecmp('y')
 if filter
   puts "yes, we want to set up filters"
   puts "Great, we'll set up processing filters based upon some settings we'll configure right now."
+  puts "To what address would you like to send alert emails?"
+  print "email address:"
+  addy = gets.chomp
 # Quality control filters
   puts "We will set up filters so that if a RAW file is named a certain way, it will automatically trigger email/website alerts that inform you of the findings.  This way, you can be instantly apprised of any problems in your data runs."
   puts "As an example, this is one of the filters I have set up:\n name: \"Tryptic BSA digest standard\"\t\t filter: \"QC_bsa\"\n This way, if I name a file 'QC_bsa_experiment-211_sample-3.raw' then it will trigger alerts when it runs and parses the metrics"
   continue = true 
-  array = {}
+  qc_array = []
+  require 'yaml'
   while continue
     print "First, I'll need a name for this filter: "
     name = gets.chomp
@@ -49,7 +53,13 @@ if filter
     puts Separator
     print "Would you like to configure another filter? \n (Y or N)"
     continue = gets.chomp.casecmp("y")
+    filename = "#{name}.yml"
+    File.open(filename, 'w') {|out| out.print Qc_defaults.deeper_merge({alert_email: addy }).to_yaml) }
+    qc_array << { :name => name, :filter => filter , :filename => filename}
   end #while continue
+  puts "Great. I'll set that up and write default settings to (a) file(s) for you."  
+  puts "I wrote this/these file(s) with default settings for you."
+  qc_array.each {|hash| puts "Name: #{hash[:name]}\t\t\t File: #{hash[:filename]}" }
 end
 
 # Generic Metrics configuration options
@@ -71,10 +81,7 @@ puts "Default 'library' file:"
 default_library = gets.chomp
 
 
-
-
-
-
+#--------------------------------------------------
 # Setup
 puts Separator
 puts "Well, I think I have everything I need, so I'm going to get to work..." 
