@@ -2,11 +2,13 @@
 #paginate
   = paginate @comparisons
 %table#comparisons-index
-  %th #
-  %th #Msruns in set #1
-  %th #Msruns in set #2
-  %th Set #1 Description
-  %th Set #2 Description
+  %thead
+    %th #
+    %th #Msruns in set #1
+    %th #Msruns in set #2
+    %th Set #1 Description
+    %th Set #2 Description
+  %tbody
   - @comparisons.each do |comp|
     %tr
       %td= link_to comp.id, comparison_path(comp)
