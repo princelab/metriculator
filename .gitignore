@@ -13,3 +13,4 @@ doc/
 config/database.yml
 public/comparisons/*
 archiver_defaults.yml
+NISTMSQCv1_2_0/libs/*

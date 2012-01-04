@@ -30,27 +30,23 @@ archiver_optparse = OptionParser.new do |opts|
 		#opts.banner = "which will be archived under JTP/ryanmt/YYMM/JTP_ryanmt_x0linkingsample001/..."
 
 # Define the options
-	options[:verbose] = false
-	opts.on( '-v', '--verbose') { options[:verbose] = true }
+	opts.on( '-v', '--verbose') { |v| options[:verbose] = v }
 
-	options[:zipped] = false
-	opts.on( '-z', '--zipped', 'Define if the archive will be zipped or not (FALSE)') { options[:zipped] = true}
+	opts.on( '-z', '--zipped', 'Define if the archive will be zipped or not') { |z| options[:zipped] = z }
 
 #	options[:figure] = true
 #	opts.on( '-f', '--figure', 'Output the figure graphing the NanoLC elution pressure trace (TRUE)') {options[:figure] = false}
 
-	options[:mzxml] = true 
-	opts.on('-n', '--no_mzxml', 'Do not output the mzxml files') {options[:mzxml] = false}
+  
+	#options[:mzxml] = true 
+	#opts.on('-n', '--no_mzxml', 'Do not output the mzxml files') {options[:mzxml] = false}
 
-	options[:dry_run] = false
-	opts.on( '-d', '--dry_run', 'Run analysis without moving files to archive locations (FALSE)') {options[:dry_run] = true}
+	#opts.on( '-d', '--dry_run', 'Run analysis without moving files to archive locations (FALSE)') {options[:dry_run] = true}
 
-	options[:move_files] = false
-	opts.on( '-m', '--move_files', "Instead of just copying the files over to the archive, delete them, safely (checks that file has moved) (FALSE)") {options[:move_files] = true}
+	#opts.on( '-m', '--move_files', "Instead of just copying the files over to the archive, delete them, safely (checks that file has moved) (FALSE)") {options[:move_files] = true}
 
-	options[:xcalibur] = false
-	opts.on( '--xcalibur', 'Runs this as called from Xcalibur and on an analysis workstation(minimize work down here, move then finish), with appropriate defaults' ) do 
-    options[:xcalibur] = true 
+	opts.on( '--xcalibur', 'Runs this as called from Xcalibur and on an analysis workstation(minimize work down here, move then finish), with appropriate defaults' ) do |x|
+    options[:xcalibur] = x
     if ARGV.size != 2
       puts "Archiver's 'Xcalibur' mode can't run without the input file and row number!"
       puts "Exiting..."
