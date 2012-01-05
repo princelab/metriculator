@@ -311,8 +311,9 @@ section h1 {
 /*****************************************************************************************
  * Metric/Msrun Data Tables 
  ****************************************************************************************/
-table.data_out {
+table#metric_out {
   border: 4px groove black;
+  font-size: 0.8em;
 }
 
 td .sort {
@@ -435,4 +436,15 @@ div.legend div.second-desc {
   float: left;
   font-size: .8em;
   line-height: 26px;
+}
+
+table#metric_out tr.category {
+  font-size: 1em;
+  text-align: center;
+  font-weight: bold;
+}
+
+table#metric_out tr.subcat {
+  font-size: 0.9em;
+  font-weight: bold;
 }

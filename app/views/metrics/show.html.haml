@@ -1,12 +1,26 @@
 %h1 Metric#show
-%p Find me in app/views/metric/show.html.erb
-%table.data_out
+#navigation
+  - ApplicationHelper::Categories.each do |cat|
+    %p=link_to "#{ApplicationController::Name_legend[cat]}", "##{cat}"
+%table#metric_out
   %thead
     %td Attribute
     %td Value
-  - @metric.attributes.each do |h,k|
-    %tr
+  - @data.each do |cat, hash|
+    %tr.category
       %td
-        = h.to_s.capitalize.split('_').join(' ')
-        \:
-      %td= k
+        %a{name: cat.downcase.gsub(/\s/,'_'), href: metric_path(params[:id])}= cat
+      %td= "#{   }"
+    - hash.each do |key, value|
+      - if value.class != Hash
+        %tr.item
+          %td= key
+          %td= value
+      - else
+        %tr.subcat
+          %td= key
+          %td= "#{   }"
+          - value.each do |k,v|
+            %tr.item
+              %td= k
+              %td= v
