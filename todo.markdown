@@ -6,14 +6,11 @@
 - Build a error catcher for this problem: 
     Rserve: no process found
     Fatal error: you must specify '--save', '--no-save' or '--vanilla'
+  * It should use "R CMD BATCH r\_rserve\_save.R" to fix it, I think.
 
 - A build or install function that allows for automated installation with "gets" statements to ask the questions?
 - Add searchable fields to the comparisons list
 - Fix deletions of comparisons
-- Provide a legend and two fields for the description of the datasets, use them at the top of each page to define the datasets.
-  - color red: #900
-  - color blue: #09C
-- Change alerts to the push alerts system by humane.js instead of custom alerts?  Still retain the header count?
 -	Test the metric starting
 - Add a yaml app\_config and QC\_config edit page into the website?
     - This would help make it easier to configure for people... right?
