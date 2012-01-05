@@ -9,14 +9,14 @@
   * It should use "R CMD BATCH r\_rserve\_save.R" to fix it, I think.
 
 - A build or install function that allows for automated installation with "gets" statements to ask the questions?
-- Add searchable fields to the comparisons list
-- Fix deletions of comparisons
 -	Test the metric starting
 - Add a yaml app\_config and QC\_config edit page into the website?
     - This would help make it easier to configure for people... right?
 * Message Passing # TEST IT and the accompanying metric starting...
 
 ###Website
+  - Fix deletions of comparisons
+  - Add searchable fields to the comparisons list
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
     - Prevent the same comparison from being created multiple times?
       - How can this be done??
@@ -42,3 +42,4 @@
 * Implement database updating of locations and the file moving system
 * Message clearing fxns so that I can clean out the lists... maybe monthly?
 - Fix the ordering for the graphs... why aren't graphs working on ValidusArmo?
+- Metrics#show tables
