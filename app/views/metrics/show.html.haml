@@ -8,8 +8,7 @@
     %td Value
   - @data.each do |cat, hash|
     %tr.category
-      %td
-        %a{name: cat.downcase.gsub(/\s/,'_'), href: metric_path(params[:id])}= cat
+      %td{id: cat.downcase.gsub(/\s/,'_'), href: metric_path(params[:id])}= cat
       %td= "#{   }"
     - hash.each do |key, value|
       - if value.class != Hash
