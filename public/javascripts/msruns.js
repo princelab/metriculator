@@ -16,7 +16,7 @@ $(function() {
 
   // When the "Filter" button is clicked, filter based on data
   // in ALL search forms.
-  $("button#filter").live("click", function () {
+  $("#filter").live("click", function () {
     //Build the query string from the filter forms
     var parms = []
       , query_string
