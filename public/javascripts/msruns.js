@@ -43,14 +43,14 @@ $(function() {
   });
 
   // Add stuff to comparison form.
-  $("#msruns td #group-1-all").live("click", function () {
+  $("#group-1-all").live("click", function () {
     var count
       ;
     count = RailsMetrics.allButtonClicked("1");
     displayNotification("" + count + " comparisons added to Comparison Set 1.");
   });
 
-  $("#msruns td #group-2-all").live("click", function () {
+  $("#group-2-all").live("click", function () {
     var count
       ;
     count = RailsMetrics.allButtonClicked("2");
