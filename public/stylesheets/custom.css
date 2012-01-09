@@ -342,6 +342,27 @@ div#messages span {
   font-weight: bold;
 }
 
+.js-button {
+  /* Display a cursor, so it's a button. */
+  cursor: pointer;
+  padding-left: 25px;
+  height: 24px;
+  line-height: 24px;
+  text-align: left;
+}
+
+.js-button:hover {
+  background-color: #f9f9f9;
+}
+
+.add {
+  background: transparent url(/images/add.png) left center no-repeat;
+}
+
+.remove {
+  background: transparent url(/images/remove.png) left center no-repeat;
+}
+
 thead {
   border-bottom: 2px solid #000;
 }

@@ -1,40 +1,40 @@
 = paginate @msruns, :remote => true 
+%button{ :id => :filter }Filter
 %table.msrun
-  %button{ :id => :filter }Filter
-  %tr
-    -# use td instead of th so we can nest forms inside the cells if we want.
-    %td Compare Set 1
-    %td Compare Set 2
-    = render :partial => 'table_header', :locals => { :field_name => :raw_id, :common_name => "Name" }
-    = render :partial => 'table_header', :locals => { :field_name => :group }
-    = render :partial => 'table_header', :locals => { :field_name => :user }
-    -# we can't do this, b/c we need to handle dates separately
-    -# render :partial => 'table_header', :locals => { :field_name => :rawtime, :common_name => "Date" }
-    %td{ :rowspan => 2 }
-      = sortable "rawtime", "Date"
-      = form_tag msruns_path, :method => 'get', :remote => true do
-        %div{ :class => "filter-form" }
-          = hidden_field_tag :direction, params[:direction]
-          = hidden_field_tag :sort, params[:sort]
-          = label_tag "search[rawtime][start]", "Between"
-          = text_field_tag "search[rawtime][start]", (params[:search].fetch(:rawtime, {})).fetch(:start, "")
-          %br
-          = label_tag "search[rawtime][end]", "and"
-          = text_field_tag "search[rawtime][end]", (params[:search].fetch(:rawtime, {})).fetch(:end, "")
-          = submit_tag "Search", :name => nil
-
-    = render :partial => 'table_header', :locals => { :field_name => :taxonomy }
-  %tr
-    %td
-      %button{ :id => 'group-1-all' } Add All To Comparison Set One
-    %td
-      %button{ :id => 'group-2-all' } Add All To Comparison Set Two
+  %thead
+    %tr
+      %th Compare Set 1
+      %th Compare Set 2
+      = render :partial => 'table_header', :locals => { :field_name => :raw_id, :common_name => "Name" }
+      = render :partial => 'table_header', :locals => { :field_name => :group }
+      = render :partial => 'table_header', :locals => { :field_name => :user }
+      -# we can't do this, b/c we need to handle dates separately
+      -# render :partial => 'table_header', :locals => { :field_name => :rawtime, :common_name => "Date" }
+      %th{ :rowspan => 2 }
+        = sortable "rawtime", "Date"
+        = form_tag msruns_path, :method => 'get', :remote => true do
+          %div{ :class => "filter-form" }
+            = hidden_field_tag :direction, params[:direction]
+            = hidden_field_tag :sort, params[:sort]
+            = label_tag "search[rawtime][start]", "Between"
+            = text_field_tag "search[rawtime][start]", (params[:search].fetch(:rawtime, {})).fetch(:start, "")
+            %br
+            = label_tag "search[rawtime][end]", "and"
+            = text_field_tag "search[rawtime][end]", (params[:search].fetch(:rawtime, {})).fetch(:end, "")
+            = submit_tag "Search", :name => nil
+      = render :partial => 'table_header', :locals => { :field_name => :taxonomy }
+    %tr
+      %th
+        %div{ :id => 'group-1-all', :class => 'js-button add round-small' } All to Set One
+      %th
+        %div{ :id => 'group-2-all', :class => 'js-button add round-small' } All to Set Two
+  %tbody
   - @msruns.each do |run|
     %tr{:id => "msrunid-#{run.id}"}
       %td.comparison1
-        %button{ :id => "comparison-1-#{run.id}"} Add To Comparison Set One
+        %div{ :id => "comparison-1-#{run.id}", :class => 'js-button add round-small'} Set One
       %td.comparison2
-        %button{ :id => "comparison-2-#{run.id}"} Add To Comparison Set Two
+        %div{ :id => "comparison-2-#{run.id}", :class => 'js-button add round-small'} Set Two
       %td= link_to run.raw_id, msrun_path(run)
       %td=run.group || "No Group"
       %td=run.user || "No User"
