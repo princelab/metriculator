@@ -52,8 +52,8 @@ module Ms
           file = arr.last
           next if file.nil?
           location = cp_to file, @msrun.archive_location
-          puts "RelativePath: #{relative_path(location)}"
-	  puts "absolutePath: #{location}"
+          putsv "RelativePath: #{relative_path(location)}"
+          putsv "absolutePath: #{location}"
           @msrun.send("#{key}=", relative_path(location) )
         end
       end
