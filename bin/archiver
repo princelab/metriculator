@@ -174,12 +174,16 @@ if options[:metrics]
   ArchiveRoot = SysInfo[:archive_root]
   Program = SysInfo[:program_locale]
   Messenger.setup
+  putsv "Starting scheduler"
   scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => "NIST_metrics_daemon")
-  scheduler.every '1m' do 
+  scheduler.every '5s' do 
     putsv 'Checking todo list...'
     list = Messenger.update
     if list.size > 0
       putsv "Todo items found: #{list}"
+      list.each do |item|
+        putsv "Submitting #{item} to NIST metrics for analysis."	
+        Ms::NIST::Metrics.new(item)
     end
   end # every 1m
   scheduler.every '1w' do 
