@@ -55,7 +55,7 @@ module Ms
           @rawfile = rawfile
         end
         @rawtime = File.mtime(@rawfile)
-        putsv "Metrics program location = #{Program}"
+        putsv "Metrics program location = #{NistProgram}"
         ArchiveMount.metric_config
         #Working on some major changes to the mount thing... that lets me have it do the work for me!!
         # to ensure it only runs the one file... it needs to be alone in a directory... 
@@ -68,7 +68,7 @@ module Ms
         output_metrics_file = File.join(path, File.basename(@rawfile, '.raw'))
         putsv "PATH: #{path}"
         putsv "output_metrics_file: #{output_metrics_file}"
-        #%Q{C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
+        #%Q{#{NistProgram} --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
         ## PARSE THE FILE
         ## CLEAN THE DIRECTORIES (tmp if used, and metrics regardless)
       end
