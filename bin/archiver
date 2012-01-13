@@ -185,7 +185,8 @@ if options[:metrics]
         putsv "Submitting #{item} to NIST metrics for analysis."	
         m = Ms::NIST::Metrics.new
         m.run_metrics(item)
-    end
+      end # list.each do |item|
+    end # if list.size > 0
   end # every 1m
   scheduler.every '1w' do 
     Messenger.clear_completed!
