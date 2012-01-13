@@ -184,6 +184,7 @@ if options[:metrics]
       list.each do |item|
         putsv "Submitting #{item} to NIST metrics for analysis."	
         m = Ms::NIST::Metric.new
+        p File.join(ArchiveRoot, item)
         m.run_metrics(File.join(ArchiveRoot, item))
       end # list.each do |item|
     end # if list.size > 0
