@@ -65,9 +65,10 @@ module Ms
         else
           path = File.dirname(@rawfile)
         end
-        output_metrics_file = File.join(path, File.basename )
+        output_metrics_file = File.join(path, File.basename(@rawfile, '.raw'))
         putsv "PATH: #{path}"
-        #%Q{C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl --in_dir "#{path}" --out_file "#{File.join(Dir.)}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
+        putsv "output_metrics_file: #{output_metrics_file}"
+        #%Q{C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
         ## PARSE THE FILE
         ## CLEAN THE DIRECTORIES (tmp if used, and metrics regardless)
       end
