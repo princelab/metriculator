@@ -61,7 +61,7 @@ module Ms
         # to ensure it only runs the one file... it needs to be alone in a directory... 
         if Dir.glob(File.join(File.absolute_path(@rawfile).sub(File.basename(@rawfile), ''), "*#{File.extname(@rawfile)}")).size > 1
           tmp_id = Time.now.to_i
-          path = ArchiveMount.cp_to(@rawfile, tmp_id)
+          path = ArchiveMount.cp_to(@rawfile, tmp_id.to_s)
         else
           path = File.dirname(@rawfile)
         end
