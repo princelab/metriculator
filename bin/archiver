@@ -183,7 +183,8 @@ if options[:metrics]
       putsv "Todo items found: #{list}"
       list.each do |item|
         putsv "Submitting #{item} to NIST metrics for analysis."	
-        Ms::NIST::Metrics.new(item)
+        m = Ms::NIST::Metrics.new
+        m.run_metrics(item)
     end
   end # every 1m
   scheduler.every '1w' do 
