@@ -58,15 +58,17 @@ module Ms
         putsv "Metrics program location = #{Program}"
         #Working on some major changes to the mount thing... that lets me have it do the work for me!!
         # to ensure it only runs the one file... it needs to be alone in a directory... 
-        if Dir.glob(File.join(File.absolute_path(@rawfile) - File.basename(@rawfile), "*", File.extname(@rawfile))) > 1
-          path = ArchiveMount.cp_under_mount(@rawfile)
+        if Dir.glob(File.join(File.absolute_path(@rawfile).sub(File.basename(@rawfile), ''), "*#{File.extname(@rawfile)}")).size > 1
+          tmp_id = Time.now.to_i
+          path = ArchiveMount.cp_to(@rawfile, tmp_id)
         else
           path = File.dirname(@rawfile)
         end
+        output_metrics_file = File.join(path, File.basename
         putsv "PATH: #{path}"
-        #%Q{C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl --in_dir "#{path}" --out_dir "#{ArchiveMount.metrics_tmp}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
+        #%Q{C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl --in_dir "#{path}" --out_file "#{File.join(Dir.)}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
         ## PARSE THE FILE
-## CLEAN THE DIRECTORIES (tmp if used, and metrics regardless)
+        ## CLEAN THE DIRECTORIES (tmp if used, and metrics regardless)
       end
 
       # Archive the metric data by ensuring it is parsed {#parse} and sending it to the database {#to_database}

@@ -119,6 +119,19 @@ module Ms
       def full_path(relative_filename)
         File.join(@mount_dir, relative_filename)
       end
+
+=begin 
+# Metrics temporary output folder.  This is where the files are created, temporarily...
+# @param None
+# @return [Path] Path to the temporary output folder
+##TODO How do I capture the output file name?
+      def metrics_tmp
+        @tmp_subdir = 'metrics_output'
+        location = File.join(@mount_dir, @tmp_subdir)
+        FileUtils.mkdir_p location
+        location
+      end
+=end
     end # class << self
   end # class ArchiveMount
 end # Module
