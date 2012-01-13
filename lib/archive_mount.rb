@@ -64,6 +64,11 @@ module Ms
         @msrun.user ||= runconfig[:username]
         @msrun.rawid ||= File.basename(@msrun.rawfile, ".RAW")
       end
+      # This sets up the settings for the metrics config
+      def metric_config
+        # This is bad... but I just want things to work!!!!!
+        @mount_dir = ::ArchiveRoot
+      end
       # This defines the location for the archived directory and can be used by a File.join command to generate a FilePath
       # location = (group, user, mtime, experiment_name)
       # @param None, uses #msrun initialized
