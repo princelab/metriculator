@@ -51,13 +51,26 @@ module Ms
       # Eventually, this should be the function that calls the appropriate cascade of features to run the metrics
       # @param [File] This is the optional file you can input.  Otherwise, it will look for the local instance variable rawfile to run metrics on that file.
       def run_metrics(rawfile = nil)
-        if @rawfile
+        if rawfile
           @rawfile = rawfile
-          @rawtime = File.mtime(@rawfile)
-          putsv "Metrics program location = #{Program}"
-          # working on some major changes to the mount thing... that lets me have it do the work for me!!
-          #%Q{C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl --in_dir "#{ArchiveMount.archive_location}" --out_dir "#{ArchiveMount.metrics}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
         end
+        @rawtime = File.mtime(@rawfile)
+        putsv "Metrics program location = #{::NistProgram}"
+        ArchiveMount.metric_config
+        #Working on some major changes to the mount thing... that lets me have it do the work for me!!
+        # to ensure it only runs the one file... it needs to be alone in a directory... 
+        if Dir.glob(File.join(File.absolute_path(@rawfile).sub(File.basename(@rawfile), ''), "*#{File.extname(@rawfile)}")).size > 1
+          tmp_id = Time.now.to_i
+          path = ArchiveMount.cp_to(@rawfile, tmp_id.to_s)
+        else
+          path = File.dirname(@rawfile)
+        end
+        output_metrics_file = File.join(path, File.basename(@rawfile, '.raw'))
+        putsv "PATH: #{path}"
+        putsv "output_metrics_file: #{output_metrics_file}"
+        #%Q{#{::NistProgram} --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
+        ## PARSE THE FILE
+        ## CLEAN THE DIRECTORIES (tmp if used, and metrics regardless)
       end
 
       # Archive the metric data by ensuring it is parsed {#parse} and sending it to the database {#to_database}

@@ -172,15 +172,23 @@ if options[:metrics]
   Node = :metrics
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
+  putsv "ArchiveRoot: #{ArchiveRoot}"
   Program = SysInfo[:program_locale]
   Messenger.setup
+  putsv "Starting scheduler"
   scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => "NIST_metrics_daemon")
-  scheduler.every '1m' do 
+  scheduler.every '5s' do 
     putsv 'Checking todo list...'
     list = Messenger.update
     if list.size > 0
       putsv "Todo items found: #{list}"
-    end
+      list.each do |item|
+        putsv "Submitting #{item} to NIST metrics for analysis."	
+        m = Ms::NIST::Metric.new
+        p File.join(ArchiveRoot, item)
+        m.run_metrics(File.join(ArchiveRoot, item))
+      end # list.each do |item|
+    end # if list.size > 0
   end # every 1m
   scheduler.every '1w' do 
     Messenger.clear_completed!
@@ -200,19 +208,19 @@ end
 
 if options[:run_raw]
   # TODO find which node you are on
-    if RbConfig::CONFIG['host_os'] === 'mingw32'
-      SysInfo = AppConfig[:nodes][:instrument]
-      ArchiveRoot = SysInfo[:archive_root]
-    elsif RbConfig::CONFIG['host_os'] === "linux-gnu"
-      SysInfo = AppConfig[:nodes][:server]
-      ArchiveRoot = SysInfo[:archive_root]
-    end
+  if RbConfig::CONFIG['host_os'] === 'mingw32'
+    SysInfo = AppConfig[:nodes][:instrument]
+    ArchiveRoot = SysInfo[:archive_root]
+  elsif RbConfig::CONFIG['host_os'] === "linux-gnu"
+    SysInfo = AppConfig[:nodes][:server]
+    ArchiveRoot = SysInfo[:archive_root]
+  end
   # TODO rawfile handling
-    if ARGV.size != 1 and File.extname(ARGV.first).downcase != ".raw"
-      puts "Error: Wrong argument given.  This option wants a single 'filename.raw' file to be given"
-      exit
-    end
-    file = ARGV.first
+  if ARGV.size != 1 and File.extname(ARGV.first).downcase != ".raw"
+    puts "Error: Wrong argument given.  This option wants a single 'filename.raw' file to be given"
+    exit
+  end
+  file = ARGV.first
   # TODO transfer to shared space if file isn't available to the metrics computer
   if Ms::ArchiveMount.under_mount?(file)
     putsv "All is well"
@@ -223,15 +231,15 @@ if options[:run_raw]
   end
 
   # TODO Send information to the database
-    msrun = Ms::MsrunInfo.new
-    id = msrun.raw_only_archive relative_file
-    # Adds rawfile to the todo list
-    Messenger.add_todo( msrun.rawfile )
+  msrun = Ms::MsrunInfo.new
+  id = msrun.raw_only_archive relative_file
+  # Adds rawfile to the todo list
+  Messenger.add_todo( msrun.rawfile )
   # TODO Generate, parse, and database metric information
-## Currently, this will happen from the metrics server... Should I address it differently?  No, I think that is a good way to handle it.
+    ## Currently, this will happen from the metrics server... Should I address it differently?  No, I think that is a good way to handle it.
   # TODO clear tmp cache if necessary
-## This will require something automated on the Metric server side, right?
+    ## This will require something automated on the Metric server side, right?
   # TODO write alert to notify of completion
-  ### Again, this should happen on the Metric server side of things, right?
+    ### Again, this should happen on the Metric server side of things, right?
 end
   

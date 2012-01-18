@@ -1,4 +1,4 @@
 library('Rserve')
-library('beanplot')
+Rserve()
 
 
