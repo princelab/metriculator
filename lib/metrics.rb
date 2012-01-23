@@ -66,7 +66,7 @@ module Ms
           puts "PATH: #{path}"
           puts @rawfile
         end
-        output_metrics_file = File.join(path, File.basename(@rawfile, '.raw'), '.txt')
+        output_metrics_file = File.join(path, (File.basename(@rawfile, '.raw') + '.txt'))
         putsv "PATH: #{path}"
         putsv "output_metrics_file: #{output_metrics_file}"
         #putsv "#{ArchiveMount.config.metric_instrument_type}"
