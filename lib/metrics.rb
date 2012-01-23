@@ -69,7 +69,7 @@ module Ms
         output_metrics_file = File.join(path, File.basename(@rawfile, '.raw'))
         putsv "PATH: #{path}"
         putsv "output_metrics_file: #{output_metrics_file}"
-        #%Q{#{::NistProgram} --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
+        %Q{#{::NistProgram} --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
         ## PARSE THE FILE
         ## CLEAN THE DIRECTORIES (tmp if used, and metrics regardless)
       end
