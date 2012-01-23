@@ -91,11 +91,6 @@ and
 
 [Source: http://www.modrails.com/install.html ]
 
-Honestly, I'm still struggling to get this to work, only because I'm
-running it together with other web apps on an existing Apache server.
-I think it should be doable for simpler installs with relative ease.
-If not, I'm unqualified to really help out much.
-
 ##Running The Metric Tracker
 
 Rserve must be running. From within R, run the following commands:
