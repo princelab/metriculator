@@ -73,7 +73,8 @@ module Ms
         instrument_type = "ORBI"
         default_lib = 'human'
         cmd_line = %Q{#{::NistProgram} --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{default_lib}  --instrument_type #{instrument_type} }
-        putsv %x[#{cmd_line}]
+        response = %x[#{cmd_line}]
+        p response
         ## PARSE THE FILE
         m = Ms::NIST::Metric.new(output_metrics_file)
         m.archive
