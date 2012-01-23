@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby 
 Separator = 50.times.map{"-"}.join
 Allowed_instrument_types = %w{LCQ LTQ LXQ ORBI FT}
+require 'archiver'
 puts "This will build a local installation of the application"
 
 puts "You'll just need to answer a few questions for me first... "
@@ -31,9 +32,8 @@ puts "Let's talk about the metrics."
 
 # The filter configuration block
 print "First off, do you want to automate any alerts? \n (Y or N)"
-filter = gets.chomp.casecmp('y')
-if filter
-  puts "yes, we want to set up filters"
+set_up_alerts = gets.chomp.downcase == ('y')
+if set_up_alerts
   puts "Great, we'll set up processing filters based upon some settings we'll configure right now."
   puts "To what address would you like to send alert emails?"
   print "email address:"
@@ -52,34 +52,15 @@ if filter
     filter = gets.chomp
     puts Separator
     print "Would you like to configure another filter? \n (Y or N)"
-    continue = gets.chomp.casecmp("y")
+    continue = gets.chomp.downcase == "y"
     filename = "#{name}.yml"
-    File.open(filename, 'w') {|out| out.print Qc_defaults.deeper_merge({alert_email: addy }).to_yaml) }
+    File.open(filename, 'w') {|out| out.print Qc_defaults.deeper_merge({alert_email: addy }).to_yaml }
     qc_array << { :name => name, :filter => filter , :filename => filename}
   end #while continue
   puts "Great. I'll set that up and write default settings to (a) file(s) for you."  
   puts "I wrote this/these file(s) with default settings for you."
   qc_array.each {|hash| puts "Name: #{hash[:name]}\t\t\t File: #{hash[:filename]}" }
 end
-
-# Generic Metrics configuration options
-puts "NIST metrics need to know a few things about each sample before they can run.  Each sample can be defined separately by defining command line arguments to #{__FILE__}.  If not defined there, they will default to these settings. "
-puts "First, I'll need to know where you've installed the NISTMSQC directory."
-print "Location:"
-nist_dir = gets.chomp
-# TODO validate directory
-print "Default 'instrument_type': \t\t\t\t\t(allowable values: #{Allowed_instrument_types.join(',')})"
-instrument_type = gets.chomp
-if not Allowed_instrument_types.include? instrument_type
-  puts "Error, unacceptable instrument type" 
-  puts "Default 'instrument_type': \t\t\t\t\t(allowable values: #{Allowed_instrument_types.join(',')})"
-  instrument_type = gets.chomp
-  puts "WRONG AGAIN!!! but moving on" if not Allowed_instrument_types.include? instrument_type
-end
-puts "You can install more library files from the NIST website and enable more options.  For now, your allowable library choices are: \n#{Dir.glob(nist_dir+'/libs/*.fasta').join(', ')}"
-puts "Default 'library' file:"
-default_library = gets.chomp
-
 
 #--------------------------------------------------
 # Setup
@@ -99,23 +80,81 @@ system = case RbConfig::CONFIG['host_os']
 end
 tmp = { :system => system, :archive_root => arch_root }
 #
-ArchiveConfig = tmp.merge({ quality_control: AppConfig[:quality_control] })
-p ArchiveConfig
+tmp = tmp.merge({ quality_control: AppConfig[:quality_control] }) if set_up_alerts
 
 # Conditional stuff
 if node == :server 
-  puts "server"
+  ArchiveConfig = tmp
 end
 
 if node == :metrics 
-  puts "metrics"
+
+# Generic Metrics configuration options
+  puts "NIST metrics need to know a few things about each sample before they can run.  Each sample can be defined separately by defining command line arguments to #{__FILE__}.  If not defined there, they will default to these settings. "
+  puts "First, I'll need to know where you've installed the NISTMSQC directory."
+  print "Location:"
+  nist_dir = gets.chomp
+# TODO validate directory
+  print "Default 'instrument_type': \t\t\t\t\t(allowable values: #{Allowed_instrument_types.join(',')})"
+  instrument_type = gets.chomp
+  if not Allowed_instrument_types.include? instrument_type
+    puts "Error, unacceptable instrument type" 
+    puts "Default 'instrument_type': \t\t\t\t\t(allowable values: #{Allowed_instrument_types.join(',')})"
+    instrument_type = gets.chomp
+    puts "WRONG AGAIN!!! but moving on" if not Allowed_instrument_types.include? instrument_type
+  end
+  puts "You can install more library files from the NIST website and enable more options.  For now, your allowable library choices are: \n#{Dir.glob(nist_dir+'/libs/*.fasta').join(', ')}"
+  puts "Default 'library' file:"
+  default_library = gets.chomp
+  ArchiveConfig = tmp.merge( default_lib: default_library, default_instrument: instrument_type, nist_dir: nist_dir)
 end
 
 if node == :instrument 
   puts "instrument"
+  ArchiveConfig = tmp
 end
 
 
+p ArchiveConfig
+
+#install 
+  system 'gem build archiver.gemspec'
+  #TODO system "gem install archiver-#{Archiver::VERSION}"
+  system "gem install archiver-0.0.1.gem"
+  system "gem install bundler"
+  system "bundle install"
+  if system "which R"
+    system "R CMD BATCH r_install.R"
+  else
+    puts "Install R please... http://r-project.org/"
+    puts 'Press any key to retry'
+    raise StandardError unless system "which R"
+    system "R CMD BATCH r_install.R"
+  end
+  FileUtils.cp 'config/database.yml.example', 'config/database.yml'
+  File.open('config/database.yml', 'r+') do |f|
+    f.each do |line|
+      if line[/<% ChangeThisVariableBlock %>/]
+        f.write line.sub(/<% ChangeThisVariableBlock %>/, "#{arch_root}")
+      else
+        f.write line
+      end
+    end
+  end #File.open
+  system 'bundle exec rake db:automigrate'
+  # system 'gem install passenger'  # This should have already been done... 
+  putsv "Installing passenger-apache2-module" 
+  unless system 'passenger-install-apache2-module'
+    puts "Please run 'passenger-install-apache2-module' and follow the instructions given therein"
+    puts "Press any key when done... "
+    gets.chomp
+  end
+
+
+  puts "Everything should now be working... If not, I've failed."
+  
+
+  
 
 ##CONCLUSION
 
