@@ -55,12 +55,6 @@ module Ms
           @rawfile = rawfile
         end
         @rawtime = File.mtime(@rawfile)
-        begin 
-          putsv "Metrics program location = #{::NistProgram}"
-        rescue 
-          puts "PROBLEMS @ the OK Corral"
-          #binding.pry
-        end
         ArchiveMount.metric_config
         #Working on some major changes to the mount thing... that lets me have it do the work for me!!
         # to ensure it only runs the one file... it needs to be alone in a directory... 
