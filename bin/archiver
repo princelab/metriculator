@@ -173,7 +173,7 @@ if options[:metrics]
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
   putsv "ArchiveRoot: #{ArchiveRoot}"
-  Program = SysInfo[:program_locale]
+  NistProgram = SysInfo[:program_locale]
   Messenger.setup
   putsv "Starting scheduler"
   scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => "NIST_metrics_daemon")
