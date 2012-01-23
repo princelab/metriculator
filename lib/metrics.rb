@@ -56,9 +56,10 @@ module Ms
         end
         @rawtime = File.mtime(@rawfile)
         begin 
-        putsv "Metrics program location = #{::NistProgram}"
+          putsv "Metrics program location = #{::NistProgram}"
         rescue 
-          binding.pry
+          puts "PROBLEMS @ the OK Corral"
+          #binding.pry
         end
         ArchiveMount.metric_config
         #Working on some major changes to the mount thing... that lets me have it do the work for me!!
