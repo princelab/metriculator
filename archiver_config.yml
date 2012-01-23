@@ -14,7 +14,7 @@
   :metrics: 
     :system: Windows
     :archive_root: O:\
-    :program_locale: C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl
+    :program_locale: C:\\NISTMSQCv1_2_0\\scripts\\run_NISTMSQC_pipeline.pl
   :server: 
     :system: Linux
     :archive_root: /media/orbitrap
