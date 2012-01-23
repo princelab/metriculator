@@ -69,6 +69,8 @@ module Ms
           path = ArchiveMount.cp_to(@rawfile, tmp_id.to_s)
         else
           path = File.dirname(@rawfile)
+          puts path
+          puts @rawfile
         end
         output_metrics_file = File.join(path, File.basename(@rawfile, '.raw'))
         putsv "PATH: #{path}"

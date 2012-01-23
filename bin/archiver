@@ -182,9 +182,7 @@ if options[:metrics]
     list = Messenger.update
     if list.size > 0
       putsv "Todo items found: #{list}"
-      puts "Hello"
       list.each do |item|
-      puts "in the loop"
         putsv "Submitting #{item} to NIST metrics for analysis."	
         m = Ms::NIST::Metric.new
         p File.join(ArchiveRoot, item)
@@ -205,7 +203,6 @@ if options[:server_setup]
   Node = :server
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
-  puts "Honestly, this is probably too ambitious of little feature.  You'll have to configure your own server environment at this point."
 end
 
 if options[:run_raw]
