@@ -72,8 +72,10 @@ module Ms
         #putsv "#{ArchiveMount.config.metric_instrument_type}"
         instrument_type = "ORBI"
         default_lib = 'human'
-        %Q{#{::NistProgram} --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{human}  --instrument_type #{instrument_type} }
+        %Q{#{::NistProgram} --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{default_lib}  --instrument_type #{instrument_type} }
         ## PARSE THE FILE
+        m = Ms::NIST::Metric.new(output_metrics_file)
+        m.archive
         ## CLEAN THE DIRECTORIES (tmp if used, and metrics regardless)
       end
 
