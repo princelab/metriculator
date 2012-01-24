@@ -66,20 +66,21 @@ module Ms
           puts "PATH: #{path}"
           puts @rawfile
         end
-        output_metrics_file = File.join(path, (File.basename(@rawfile, '.raw') + '.txt'))
+        output_metrics_dir = File.dirname(File.join(path, (File.basename(@rawfile, '.raw') + '.txt')))
         putsv "PATH: #{path}"
-        putsv "output_metrics_file: #{output_metrics_file}"
+        putsv "output_metrics_dir: #{output_metrics_dir}"
         #putsv "#{ArchiveMount.config.metric_instrument_type}"
         instrument_type = "ORBI"
         default_lib = 'human'
         old_dir = Dir.pwd 
         Dir.chdir(File.dirname(::NistProgram)) do 
           p %x[perl #{::NistProgram}]
-          cmd_line = %Q{perl #{::NistProgram} --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{default_lib}  --instrument_type #{instrument_type} }
+          cmd_line = %Q{perl #{::NistProgram} --in_dir "#{path}" --out_dir "#{output_metrics_dir}" --library #{default_lib}  --instrument_type #{instrument_type} }
           response = %x[#{cmd_line}]
           p response
         end
         ## PARSE THE FILE
+        output_metrics_file = Dir.glob(output_metrics_dir + "*.msqc")
         m = Ms::NIST::Metric.new(output_metrics_file)
         m.archive
         ## CLEAN THE DIRECTORIES (tmp if used, and metrics regardless)
