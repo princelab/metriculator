@@ -76,6 +76,7 @@ module Ms
         Dir.chdir(File.dirname(::NistProgram)) do 
           p %x[perl #{::NistProgram}]
           cmd_line = %Q{perl #{::NistProgram} --search_engine OMSSA --in_dir "#{path}" --out_dir "#{output_metrics_dir}" --library #{default_lib}  --instrument_type #{instrument_type} }
+          p cmd_line
           response = %x[#{cmd_line}]
           p response
         end
