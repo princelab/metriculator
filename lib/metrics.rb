@@ -83,11 +83,12 @@ module Ms
         ## PARSE THE FILE
         output_metrics_file = Dir.glob(output_metrics_dir + "*.msqc")
         p output_metrics_file
-        File.open(output_metrics_file, 'r').readlines{|a| p a }
+        File.open(output_metrics_file.first, 'r').readlines{|a| p a }
         
         m = Ms::NIST::Metric.new(output_metrics_file)
         m.archive
         ## CLEAN THE DIRECTORIES (tmp if used, and metrics regardless)
+        FileUtils.rm(output_metrics_file)
       end
 
       # Archive the metric data by ensuring it is parsed {#parse} and sending it to the database {#to_database}
