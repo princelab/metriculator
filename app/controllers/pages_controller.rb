@@ -16,4 +16,12 @@ class PagesController < ApplicationController
   def beanplot
   end
 
+  def app_config
+    @hash = AppConfig
+  end
+
+  def qc_config
+    @hash = QcConfig
+  end
+
 end

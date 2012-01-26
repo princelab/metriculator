@@ -80,11 +80,16 @@ system = case RbConfig::CONFIG['host_os']
 end
 tmp = { :system => system, :archive_root => arch_root }
 #
-tmp = tmp.merge({ quality_control: AppConfig[:quality_control] }) if set_up_alerts
+
+if set_up_alerts
+  AppConfig = tmp.merge({ quality_control: AppConfig[:quality_control] }) 
+else
+  AppConfig = tmp
+end 
 
 # Conditional stuff
 if node == :server 
-  ArchiveConfig = tmp
+  AppConfig = tmp
 end
 
 if node == :metrics 
@@ -106,18 +111,21 @@ if node == :metrics
   puts "You can install more library files from the NIST website and enable more options.  For now, your allowable library choices are: \n#{Dir.glob(nist_dir+'/libs/*.fasta').join(', ')}"
   puts "Default 'library' file:"
   default_library = gets.chomp
-  ArchiveConfig = tmp.merge( default_lib: default_library, default_instrument: instrument_type, nist_dir: nist_dir)
+  AppConfig = tmp.merge( default_lib: default_library, default_instrument: instrument_type, nist_dir: nist_dir)
 end
 
 if node == :instrument 
   puts "instrument"
-  ArchiveConfig = tmp
+  AppConfig = tmp
 end
 
 
-p ArchiveConfig
+p AppConfig
 
-#install 
+#install
+  require 'fileutils'
+# Make the subdirectories the system needs
+  %w(db tmp log).each {|name| FileUtils.mkdir_p(File.join(AppConfig[:archive_root], name)) }
   system 'gem build archiver.gemspec'
   #TODO system "gem install archiver-#{Archiver::VERSION}"
   system "gem install archiver-0.0.1.gem"
@@ -157,5 +165,7 @@ p ArchiveConfig
   
 
 ##CONCLUSION
+
+#TODO Write out the Archive Config 
 
 #require 'pry' ; binding.pry

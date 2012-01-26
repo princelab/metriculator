@@ -1,7 +1,8 @@
 MetricsSite::Application.routes.draw do
 
   get 'status' => 'pages#status'
-
+  get 'qc_config' => 'pages#qc_config'
+  get 'app_config' => 'pages#app_config'
   get 'contact' => 'pages#contact'
   get 'beanplot' => 'pages#beanplot'
 
