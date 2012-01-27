@@ -48,7 +48,9 @@ class ComparisonsController < ApplicationController
       redirect_to :action => "show", :id => comp.id
       begin 
         result = comp.graph
-      rescue e 
+      rescue Exception => e 
+        STDERR.puts e.inspect
+      rescue StandardError => e
         STDERR.puts e.inspect
       end
       puts "DONE GRAPHING"
