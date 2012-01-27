@@ -56,7 +56,8 @@ class ComparisonsController < ApplicationController
       flash[:notice] = "Comparison started. You will be notified when it completes."
       begin 
         render :action => "show", :id => comp.id
-      rescue
+      rescue 
+        render :action => "show", :id => comp.id
         #redirect_to action: "show", id: comp.id
       end
     end
