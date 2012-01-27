@@ -1,15 +1,15 @@
-%p Here is the comparison form. It appears to work.
+%h2 Comparison
 = form_tag comparisons_path, :method => 'post' do
+  %div
+    %label{ :for => 'first_description' }Description of set 1: 
+    = text_field_tag :first_description, '', :maxlength => 255
+    %label{ :for => 'second_description' }Description of set 2: 
+    = text_field_tag :second_description, '', :maxlength => 255
   %div
     %label{ :for => 'comparison1' }Comparison 1
     = select_tag :comparison1, '', :multiple => true
   %div
     %label{ :for => 'comparison2' }Comparison 2
     = select_tag :comparison2, '', :multiple => true
-  %div
-    %label{ :for => 'first_description' }Description of set 1: 
-    = text_field_tag :first_description, '', :maxlength => 255
-    %label{ :for => 'second_description' }Description of set 2: 
-    = text_field_tag :second_description, '', :maxlength => 255
   = submit_tag "Compare"
 
