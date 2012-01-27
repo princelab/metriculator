@@ -380,12 +380,27 @@ tr:nth-child(2n) {
   background-color: #ddd;
 }
 
-td#lists {
+td.lists {
   font-size: 10px;
 }
 
 th, td {
   padding: 4px 6px;
+}
+
+ul.categories li {
+  display: inline-block;
+}
+
+ul.categories li:hover {
+  background-color: #fff;
+}
+
+ul.categories li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
 }
 
 /*****************************************************************************************
