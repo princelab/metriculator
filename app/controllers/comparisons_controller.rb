@@ -57,7 +57,7 @@ class ComparisonsController < ApplicationController
       begin 
         render :action => "show", :id => comp.id
       rescue
-        redirect_to action: "show", id: comp.id
+        #redirect_to action: "show", id: comp.id
       end
     end
 
