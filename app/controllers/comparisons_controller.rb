@@ -52,6 +52,8 @@ class ComparisonsController < ApplicationController
         STDERR.puts e.inspect
       rescue StandardError => e
         STDERR.puts e.inspect
+      else 
+        STDERR.puts "Not Exception or StandardError"
       end
       puts "DONE GRAPHING"
       a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{comp.id}" })
