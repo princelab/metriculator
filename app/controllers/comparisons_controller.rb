@@ -7,7 +7,11 @@ class ComparisonsController < ApplicationController
 
 # Delivers a single Comparison
   def show
-    @comparison = Comparison.get(params[:id])
+    begin 
+      @comparison = Comparison.get(params[:id])
+    rescue ActionView::Template::Error
+      pause 1
+      redirect_to action: "show", id: comp.id
   end
 
 # Allows for editing of a single Comparison
@@ -46,21 +50,11 @@ class ComparisonsController < ApplicationController
 # This should capture the windows fork and prevent it.
     if RbConfig::CONFIG['host_os'] === 'mingw32'
       redirect_to :action => "show", :id => comp.id
-      begin 
-        result = comp.graph
-      rescue Exception => e 
-        STDERR.puts e.inspect
-      rescue StandardError => e
-        STDERR.puts e.inspect
-      else 
-        STDERR.puts "Not Exception or StandardError"
-      end
-      puts "DONE GRAPHING"
+      result = comp.graph
       a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{comp.id}" })
     else
       fork do
         result = comp.graph
-        puts "DONE GRAPHING"
         a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{comp.id}" })
       end
       flash[:notice] = "Comparison started. You will be notified when it completes."
