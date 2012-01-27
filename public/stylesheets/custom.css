@@ -4,6 +4,8 @@
  * Including this because it's good to ensure
  * that browsers render the same things the same
  * way.
+ * 
+ * See http://meyerweb.com/eric/tools/css/reset/
  ****************************************************************************************/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -79,6 +81,7 @@ footer {
 
 #main {
   overflow: auto;
+  padding: 0 10px;
   padding-bottom: 50px;
 }
 
@@ -339,6 +342,31 @@ div#messages span {
   font-weight: bold;
 }
 
+.js-button {
+  /* Display a cursor, so it's a button. */
+  cursor: pointer;
+  padding-left: 25px;
+  height: 24px;
+  line-height: 24px;
+  text-align: left;
+}
+
+.js-button:hover {
+  background-color: #f9f9f9;
+}
+
+.add {
+  background: transparent url(/images/add.png) left center no-repeat;
+}
+
+.remove {
+  background: transparent url(/images/remove.png) left center no-repeat;
+}
+
+.filter {
+  background: transparent url (/images/filter.png) left center no-repeat;
+}
+
 thead {
   border-bottom: 2px solid #000;
 }
@@ -355,6 +383,10 @@ tr:nth-child(2n) {
 
 td#lists {
   font-size: 10px;
+}
+
+th, td {
+  padding: 4px 6px;
 }
 
 /*****************************************************************************************

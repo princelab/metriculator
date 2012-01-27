@@ -16,7 +16,7 @@ $(function() {
 
   // When the "Filter" button is clicked, filter based on data
   // in ALL search forms.
-  $("button#filter").live("click", function () {
+  $("#filter").live("click", function () {
     //Build the query string from the filter forms
     var parms = []
       , query_string
@@ -43,21 +43,21 @@ $(function() {
   });
 
   // Add stuff to comparison form.
-  $("#msruns td button#group-1-all").live("click", function () {
+  $("#group-1-all").live("click", function () {
     var count
       ;
     count = RailsMetrics.allButtonClicked("1");
     displayNotification("" + count + " comparisons added to Comparison Set 1.");
   });
 
-  $("#msruns td button#group-2-all").live("click", function () {
+  $("#group-2-all").live("click", function () {
     var count
       ;
     count = RailsMetrics.allButtonClicked("2");
     displayNotification("" + count + " comparisons added to Comparison Set 2.");
   });
 
-  $("#msruns td.comparison1 button").live("click", function() {
+  $("#msruns td.comparison1>div").live("click", function() {
     var res
       , stamp
       ;
@@ -69,7 +69,7 @@ $(function() {
   });
 
   //UGHH Repeated code
-  $("#msruns td.comparison2 button").live("click", function() {
+  $("#msruns td.comparison2>div").live("click", function() {
     var res = RailsMetrics.addToComparisonSet("2", this)
       , stamp
       ;
