@@ -49,7 +49,7 @@ class ComparisonsController < ApplicationController
       begin 
         result = comp.graph
       rescue e 
-        p e
+        STDERR.puts e.inspect
       end
       puts "DONE GRAPHING"
       a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{comp.id}" })
