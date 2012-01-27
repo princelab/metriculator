@@ -7,12 +7,7 @@ class ComparisonsController < ApplicationController
 
 # Delivers a single Comparison
   def show
-    begin 
-      @comparison = Comparison.get(params[:id])
-    rescue 
-      pause 1
-      redirect_to action: "show", id: comp.id
-    end
+    @comparison = Comparison.get(params[:id])
   end
 
 # Allows for editing of a single Comparison
@@ -60,7 +55,7 @@ class ComparisonsController < ApplicationController
       end
       flash[:notice] = "Comparison started. You will be notified when it completes."
       begin 
-        redirect_to :action => "show", :id => comp.id
+        render :action => "show", :id => comp.id
       rescue
         pause 1 
         redirect_to action: "show", id: comp.id
