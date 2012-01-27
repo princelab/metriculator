@@ -2,6 +2,8 @@
 Separator = 50.times.map{"-"}.join
 Allowed_instrument_types = %w{LCQ LTQ LXQ ORBI FT}
 require 'archiver'
+require 'yaml'
+opts = {}
 puts "This will build a local installation of the application"
 
 puts "You'll just need to answer a few questions for me first... "
@@ -20,6 +22,7 @@ while node.nil?
     else puts "Retry"
   end
 end
+opts[:node] = node
 puts "Setting up for #{node.to_s} mode..." 
 
 puts "Great, thanks"
@@ -32,8 +35,9 @@ puts "Let's talk about the metrics."
 
 # The filter configuration block
 print "First off, do you want to automate any alerts? \n (Y or N)"
-set_up_alerts = gets.chomp.downcase == ('y')
-if set_up_alerts
+opts[:set_up_alerts] = gets.chomp.downcase == ('y')
+
+if opts[:set_up_alerts]
   puts "Great, we'll set up processing filters based upon some settings we'll configure right now."
   puts "To what address would you like to send alert emails?"
   print "email address:"
@@ -43,7 +47,6 @@ if set_up_alerts
   puts "As an example, this is one of the filters I have set up:\n name: \"Tryptic BSA digest standard\"\t\t filter: \"QC_bsa\"\n This way, if I name a file 'QC_bsa_experiment-211_sample-3.raw' then it will trigger alerts when it runs and parses the metrics"
   continue = true 
   qc_array = []
-  require 'yaml'
   while continue
     print "First, I'll need a name for this filter: "
     name = gets.chomp
@@ -81,7 +84,7 @@ end
 tmp = { :system => system, :archive_root => arch_root }
 #
 
-if set_up_alerts
+if opts[:set_up_alerts]
   AppConfig = tmp.merge({ quality_control: AppConfig[:quality_control] }) 
 else
   AppConfig = tmp
@@ -167,5 +170,7 @@ p AppConfig
 ##CONCLUSION
 
 #TODO Write out the Archive Config 
-
+if Opts[:write]
+  File.open("app_config.yml", 'w') {|out| out.print AppConfig.to_yaml}
+end
 #require 'pry' ; binding.pry
