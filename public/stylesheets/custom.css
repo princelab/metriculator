@@ -346,7 +346,6 @@ div#messages span {
   /* Display a cursor, so it's a button. */
   cursor: pointer;
   padding-left: 25px;
-  height: 24px;
   line-height: 24px;
   text-align: left;
 }
