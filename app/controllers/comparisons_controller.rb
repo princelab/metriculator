@@ -46,7 +46,11 @@ class ComparisonsController < ApplicationController
 # This should capture the windows fork and prevent it.
     if RbConfig::CONFIG['host_os'] === 'mingw32'
       redirect_to :action => "show", :id => comp.id
-      result = comp.graph
+      begin 
+        result = comp.graph
+      rescue e 
+        p e
+      end
       puts "DONE GRAPHING"
       a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{comp.id}" })
     else
