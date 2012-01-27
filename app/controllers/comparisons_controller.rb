@@ -12,6 +12,7 @@ class ComparisonsController < ApplicationController
     rescue ActionView::Template::Error
       pause 1
       redirect_to action: "show", id: comp.id
+    end
   end
 
 # Allows for editing of a single Comparison
