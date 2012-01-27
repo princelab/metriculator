@@ -9,7 +9,7 @@ class ComparisonsController < ApplicationController
   def show
     begin 
       @comparison = Comparison.get(params[:id])
-    rescue ActionView::Template::Error
+    rescue 
       pause 1
       redirect_to action: "show", id: comp.id
     end
