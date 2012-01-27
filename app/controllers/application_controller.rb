@@ -52,7 +52,8 @@ class ApplicationController < ActionController::Base
     :PeakWidthsAtHalfMaxOverRtDecilesForIds=>{:last_decile=>"down", :median_value=>"down", :first_decile=>"down"},
     :PeakWidthAtHalfHeightForIds=>{:ms1_scan_fwhm=>"down", :ms1_interscan_s=>"down", :_9dec_value=>"down", :_3quart_value=>"down", :med_100_disp=>"down", :med_16th_disp=>"down", :med_quart_disp=>"down", :median_disper=>"down", :med_top_100=>"down", :med_top_16th=>"down", :med_top_quart=>"down", :median_value=>"down"},
     :MaxPeakWidthForIdsSec=>{:last_decile=>"down", :third_quart=>"down", :median_value=>"down"},
-    :MiddlePeptideRetentionTimePeriodMin=>{:pep_id_rate=>false, :ms1_scans=>false, :ms2_scans=>false, :qratio_time=>false, :mid_time=>false, :start_time=>false, :half_period=>false}},
+    :MiddlePeptideRetentionTimePeriodMin=>{:pep_id_rate=>false, :ms1_scans=>false, :ms2_scans=>false, :qratio_time=>false, :mid_time=>false, :start_time=>false, :half_period=>false}, 
+    :FirstAndLastMs1RtMin=>{:first_ms1=>false, :last_ms1=>false}},
 # These ones don't matter, probably ever
   :run_comparison=>{:MagnitudeOfRtCorrectionOfIntensitiesOfMatchingPeptidesInOtherRuns=>{:comp_to_last=>false, :comp_to_first=>false},
     :UncorrectedAndRtCorrectedRelativeIntensitiesOfMatchingPeptidesInOtherRuns=>{:corr_rel_last=>false, :corr_rel_first=>false, :uncor_rel_last=>false, :uncor_rel_first=>false},
