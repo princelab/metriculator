@@ -36,23 +36,22 @@ class ComparisonsController < ApplicationController
     first_set = get_msruns_from_array_of_ids(params[:comparison1].uniq)
     second_set = get_msruns_from_array_of_ids(params[:comparison2].uniq)
 
-    comp = Comparison.new
-    comp.msrun_firsts = first_set
-    comp.msrun_seconds = second_set
-    comp.first_description = params[:first_description]
-    comp.second_description = params[:second_description]
-    comp.save
-    @comparison = comp
+    @comparison = Comparison.new
+    @comparison.msrun_firsts = first_set
+    @comparison.msrun_seconds = second_set
+    @comparison.first_description = params[:first_description]
+    @comparison.second_description = params[:second_description]
+    @comparison.save
     
 # This should capture the windows fork and prevent it.
     if RbConfig::CONFIG['host_os'] === 'mingw32'
-      redirect_to :action => "show", :id => comp.id
-      result = comp.graph
-      a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{comp.id}" })
+      redirect_to :action => "show", :id => @comparison.id
+      result = @comparison.graph
+      a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{@comparison.id}" })
     else
       fork do
-        result = comp.graph
-        a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{comp.id}" })
+        result = @comparison.graph
+        a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{@comparison.id}" })
       end
       flash[:notice] = "Comparison started. You will be notified when it completes."
       render :action => "show"
