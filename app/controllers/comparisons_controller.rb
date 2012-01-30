@@ -2,7 +2,28 @@
 class ComparisonsController < ApplicationController
 # Delivers index page
   def index
-    @comparisons = Comparison.all.page(params[:page])
+    params[:direction] ||= 'asc'
+    params[:page] ||= 1
+    params[:search] ||= {}
+
+    sort_column = ((params[:sort] == "" or params[:sort].nil?) ? "id" : params[:sort]).to_sym
+    sort_object = params[:direction] == "asc" ? sort_column.asc : sort_column.desc
+    query = {}
+    query.merge!({order: sort_object})
+    Comparison.properties.each do |property|
+      if params[:search].has_key? property.name.to_s
+        query.merge!({property.name.to_sym.like => "%#{params[:search][property.name.to_s]}%" })
+      end
+    end
+    @sort = sort_object
+    @page_number = params[:page]
+    @per_page = 20
+    @comparisons = Comparison.all(query).page(@page_number).per(@per_page)
+    @all = Comparison.all 
+    respond_to do |format|
+      format.js {render :index}
+      format.html {render :index}
+    end
   end
 
 # Delivers a single Comparison

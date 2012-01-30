@@ -21,7 +21,7 @@
             = label_tag "search[rawtime][end]", "and"
             = text_field_tag "search[rawtime][end]", (params[:search].fetch(:rawtime, {})).fetch(:end, "")
             = submit_tag "Search", :name => nil
-      = render :partial => 'table_header', :locals => { :field_name => :taxonomy }
+        = render :partial => 'table_header', :locals => { :field_name => :taxonomy }
     %tr
       %th
         %div{ :id => 'group-1-all', :class => 'js-button add round-small' } All to Set One
@@ -40,5 +40,4 @@
       %td=run.rawtime.readable_inspect || "No Date"
       %td=run.taxonomy || "No Taxonomy"
 
-!= #pagination_links(@all, @page_number, @per_page)
 = paginate @msruns, :remote => true 

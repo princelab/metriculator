@@ -1,21 +1,6 @@
+- content_for :head do 
+  = javascript_include_tag 'comparisons'
+
 %h1 Comparisons
-= paginate @comparisons, :remote => true
-%table.comparison
-  %thead
-    %th #
-    %th #Msruns in set #1
-    %th #Msruns in set #2
-    = render partial: 'table_header', :locals => { field_name: :first_description, :common_name => "Set #1 Description" }
-    = render partial: 'table_header', :locals => { field_name: :second_description, :common_name => "Set #2 Description" }
-  %tbody
-  - @comparisons.each do |comp|
-    %tr
-      %td= link_to comp.id, comparison_path(comp)
-      %td#lists= comp.msrun_firsts.size #map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>")).size #.each_slice(2).map {|a| a.join(" , ")}.join("<br>"))
-      /%td#lists= raw(comp.msrun_firsts.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>")) #.each_slice(2).map {|a| a.join(" , ")}.join("<br>"))
-      /%td#lists= raw(comp.msrun_seconds.map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>"))#.each_slice(2).map {|a| a.join("\t\t\t\t")}.join("<br>"))
-      %td#lists= comp.msrun_seconds.size #map {|i| link_to i.raw_id, msrun_path(i)}.join("<br>")).size#.each_slice(2).map {|a| a.join("\t\t\t\t")}.join("<br>"))
-      %td= comp.first_description || ""
-      %td= comp.second_description || ""
-#paginate
-  = paginate @comparisons
+#comparisons
+  = render :partial => 'comparison_table'

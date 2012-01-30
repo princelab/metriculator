@@ -1,0 +1,17 @@
+= paginate @comparisons, :remote => true
+%table.comparison
+  %thead
+    %th{ rowspan: 2} #
+    %th{ rowspan: 2} #Msruns in set #1
+    %th{ rowspan: 2} #Msruns in set #2
+    = render partial: 'table_header', :locals => { field_name: :first_description, :common_name => "Set #1 Description" }
+    = render partial: 'table_header', :locals => { field_name: :second_description, :common_name => "Set #2 Description" }
+  %tbody
+  - @comparisons.each do |comp|
+    %tr
+      %td= link_to comp.id, comparison_path(comp)
+      %td#lists= comp.msrun_firsts.size 
+      %td#lists= comp.msrun_seconds.size 
+      %td= comp.first_description || ""
+      %td= comp.second_description || ""
+= paginate @comparisons, :remote => true
