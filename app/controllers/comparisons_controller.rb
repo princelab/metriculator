@@ -42,6 +42,7 @@ class ComparisonsController < ApplicationController
     comp.first_description = params[:first_description]
     comp.second_description = params[:second_description]
     comp.save
+    @comparison = comp
     
 # This should capture the windows fork and prevent it.
     if RbConfig::CONFIG['host_os'] === 'mingw32'
