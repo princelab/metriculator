@@ -55,12 +55,7 @@ class ComparisonsController < ApplicationController
         a = Alert.create({ :email => false, :show => true, :description => "DONE WITH COMPARISON #{comp.id}" })
       end
       flash[:notice] = "Comparison started. You will be notified when it completes."
-      begin 
-        render :action => "show"
-      rescue 
-        redirect_to :action => "show", :id => comp.id
-        #redirect_to action: "show", id: comp.id
-      end
+      render :action => "show"
     end
 
   end
