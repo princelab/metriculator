@@ -1,13 +1,12 @@
 %h1 Comparisons
-#paginate
-  = paginate @comparisons
-%table#comparisons-index
+= paginate @comparisons, :remote => true
+%table.comparison
   %thead
     %th #
     %th #Msruns in set #1
     %th #Msruns in set #2
-    %th Set #1 Description
-    %th Set #2 Description
+    = render partial: 'table_header', :locals => { field_name: :first_description, :common_name => "Set #1 Description" }
+    = render partial: 'table_header', :locals => { field_name: :second_description, :common_name => "Set #2 Description" }
   %tbody
   - @comparisons.each do |comp|
     %tr
