@@ -11,7 +11,6 @@
 
 ###Website
   - Fix deletions of comparisons
-  - Add searchable fields to the comparisons list
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
     - Prevent the same comparison from being created multiple times?
       - How can this be done??
@@ -43,3 +42,4 @@
     Fatal error: you must specify '--save', '--no-save' or '--vanilla'
   * It should use "R CMD BATCH r\_rserve\_save.R" to fix it, I think.
 - Fix the comparisons graph redirect error
+- Add searchable fields to the comparisons list
