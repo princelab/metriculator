@@ -1,2 +1,21 @@
 %h1 Application Settings
-%p This page will provide a view for the application settings.  I don't think I'll make this editable via the website, just provide a way to check the application settings.
+%table.config_out
+  %th Key:
+  %th Value:
+  %th
+  - AppConfig.each do |k,v|
+    - if v.is_a? Hash
+      %tr.subhash
+        %td= k
+    - elsif v.is_a? Array
+      - v.each do |a|
+        - if a.is_a? Hash
+          - a.each do |k2,v2|
+            %tr
+              %td
+              %td= k2
+              %td= v2
+    - else
+      %tr
+        %td= k
+        %td{colspan: 2}= v

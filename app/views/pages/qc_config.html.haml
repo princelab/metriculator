@@ -1,2 +1,54 @@
 %h1 Email Alerts Configuration 
 %p This page helps to see the settings for the automated alert generation and emails.
+%table.config_out
+  %th Key:
+  %th Value:
+  %th
+  %th
+  - QcConfig.each do |k,v|
+    - if v.is_a? Hash
+      %tr.group
+        %td{colspan: 4}= ApplicationController::Name_legend[k.to_s]
+      - v.each do |k2,v2|
+        - if v2.is_a? Hash
+          %tr.subgroup
+            %td
+            %td{colspan: 3}= k2
+          - v2.each do |k3,v3|
+            %tr
+              %td
+              %td
+              %td= k3
+              %td= v3
+        - else
+          %tr
+            %td
+            %td= k2
+            %td= v2
+    - elsif v.is_a? Array
+      - v.each do |a|
+        - if a.is_a? Hash
+          - a.each do |k2,v2|
+            %tr
+              %td
+              %td= k2
+              %td= v2
+    - elsif v.is_a? Hash
+      - v.each do |k2,v2|
+        - if v2.is_a? Hash
+          - v2.each do |k3,v3|
+            %tr
+              %td
+              %td
+              %td= k3
+              %td= v3
+        - else
+          %tr
+            %td
+            %td= k2
+            %td= v2
+
+    - else
+      %tr
+        %td= k
+        %td{colspan: 4}= v
