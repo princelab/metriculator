@@ -27,7 +27,7 @@ puts "Setting up for #{node.to_s} mode..."
 
 puts "Great, thanks"
 puts Separator
-puts "I'll need to know the path to the shared location from this computer.  Give me the complete synactically valid path to the root location.  I'll add the '\db' and '\log' paths afterwards.  Your data will be stored by 'GROUP/username' from this location."
+puts "I'll need to know the path to the shared location from this computer.  Give me the complete, synactically valid path to the root location.  I'll add the '\db' and '\log' paths afterwards.  Your data will be stored by 'GROUP/username' from this location."
 print "Archiver Root: "
 arch_root = gets.chomp
 
@@ -134,6 +134,7 @@ p AppConfig
   system "gem install archiver-0.0.1.gem"
   system "gem install bundler"
   system "bundle install"
+if node == :server 
   if system "which R"
     system "R CMD BATCH r_install.R"
   else
@@ -142,6 +143,7 @@ p AppConfig
     raise StandardError unless system "which R"
     system "R CMD BATCH r_install.R"
   end
+end
   FileUtils.cp 'config/database.yml.example', 'config/database.yml'
   File.open('config/database.yml', 'r+') do |f|
     f.each do |line|
@@ -152,7 +154,9 @@ p AppConfig
       end
     end
   end #File.open
-  system 'bundle exec rake db:automigrate'
+  system 'bundle exec rake db:autoupgrade'
+
+if node == :server
   # system 'gem install passenger'  # This should have already been done... 
   putsv "Installing passenger-apache2-module" 
   unless system 'passenger-install-apache2-module'
@@ -160,7 +164,7 @@ p AppConfig
     puts "Press any key when done... "
     gets.chomp
   end
-
+end
 
   puts "Everything should now be working... If not, I've failed and you'll have to follow my readme instructions as a backup."
 
