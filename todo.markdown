@@ -5,8 +5,6 @@
 ###Archiver
 - A build or install function that allows for automated installation with "gets" statements to ask the questions?
 -	Test the metric starting
-- Add a yaml app\_config and QC\_config edit page into the website?
-    - This would help make it easier to configure for people... right?
 * Message Passing # TEST IT and the accompanying metric starting...
 
 ###Website
@@ -16,7 +14,6 @@
       - How can this be done??
   - Add breadcrumbs for graph heirarchy?
       -- might be had by the simple "up" link I've added.
-  - figure out how to AJAX update the alerts page  
   - Make a special viewing page for any graphs that are significantly different (T-test) __????  Would this really help???__
     * Or a page of links to the images?
   * http://www.datatables.net/ ????  Would this make that table easier?
@@ -43,3 +40,6 @@
   * It should use "R CMD BATCH r\_rserve\_save.R" to fix it, I think.
 - Fix the comparisons graph redirect error
 - Add searchable fields to the comparisons list
+- Add a yaml app\_config and QC\_config edit page into the website?
+    - This would help make it easier to configure for people... right?
+- figure out how to AJAX update the alerts page  

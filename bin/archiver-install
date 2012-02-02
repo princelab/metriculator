@@ -128,7 +128,7 @@ p AppConfig
 #install
   require 'fileutils'
 # Make the subdirectories the system needs
-  %w(db tmp log).each {|name| FileUtils.mkdir_p(File.join(AppConfig[:archive_root], name)) }
+  %w(db tmp log).each {|name| puts FileUtils.mkdir_p(File.join(AppConfig[:archive_root], name)) }
   system 'gem build archiver.gemspec'
   #TODO system "gem install archiver-#{Archiver::VERSION}"
   system "gem install archiver-0.0.1.gem"
@@ -146,7 +146,7 @@ p AppConfig
   File.open('config/database.yml', 'r+') do |f|
     f.each do |line|
       if line[/<% ChangeThisVariableBlock %>/]
-        f.write line.sub(/<% ChangeThisVariableBlock %>/, "#{arch_root}")
+        f.write line.sub(/<% ChangeThisVariableBlock %>/, "#{File.join(arch_root, 'db')}")
       else
         f.write line
       end
@@ -162,15 +162,11 @@ p AppConfig
   end
 
 
-  puts "Everything should now be working... If not, I've failed."
-  
-
-  
+  puts "Everything should now be working... If not, I've failed and you'll have to follow my readme instructions as a backup."
 
 ##CONCLUSION
 
 #TODO Write out the Archive Config 
-if Opts[:write]
-  File.open("app_config.yml", 'w') {|out| out.print AppConfig.to_yaml}
+if true #Opts[:write]
+  File.open("application_config.yml", 'w') {|out| out.print AppConfig.to_yaml}
 end
-#require 'pry' ; binding.pry
