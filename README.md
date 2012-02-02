@@ -5,6 +5,7 @@ mass spec proteomics experiments.
 
 
 ##Installation
+Read below about the dependencies.  To facilitate the process, I've generated a script which should help automate some of the process.  First, you will definitely need to install Ruby (step 1 below).  If you've done that then you can use git (step #2 below) to copy the repository to a local directory by running `git clone git://github.com/princelab/rails-metric_site.git` . Once that is done, you can run `./bin/archiver-install` to run the automated installer.  Do this for each computer on which you'll be using archiver.
 
 ###Dependencies
 
@@ -24,20 +25,22 @@ mass spec proteomics experiments.
 
    If you need help installing Ruby, see the
    [Ruby home page](http://www.ruby-lang.org/en/downloads/).
-   We reccomend RVM as the installation option if it is available for your
+   We recommend RVM as the installation option if it is available for your
    platform, but pick the one that seems best to you.
 
-2. You also need a working RubyGems installation, and the `bundler` gem
+2. You should install git.  Git for windows can be found here: [Git for Windows](http://code.google.com/p/msysgit/).
+
+3. You also need a working RubyGems installation, and the `bundler` gem
    installed.
 
        gem install bundler
 
-3. The [SQLite](http://www.sqlite.org/) database. You may already have
+4. The [SQLite](http://www.sqlite.org/) database. You may already have
    it installed, so check before installing it again.
 
-4. [R](http://r-project.org)
+5. [R](http://r-project.org)
 
-5. The `Rserve` and `beanplot` packages for R.
+6. The `Rserve` and `beanplot` packages for R.
    If you are unfamiliar with the process of installing R packages,
    the following two commands, run from R, should suffice to install the packages.
 
