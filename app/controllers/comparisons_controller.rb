@@ -112,7 +112,6 @@ class ComparisonsController < ApplicationController
 # Allows for destruction of a comparison.  This means that you have an option for clearing out old, useless comparisons.
   def destroy
     comparison = Comparison.get(params[:id])
-    puts comparison.destroy!
     respond_to do |format|
       format.js { render :nothing => true }
       format.html { redirect_to comparisons_path }

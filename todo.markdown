@@ -3,12 +3,10 @@
 ##TODO list (111102)
 
 ###Archiver
-- A build or install function that allows for automated installation with "gets" statements to ask the questions?
 -	Test the metric starting
 * Message Passing # TEST IT and the accompanying metric starting...
 
 ###Website
-  - Fix deletions of comparisons
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
     - Prevent the same comparison from being created multiple times?
       - How can this be done??
@@ -42,4 +40,9 @@
 - Add searchable fields to the comparisons list
 - Add a yaml app\_config and QC\_config edit page into the website?
     - This would help make it easier to configure for people... right?
+- Fix deletions of comparisons
+- A build or install function that allows for automated installation with "gets" statements to ask the questions?
+
+
+#Unnecessary upon further considerations
 - figure out how to AJAX update the alerts page  
