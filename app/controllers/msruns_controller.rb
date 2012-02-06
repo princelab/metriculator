@@ -7,8 +7,12 @@ class MsrunsController < ApplicationController
  #   @embed_svg = send_file("/home/ryanmt/Dropbox/coding/rails/metrics_site/testing.svg", disposition: 'inline', type: 'image/svg+xml', stream: false, filename: "#{@msrun.raw_id}.svg")
     if @msrun.graphfile
       @image_path = "public/hplc_graphs/#{Time.now.to_i.to_s}.svg"
-      FileUtils.copy(@msrun.graphfile, @image_path)
-      @image_path = @image_path.sub("public",'')
+      if File.exists?(@msrun.graphfile)
+        FileUtils.copy(@msrun.graphfile, @image_path) 
+        @image_path = @image_path.sub("public",'')
+      else
+        @image_path = "public/hplc_graphs/not_found.svg"
+      end
     end
   end
 
