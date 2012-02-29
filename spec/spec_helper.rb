@@ -9,12 +9,6 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
-require 'database_loader'
-require 'archiver'
-require 'eksigent'
-require 'merge'
-require 'comparison_grapher'
-require 'app_communication_messaging'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -50,6 +44,12 @@ TESTFILE = File.dirname(__FILE__) + '/tfiles'
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'app', 'models'))
+require 'database_loader'
+require 'archiver'
+require 'eksigent'
+require 'merge'
+require 'comparison_grapher'
+require 'app_communication_messaging'
 #
 #end
 

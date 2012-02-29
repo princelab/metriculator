@@ -8,7 +8,7 @@ class PagesController < ApplicationController
   def status
   end
 
-# This page contains information for contacting the developer(s) and for contributing to the archiver project.
+# This page contains information for contacting the developer(s) and for contributing to the metriculator project.
   def contact
   end
   
