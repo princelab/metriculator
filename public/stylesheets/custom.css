@@ -411,9 +411,8 @@ ul.categories li a {
   height: 216pt;
 }
 
-#graphs>div.hplcgraph>embed {
-  width: 720pt;
-  height: 576pt;
+#graphs>div.hplcgraph {
+  width: 920pt;
 }
 
 #graphs>div.svg { 

@@ -7,9 +7,13 @@ class MsrunsController < ApplicationController
     if File.extname(@msrun.graphfile) == '.yml'
       data = YAML.load_file(@msrun.graphfile)
       @h = LazyHighCharts::HighChart.new('hplc_plot') do |f|
-# TODO USE THE DATA
-        f.series(name: "Test", data: [1,2,3,4,5,6,7,87])
-        f.series(name: "test2", data: [3.5,6,28,329,2])
+        f.option[:title][:text] = 'UPLC pressure trace'
+        f.option[:chart][:plotBackgroundColor] = nil
+        f.options[:chart][:defaultSeriesType] = 'line'
+        f.series(name: "Qa (nL/min)", data: data[:qa], marker: {enabled: false}, turboThreshold: 10)
+        f.series(name: "Qb (nL/min)", data: data[:qb], marker: {enabled: false}, turboThreshold: 10 )
+        f.series(name: "Pc (psi)", data: data[:pc], yAxis: 1, marker: {enabled: false}, turboThreshold: 10)
+        f.yAxis([{ title: { text: "Flowrate (nL/min)", style: { color: "#4572a7" } }, min: 0}, {title: { text: 'Pressure (psi)', style: { color: "#89A54E" } } , opposite: true}])
       end
     end
   end
