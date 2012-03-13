@@ -11,7 +11,8 @@
     - else
       %td= k
       %td= v
-%span#graphs
-  %h2 UPLC Pressure Trace
-  %div.hplcgraph
-    = high_chart("hplc_graph", @h)
+- if @h
+  %span#graphs
+    %h2 UPLC Pressure Trace
+    %div.hplcgraph
+      = high_chart("hplc_graph", @h)

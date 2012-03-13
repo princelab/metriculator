@@ -4,16 +4,18 @@ class MsrunsController < ApplicationController
 # This will show an Msrun.  
   def show
     @msrun = Msrun.get(params[:id])
-    if File.extname(@msrun.graphfile) == '.yml'
-      data = YAML.load_file(@msrun.graphfile)
-      @h = LazyHighCharts::HighChart.new('hplc_plot') do |f|
-        f.option[:title][:text] = 'UPLC pressure trace'
-        f.option[:chart][:plotBackgroundColor] = nil
-        f.options[:chart][:defaultSeriesType] = 'line'
-        f.series(name: "Qa (nL/min)", data: data[:qa], marker: {enabled: false}, turboThreshold: 10)
-        f.series(name: "Qb (nL/min)", data: data[:qb], marker: {enabled: false}, turboThreshold: 10 )
-        f.series(name: "Pc (psi)", data: data[:pc], yAxis: 1, marker: {enabled: false}, turboThreshold: 10)
-        f.yAxis([{ title: { text: "Flowrate (nL/min)", style: { color: "#4572a7" } }, min: 0}, {title: { text: 'Pressure (psi)', style: { color: "#89A54E" } } , opposite: true}])
+    if @msrun.graphfile
+      if File.extname(@msrun.graphfile) == '.yml'
+        data = YAML.load_file(@msrun.graphfile)
+        @h = LazyHighCharts::HighChart.new('hplc_plot') do |f|
+          f.option[:title][:text] = 'UPLC pressure trace'
+          f.option[:chart][:plotBackgroundColor] = nil
+          f.options[:chart][:defaultSeriesType] = 'line'
+          f.series(name: "Qa (nL/min)", data: data[:qa], marker: {enabled: false}, turboThreshold: 10)
+          f.series(name: "Qb (nL/min)", data: data[:qb], marker: {enabled: false}, turboThreshold: 10 )
+          f.series(name: "Pc (psi)", data: data[:pc], yAxis: 1, marker: {enabled: false}, turboThreshold: 10)
+          f.yAxis([{ title: { text: "Flowrate (nL/min)", style: { color: "#4572a7" } }, min: 0}, {title: { text: 'Pressure (psi)', style: { color: "#89A54E" } } , opposite: true}])
+        end
       end
     end
   end
