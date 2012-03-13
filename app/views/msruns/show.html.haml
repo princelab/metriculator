@@ -11,8 +11,9 @@
     - else
       %td= k
       %td= v
--if @image_path
-  %span#graphs
-    %h2 UPLC Pressure Trace
-    %div.hplcgraph
-      %embed{ src: @image_path, type: "image/svg+xml"}
+%span#graphs
+  %h2 UPLC Pressure Trace
+  %div.hplcgraph
+    = high_chart("hplc_graph", @h)
+%p= @msrun.methods
+%p= @msrun.inspect

@@ -1,7 +1,6 @@
 # Adapted from https://www.bcg.wisc.edu/webteam/support/ruby/standard_deviation
 #  Add methods to Enumerable, which makes them available to Array
 module Enumerable
- 
   #  sum of an array of numbers
   def sum
     self.inject(:+)
@@ -24,5 +23,13 @@ module Enumerable
   def standard_deviation
     Math.sqrt(self.sample_variance)
   end
- 
 end  #  module Enumerable
+
+# Bootstrap Array
+class Array
+  include Enumerable
+  alias :mean :average
+end
+
+raise StandardError unless Array.new.methods.include?(:average)
+raise StandardError unless Array.new.methods.include?(:mean)

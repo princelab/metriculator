@@ -77,41 +77,19 @@ module Ms
 # This will graph the @datapoints and return the filename of the graphfile produced.  
 			def graph
 				structs if @datapoints.nil?
-				@graphfile ||=  File.absolute_path(File.expand_path(@rawfile).chomp(File.extname(@rawfile)) + '.svg')
+				@graphfile ||=  File.absolute_path(File.expand_path(@rawfile).chomp(File.extname(@rawfile)) + '.yml')
         @graphfile = File.join(@@ROOT_GRAPH_DIRECTORY, File.basename(@graphfile))
-				require 'rserve/simpler'
-				output = Rserve::Simpler.new
-        output.converse("setwd('#{Dir.pwd}')")
-				datafr = Rserve::DataFrame.from_structs(@datapoints)
 # 	Struct.new(:time, :signal, :reference, :qa, :qb, :aux, :pa, :pb, :pc, :pd, :powera, :powerb)
-				File.open('eksigent_datafr.yml', 'w') {|out| YAML::dump(datafr, out) }
-				output.converse( eks_trace: datafr ) 
-        output.converse %Q{svg(file="tmp.svg", height=8, width=10)}
-        output.converse %Q{svg(file="#{@graphfile}", height=8, width=10)}
-        output.converse %Q{ par(mar=c(3,4,3,4)+0.1)}
-        output.converse %Q{	attach(eks_trace) }
-        output.converse %Q{ plot(pc~time, axes=FALSE, type='l', ylim=range(eks_trace$qa,eks_trace$qb,eks_trace$pc), xlab='', ylab='')	}
-        
-        output.converse %Q{ }
-				output.converse do 
-					%Q{	
-					axis(side=2, at = pretty(range(pc)),las=1)
-					mtext("Column Pressure (psi)", side=2, line=3)
-					box()
-					par(new=TRUE)
-					plot(qa~time, axes=FALSE, type='l', ylim=c(0,max(qa)), xlab='', ylab='', bty="n", col='blue' )
-					axis(side=4, at = pretty(c(0,max(qa))),las=1)
-					mtext("Gradient Flowrate (nL/min)", side=4, line=3)
-					par(new=TRUE)
-					plot(qb~time, axes=FALSE, type='l', ylim=c(0,max(qb)), xlab='', ylab='', col='red')
-					legend('left', legend=c("Pc", 'Flowrate of Solvent A', "Flowrate of Solvent B"), text.col=c('black', 'blue', 'red'),pch=c(16,16,16),col=c('black', 'blue', 'red'))
-					}
-				end
-        #sleep(4)
-        output.converse %Q{dev.off() }
-        @maxpressure = output.converse "max(pc)"
-        @meanpressure = output.converse "mean(pc)"
-        @pressure_stdev = output.converse "sd(pc)"
+        data_out = {}
+        data_out[:qa] = @datapoints.map(&:qa)
+        data_out[:qb] = @datapoints.map(&:qb)
+        data_out[:pc] = @datapoints.map(&:pc)
+        @maxpressure = data_out[:pc].max
+        @meanpressure = data_out[:pc].mean
+        @pressure_stdev = data_out[:pc].standard_deviation
+        File.open(@graphfile, 'w') do |io|
+          YAML.dump(data_out, io)
+        end
 				@graphfile
 			end #graph
 		end # Ultra2d

@@ -4,14 +4,12 @@ class MsrunsController < ApplicationController
 # This will show an Msrun.  
   def show
     @msrun = Msrun.get(params[:id])
- #   @embed_svg = send_file("/home/ryanmt/Dropbox/coding/rails/metrics_site/testing.svg", disposition: 'inline', type: 'image/svg+xml', stream: false, filename: "#{@msrun.raw_id}.svg")
-    if @msrun.graphfile
-      @image_path = "public/hplc_graphs/#{Time.now.to_i.to_s}.svg"
-      if File.exists?(@msrun.graphfile)
-        FileUtils.copy(@msrun.graphfile, @image_path) 
-        @image_path = @image_path.sub("public",'')
-      else
-        @image_path = "public/hplc_graphs/not_found.svg"
+    if File.extname(@msrun.graphfile) == '.yml'
+      data = YAML.load_file(@msrun.graphfile)
+      @h = LazyHighCharts::HighChart.new('hplc_plot') do |f|
+# TODO USE THE DATA
+        f.series(name: "Test", data: [1,2,3,4,5,6,7,87])
+        f.series(name: "test2", data: [3.5,6,28,329,2])
       end
     end
   end
