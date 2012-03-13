@@ -26,6 +26,7 @@ gem 'dm-chunked_query'
 gem 'kaminari', :git => 'git://github.com/amatsuda/kaminari.git'
 gem 'rufus-scheduler'
 gem 'passenger'
+gem 'lazy_high_charts', '~> 1.1.5'
 
 # Testing/benchmarking gems
 gem 'newrelic_rpm'
