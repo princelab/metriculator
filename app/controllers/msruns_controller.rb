@@ -10,7 +10,10 @@ class MsrunsController < ApplicationController
         @h = LazyHighCharts::HighChart.new('hplc_plot') do |f|
           f.option[:title][:text] = 'UPLC pressure trace'
           f.option[:chart][:plotBackgroundColor] = nil
+          f.option[:chart][:zoomType] = 'xy'
           f.options[:chart][:defaultSeriesType] = 'line'
+# TODO fix the exporting options (including exporting.js will be required)
+          #f.option[:exporting][:enabled] = true
           f.series(name: "Qa (nL/min)", data: data[:qa], marker: {enabled: false}, turboThreshold: 10)
           f.series(name: "Qb (nL/min)", data: data[:qb], marker: {enabled: false}, turboThreshold: 10 )
           f.series(name: "Pc (psi)", data: data[:pc], yAxis: 1, marker: {enabled: false}, turboThreshold: 10)
