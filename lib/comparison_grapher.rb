@@ -193,119 +193,45 @@ module Ms
       # This function generates a comparison between the two sets of data, which are sliced by {#slice_matches}, graphing the results as SVG files.
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries
       # @return [Array] An array which contains all of the files produced by the process.  This will likely be an array of approximately 400 filenames.
-      def graph_matches(old_measures, new_measures, comparison_folder, opts = {})
+      def graph_matches(old_measures, new_measures, comparison_folder=nil, opts = {})
         options = Graphing_defaults.merge(opts)
-        require 'rserve/simpler'
         FileUtils.mkdir_p(comparison_folder)
         graphfiles = []
         measures = [new_measures, old_measures]
         #$DEBUG = true
-        r_object = Rserve::Simpler.new
-        r_object.converse('library("beanplot")')
-        r_object.converse "setwd('#{Dir.pwd}')"
-        #r_object.converse('library("Cairo")')
         @@categories.map do |cat|
           subcats = measures.first.map{|meas| meas.subcat if meas.category == cat.to_sym}.compact.uniq
-          #p Dir.exist?(File.join(AppConfig[:comparison_directory], comparison_folder.to_s, cat))
-          #p subcats
           subcats.each do |subcategory|
             graphfile_prefix = File.join(comparison_folder, cat, subcategory.to_s)
             FileUtils.mkdir_p(graphfile_prefix) 
-            #p Dir.exist?(graphfile_prefix)
-            new_structs = measures.first.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
-            old_structs = measures.last.map{|meas| meas if meas.subcat == subcategory.to_sym}.compact
+            new_structs = measures.first.select{|meas| meas.subcat == subcategory.to_sym}
+            old_structs = measures.last.select{|meas| meas.subcat == subcategory.to_sym}
+            # Format/cast the types
             [new_structs, old_structs].each do |structs|
               structs.each do |str|
                 str.value = str.value.to_f
                 str.name = str.name.to_s
                 str.category = @@name_legend[str.category.to_s]
                 str.subcat = @@name_legend[str.subcat.to_s]
-                str.time = str.time.to_s.gsub(/T/, ' ').gsub(/-(\d*):00/,' \100')
+                # FORMAT TIME FOR JSON?
+                #str.time = str.time.to_s.gsub(/T/, ' ').gsub(/-(\d*):00/,' \100')
               end
             end
-            datafr_new = Rserve::DataFrame.from_structs(new_structs)
-            datafr_old = Rserve::DataFrame.from_structs(old_structs)
-            r_object.converse( df_new: datafr_new )	do
-              %Q{df_new$time <- strptime(as.character(df_new$time), "%Y-%m-%d %X")
-                    df_new$name <- factor(df_new$name)
-                    df_new$category <-factor(df_new$category)
-                    df_new$subcat <- factor(df_new$subcat)
-                    df_new$raw_id <- factor(df_new$raw_id)
-              }
-            end # new datafr converse
-            r_object.converse( df_old: datafr_old) do
-              %Q{df_old$time <- strptime(as.character(df_old$time), "%Y-%m-%d %X")
-                  df_old$name <- factor(df_old$name)
-                  df_old$category <-factor(df_old$category)
-                  df_old$subcat <- factor(df_old$subcat)
-                  df_old$raw_id <- factor(df_old$raw_id)
-              }
-            end # old datafr converse
-            count = new_structs.map {|str| str.name }.uniq.compact.length
+            names = new_structs.map {|str| str.name }.uniq.compact
+            count = names.size
             i = 1;
-            names = r_object.converse("levels(df_old$name)")
             while i <= count
-              r_object.converse do
-                %Q{	df_new.#{i} <- subset(df_new, name == levels(df_new$name)[[#{i}]])
-                    df_old.#{i} <- subset(df_old, name == levels(df_old$name)[[#{i}]])
-
-                    old_time_plot <- data.frame(df_old.#{i}$time, df_old.#{i}$value)
-                    new_time_plot <- data.frame(df_new.#{i}$time, df_new.#{i}$value)
-                    old_time_plot <- old_time_plot[order(df_old.#{i}$time), ]
-                    new_time_plot <- new_time_plot[order(df_new.#{i}$time), ]
-                }
-              end
-#              p r_object.converse "summary(df_old.#{i})" if $DEBUG
-#              p r_object.converse "summary(df_new.#{i})" if $DEBUG
-            # Configure the environment for the graphing, by setting up the numbered categories
-              curr_name = r_object.converse("levels(df_old$name)[[#{i}]]")
-              graphfile = File.join([graphfile_prefix, curr_name + ".svg"])
+              graphfile = File.join([graphfile_prefix, names[i-1] + ".yml"])
               graphfiles << graphfile
-              name = @@name_legend[curr_name]
-              r_object.converse(%Q{svg(file="#{graphfile}", bg="transparent", height=3, width=7.5)})
-              r_object.converse('par(mar=c(1,1,1,1), oma=c(2,1,1,1))')
-              r_object.converse do
-                %Q{	tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))
-                    tmp <- layout(matrix(c(1,2),1,2,byrow=T), widths=c(3,4), heights=c(1,1))		}
-              end
-              r_object.converse %Q{	band1 <- try(bw.SJ(df_old.#{i}$value), silent=TRUE)
-                      if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_old.#{i}$value), silent=TRUE)
-                      if(inherits(band1, 'try-error')) band1 <- try(bw.nrd0(df_new.#{i}$value), silent=TRUE)		
-                      if(inherits(band1, 'try-error')) band1 <- 0.99
-              }
-              r_object.converse "ylim = range(density(c(df_old.#{i}$value, df_new.#{i}$value), bw=band1)[[1]])"
-              t_test = r_object.converse ("try(t.test(df_old.#{i}$value, df_new.#{i}$value)$p.value, silent=TRUE)")
-#              p r_object.converse( "df_old.#{i}$value" ) if $DEBUG
-#              p r_object.converse( "df_new.#{i}$value" ) if $DEBUG
+              name = @@name_legend[names[i-1]]
+    binding.pry
+    exit
               case t_test
                 when String
                   t_test_out = "ERR: Data are constant"
                 when Float
                   t_test_out = "%.2g" % t_test
               end
-              r_object.converse %Q{ xlim = range(old_time_plot$df_old.#{i}.time, new_time_plot$df_new.#{i}.time) }
-              r_object.converse %Q{beanplot(df_old.#{i}$value, df_new.#{i}$value, side='both', log="", names="p-value: #{t_test_out}", col=list('deepskyblue4',c('firebrick', 'black')), innerborder='black', bw=band1)} 
-              r_object.converse do
-# TODO!!!
-                %Q{ plot(old_time_plot, type='l', lwd=2.5, xlim = xlim, ylim = ylim, col='deepskyblue4', pch=15)
-                    if (length(df_new.#{i}$value) > 4) {
-                      lines(new_time_plot,type='l',ylab=df_new.#{i}$name[[1]], col='firebrick', pch=16, lwd=3 )
-                    } else {
-                      points(new_time_plot,ylab=df_new.#{i}$name[[1]], col='skyblue4', bg='firebrick', pch=21, cex=1.2)
-                    }
-                    title <- "#{@@name_legend[cat]}-\t-#{@@name_legend[subcategory.to_s]}-\t-#{name}"
-                    if (nchar(title) > 80) {
-                      mtext(title, side=3, line=0, outer=TRUE, cex=0.75)
-                    } else if (nchar(title) > 100 ) {
-                      mtext(title, side=3, line=0, outer=TRUE, cex=0.65)
-                    } else if (nchar(title) > 120 ) {
-                      mtext(title, side=3, line=0, outer=TRUE, cex=0.55)
-                    } else {
-                      mtext(title, side=3, line=0, outer=TRUE)
-                    }
-                }
-              end
-              r_object.converse "dev.off()" #### This line must conclude each loop, as far as R is concerned.
               i +=1
             end # while loop
           end # subcats
@@ -314,7 +240,8 @@ module Ms
       end # graph_files
 
       @@categories = ["uplc", "chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]
-      @@name_legend = { "uplc"=>"UPLC","chromatography"=>"Chromatography", "ms1"=>"MS1", "ms2"=>"MS2", "dynamic_sampling"=>"Dynamic Sampling", "ion_source"=>"Ion Source", "ion_treatment"=>"Ion Treatment", "peptide_ids"=> "Peptide IDs", "run_comparison"=>"Run Comparison", "id_charge_distributions_at_different_ms1max_quartiles_for_charges_1_4"=>"ID Charge Distributions At Different MS1max Quartiles For Charges 1-4", "precursor_m_z_averages_and_differences_from_1st_quartile_largest_of_different_ms1total_tic_quartiles_over_full_elution_period"=>"Precursor m/z Averages and Differences from 1st Quartile (Largest) of Different MS1Total (TIC) Quartiles Over Full Elution Period", 
+      @@name_legend = { "hplc_std_p"=>"HPLC Std P", "hplc_avg_p"=>"HPLC Avg P", "hplc_max_p"=>"HPLC Max P", "pressure_trace" => "Pressure Trace", 
+      "uplc"=>"UPLC","chromatography"=>"Chromatography", "ms1"=>"MS1", "ms2"=>"MS2", "dynamic_sampling"=>"Dynamic Sampling", "ion_source"=>"Ion Source", "ion_treatment"=>"Ion Treatment", "peptide_ids"=> "Peptide IDs", "run_comparison"=>"Run Comparison", "id_charge_distributions_at_different_ms1max_quartiles_for_charges_1_4"=>"ID Charge Distributions At Different MS1max Quartiles For Charges 1-4", "precursor_m_z_averages_and_differences_from_1st_quartile_largest_of_different_ms1total_tic_quartiles_over_full_elution_period"=>"Precursor m/z Averages and Differences from 1st Quartile (Largest) of Different MS1Total (TIC) Quartiles Over Full Elution Period", 
       "number_of_compounds_in_common"=>"Number of Compounds in Common", "fraction_of_overlapping_compounds_relative_to_first_index"=>"Fraction of Overlapping Compounds - relative to first index", "fraction_of_overlapping_compounds_relative_to_second_index"=>"Fraction of Overlapping Compounds - relative to second index", "median_retention_rank_differences_for_compounds_in_common_percent"=>"Median Retention Rank Differences for Compounds in Common (Percent)", "avg_1_60_1_60"=>"Avg\t1.60\t1.60", 
       "average_retention_rank_differences_for_compounds_in_common_percent"=>"Average Retention Rank Differences for Compounds in Common (Percent)", "avg_2_30_2_30"=>"Avg\t2.30\t2.30", "number_of_matching_identified_ions_between_runs"=>"Number of Matching Identified Ions Between Runs", "relative_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative Deviations in MS1 Max For Matching Identified Ions Between Runs", "avg_1_00_1_00"=>"Avg\t1.00\t1.00", "relative_uncorrected_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative Uncorrected Deviations in MS1 Max For Matching Identified Ions Between Runs", "avg_0_00_0_00"=>"Avg\t0.00\t0.00", 
       "relative_corrected_deviations_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative Corrected Deviations in MS1 Max For Matching Identified Ions Between Runs", "relative_rt_trends_in_ms1_max_for_matching_identified_ions_between_runs"=>"Relative RT Trends in MS1 Max For Matching Identified Ions Between Runs", 

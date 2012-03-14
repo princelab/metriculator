@@ -2,9 +2,7 @@ require 'spec_helper'
 
 comparison_id = TESTFILE + '/' + Time.now.to_i.to_s
 describe 'Ms::ComparisonGrapher' do 
-puts "RAILS_ENV: #{::Rails.env}"
-@match_old = Msrun.all
-@match_new = @match_old.pop(5)
+#puts "RAILS_ENV: #{::Rails.env}"
 	before :all do 
     @match_old = Msrun.all
     @match_new_short = @match_old.pop
