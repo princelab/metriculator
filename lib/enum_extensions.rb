@@ -31,5 +31,3 @@ class Array
   alias :mean :average
 end
 
-raise StandardError unless Array.new.methods.include?(:average)
-raise StandardError unless Array.new.methods.include?(:mean)

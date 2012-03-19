@@ -224,8 +224,9 @@ module Ms
               graphfile = File.join([graphfile_prefix, names[i-1] + ".yml"])
               graphfiles << graphfile
               name = @@name_legend[names[i-1]]
-    binding.pry
-    exit
+              t_tester = T::TwoSamplesIndependent.new(new_structs.map(&:value), old_structs.map(&:value))
+              t_tester.compute
+              t_test = t_tester.probability_not_equal_variance
               case t_test
                 when String
                   t_test_out = "ERR: Data are constant"
