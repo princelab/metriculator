@@ -1,5 +1,10 @@
 # These are the values which are defaults for the Alerter settings in {ComparisonGrapher#graph_and_stats} function
 Graphing_defaults = {email_alert: true}
+def send_to_json(name, arg)
+  "var #{name} = #{arg}"
+end
+    
+require 'statsample/test'
 module Ms
 # This is the class which handles the responses from DB queries and generates comparison graphs
   class ComparisonGrapher
@@ -213,26 +218,21 @@ module Ms
                 str.name = str.name.to_s
                 str.category = @@name_legend[str.category.to_s]
                 str.subcat = @@name_legend[str.subcat.to_s]
-                # FORMAT TIME FOR JSON?
-                #str.time = str.time.to_s.gsub(/T/, ' ').gsub(/-(\d*):00/,' \100')
               end
             end
             names = new_structs.map {|str| str.name }.uniq.compact
             count = names.size
             i = 1;
             while i <= count
-              graphfile = File.join([graphfile_prefix, names[i-1] + ".yml"])
-              graphfiles << graphfile
+              graphfile = File.join([graphfile_prefix, names[i-1] + ".vals.json"])
+              graphfile2 = File.join([graphfile_prefix, names[i-1] + ".times.json"])
+              graphfiles << [graphfile, graphfile2]
               name = @@name_legend[names[i-1]]
-              t_tester = T::TwoSamplesIndependent.new(new_structs.map(&:value), old_structs.map(&:value))
-              t_tester.compute
-              t_test = t_tester.probability_not_equal_variance
-              case t_test
-                when String
-                  t_test_out = "ERR: Data are constant"
-                when Float
-                  t_test_out = "%.2g" % t_test
-              end
+              t_tester = Statsample::Test.t_two_samples_independent(new_structs.map(&:value), old_structs.map(&:value))
+              #t_test_out = "%.2g" % t_tester.t_not_equal_variance
+              t_test_out = 2
+              File.open(graphfile, 'w') {|out| [new_structs.map(&:value), old_structs.map(&:value), t_test_out] }
+              File.open(graphfile2, 'w') {|out| [new_structs.map(&:time), old_structs.map(&:time)] }
               i +=1
             end # while loop
           end # subcats
