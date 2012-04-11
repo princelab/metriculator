@@ -47,6 +47,15 @@ group :development do
   gem 'pry'
 end
 
+group :assets do 
+end
+
+group :development do 
+  gem 'uglifier'
+  gem "therubyracer", :require => 'v8'
+  gem 'execjs'
+end
+
 group :development, :test do
   gem 'ruby-prof'
 ### WINDOWS DEPENDENT Version...?

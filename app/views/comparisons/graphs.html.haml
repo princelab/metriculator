@@ -1,3 +1,4 @@
+= javascript_include_tag 'generate_plot'
 %h1=@graph_title
 - @up = "#{comparison_path(params[:id])}/#{params[:graph_path][/(.*)\/.*/,1]}"
 %a{ :href => @up} Up
@@ -35,4 +36,6 @@
           %div.arrow-container
             = image_tag arrow, :size => '16x16'
           %p.trend= "Desired trend"
-      %object{ :data => (comparison_path(params[:id]) + graph).split('/').uniq.join('/'), :type => "image/svg+xml" }
+      //%object{ :data => (comparison_path(params[:id]) + graph).split('/').uniq.join('/'), :type => "image/svg+xml" }
+      :javascript
+        generate_plot("#{(comparison_path(params[:id]) + graph).split('/').uniq.join('/')}")

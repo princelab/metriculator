@@ -1,3 +1,7 @@
+- content_for :head do 
+  = javascript_include_tag 'science.min.js'
+
+
 %h1= "Comparison ##{@comparison.id}"
 %p <strong>User Description: </strong>
 <p> Set#1: #{ @comparison.first_description }
