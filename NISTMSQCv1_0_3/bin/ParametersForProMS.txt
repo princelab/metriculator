@@ -1,0 +1,27 @@
+dataRangeControl = 2
+minIncludedRT = 0
+maxIncludedRT = 0
+LowestAllowedMZ = 0
+HighestAllowedMZ = 0
+matchScoreThreshold = 0.45
+LTQ peakIntensityThreshold = 0.0005
+Orbi peakIntensityThreshold = 0.000005
+end
+
+
+
+Note of parameters:
+dataRangeControl = 1, given retention time (RT in second) and m/z ranges by user
+                 = 2, this program automatically search the major concerned RT and m/z ranges, with including >98% identified unique peptide ions.
+                 = 3, this program automatically search the major concerned RT and m/z ranges, with including 100% identified unique peptide ions.
+                 = 4, including whole ranges of RT and m/z of the run.
+
+minIncludedRT - Start RT (s). If dataRangeControl = 1, the program will use the value provided by the user, otherwise, the program will find it automatically.
+maxIncludedRT - End RT (s). If dataRangeControl = 1, the program will use the value provided by the user, otherwise, the program will find it automatically.
+LowestAllowedMZ - The smallest concerned m/z value. If dataRangeControl = 1, the program will use the value provided by the user, otherwise, the program will find it automatically.
+HighestAllowedMZ - The largest concerned m/z value. If dataRangeControl = 1, the program will use the value provided by the user, otherwise, the program will find it automatically.
+
+matchScoreThreshold - If a peptide ion match score is less than this value, it won't be dealt with as an identified peptide ion.
+
+LTQ peakIntensityThreshold - Threshold LTQ instrument. If a peak's relative intensity is less than this value, this peak won't included in calculation.
+Orbi peakIntensityThreshold - Threshold Orbitrap instrument. If a peak's relative intensity is less than this value, this peak won't included in calculation.

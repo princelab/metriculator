@@ -1,0 +1,35 @@
+
+ReAdw4Mascot2.exe version 1.2 ConvVer 20091027a
+
+Usage: ReAdw4Mascot2.exe [-Compression , -Rulers , -ms1 -NoMgf -NoMzXml] <raw file pathname> [<output path>]
+  -c:              Centroid the data (meaningfull only
+                   if RAW data is profile)
+  -XmlOrbiMs1Profile  Save Profile FTMS ms1 spectra (override -c) into mzXml
+  -Compression     Use zlib for comrpessing peaks in mzXML.
+  -Rulers          Attempt compression using m/z ruler.
+  -ms1             Also output MS1 spectra and precursor scan no. for MS2.
+  -sep1            Output MS1 spectra in a separate outfile.RAW.MS1
+  -metadata        Output Instrument Method, Tune Data, and scan Trailer info.
+  -NoMgf           Do not produce MGF output.
+  -NoMzXml         Do not produce MzXml output.
+  -ChargeMgfOrbi   Include CHARGE in MGF output for LTQ Orbitrap instruments.
+  -MonoisoMgfOrbi  In MGF, PEPMASS=Monoisotopic m/z for LTQ Orbitrap instruments
+  -MonoisoMgf      In MGF, PEPMASS=Monoisotopic m/z if available
+  -FixPepmass      Replace PEPMASS and CHARGE with better ones if found (Orbitrap and FT only)
+  -MaxPI           Include max precursor intensity
+  -PIvsRT_Debug    Include precursor intensity vs RT lines, verbose
+  -PIvsRT          Include precursor intensity vs RT lines
+  -SampleInfo      Output Sample Info into MGF
+  -NoPeaks         Do not output mass spectral peaks
+  -NoPeaks1        Output ms1 spectra without mass spectral peaks
+  -xpw width       width = Min precursor XIC Peak Width (seconds); default=0.0;
+                   (max. moving average window for preliminary ms1 XIC peak                   detection) = 0.5 * (width).
+  -xpm points      points = min. number of ms1 XIC points per minute >19 for condensing
+                   the data, e.g. 32 means 104 points per 3.25 min. default=no condensing
+  -AutoOrbi        automatically pick the right options based on instrument.
+
+  output path:     Path to the output folder;
+                   if not supplied, the raw file folder is used,
+                   output file name is created by adding extension .mzXML.
+
+              --------- By Patrick Pedrioli ------------

@@ -1,0 +1,60 @@
+-------------------------------------------------------------------------------
+NIST MSPepSearch mass spectral library search program ver. 0.9 build 11/17/2009
+Written by Dmitrii V. Tchekhovskoi and Stephen E. Stein
+Mass Spectrometry Data Center
+National Institute of Standards and Technology (NIST)
+Visit http://peptide.nist.gov or http://chemdata.nist.gov for more information,
+software, or MS libraries.
+
+Portions copyright (c)1994-96 FairCom Corporation. "FairCom" and "c-tree Plus"
+are trademarks of FairCom Corporation and are registered in the United States
+and other countries. All Rights Reserved.
+
+Questions and limited support: paul.rudnick@nist.gov
+Questions about integrating this software with commerical applications:
+steve.stein@nist.gov
+-------------------------------------------------------------------------------
+
+Options: [{sdfm}][r][p][x][i][o][q][n][v][{leh[n]}[{IQSHLMP}] [/Z z] [/M m] [/PATH path] [/LIB lib] [/WRK wrk] /INP InputFile [/OUT[TAB] OutputFile] [/HITS max_hits] [/MinMF minmf]
+ presearch:   s sequential
+              d standard (any peaks type) - Default
+              f fast presearch (any peaks type)
+              m precursor ion m/z within precursor ion uncertainty
+                (only for MS/MS search)
+ options:     r reverse search
+              p penalize rare compounds (I in Mainlib & Replib only)
+              x do not output hit probabilities
+                  ms/ms search only option:
+              i ignore peaks within z m/z units of precursor m/z, see /Z option
+                  peptide ms/ms search only options:
+       o q n v  o: Use OMSSA score;  q: Q-tof;  n: use number of Replicates; v: get rev-dot
+       l e h[n] l: Low, e: mEdium, h: High(default), hn (n=1..9): Higher ms/ms search threshold
+ search type:
+  I identity                 Q quick identity
+  S simple similarity        H hybrid similarity
+  L neutral loss similarity  M ms/ms in EI library
+  P peptide or ms/ms search in a ms/ms library - Default
+ /Z z = precursor ion uncertainty, m/z units (default=1.6, only for P)
+ /M m = ms peak m/z uncertainty (default=0.6, only for P)
+ /MzLimits  n1 n2   compare peaks with n1 <= m/z <= n2; default P: 1 -1, other: -1 -1
+ /MinInt    n       n = min. peak intensity (1-999), default: 1
+ /MwForLoss n       n = mw of the unknown, for Loss, Hybrid, or MS/MS in EI lib only
+ /PATH  path = path to folder containing MS libraries
+ /MAIN  main = [path]name of NIST Main MS library (one or none)
+ /REPL  repl = [path]name of NIST Replicate MS library (one or none)
+ /LIB   lib  = [path]name of other ms libraries (may be more than one)
+ /WRK   wrk  = full path to work folder; default = current folder
+ /INP InputFile            = input .MGF (Mascot generic) or .MSP (NIST MS)-type file
+ /OUT[TAB][N|A] OutputFile = output text file [tab-delimited, only for P]; [N]ew (default) [A]ppend; default = stdout
+ /HITS max_hits            = max number of output hits; default = 3
+ /MinMF minmf              = min. match factor (MF) to output
+ /TIME            output to stderr each search time in seconds
+ /PROGRESS        output to stderr progess messages
+ /NumCompared     output number of compared spectra
+ /OnlyFound       do not output empty hit lists
+ /MaxNumSpec num     = max number of spectra to input
+ /OutPrecursorMZ       include precursor m/z in the output
+ /OutDeltaPrecursorMZ  include Hit-Unknown precursor m/z difference
+ /OutSpecNum           output input spectrum number
+ /HiPri                Set program priority Above Normal
+ /LibInMem   Load libraries in memory (Peptide ms/ms search only)
