@@ -10,8 +10,6 @@
   - Tracking of what metric comparisons are already produced and available for viewing (Ensure they can't be recreated)
     - Prevent the same comparison from being created multiple times?
       - How can this be done??
-  - Add breadcrumbs for graph heirarchy?
-      -- might be had by the simple "up" link I've added.
   - Make a special viewing page for any graphs that are significantly different (T-test) __????  Would this really help???__
     * Or a page of links to the images?
   * http://www.datatables.net/ ????  Would this make that table easier?
@@ -19,14 +17,11 @@
 ###Database
 
 ###Tests
-* Why is the integration test stufff not working? MetricsController,
-  MsrunsController.
-
-
-
-
+* Why is the integration test stuff not working? MetricsController, MsrunsController.
 
 #Finished
+  - Add breadcrumbs for graph heirarchy?
+      -- might be had by the simple "up" link I've added.
 * Convert the Knowntrends hash to one more like the QC defaults one... where each object can be set individually
 * Implement database updating of locations and the file moving system
 * Message clearing fxns so that I can clean out the lists... maybe monthly?

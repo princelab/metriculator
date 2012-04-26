@@ -33,7 +33,7 @@ files = ARGV.map do |f|
   end
 end # files
 
-raise StandardError, "Config not loaded Error" unless Kernel.const_defined?(ArchiveRoot)
+raise StandardError, "Config not loaded Error" unless AppConfig
 files.compact.each do |file|
   if Node != :metrics
     if Ms::ArchiveMount.under_mount?(file)
