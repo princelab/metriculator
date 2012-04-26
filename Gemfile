@@ -32,7 +32,7 @@ gem 'newrelic_rpm'
 
 gem 'pony'
 gem 'rserve-simpler', :require => 'rserve/simpler', :git => "git://github.com/ryanmt/rserve-simpler.git"
-gem 'rserve-client', :require 'rserve', :git => "git://github.com/princelab/Rserve-Ruby-client.git"
+gem 'rserve-client', :require => 'rserve', :git => "git://github.com/princelab/Rserve-Ruby-client.git"
 gem 'haml'
 gem 'jquery-rails'
 gem 'rspec'
