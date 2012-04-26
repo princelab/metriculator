@@ -26,7 +26,7 @@ require 'config' ##TODO this needs to be all I have to do to load my environment
 files = ARGV.map do |f| 
   puts "File.extname: #{File.extname(f)}"
   puts "Casecmp A and a: #{'A'.casecmp "a"}"
-  if File.extname( f ).casecmp('.RAW')
+  if File.extname( f ).casecmp('.RAW') != 0
     puts "File doesn't appear to be a rawfile, so we are skipping it:"
     puts "Filename: #{f}"
     nil
