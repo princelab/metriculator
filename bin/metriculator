@@ -24,9 +24,7 @@ end
 require 'config' ##TODO this needs to be all I have to do to load my environment settings
 
 files = ARGV.map do |f| 
-  puts "File.extname: #{File.extname(f)}"
-  puts "Casecmp A and a: #{'A'.casecmp "a"}"
-  if File.extname( f ).casecmp('.RAW') != 0
+  unless File.extname( f ).casecmp('.RAW') # Casecmp gives a 0 if it matches, -1 and 1 for mismatches
     puts "File doesn't appear to be a rawfile, so we are skipping it:"
     puts "Filename: #{f}"
     nil
@@ -34,6 +32,9 @@ files = ARGV.map do |f|
     f
   end
 end # files
+
+# Set the Node
+Node = :metrics
 
 raise StandardError, "Config not loaded Error" unless AppConfig
 files.compact.each do |file|

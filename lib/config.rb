@@ -23,6 +23,7 @@ AppConfig = App_defaults.deeper_merge(YAML.load_file('archiver_config.yml'))
 # This constant contains an array of all the root storage locations
 Roots = AppConfig[:nodes].map {|h| h.last[:archive_root]}
 # Default settings for the QC automatic processing
+
 Qc_defaults = { 
 	:autorun=>true, 
 	:alert=>true,
