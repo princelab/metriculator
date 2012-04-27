@@ -23,16 +23,15 @@ module Ms
     [:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :archive_location, :rawid, :group, :user, :taxonomy, :hplc_maxP, :hplc_avgP, :hplc_stdP].each {|item| attr_accessor item }  # Every file must have a source hash id that helps us know that things are working.
     attr_accessor :data_struct, :msrun_id, :hplc_object
     def initialize(struct = nil)
-    p struct
-    binding.pry
       if struct
         membs = struct.members
         membs.delete(:parsed)
         membs.compact.each do |sym|
           self.send("#{sym}="	, struct[sym])
         end
+        load_runconfig(File.dirname(@rawfile))
       end
-      load_runconfig(File.dirname(@rawfile))
+#TODO add a way to support the runconfig loading as part of metriculator
     end
 # This fxn sets archive conditions for when you only want to archive the rawfile information itself, prior to metric generation
 # @param Filename The rawfile you wish to add to the database
