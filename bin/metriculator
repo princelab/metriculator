@@ -23,6 +23,7 @@ end
 
 require 'config' ##TODO this needs to be all I have to do to load my environment settings
 require 'archiver'
+require_relative '../config/application'
 
 files = ARGV.map do |f| 
   unless File.extname( f ).casecmp('.RAW') # Casecmp gives a 0 if it matches, -1 and 1 for mismatches
