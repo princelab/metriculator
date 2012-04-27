@@ -30,33 +30,41 @@ archiver_optparse = OptionParser.new do |opts|
 		#opts.banner = "which will be archived under JTP/ryanmt/YYMM/JTP_ryanmt_x0linkingsample001/..."
 
 # Define the options
-	options[:verbose] = false
-	opts.on( '-v', '--verbose') { options[:verbose] = true }
+	opts.on( '-v', '--verbose') { |v| options[:verbose] = v }
 
-	options[:zipped] = false
-	opts.on( '-z', '--zipped', 'Define if the archive will be zipped or not (FALSE)') { options[:zipped] = true}
+	opts.on( '-z', '--zipped', 'Define if the archive will be zipped or not') { |z| options[:zipped] = z }
 
 #	options[:figure] = true
 #	opts.on( '-f', '--figure', 'Output the figure graphing the NanoLC elution pressure trace (TRUE)') {options[:figure] = false}
 
-	options[:mzxml] = true 
-	opts.on('-n', '--no_mzxml', 'Do not output the mzxml files') {options[:mzxml] = false}
+  
+	#options[:mzxml] = true 
+	#opts.on('-n', '--no_mzxml', 'Do not output the mzxml files') {options[:mzxml] = false}
 
-	options[:dry_run] = false
-	opts.on( '-d', '--dry_run', 'Run analysis without moving files to archive locations (FALSE)') {options[:dry_run] = true}
+	#opts.on( '-d', '--dry_run', 'Run analysis without moving files to archive locations (FALSE)') {options[:dry_run] = true}
 
-	options[:move_files] = false
-	opts.on( '-m', '--move_files', "Instead of just copying the files over to the archive, delete them, safely (checks that file has moved) (FALSE)") {options[:move_files] = true}
+	#opts.on( '-m', '--move_files', "Instead of just copying the files over to the archive, delete them, safely (checks that file has moved) (FALSE)") {options[:move_files] = true}
 
-	options[:xcalibur] = false
-	opts.on( '--xcalibur', 'Runs this as called from Xcalibur and on an analysis workstation(minimize work down here, move then finish), with appropriate defaults' ) do 
-    options[:xcalibur] = true 
+	opts.on( '--xcalibur', 'Runs this as called from Xcalibur and on an analysis workstation(minimize work down here, move then finish), with appropriate defaults' ) do |x|
+    options[:xcalibur] = x
     if ARGV.size != 2
       puts "Archiver's 'Xcalibur' mode can't run without the input file and row number!"
       puts "Exiting..."
       exit
     end
   end
+
+  options[:sequences] = false
+  opts.on( '--sequences', "This will allow you to feed entire sequence files for parsing. It requires sequence files and will throw an error if you feed it the wrong food.  If fed correctly, it will parse each sequence file given for the contained raw files and archive them.  This should result in the archival of all existing sequence files into the database and storage locations. ") do 
+    options[:sequences] = true 
+    if ARGV.size < 1
+      puts "The 'sequences' option requires at least one argument.\nExiting..."
+      exit
+    end
+  end
+
+  options[:test] = false
+  opts.on( '--test', 'Prevents the rails_env from being set to production.  This is useful for allowing testing situations from this command prompt')
 
 	options[:server] = false
 	opts.on( '--server', 'Finishes the analysis, being fed a yaml file which represents the data collected previously, together with the archive location for the files.  These can then be completed by running the remaining options (like graphing, building metrics, and parsing the metrics to the database) ' ) {options[:server] = true }
@@ -66,6 +74,8 @@ archiver_optparse = OptionParser.new do |opts|
 
   options[:server_setup] = false
   opts.on( '--server_setup', "Attempts to initialize all settings and configure the webserver to enable the best way to run for the OS of this machine.  If this is a Windows machine, it will run the rails WEBrick server, if it is a *NIX box, it will configure an Apache installation to run this server") {options[:server_setup] = true}
+  options[:run_raw] = false
+  opts.on( '-r', '--run_raw', "This setting will process a rawfile to populate the database with metric and msrun information for that file. This allows for use of archiver's metric and database features independent of the archival features.") { options[:run_raw] = true }
 	opts.on('-h', '--help', 'Display this screen' ) do 
 		puts opts
 		exit
@@ -74,11 +84,17 @@ end
 ##  Program starts here!!!! 
 
 if File.basename($0) == 'archiver'
-  #archiver_optparse.parse!# outparse and PARSED!! 
+  archiver_optparse.parse!# outparse and PARSED!! 
 end
 if options[:verbose]
   $VERBOSE = 1
   putsv "Verbosity set to true"
+end
+
+if options[:test]
+  ENV["RAILS_ENV"] = 'test'
+else 
+  ENV["RAILS_ENV"] = 'production'
 end
 
 if options[:xcalibur]
@@ -97,14 +113,34 @@ if options[:xcalibur]
 		puts 'continuing........'
 	end
 # Real work
-	raise FileTypeError if File.extname(file) != File.extname('Test.sld')
+	raise TypeError, "File given is not an SLD file" if File.extname(file) != File.extname('Test.sld') 
 	sld = Ms::Xcalibur::Sld.new(file).parse
-	object = Ms::MsrunInfo.new(sld.sldrows[line_num])
-	object.grab_files
-  Ms::ArchiveMount.new(object)
-  Ms::ArchiveMount.build_archive
-	Ms::ArchiveMount.archive
-	send_msruninfo_to_linux_via_ssh(object.to_yaml)
+	msrun = Ms::MsrunInfo.new(sld.sldrows[line_num])
+	msrun.grab_files
+	msrun.fill_in
+	p msrun
+	Ms::ArchiveMount.send_to_mount(msrun)
+end
+
+## SEQUENCES 
+if options[:sequences]
+# The information regarding the system type and archive root location
+  SysInfo = AppConfig[:nodes][:instrument]
+# A constant telling subsequent processes the program type called
+  Node = :instrument
+# A constant to make accessing the root directory for the archives easier
+  ArchiveRoot = SysInfo[:archive_root]
+# Prep
+  ARGV.each do |file|
+    raise TypeError, "File given is not an SLD file" if File.extname(file) != File.extname('Test.sld') 
+    sld = Ms::Xcalibur::Sld.new(file).parse
+    sld.sldrows.each do |row|
+      msrun = Ms::MsrunInfo.new(row)
+      msrun.grab_files
+      msrun.fill_in
+      Ms::ArchiveMount.send_to_mount(msrun)
+    end
+  end
 end
 
 if options[:server]
@@ -114,15 +150,15 @@ if options[:server]
   Node = :server
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
-	yaml_file = ARGV.first
-	object = YAML::load_file(yaml_file)
 # Start the server
   # Rails server is limited to processing a single request at a time...
   # You should use Apache, probably.  Hence, configure things with passenger for a *NIX environment
   if SysInfo[:system] == "Windows"
     %x[ rails s]
   else
-    %x[ passenger start ]
+# This is automatic... so maybe the thing to actually do here is to restart the server... ?  
+#   %x[ touch tmp/restart.txt ]
+#   %x[ passenger start ]
   end
 end
 
@@ -136,21 +172,27 @@ if options[:metrics]
   Node = :metrics
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
-# A constant containing the location of the metric program
+  putsv "ArchiveRoot: #{ArchiveRoot}"
   Program = SysInfo[:program_locale]
   Messenger.setup
+  putsv "Starting scheduler"
   scheduler = Rufus::Scheduler::PlainScheduler.start_new(:thread_name => "NIST_metrics_daemon")
-  scheduler.every '1m' do 
+  scheduler.every '5s' do 
     putsv 'Checking todo list...'
     list = Messenger.update
     if list.size > 0
       putsv "Todo items found: #{list}"
-    end
+      list.each do |item|
+        putsv "Submitting #{item} to NIST metrics for analysis."	
+        m = Ms::NIST::Metric.new
+        p File.join(ArchiveRoot, item)
+        m.run_metrics(File.join(ArchiveRoot, item))
+      end # list.each do |item|
+    end # if list.size > 0
   end # every 1m
-  scheduler.every '1d' do 
-    # TODO Clear lists fxn
+  scheduler.every '1w' do 
+    Messenger.clear_completed!
   end
-  binding.pry
   scheduler.join
 end
 
@@ -161,5 +203,43 @@ if options[:server_setup]
   Node = :server
 # A constant to make accessing the root directory for the archives easier
   ArchiveRoot = SysInfo[:archive_root]
-  puts "Honestly, this is probably too ambitious of a project.  You'll have to configure your own server environment at this point."
+  puts "Honestly, this is probably too ambitious of little feature.  You'll have to configure your own server environment at this point."
 end
+
+if options[:run_raw]
+  # TODO find which node you are on
+  if RbConfig::CONFIG['host_os'] === 'mingw32'
+    SysInfo = AppConfig[:nodes][:instrument]
+    ArchiveRoot = SysInfo[:archive_root]
+  elsif RbConfig::CONFIG['host_os'] === "linux-gnu"
+    SysInfo = AppConfig[:nodes][:server]
+    ArchiveRoot = SysInfo[:archive_root]
+  end
+  # TODO rawfile handling
+  if ARGV.size != 1 and File.extname(ARGV.first).downcase != ".raw"
+    puts "Error: Wrong argument given.  This option wants a single 'filename.raw' file to be given"
+    exit
+  end
+  file = ARGV.first
+  # TODO transfer to shared space if file isn't available to the metrics computer
+  if Ms::ArchiveMount.under_mount?(file)
+    putsv "All is well"
+  else
+    putsv "Ah!  What do I do now?"
+    dest = Ms::ArchiveMount.cp_under_mount(file)
+    relative_file = Ms::ArchiveMount.relative_path(dest)
+  end
+
+  # TODO Send information to the database
+  msrun = Ms::MsrunInfo.new
+  id = msrun.raw_only_archive relative_file
+  # Adds rawfile to the todo list
+  Messenger.add_todo( msrun.rawfile )
+  # TODO Generate, parse, and database metric information
+    ## Currently, this will happen from the metrics server... Should I address it differently?  No, I think that is a good way to handle it.
+  # TODO clear tmp cache if necessary
+    ## This will require something automated on the Metric server side, right?
+  # TODO write alert to notify of completion
+    ### Again, this should happen on the Metric server side of things, right?
+end
+  
