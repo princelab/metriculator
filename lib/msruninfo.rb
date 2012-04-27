@@ -23,6 +23,8 @@ module Ms
     [:sldfile, :methodfile, :rawfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :archive_location, :rawid, :group, :user, :taxonomy, :hplc_maxP, :hplc_avgP, :hplc_stdP].each {|item| attr_accessor item }  # Every file must have a source hash id that helps us know that things are working.
     attr_accessor :data_struct, :msrun_id, :hplc_object
     def initialize(struct = nil)
+    p struct
+    binding.pry
       if struct
         membs = struct.members
         membs.delete(:parsed)
