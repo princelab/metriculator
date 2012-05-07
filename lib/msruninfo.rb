@@ -40,7 +40,6 @@ module Ms
       self.rawfile = rawfile
       self.rawid = File.basename(rawfile, '.raw')
       [:sldfile, :methodfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :hplc_maxP, :hplc_avgP, :hplc_stdP].each { |sym| self.send("#{sym}=".to_sym, nil)}
-      binding.pry
       @db = ::Msrun.first_or_create(:raw_id => rawid, :rawfile => rawfile )
       @db.id
     end

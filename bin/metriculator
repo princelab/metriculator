@@ -31,8 +31,8 @@ $LOAD_PATH << File.expand_path('../../app/models', __FILE__)
 require  'config' ##TODO this needs to be all I have to do to load my environment settings
 require 'archiver'
 require_relative '../config/application'
+require 'load_bundle_from_outside'
 files = ARGV.map do |f| 
-p "ARGV"
   unless File.extname( f ).casecmp('.RAW') # Casecmp gives a 0 if it matches, -1 and 1 for mismatches
     puts "File doesn't appear to be a rawfile, so we are skipping it:"
     puts "Filename: #{f}"
