@@ -24,7 +24,10 @@ task :install do # => :build do
   when 'linux-gnu'
     system "PATH=#{bin_dir}:$PATH"
   when 'mingw32'
-    system "setx path=#{bin_dir};%PATH%"
+    path_tmp = %x{echo %PATH%}
+    system "setx PATH #{bin_dir};%PATH%"
+    puts "PATH WAS::: "
+    puts path_tmp
   end
   # This way I can still automate, but I'm not building the gem... retaining the local environment
  # Rake::Task['build'].invoke
