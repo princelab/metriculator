@@ -27,7 +27,7 @@ class Messenger
         retry unless tmp > 1
         print "Error: File doesn't exist!!" + bang.message + bang.backtrace.join("\n")
       end
-      @@todo.flatten.compact
+      @@todo.flatten.compact.uniq
     end
 # This function will clear the completed items of out the logs, leaving only uncompleted items.  This can run periodically to keep things nice and clean
     def clear_completed!
@@ -84,3 +84,5 @@ class Messenger
   end  
 end # Messenger
 
+
+Messenger.setup

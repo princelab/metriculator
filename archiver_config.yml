@@ -7,6 +7,9 @@
 #   - archive_root: #The directory which will be shared among all nodes, and will allow for passing of files between the nodes
 #     - Directory address, of the type specific to the system type
 :admin_email: "ryanmt@byu.net"
+:roots:
+  :linux: /media/orbitrap
+  :windows: O:\
 :nodes: 
   :instrument: 
     :system: Windows

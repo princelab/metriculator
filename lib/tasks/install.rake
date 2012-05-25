@@ -9,6 +9,5 @@ task :release => :build do
 end
 
 task :install => :build do 
-  Rake::Task['build'].invoke
-  system "gem install archiver-*"
+  # This is where I output the instructions to change their paths and handle the gem installations to make bundler and rake available... Wait... I do that in a ruby script, actually...
 end

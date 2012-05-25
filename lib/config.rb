@@ -131,6 +131,12 @@ def load_runconfig(directory)
 end
 
 
+if RbConfig::CONFIG['host_os'] == 'mingw32'
+  ArchiveRoot = AppConfig[:roots][:windows]
+elsif RbConfig::CONFIG['host_os'] == 'linux-gnu'
+  ArchiveRoot = AppConfig[:roots][:linux]
+end
+
 
 # IF I do this late, it should all work out nicely
 require 'archiver'

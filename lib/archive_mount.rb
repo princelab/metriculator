@@ -21,9 +21,9 @@ module Ms
       # @return Nothing specific yet ### TODO
       def build_archive # @location == LOCATION(group, user, mtime, experiment_id)
         restore_dir = Dir.pwd
-        @mount_dir ||= ::ArchiveRoot
-        FileUtils.mkdir_p(File.join(@mount_dir, @location))
-        Dir.chdir(File.join(@mount_dir, @location))
+        @@mount_dir ||= ::ArchiveRoot
+        FileUtils.mkdir_p(File.join(@@mount_dir, @location))
+        Dir.chdir(File.join(@@mount_dir, @location))
         # cp the config file from the higher level down
         @@build_directories.each do |dir|
           FileUtils.mkdir dir unless Dir.exist?(dir)
@@ -64,11 +64,6 @@ module Ms
         @msrun.user ||= runconfig[:username]
         @msrun.rawid ||= File.basename(@msrun.rawfile, ".RAW")
       end
-      # This sets up the settings for the metrics config
-      def metric_config
-        # This is bad... but I just want things to work!!!!!
-        @mount_dir = ::ArchiveRoot
-      end
       # This defines the location for the archived directory and can be used by a File.join command to generate a FilePath
       # location = (group, user, mtime, experiment_name)
       # @param None, uses #msrun initialized
@@ -93,28 +88,31 @@ module Ms
       end
 
       def under_mount?(filename)
-        split_filename(File.expand_path(filename))[0,@mount_dir_pieces.size] == @mount_dir_pieces
+        split_filename(File.expand_path(filename))[0,@@mount_dir_pieces.size] == @@mount_dir_pieces
       end
 
       # assumes the file is already under the mount
       # returns its path relative to the mount
       def relative_path(filename)
-        @mount_dir_pieces ||= @mount_dir.size
+        @@mount_dir_pieces ||= @@mount_dir.size
         pieces = split_filename(File.expand_path(filename))
-        File.join(pieces[@mount_dir_pieces..-1])
+        File.join(pieces[@@mount_dir_pieces..-1])
       end
 
       # move the file under the mount.  If @tmp_subdir is defined, it will use that directory.
       # returns the expanded path of the file
-      def cp_under_mount(filename)
-        dest = File.join(@mount_dir, tmp_subdir || "", File.basename(filename))
-        FileUtils.cp( filename, dest, preserve=true )
+      def cp_under_mount(filename, tmp_subdir="")
+        sub_dir = tmp_subdir.size > 0 ? tmp_subdir : @tmp_subdir 
+        dest_dir = File.join(@@mount_dir, sub_dir)
+        FileUtils.mkdir(dest_dir) unless File.directory?(dest_dir)
+        dest = File.join(dest_dir, File.basename(filename))
+        FileUtils.cp(filename, dest)#, :preserve => true) 
         dest
       end
 
 # This fxn will move to a specific location, relative to the mount
       def cp_to(filename, mounted_dest) # Always returns the destination as an explicit location relative to the mount directory
-        dest = File.join(@mount_dir, mounted_dest )#, File.basename(filename))
+        dest = File.join(@@mount_dir, mounted_dest )#, File.basename(filename))
         FileUtils.mkdir_p(dest)
         FileUtils.cp( filename, dest, :preserve => true)
         File.join(dest, File.basename(filename))
@@ -122,7 +120,7 @@ module Ms
 
 # Returns the full path from a relative path
       def full_path(relative_filename)
-        File.join(@mount_dir, relative_filename)
+        File.join(@@mount_dir, relative_filename)
       end
 
 =begin 
@@ -132,11 +130,17 @@ module Ms
 ##TODO How do I capture the output file name?
       def metrics_tmp
         @tmp_subdir = 'metrics_output'
-        location = File.join(@mount_dir, @tmp_subdir)
+        location = File.join(@@mount_dir, @tmp_subdir)
         FileUtils.mkdir_p location
         location
       end
 =end
+    # This sets the ArchiveRoot @@mount_dir 
+      @@mount_dir = ::ArchiveRoot
+      @@mount_dir_pieces = Ms::ArchiveMount.split_filename(@@mount_dir).size
+      @@tmp_subdir = "metrics_output"
     end # class << self
   end # class ArchiveMount
 end # Module
+
+
