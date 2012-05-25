@@ -18,12 +18,12 @@ end
 
 task :install do # => :build do 
   # TODO get this to create modify path or provide a command to modify the path to the user with instructions
-  puts "Dear User:\n\tPlease run the following command, which will add the executables to your path.  This will make using the software easier."
   bin_dir = File.join(Dir.pwd, 'bin')
   case RbConfig::CONFIG['host_os']
   when 'linux-gnu'
     system "PATH=#{bin_dir}:$PATH"
   when 'mingw32'
+    puts "Dear User:\n\tPlease run the following command, which will add the executables to your path.  This will make using the software easier."
     path_tmp = %x{echo %PATH%}
     system "setx PATH #{bin_dir};%PATH%"
     puts "PATH WAS::: "
