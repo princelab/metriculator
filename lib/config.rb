@@ -1,4 +1,4 @@
-#
+# I "require 'archiver' " at the end of the file, after the config is loaded.
 require 'pathname'
 require_relative 'merge.rb'
 # Default settings for the application
@@ -129,3 +129,8 @@ def load_runconfig(directory)
   Dir.chdir restore_dir
   @runConfig
 end
+
+
+
+# IF I do this late, it should all work out nicely
+require 'archiver'

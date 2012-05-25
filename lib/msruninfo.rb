@@ -30,7 +30,7 @@ module Ms
           self.send("#{sym}="	, struct[sym])
         end
       end
-      load_runconfig(File.dirname(@rawfile))
+      load_runconfig(File.dirname(@rawfile)) if @rawfile
     end
 # This fxn sets archive conditions for when you only want to archive the rawfile information itself, prior to metric generation
 # @param Filename The rawfile you wish to add to the database
@@ -39,7 +39,7 @@ module Ms
       self.rawfile = rawfile
       self.rawid = File.basename(rawfile, '.raw')
       [:sldfile, :methodfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :hplc_maxP, :hplc_avgP, :hplc_stdP].each { |sym| self.send("#{sym}=".to_sym, nil)}
-      @db = Msrun.first_or_create(:raw_id => rawid, :rawfile => rawfile )
+      @db = ::Msrun.first_or_create(:raw_id => rawid, :rawfile => rawfile )
       @db.id
     end
     # This function calls 2 parsers to get the filenames required for the MsRunInfo object.  These are the files that aren't already known from parsing the Sequence file as called from {file:archiver.rb}

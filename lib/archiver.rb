@@ -4,7 +4,6 @@
 def putsv(string)
   puts string if $VERBOSE
 end
-require 'pry' 
 require 'config'
 require 'msruninfo'
 require 'xcalibur'
@@ -15,7 +14,7 @@ require 'app_communication_messaging'
 # this package handles options and configures the packaging and archiving of 
 # data produced by the instrument, as well as archiving of all the files used
 # during the run 
-
+=begin
 options = {}
 archiver_optparse = OptionParser.new do |opts|
 		opts.banner = "Usage: #{__FILE__} [options] file1 file2 ..." 
@@ -163,3 +162,4 @@ if options[:server_setup]
   ArchiveRoot = SysInfo[:archive_root]
   puts "Honestly, this is probably too ambitious of a project.  You'll have to configure your own server environment at this point."
 end
+=end
