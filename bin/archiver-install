@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby 
 Separator = 50.times.map{"-"}.join
 Allowed_instrument_types = %w{LCQ LTQ LXQ ORBI FT}
-require 'archiver'
 require 'yaml'
 opts = {}
 puts "This will build a local installation of the application"
