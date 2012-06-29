@@ -36,6 +36,14 @@
           %div.arrow-container
             = image_tag arrow, :size => '16x16'
           %p.trend= "Desired trend"
+    
       //%object{ :data => (comparison_path(params[:id]) + graph).split('/').uniq.join('/'), :type => "image/svg+xml" }
+      %p= txt = ['public', (comparison_path(params[:id]) + graph).split('/').uniq.delete_if{|a| a.empty? }].join('/')
+      //%p= File.exists? (comparison_path(params[:id]) + graph).split('/').uniq.delete_if(&:empty?).join('/'))
+      //= txt = File.readlines( (comparison_path(params[:id]) + graph).split('/').uniq.delete_if(&:empty?).join('/')).first
+      %p= txt
+      - tmp = File.readlines(txt)
+      //%p= tmp.first
       :javascript
-        generate_plot("#{(comparison_path(params[:id]) + graph).split('/').uniq.join('/')}")
+        generate_plot(#{tmp.first})
+        //generate_plot("#{(comparison_path(params[:id]) + graph).split('/').uniq.delete_if(&:empty?).join('/')}")

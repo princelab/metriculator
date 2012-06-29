@@ -6,7 +6,10 @@
 // JS goes here
 var generate_plot = function(str) {
   console.log(str);
-  var tmp = eval( "(" + str  + ")" );
+  //var tmp = JSON.parse(str);
+  console.log(tmp);
+  var tmp = eval( "(" + "{" + str + "}" + ")" ); 
+  console.log(tmp);
   var t_test = tmp.t_test;
   var new_vals = tmp.new
   var old_vals = tmp.old
