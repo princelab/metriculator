@@ -3,7 +3,8 @@
 use strict;
 use Getopt::Long;
 use lib '.';
-use lib 'C:\code\run_nistmsqc_pipeline';
+use FindBin qw($Bin);
+use lib $Bin;
 use MetricsPipeline;
 use ParseMetrics;
 
