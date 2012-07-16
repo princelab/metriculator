@@ -10,4 +10,12 @@ end
 
 task :install => :build do 
   # This is where I output the instructions to change their paths and handle the gem installations to make bundler and rake available... Wait... I do that in a ruby script, actually...
+  system 'ruby install.rb'
+end
+
+namespace :install do 
+  task :path do 
+    
+  end
+
 end

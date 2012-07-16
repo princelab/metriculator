@@ -8,7 +8,7 @@
 #     - Directory address, of the type specific to the system type
 :admin_email: "ryanmt@byu.net"
 :roots:
-  :linux: /media/orbitrap
+  :linux: /home/ryanmt/orbitrap
   :windows: O:\
 :nodes: 
   :instrument: 
@@ -20,7 +20,7 @@
     :program_locale: C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl
   :server: 
     :system: Linux
-    :archive_root: /media/orbitrap
+    :archive_root: /home/ryanmt/orbitrap
 # QC Control
 :quality_control: 
 - :name: Trypsin BSA digest

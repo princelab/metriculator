@@ -10,7 +10,7 @@ App_defaults = {
 	nodes: {
 		instrument: { system: "Windows", archive_root: "O:\\" },
 		metrics: { system: "Windows", archive_root: "O:\\", program_locale: "fill_this_in" },
-		server: { system: "Linux", archive_root: "/media/orbitrap" }
+		server: { system: "Linux", archive_root: "~/orbitrap" }
 	}, 
 	quality_control: [
 		{ name: "Trypsin BSA digest", filter: "QC_bsa" }, 
