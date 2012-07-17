@@ -235,7 +235,7 @@ module Ms
               t_test_out = 2
               #File.open(graphfile, 'w') {|out| [new_structs.map(&:value), old_structs.map(&:value), t_test_out] }
               #File.open(graphfile2, 'w') {|out| [new_structs.map(&:time), old_structs.map(&:time)] }
-              File.open(actual_graphfile, 'w') {|out| out.print [[new_structs.map(&:value), new_structs.map(&:time)], [ old_structs.map(&:value), old_structs.map(&:time)], t_test_out].to_json }
+              File.open(actual_graphfile, 'w') {|out| out.print [[new_structs.map(&:value), new_structs.map(&:time)], [ old_structs.map(&:value), old_structs.map(&:time)], [t_test_out]].to_json }
 ### TODO
               i +=1
             end # while loop

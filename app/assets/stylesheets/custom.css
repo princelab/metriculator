@@ -406,9 +406,14 @@ ul.categories li a {
 /*****************************************************************************************
  * Graphs Styles
  ****************************************************************************************/
-#graphs>div.svg>embed {
+#graphs>div.svg> div.bean {
   width: 540pt;
   height: 216pt;
+}
+#graphs>div.svg> div.time {
+  width: 540pt;
+  height: 216pt;
+
 }
 
 #graphs>div.hplcgraph {

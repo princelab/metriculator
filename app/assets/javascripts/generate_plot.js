@@ -5,15 +5,12 @@
 
 // JS goes here
 var generate_plot = function(str) {
-  console.log(str);
-  //var tmp = JSON.parse(str);
-  console.log(tmp);
-  var tmp = eval( "(" + "{" + str + "}" + ")" ); 
-  console.log(tmp);
-  var t_test = tmp.t_test;
-  var new_vals = tmp.new
-  var old_vals = tmp.old
-
+  var t_test = str[2]
+  var new_vals = str[0];
+  var old_vals = str[1];
+  var chart_number = str[3] + 1;
+  var bean_render = 'bean' + chart_number;
+  var time_render = 'time' + chart_number;
   //var timepoints = new Array();
   // Format timepoint_data
   var prep_time = function(temp, datapoints) {
@@ -26,10 +23,10 @@ var generate_plot = function(str) {
     })
     return output
   }
-  var new_data = prep_time(new_vals.times, new_vals.vals)
-  var old_data = prep_time(old_vals.times, old_vals.vals)
-  var new_kde = science.stats.kde().sample(new_vals.vals);
-  var old_kde = science.stats.kde().sample(old_vals.vals);
+  var new_data = prep_time(new_vals[1], new_vals[0])
+  var old_data = prep_time(old_vals[1], old_vals[0])
+  var new_kde = science.stats.kde().sample(new_vals[0]);
+  var old_kde = science.stats.kde().sample(old_vals[0]);
 
   var normalization_value = 5;
   var normalization_factor = 300;
@@ -79,34 +76,23 @@ var generate_plot = function(str) {
     return output;
   };
 
-  var new_output_data = bin_and_normalize_input(new_vals.vals, normalization_value);
-  var old_output_data = bin_and_normalize_input(old_vals.vals, normalization_value);
-  var new_output_kde = normalize_kde(new_kde(new_vals.vals), normalization_factor);
-  var tmp_old_output_kde = normalize_kde(old_kde(old_vals.vals), normalization_factor);
+  var new_output_data = bin_and_normalize_input(new_vals[0], normalization_value);
+  var old_output_data = bin_and_normalize_input(old_vals[0], normalization_value);
+  var new_output_kde = normalize_kde(new_kde(new_vals[0]), normalization_factor);
+  var tmp_old_output_kde = normalize_kde(old_kde(old_vals[0]), normalization_factor);
   var old_output_kde = [];
   $.each(tmp_old_output_kde, function(i, v) {
     old_output_kde[i] = [tmp_old_output_kde[i][0], v[1] * (-1)]
   });
 
-  // TESTING FXNS and data prep
-  var test_invert = function(array) {
-    output = new Array();
-    $.each(array, function(i, value) {
-      output[i] = [value[0], - value[1]] 
-    })
-    return output;
-  }
-  //var out2_data = test_invert(output_data)
-  //var out2_kde = test_invert(output_kde)
-
-
   // DOCUMENT
   $(document).ready(function() {
     var area_chart = new Highcharts.Chart({
     chart: {
-      renderTo: 'bean',
+      renderTo: document.getElementById(bean_render),
       inverted: true, 
-      reflow: false
+      reflow: false, 
+      width: 300
     },
     legend: { 
       floating: true,
@@ -190,7 +176,7 @@ var generate_plot = function(str) {
     } */
     var time_plot = new Highcharts.Chart({
       chart: {
-        renderTo: 'time',
+        renderTo: document.getElementById(time_render),
         zoomType: 'xy',
         reflow: false
       },
