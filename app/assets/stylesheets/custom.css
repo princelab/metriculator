@@ -407,12 +407,12 @@ ul.categories li a {
  * Graphs Styles
  ****************************************************************************************/
 #graphs>div.svg> div.bean {
-  width: 540pt;
-  height: 216pt;
+  width: 540px;
+  height: 216px;
 }
 #graphs>div.svg> div.time {
-  width: 540pt;
-  height: 216pt;
+  width: 540px;
+  height: 216px;
   float: left
 }
 
