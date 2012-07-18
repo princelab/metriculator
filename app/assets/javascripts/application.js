@@ -9,7 +9,7 @@ $(function() {
   });
 
   // Fade the alerts out when the delete link is clicked.
-  $("#alerts div a").click(function() {
+  $("#alerts div a").click(function () {
     $(this).parent().fadeOut(500, function () {
       $(this).remove();
       // Decrement the count

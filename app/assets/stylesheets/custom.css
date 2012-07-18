@@ -413,7 +413,7 @@ ul.categories li a {
 #graphs>div.svg> div.time {
   width: 540pt;
   height: 216pt;
-
+  float: left
 }
 
 #graphs>div.hplcgraph {
