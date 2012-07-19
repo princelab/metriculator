@@ -1,15 +1,14 @@
 GIT
-  remote: git://github.com/amatsuda/kaminari.git
-  revision: 118927a42e57d6608c10d85b8a62acfc7c175974
+  remote: https://github.com/amatsuda/kaminari.git
+  revision: 82a38e07db1ca1598c8daf073a8f6be22ae714d6
   specs:
     kaminari (0.13.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-      railties (>= 3.0.0)
 
 GIT
-  remote: git://github.com/ryanmt/rserve-simpler.git
-  revision: be2457661ffb3c1d582a32220d18abfda2abe4fd
+  remote: https://github.com/ryanmt/rserve-simpler.git
+  revision: d500584656b42b4f8b8be35c7afa86c41ed70ba6
   specs:
     rserve-simpler (0.0.1)
       rserve-client (~> 0.2.5)

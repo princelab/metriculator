@@ -23,7 +23,7 @@ gem 'dm-aggregates',        DM_VERSION
 gem 'dm-timestamps',        DM_VERSION
 gem 'dm-observer',          DM_VERSION
 gem 'dm-chunked_query'
-gem 'kaminari', :git => 'git://github.com/amatsuda/kaminari.git'
+gem 'kaminari', :git => 'https://github.com/amatsuda/kaminari.git'
 gem 'rufus-scheduler'
 gem 'passenger'
 #gem 'lazy_high_charts', '~> 1.1.5'
@@ -33,7 +33,7 @@ gem 'statsample', '~> 1.2'
 gem 'newrelic_rpm'
 
 gem 'pony'
-gem 'rserve-simpler', :require => 'rserve/simpler', :git => "git://github.com/ryanmt/rserve-simpler.git"
+gem 'rserve-simpler', :require => 'rserve/simpler', :git => "https://github.com/ryanmt/rserve-simpler.git"
 gem 'haml'
 gem 'jquery-rails'
 gem 'rspec'
