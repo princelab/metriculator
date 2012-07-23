@@ -68,14 +68,22 @@ var generate_plot = function(str) {
     });
     return output;
   };
+  var sort_arrays = function(a,b) {
+    return parseFloat(a[0])-parseFloat(b[0])
+  };
+  
+  //console.log(var sorted = [[580,0],[59,1]].sort(sort_arrays));
   var normalize_kde = function(input_kde, factor) {
     var output = [];
-    $.each(input_kde.sort(), function(index, value) {
+
+    input_kde = (input_kde.sort(sort_arrays));
+    $.each(input_kde, function(index, value) {
       output[index] = [value[0], value[1] * factor]
     });
     return output;
   };
-
+  var arr_test = [['79',0],['8',1],['30', 2],['580',3],['59',4]]
+  
   var new_output_data = bin_and_normalize_input(new_vals[0], normalization_value);
   var old_output_data = bin_and_normalize_input(old_vals[0], normalization_value);
   var new_output_kde = normalize_kde(new_kde(new_vals[0]), normalization_factor);
