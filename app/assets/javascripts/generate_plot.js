@@ -72,7 +72,6 @@ var generate_plot = function(str) {
     return parseFloat(a[0])-parseFloat(b[0])
   };
   
-  //console.log(var sorted = [[580,0],[59,1]].sort(sort_arrays));
   var normalize_kde = function(input_kde, factor) {
     var output = [];
 
@@ -82,7 +81,6 @@ var generate_plot = function(str) {
     });
     return output;
   };
-  var arr_test = [['79',0],['8',1],['30', 2],['580',3],['59',4]]
   
   var new_output_data = bin_and_normalize_input(new_vals[0], normalization_value);
   var old_output_data = bin_and_normalize_input(old_vals[0], normalization_value);
