@@ -38,15 +38,6 @@ Read below about the dependencies.  To facilitate the process, I've generated a 
 4. The [SQLite](http://www.sqlite.org/) database. You may already have
    it installed, so check before installing it again.
 
-5. [R](http://r-project.org)
-
-6. The `Rserve` and `beanplot` packages for R.
-   If you are unfamiliar with the process of installing R packages,
-   the following two commands, run from R, should suffice to install the packages.
-
-       install.packages('Rserve', 'http://www.rforge.net/')
-       install.packages('beanplot')
-
 ###Installing The Metric Tracker
 
 Check out the project and install the required Gems:
@@ -57,12 +48,6 @@ Check out the project and install the required Gems:
 This will require the installation of a dev-kit when running in windows.
 Fortunately, there are instructions provided when bundle install fails.
 When that has been done, bundle install again.
-
-We also need to setup the `archiver` gem, which contains much of the
-functionality for working with the metrics.
-
-    gem build archiver.gemspec
-    gem install archiver-0.0.1.gem
 
 Now you need to set up the database configuration via the `database.yml`
 file. There is an example file in `config/database.yml.example`.
@@ -96,17 +81,13 @@ and
 
 ##Running The Metric Tracker
 
-Rserve must be running. From within R, run the following commands:
-
-    library('Rserve')
-    Rserve()
-
-This wills start Rserve as a daemon in the background.
-
-Now start the metric tracker server of choice. If you want to use the
+Start the server of choice. If you want to use the
 built-in server that comes with Rails, run:
 
     bundle exec rails s
 
 Now go to [http://localhost:3000](http://localhost:3000) to see the site
 in action.
+
+#LICENSE
+Released under the MIT license, as referenced in LICENSE
