@@ -33,7 +33,6 @@ gem 'statsample', '~> 1.2'
 gem 'newrelic_rpm'
 
 gem 'pony'
-gem 'rserve-simpler', :require => 'rserve/simpler', :git => "https://github.com/ryanmt/rserve-simpler.git"
 gem 'haml'
 gem 'jquery-rails'
 gem 'rspec'
@@ -52,7 +51,7 @@ end
 
 group :development do 
   gem 'uglifier'
-  gem "therubyracer", :require => 'v8'
+#  gem "therubyracer", :require => 'v8' # removing this because I don't think I use it
   gem 'execjs'
 end
 
