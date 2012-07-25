@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby 
 
-puts "Takes a RAW file, runs metrics on it, and parses the output into the database" 
-
-puts "Optionally, it will send an email alert to let you know the data processing has completed"
 
 require 'optparse'
 options = {}
 metriculator_optparse = OptionParser.new do |opts|
-  opts.banner = "Usage: -m email@example.com file1.RAW ... file[n].raw"
-  opts.banner = "This takes a RAW file, runs the NIST proteomics metrics on it, and parses the output metric data into the Archiver database and website for viewing. If you'd like, you can pass an email address for an automated alert when the metrics have completed"
+  opts.banner = "Usage: [-m email@example.com] file1.RAW ... file[n].raw"
+  opts.separator ""
+  opts.separator "This takes a RAW file, runs the NIST proteomics metrics on it, and parses the output metric data into the Archiver database and website for viewing. If you'd like, you can pass an email address for an automated alert when the metrics have completed"
+  opts.separator ""
 
 # Define options:
   opts.on('-m', '--email [email_address]', String, "Set an email address for a completion alert") do |addy|
@@ -20,11 +19,21 @@ metriculator_optparse = OptionParser.new do |opts|
     exit
   end
 end
+metriculator_optparse.parse!
 
-require 'config' ##TODO this needs to be all I have to do to load my environment settings
-
+if ARGV.size == 0
+  puts metriculator_optparse.banner
+  puts metriculator_optparse.summarize
+  abort
+end
+$LOAD_PATH << File.expand_path('../../lib', __FILE__)
+$LOAD_PATH << File.expand_path('../../app/models', __FILE__)
+require  'config' ##TODO this needs to be all I have to do to load my environment settings
+require 'archiver'
+require_relative '../config/application'
+require 'load_bundle_from_outside'
 files = ARGV.map do |f| 
-  if File.extname( f ).casecmp('.RAW')
+  unless File.extname( f ).casecmp('.RAW') # Casecmp gives a 0 if it matches, -1 and 1 for mismatches
     puts "File doesn't appear to be a rawfile, so we are skipping it:"
     puts "Filename: #{f}"
     nil
@@ -33,7 +42,10 @@ files = ARGV.map do |f|
   end
 end # files
 
-raise StandardError, "Config not loaded Error" unless Kernel.const_defined?(ArchiveRoot)
+# Set the Node
+Node = :metrics
+
+raise StandardError, "Config not loaded Error" unless AppConfig
 files.compact.each do |file|
   if Node != :metrics
     if Ms::ArchiveMount.under_mount?(file)

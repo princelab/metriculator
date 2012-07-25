@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gemspec
+#gemspec
 
 RAILS_VERSION = '~> 3.1.0'
 DM_VERSION    = '~> 1.2.0'

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 USAGE
   omssacl.exe [-h] [-help] [-xmlhelp] [-pm param] [-d blastdb] [-umm]
     [-f infile] [-fx xmlinfile] [-fb dtainfile] [-fp pklinfile]
@@ -264,3 +265,271 @@ OPTIONAL ARGUMENTS
  -dryrun
    Dry run the application: do nothing, only test all preconditions
 
+=======
+USAGE
+  omssacl.exe [-h] [-help] [-xmlhelp] [-pm param] [-d blastdb] [-umm]
+    [-f infile] [-fx xmlinfile] [-fb dtainfile] [-fp pklinfile]
+    [-fm pklinfile] [-foms omsinfile] [-fomx omxinfile] [-fbz2 bz2infile]
+    [-fxml omxinfile] [-o textasnoutfile] [-ob binaryasnoutfile]
+    [-ox xmloutfile] [-obz2 bz2outfile] [-op pepxmloutfile] [-oc csvfile] [-w]
+    [-to pretol] [-te protol] [-tom promass] [-tem premass] [-tez prozdep]
+    [-ta autotol] [-tex exact] [-i ions] [-cl cutlo] [-ch cuthi] [-ci cutinc]
+    [-cp precursorcull] [-v cleave] [-x taxid] [-w1 window1] [-w2 window2]
+    [-h1 hit1] [-h2 hit2] [-hl hitlist] [-ht tophitnum] [-hm minhit]
+    [-hs minspectra] [-he evalcut] [-mf fixedmod] [-mv variablemod] [-mnm]
+    [-mm maxmod] [-e enzyme] [-zh maxcharge] [-zl mincharge]
+    [-zoh maxprodcharge] [-zt chargethresh] [-z1 plusone] [-zc calcplusone]
+    [-zcc calccharge] [-pc pseudocount] [-sb1 searchb1] [-sct searchcterm]
+    [-sp productnum] [-scorr corrscore] [-scorp corrprob] [-no minno]
+    [-nox maxno] [-is subsetthresh] [-ir replacethresh] [-ii iterativethresh]
+    [-p prolineruleions] [-il] [-el] [-ml] [-mx modinputfile]
+    [-mux usermodinputfile] [-nt numthreads] [-ni] [-ns] [-os] [-nrs]
+    [-logfile File_Name] [-conffile File_Name] [-version] [-version-full]
+    [-dryrun]
+
+DESCRIPTION
+   Search engine for identifying MS/MS peptide spectra
+
+OPTIONAL ARGUMENTS
+ -h
+   Print USAGE and DESCRIPTION;  ignore other arguments
+ -help
+   Print USAGE, DESCRIPTION and ARGUMENTS description;  ignore other arguments
+ -xmlhelp
+   Print USAGE, DESCRIPTION and ARGUMENTS description in XML format;  ignore
+   other arguments
+ -pm <String>
+   search parameter input in xml format (overrides command line)
+   Default = `'
+ -d <String>
+   Blast sequence library to search. Do not include .p* filename suffixes.
+   Default = `nr'
+ -umm
+   use memory mapped sequence libraries
+ -f <String>
+   single dta file to search
+   Default = `'
+ -fx <String>
+   multiple xml-encapsulated dta files to search
+   Default = `'
+ -fb <String>
+   multiple dta files separated by blank lines to search
+   Default = `'
+ -fp <String>
+   pkl formatted file
+   Default = `'
+ -fm <String>
+   mgf formatted file
+   Default = `'
+ -foms <String>
+   omssa oms file
+   Default = `'
+ -fomx <String>
+   omssa omx file
+   Default = `'
+ -fbz2 <String>
+   omssa omx file compressed by bzip2
+   Default = `'
+ -fxml <String>
+   omssa xml search request file
+   Default = `'
+ -o <String>
+   filename for text asn.1 formatted search results
+   Default = `'
+ -ob <String>
+   filename for binary asn.1 formatted search results
+   Default = `'
+ -ox <String>
+   filename for xml formatted search results
+   Default = `'
+ -obz2 <String>
+   filename for bzip2 compressed xml formatted search results
+   Default = `'
+ -op <String>
+   filename for pepXML formatted search results
+   Default = `'
+ -oc <String>
+   filename for csv formatted search summary
+   Default = `'
+ -w
+   include spectra and search params in search results
+ -to <Real>
+   product ion m/z tolerance in Da
+   Default = `0.8'
+ -te <Real>
+   precursor ion m/z tolerance in Da
+   Default = `2.0'
+ -tom <Integer>
+   product ion search type (0 = mono, 1 = avg, 2 = N15, 3 = exact)
+   Default = `0'
+ -tem <Integer>
+   precursor ion search type (0 = mono, 1 = avg, 2 = N15, 3 = exact)
+   Default = `0'
+ -tez <Integer>
+   charge dependency of precursor mass tolerance (0 = none, 1 = linear)
+   Default = `0'
+ -ta <Real>
+   automatic mass tolerance adjustment fraction
+   Default = `1.0'
+ -tex <Real>
+   threshold in Da above which the mass of neutron should be added in exact
+   mass search
+   Default = `1446.94'
+ -i <String>
+   id numbers of ions to search (comma delimited, no spaces)
+   Default = `1,4'
+ -cl <Real>
+   low intensity cutoff as a fraction of max peak
+   Default = `0.0'
+ -ch <Real>
+   high intensity cutoff as a fraction of max peak
+   Default = `0.2'
+ -ci <Real>
+   intensity cutoff increment as a fraction of max peak
+   Default = `0.0005'
+ -cp <Integer>
+   eliminate charge reduced precursors in spectra (0=no, 1=yes)
+   Default = `0'
+ -v <Integer>
+   number of missed cleavages allowed
+   Default = `1'
+ -x <String>
+   comma delimited list of taxids to search (0 = all)
+   Default = `0'
+ -w1 <Integer>
+   single charge window in Da
+   Default = `20'
+ -w2 <Integer>
+   double charge window in Da
+   Default = `14'
+ -h1 <Integer>
+   number of peaks allowed in single charge window
+   Default = `2'
+ -h2 <Integer>
+   number of peaks allowed in double charge window
+   Default = `2'
+ -hl <Integer>
+   maximum number of hits retained per precursor charge state per spectrum
+   Default = `30'
+ -ht <Integer>
+   number of m/z values corresponding to the most intense peaks that must
+   include one match to the theoretical peptide
+   Default = `6'
+ -hm <Integer>
+   the minimum number of m/z matches a sequence library peptide must have for
+   the hit to the peptide to be recorded
+   Default = `2'
+ -hs <Integer>
+   the minimum number of m/z values a spectrum must have to be searched
+   Default = `4'
+ -he <Real>
+   the maximum evalue allowed in the hit list
+   Default = `1'
+ -mf <String>
+   comma delimited (no spaces) list of id numbers for fixed modifications
+   Default = `'
+ -mv <String>
+   comma delimited (no spaces) list of id numbers for variable modifications
+   Default = `'
+ -mnm
+   n-term methionine should not be cleaved
+ -mm <Integer>
+   the maximum number of mass ladders to generate per database peptide
+   Default = `128'
+ -e <Integer>
+   id number of enzyme to use
+   Default = `0'
+ -zh <Integer>
+   maximum precursor charge to search when not 1+
+   Default = `3'
+ -zl <Integer>
+   minimum precursor charge to search when not 1+
+   Default = `1'
+ -zoh <Integer>
+   maximum product charge to search
+   Default = `2'
+ -zt <Integer>
+   minimum precursor charge to start considering multiply charged products
+   Default = `3'
+ -z1 <Real>
+   fraction of peaks below precursor used to determine if spectrum is charge 1
+   Default = `0.95'
+ -zc <Integer>
+   should charge plus one be determined algorithmically? (1=yes)
+   Default = `1'
+ -zcc <Integer>
+   how should precursor charges be determined? (1=believe the input file,
+   2=use a range)
+   Default = `2'
+ -pc <Integer>
+   minimum number of precursors that match a spectrum
+   Default = `1'
+ -sb1 <Integer>
+   should first forward (b1) product ions be in search (1=no)
+   Default = `1'
+ -sct <Integer>
+   should c terminus ions be searched (1=no)
+   Default = `0'
+ -sp <Integer>
+   max number of ions in each series being searched (0=all)
+   Default = `100'
+ -scorr <Integer>
+   turn off correlation correction to score (1=off, 0=use correlation)
+   Default = `0'
+ -scorp <Real>
+   probability of consecutive ion (used in correlation correction)
+   Default = `0.5'
+ -no <Integer>
+   minimum size of peptides for no-enzyme and semi-tryptic searches
+   Default = `4'
+ -nox <Integer>
+   maximum size of peptides for no-enzyme and semi-tryptic searches (0=none)
+   Default = `40'
+ -is <Real>
+   evalue threshold to include a sequence in the iterative search, 0 = all
+   Default = `0.0'
+ -ir <Real>
+   evalue threshold to replace a hit, 0 = only if better
+   Default = `0.0'
+ -ii <Real>
+   evalue threshold to iteratively search a spectrum again, 0 = always
+   Default = `0.01'
+ -p <String>
+   id numbers of ion series to apply no product ions at proline rule at (comma
+   delimited, no spaces)
+   Default = `'
+ -il
+   print a list of ions and their corresponding id number
+ -el
+   print a list of enzymes and their corresponding id number
+ -ml
+   print a list of modifications and their corresponding id number
+ -mx <String>
+   file containing modification data
+   Default = `mods.xml'
+ -mux <String>
+   file containing user modification data
+   Default = `usermods.xml'
+ -nt <Integer>
+   number of search threads to use, 0=autodetect
+   Default = `0'
+ -ni
+   don't print informational messages
+ -ns
+   depreciated flag
+ -os
+   use omssa 1.0 scoring
+ -nrs
+   turn off rank score
+ -logfile <File_Out>
+   File to which the program log should be redirected
+ -conffile <File_In>
+   Program's configuration (registry) data file
+ -version
+   Print version number;  ignore other arguments
+ -version-full
+   Print extended version data;  ignore other arguments
+ -dryrun
+   Dry run the application: do nothing, only test all preconditions
+
+>>>>>>> NIST_v1_0_2
