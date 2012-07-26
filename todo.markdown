@@ -1,6 +1,7 @@
 #This file is a running list of things to accomplish to finish the project
 
-##TODO list (111102)
+##Current Focus:
+  * Fix the fact that I'm not reading a new file, but just copying the data into new plots
 
 ###Archiver
 -	Test the metric starting
@@ -13,7 +14,6 @@
   - Make a special viewing page for any graphs that are significantly different (T-test) __????  Would this really help???__
     * Or a page of links to the images?
   * http://www.datatables.net/ ????  Would this make that table easier?
-
 ###Database
 
 ###Tests
