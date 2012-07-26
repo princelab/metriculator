@@ -406,14 +406,20 @@ ul.categories li a {
 /*****************************************************************************************
  * Graphs Styles
  ****************************************************************************************/
+#graphs>div.svg>div {
+  height: 216px;
+  position: absolute;
+  z-index: -1;
+}
 #graphs>div.svg> div.bean {
   width: 540px;
   height: 216px;
+  left: 200px;
 }
 #graphs>div.svg> div.time {
   width: 540px;
   height: 216px;
-  float: left
+  left: 520px;
 }
 
 #graphs>div.hplcgraph {
