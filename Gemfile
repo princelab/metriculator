@@ -55,6 +55,10 @@ group :development do
   gem 'execjs'
 end
 
+  gem 'sprockets'
+  gem 'tilt'
+  gem 'hike', '~>1.2'
+
 group :development, :test do
   gem 'ruby-prof'
 ### WINDOWS DEPENDENT Version...?
