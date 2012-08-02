@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby 
 
-
 require 'optparse'
 options = {}
 metriculator_optparse = OptionParser.new do |opts|
@@ -19,19 +18,19 @@ metriculator_optparse = OptionParser.new do |opts|
     exit
   end
 end
-metriculator_optparse.parse!
 
 if ARGV.size == 0
   puts metriculator_optparse.banner
   puts metriculator_optparse.summarize
   abort
 end
+metriculator_optparse.parse!
 $LOAD_PATH << File.expand_path('../../lib', __FILE__)
 $LOAD_PATH << File.expand_path('../../app/models', __FILE__)
 require  'config' ##TODO this needs to be all I have to do to load my environment settings
 require 'archiver'
-require_relative '../config/application'
 require 'load_bundle_from_outside'
+require_relative '../config/application'
 files = ARGV.map do |f| 
   unless File.extname( f ).casecmp('.RAW') # Casecmp gives a 0 if it matches, -1 and 1 for mismatches
     puts "File doesn't appear to be a rawfile, so we are skipping it:"
