@@ -25,10 +25,11 @@ if ARGV.size == 0
   abort
 end
 metriculator_optparse.parse!
+
+# Prep work for loading the environment and setting up everything we need.
 $LOAD_PATH << File.expand_path('../../lib', __FILE__)
 $LOAD_PATH << File.expand_path('../../app/models', __FILE__)
-require  'config' ##TODO this needs to be all I have to do to load my environment settings
-require 'archiver'
+require  'config' ##TODO this needs to be all I have to do to load my environment settings #? Maybe?  Should, perhaps, but not need.
 require 'load_bundle_from_outside'
 require_relative '../config/application'
 files = ARGV.map do |f| 
@@ -41,10 +42,18 @@ files = ARGV.map do |f|
   end
 end # files
 
-# Set the Node
+# The information regarding the system type and archive root location
+SysInfo = AppConfig[:nodes][:metrics]
+# A constant telling subsequent processes the program type called
 Node = :metrics
-
+# A constant to make accessing the root directory for the archives easier
+ArchiveRoot = SysInfo[:archive_root]
+#putsv "ArchiveRoot: #{ArchiveRoot}"
+Program = SysInfo[:program_locale]
+Messenger.setup
 raise StandardError, "Config not loaded Error" unless AppConfig
+
+# Start the actual runtime analysis
 files.compact.each do |file|
   if Node != :metrics
     if Ms::ArchiveMount.under_mount?(file)

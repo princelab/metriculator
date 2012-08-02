@@ -4,6 +4,4 @@ ECHO.This version of Ruby has not been built with support for Windows 95/98/Me.
 GOTO :EOF
 :WinNT
 ::@"%~dp0ruby.exe" "%~dpn0" %*
-ECHO %*
-ECHO "%~dpn0"
 @"ruby.exe" "%~dpn0" %*
