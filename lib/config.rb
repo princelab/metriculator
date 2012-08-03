@@ -130,3 +130,6 @@ def load_runconfig(directory)
   Dir.chdir restore_dir
   @runConfig
 end
+
+# Load the environment?
+require_relative 'archiver'
