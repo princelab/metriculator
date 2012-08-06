@@ -29,9 +29,9 @@ metriculator_optparse.parse!
 # Prep work for loading the environment and setting up everything we need.
 $LOAD_PATH << File.expand_path('../../lib', __FILE__)
 $LOAD_PATH << File.expand_path('../../app/models', __FILE__)
-require  'config' ##TODO this needs to be all I have to do to load my environment settings #? Maybe?  Should, perhaps, but not need.
-require 'load_bundle_from_outside'
 require_relative '../config/application'
+require  'config' ##TODO this should be all I that is required to load my environment settings
+require 'load_bundle_from_outside'
 files = ARGV.map do |f| 
   unless File.extname( f ).casecmp('.RAW') # Casecmp gives a 0 if it matches, -1 and 1 for mismatches
     puts "File doesn't appear to be a rawfile, so we are skipping it:"

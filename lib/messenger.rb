@@ -1,7 +1,6 @@
 # This is the function that handles all the Message passing for this application
 class Messenger
-	class << self
-
+  class << self
     # There need to be some locations defined, relative to the mount, for three files here... A queue, and two completed lists.  
     require_relative 'config.rb'
 # This holds a hash directory of the node parameters
@@ -22,7 +21,7 @@ class Messenger
         tmp +=1
         @@todo << (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])).map(&:chomp)
       rescue StandardError => bang
-        find_files(AppConfig[:nodes][:server][:archive_root])
+        find_files(AppConfig[:nodes][:metrics][:archive_root])
         print "Error: Hacking a fix... " + bang.message
         retry unless tmp > 1
         print "Error: File doesn't exist!!" + bang.message + bang.backtrace.join("\n")
