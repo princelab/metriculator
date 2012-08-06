@@ -88,7 +88,12 @@ module Ms
       # @return [Hash] the out_hash which contains the parsed data
       def parse				# Returns the out_hash
         output = {}
+	# Tolerate line ending errors... development can cause that through Dropbox and git syncing
         array = IO.readlines(@metricsfile, 'r:us-ascii').first.split("\r\n")
+	if array.size < 2
+	  array = IO.readlines(@metricsfile, 'r:us-ascii').first.split("\n")
+	end
+	# Move forward now that I've caught and fixed the error.
         outs_hash = {}; key = ""
         measures = []
         array.each_index do |index|
