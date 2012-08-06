@@ -49,7 +49,7 @@ require 'archiver'
 require 'eksigent'
 require 'merge'
 require 'comparison_grapher'
-require 'app_communication_messaging'
+require 'messenger'
 #
 #end
 

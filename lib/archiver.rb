@@ -11,7 +11,7 @@ require 'xcalibur'
 require 'eksigent'
 require 'optparse'
 require 'archive_mount'
-require 'app_communication_messaging'
+require 'messenger'
 #require 'enum_extensions'
 # this package handles options and configures the packaging and archiving of 
 # data produced by the instrument, as well as archiving of all the files used
