@@ -5,3 +5,4 @@
   * Flesh out specs
   * Fix Highcharts sorting and plot limits
     * add a max/min calculator
+  * support more libraries in NISTMSQC
