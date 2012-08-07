@@ -4,3 +4,4 @@
   * Metric generation
   * Flesh out specs
   * Fix Highcharts sorting and plot limits
+    * add a max/min calculator
