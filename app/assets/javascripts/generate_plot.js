@@ -38,6 +38,8 @@ var generate_plot = function(str) {
       return Math.min.apply( Math, array );
   };
   // END ejohn.org
+  // TODO Add a max/min calculator to determine the range for the plot
+
   var bin_and_normalize_input = function(input_data, normalization_val) {
     var val_pairs = new Array();
     var x_vals = new Array();
@@ -91,6 +93,8 @@ var generate_plot = function(str) {
     old_output_kde[i] = [tmp_old_output_kde[i][0], v[1] * (-1)]
   });
 
+  console.log(bin_low_val);
+  console.log(bin_high_val);
   // DOCUMENT
   $(document).ready(function() {
     var area_chart = new Highcharts.Chart({
@@ -106,7 +110,7 @@ var generate_plot = function(str) {
     },
     title: { text: 'Beanplot' },
     subtitle: {
-      text: "T-test p-value: ",
+      text: "T-test p-value: ### insert P value here",
       style: { fontSize: '11px' }
     }, 
     yAxis: {
@@ -207,6 +211,8 @@ var generate_plot = function(str) {
         type: 'datetime'
       },
       yAxis: { 
+        min: bin_low_val,
+        max: bin_high_val,
         gridLineWidth: 1, 
         reversed: false
       },
