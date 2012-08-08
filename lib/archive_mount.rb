@@ -1,3 +1,6 @@
+	class Defaults < Struct.new(:metric_taxonomy, :metric_instrument_type) do
+	  end
+	end
 
 module Ms
 #This class provides the utility for organizing the file structure and handling the archive as a Mounted location, simplifying the use elsewhere in the library
@@ -68,6 +71,10 @@ module Ms
       def metric_config
         # This is bad... but I just want things to work!!!!!
         @mount_dir = ::ArchiveRoot
+	default = Defaults.new
+	default.metric_taxonomy= 'hsa'
+	default.metric_instrument_type = 'ORBI'
+	default
       end
       # This defines the location for the archived directory and can be used by a File.join command to generate a FilePath
       # location = (group, user, mtime, experiment_name)

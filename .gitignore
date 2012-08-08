@@ -16,3 +16,4 @@ public/assets
 archiver_defaults.yml
 NISTMSQCv1_2_0/libs/*
 public/hplc_graphs/*
+NISTMSQCv1_2_0/scripts/ms.ini*

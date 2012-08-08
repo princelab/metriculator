@@ -56,7 +56,7 @@ module Ms
         end
         @rawtime = File.mtime(@rawfile)
         begin 
-        putsv "Metrics program location = #{::NistProgram}"
+        putsv "Metrics program location = #{::Program}"
         rescue 
           binding.pry
         end
@@ -70,11 +70,24 @@ module Ms
           path = File.dirname(@rawfile)
         end
         output_metrics_file = File.join(path, File.basename(@rawfile, '.raw'))
+        output_metrics_dir = File.join(path, 'metrics')
+	FileUtils.mkdir(output_metrics_dir) unless Dir.exist?(output_metrics_dir)
         putsv "PATH: #{path}"
+	putsv "Path only contains one *.RAW file?\t#{Dir.entries(path).select{|a| a[/\.RAW/i]}.size == 1}"
         putsv "output_metrics_file: #{output_metrics_file}"
-        #%Q{#{::NistProgram} --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{ArchiveMount.config.metric_taxonomy}  --instrument_type #{ArchiveMount.config.metric_instrument_type || 'ORBI'} }
+        putsv "output_metrics_dir : #{output_metrics_dir}"
+	oldpwd = Dir.pwd
+	Dir.chdir File.join(File.dirname(::Program), "..", "bin")
+        text = %Q{perl.exe #{::Program} --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{ArchiveMount.metric_config.metric_taxonomy}  --instrument_type #{ArchiveMount.metric_config.metric_instrument_type || 'ORBI'} }
+        text = %Q{perl.exe #{::Program} --in_dir "#{path}" --out_dir "#{output_metrics_dir}" --library #{ArchiveMount.metric_config.metric_taxonomy}  --instrument_type #{ArchiveMount.metric_config.metric_instrument_type || 'ORBI'} }
+	puts text
+	  puts '#'*80
+	puts %x|#{text}|
+	  puts '-'*80
         ## PARSE THE FILE
+	file = File.join(output_metrics_dir, 'metrics_report.msqc')
         ## CLEAN THE DIRECTORIES (tmp if used, and metrics regardless)
+	Dir.chdir oldpwd
       end
 
       # Archive the metric data by ensuring it is parsed {#parse} and sending it to the database {#to_database}

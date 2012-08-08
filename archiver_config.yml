@@ -14,7 +14,7 @@
   :metrics: 
     :system: Windows
     :archive_root: O:\
-    :program_locale: C:\\NISTMSQCv1_0_3\\scripts\\run_NISTMSQC_pipeline.pl
+    :program_locale: C:\\Users\\Ryan\\Dropbox\\coding\\win_metriculator\\NISTMSQCv1_2_0\\scripts\\run_NISTMSQC_pipeline.pl
   :server: 
     :system: Linux
     :archive_root: /media/orbitrap
@@ -24,3 +24,9 @@
   :filter: QC_bsa
 - :name: HEK_digest
   :filter: QC_hek
+:nist: 
+  :program_locale: C:\\Users\\Ryan\\Dropbox\\coding\\win_metriculator\\NISTMSQCv1_2_0\\scripts\\run_NISTMSQC_pipeline.pl
+  :libraries:
+    - hsa
+    - bsa
+    - human

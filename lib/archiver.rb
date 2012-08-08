@@ -84,7 +84,7 @@ end
 ##  Program starts here!!!! 
 
 if File.basename($0) == 'archiver'
-  archiver_optparse.parse!# outparse and PARSED!! 
+  #archiver_optparse.parse!# outparse and PARSED!! 
 end
 if options[:verbose]
   $VERBOSE = 1

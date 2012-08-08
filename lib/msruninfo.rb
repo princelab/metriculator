@@ -4,11 +4,6 @@ MsrunInfoStruct = Struct.new(:sequencefile, :methodfile, :rawfile, :tunefile, :h
 end
 require 'yaml'
 require 'fileutils'
-# System Specific Constants
-# Location of the NIST directory
-Nist_dir = "C:\\NISTMSQC\\scripts"
-# Location of the NIST pipeline initiation script
-Nist_exe = Nist_dir + "\\run_NISTMSQC_pipeline.pl"
 
 require 'xcalibur'
 require 'eksigent'

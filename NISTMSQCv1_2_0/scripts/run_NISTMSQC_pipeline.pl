@@ -3,6 +3,8 @@
 use strict;
 use Getopt::Long;
 use lib '.';
+use FindBin qw($Bin);
+use lib $Bin;
 use MetricsPipeline;
 use ParseMetrics;
 
