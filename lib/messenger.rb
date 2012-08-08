@@ -19,10 +19,10 @@ class Messenger
       tmp = 0
       begin 
         tmp +=1
-        @@todo << (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])).map(&:chomp)
+        @@todo << (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])-File.readlines(@@logs[:error])-File.readlines(@@logs[:in_process])).map(&:chomp)
       rescue StandardError => bang
+        print "Error: Hacking a fix assuming a windows machine... " + bang.message
         find_files(AppConfig[:nodes][:metrics][:archive_root])
-        print "Error: Hacking a fix... " + bang.message
         retry unless tmp > 1
         print "Error: File doesn't exist!!" + bang.message + bang.backtrace.join("\n")
       end
@@ -31,7 +31,7 @@ class Messenger
 # This function will clear the completed items of out the logs, leaving only uncompleted items.  This can run periodically to keep things nice and clean
     def clear_completed!
       update
-      @@logs.each do |k, file|
+      [@@logs[:todo], @@logs[:metrics]].each do |k, file|
         FileUtils.rm(file)
         FileUtils.touch(file)
       end
@@ -69,11 +69,30 @@ class Messenger
     def add_todo(string)
       write_message(:todo, string)
     end
+# This function adds to the error list
+# @param [Location_relative_to_mount]
+    def add_error(string)
+      write_message(:error, string)
+    end
+# This function adds to the working list
+# @param [Location_relative_to_mount]
+    def add_working(string)
+      write_message(:error, string)
+    end
+# This fxn removes any completed items from the working
+    def clear_finished
+      unfinished = File.readlines(@@logs[:in_process])-File.readlines(@@logs[:metrics])
+      unfinished.each do |f|
+	add_working(f)
+      end
+    end
     private
 # This function defines the location of the log files
     def find_files(location)
       @@logs = {:todo => File.join(location, "todo.log"), 
-        :metrics => File.join(location, "metrics.log")
+        :metrics => File.join(location, "metrics.log"), 
+	:error => File.join(location, "error.log"),
+	:in_process => File.join(location, "working.log")
       }
     end
 # This function writes to the specified log file
