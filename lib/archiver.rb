@@ -5,7 +5,6 @@ def putsv(string)
   puts string if $VERBOSE
 end
 require 'pry' 
-require 'config'
 require 'msruninfo'
 require 'xcalibur'
 require 'eksigent'

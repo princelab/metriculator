@@ -34,6 +34,16 @@ describe 'parses metrics and databases them' do
   it 'pulls back the metric test from the database' do 
     @match.raw_id.should == @metric.raw_ids.first
   end
-
+  it 'handles the new file format from NISTMSQC 1.2.0' do 
+    @metric = Ms::NIST::Metric.new(TESTFILE + '/test.msqc')
+    @metric.slice_hash
+    @metric.to_database
+    @matches = Msrun.all
+    @match = Msrun.first(@metric.slide_hash.first.raw_id)
+    # Tests
+    @match.class.should == Msrun
+    @metric.parse.class.should == Hash
+    @match.raw_id.should == @metric.raw_ids.first
+  end
 end
 
