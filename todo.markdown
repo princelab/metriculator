@@ -5,4 +5,6 @@
   * Flesh out specs
   * Fix Highcharts sorting and plot limits
     * add a max/min calculator
-  * support more libraries in NISTMSQC
+    * Add highcharts usage reference. 
+      http://shop.highsoft.com/highcharts.html
+  * support a method for adding more libraries in NISTMSQC
