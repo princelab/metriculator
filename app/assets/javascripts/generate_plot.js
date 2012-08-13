@@ -231,13 +231,13 @@ var generate_plot = function(str) {
           type: 'line',
           data: new_data,
           name: 'sample2_numline',
-          color: '#1A47C9',
+          color: '#B22222',
           zIndex: 1,
         }, {
           type: 'line', 
           data: old_data, 
           name: 'sample1_numline',
-          color: '#A1749C',
+          color: '#00688B',
           zIndex: 1
         }]
     });
