@@ -190,6 +190,7 @@ header nav {
   -moz-box-shadow: 0px 1px 5px #999;
   -webkit-box-shadow: 0px 1px 5px #999;
   box-shadow: 0px 1px 5px #999;
+  z-index: 100;
 }
 
 header>nav {
@@ -409,14 +410,21 @@ ul.categories li a {
  ****************************************************************************************/
 #graphs>div.svg>div {
   height: 216px;
-  position: absolute;
+  float: left;
   z-index: -1;
 }
 #graphs div.bean, #graphs div.time {
-  width: 540px;
   height: 216px;
-  left: 200px;
+  margin: 0 0 0 20px;
   z-index: 10;
+}
+
+#graphs div.time {
+  width: 560px;
+}
+
+#graphs div.bean {
+  width: 300px;
 }
 
 #graphs>div.hplcgraph {
@@ -425,6 +433,7 @@ ul.categories li a {
 
 #graphs>div.svg { 
   height: 300px;
+  clear: both;
 }
 
 #legends>div.colors p.first_description {
