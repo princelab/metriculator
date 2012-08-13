@@ -153,24 +153,24 @@ var generate_plot = function(str) {
         type: 'column',
         data: new_output_data,
         name: 'sample2_numline',
-        color: '#1A47C9',
+        color: '#B22222',
         zIndex: 1,
       }, {
         type: 'area',
         data: new_output_kde,
         name: 'sample2_kde',
-        color: '#9E8FC9',
+        color: '#B32323',
       }, {
         type: 'column', 
         data: old_output_data, 
         name: 'sample1_numline',
-        color: '#A1749C',
+        color: '#00688B',
         zIndex: 1
       }, {
         type: 'area',
         data: old_output_kde,
         name: 'sample1_kde',
-        color: '#E9F89C',
+        color: '#01698C',
       }]
     });
     /*
