@@ -88,6 +88,7 @@ footer {
 header {
   height: 60px;
   line-height: 30px;
+  z-index: 100;
 }
 
 header img {
@@ -411,17 +412,12 @@ ul.categories li a {
   position: absolute;
   z-index: -1;
 }
-#graphs>div.svg> div.bean {
+#graphs div.bean, #graphs div.time {
   width: 540px;
   height: 216px;
   left: 200px;
+  z-index: 10;
 }
-#graphs>div.svg> div.time {
-  width: 540px;
-  height: 216px;
-  left: 520px;
-}
-
 #graphs>div.hplcgraph {
   width: 920pt;
 }
@@ -446,7 +442,6 @@ div.legend {
   height: 248px; /* 248 to the bottom of the p-value text, 268 to fill the space, 208 to align with the graphs */
   min-width: 150px;
   background-color: #ddd;
-  margin: 8px;
   padding: 8px;
   margin-bottom: 18px;
 }
