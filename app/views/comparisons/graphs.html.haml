@@ -1,4 +1,7 @@
 = javascript_include_tag 'generate_plot'
+:javascript 
+  var first = "#{@comparison.first_description}";
+  var second = "#{@comparison.second_description}";
 %h1=@graph_title
 - @up = "#{comparison_path(params[:id])}/#{params[:graph_path][/(.*)\/.*/,1]}"
 %a{ :href => @up} Up
@@ -38,6 +41,7 @@
           %p.trend= "Desired trend"
     
       - txt = ['public', (comparison_path(params[:id]) + graph).split('/').uniq.delete_if{|a| a.empty? }].join('/')
+      %p= txt
       %div.bean{:id => "bean#{i+1}" }
       %div.time{:id => "time#{i+1}" }
       :javascript

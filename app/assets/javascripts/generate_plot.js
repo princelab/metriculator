@@ -110,7 +110,7 @@ var generate_plot = function(str) {
     },
     title: { text: 'Beanplot' },
     subtitle: {
-      text: "T-test p-value: ### insert P value here",
+      text: "T-test p-value: " + t_test,
       style: { fontSize: '11px' }
     }, 
     yAxis: {
@@ -151,26 +151,26 @@ var generate_plot = function(str) {
     },
     series: [{
         type: 'column',
-        data: new_output_data,
-        name: 'sample2_numline',
-        color: '#B22222',
+        data: old_output_data, 
+        name: first,
+        color: '#00688B',
         zIndex: 1,
       }, {
         type: 'area',
-        data: new_output_kde,
-        name: 'sample2_kde',
-        color: '#B32323',
+        data: old_output_kde,
+        name: first,
+        color: '#01698C',
       }, {
         type: 'column', 
-        data: old_output_data, 
-        name: 'sample1_numline',
-        color: '#00688B',
+        data: new_output_data,
+        name: second,
+        color: '#B22222',
         zIndex: 1
       }, {
         type: 'area',
-        data: old_output_kde,
-        name: 'sample1_kde',
-        color: '#01698C',
+        data: new_output_kde,
+        name: second,
+        color: '#B32323',
       }]
     });
     /*
@@ -229,15 +229,15 @@ var generate_plot = function(str) {
       tooltip: { crosshairs: true }, 
       series: [{
           type: 'line',
-          data: new_data,
-          name: 'sample2_numline',
-          color: '#B22222',
+          data: old_data, 
+          name: first,
+          color: '#00688B',
           zIndex: 1,
         }, {
           type: 'line', 
-          data: old_data, 
-          name: 'sample1_numline',
-          color: '#00688B',
+          data: new_data,
+          name: second,
+          color: '#B22222',
           zIndex: 1
         }]
     });
