@@ -1,11 +1,10 @@
 = javascript_include_tag 'generate_plot'
-:javascript 
-  var first = "#{@comparison.first_description}";
-  var second = "#{@comparison.second_description}";
 %h1=@graph_title
 - @up = "#{comparison_path(params[:id])}/#{params[:graph_path][/(.*)\/.*/,1]}"
 %a{ :href => @up} Up
-
+:javascript 
+  var first = "#{@comparison.first_description}";
+  var second = "#{@comparison.second_description}";
 / TODO: This is the best I can pull off to clean and fix these paths to work despite changing the root path, it works... but probably isn't kosher Rails practice
 /%p= "#{comparison_path(params[:id])}/#{@graph_directories.first}".split('/').uniq.join('/')
 #subdirectories
@@ -17,6 +16,9 @@
         %a{ :href => (comparison_path(params[:id]) + directory).split('/').uniq.join('/') }= cat + " - " + name
 #graphs
   - @graph_files.each_with_index do |graph, i|
+    :javascript
+      var plot_title = "#{graph}"
+    %p=graph
     %div.svg
       - category = graph.split('/')[-3].to_sym
       - subcat = graph.split('/')[-2].split('_').map{|word| word.capitalize}.join('').to_sym

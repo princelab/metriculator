@@ -7,6 +7,8 @@ describe 'Ms::ComparisonGrapher' do
     @match_old = Msrun.all
     @match_new_short = @match_old.pop
     @match_new = @match_old.pop(5)
+    puts "@match_old.size: #{@match_old.size}"
+    puts "@match_new.size: #{@match_new.size}"
 	end
 	it 'generates images for many new matches' do 
 		puts "\n"

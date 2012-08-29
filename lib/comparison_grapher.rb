@@ -230,9 +230,17 @@ module Ms
               graphfiles << [graphfile, graphfile2]
               p actual_graphfile
               name = @@name_legend[names[i-1]]
-              t_tester = Statsample::Test.t_two_samples_independent(new_structs.map(&:value), old_structs.map(&:value))
-              #t_test_out = "%.2g" % t_tester.t_not_equal_variance
-              t_test_out = 2
+              begin
+                t_tester = Statsample::Test.t_two_samples_independent(new_structs.map(&:value).to_vector(:scale), old_structs.map(&:value).to_vector(:scale))
+                t_test_out = "%.2g" % t_tester.probability_not_equal_variance
+                puts t_test_out
+              rescue => e
+                File.open('error_comparison_grapher.log', 'w') do |out|
+                  out.puts e.inspect
+                end
+                t_test_out = 2
+              end
+                  
               #File.open(graphfile, 'w') {|out| [new_structs.map(&:value), old_structs.map(&:value), t_test_out] }
               #File.open(graphfile2, 'w') {|out| [new_structs.map(&:time), old_structs.map(&:time)] }
               File.open(actual_graphfile, 'w') {|out| out.print [[new_structs.map(&:value), new_structs.map(&:time)], [ old_structs.map(&:value), old_structs.map(&:time)], [t_test_out]].to_json }
