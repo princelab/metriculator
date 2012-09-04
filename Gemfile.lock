@@ -6,6 +6,11 @@ GIT
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
 
+GIT
+  remote: https://github.com/princelab/distribution.git
+  revision: 577c12ab918093da091f46c3bae4478ea1404ae1
+  specs:
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -281,6 +286,7 @@ DEPENDENCIES
   autotest-growl
   autotest-rails
   capybara
+  distribution!
   dm-aggregates (~> 1.2.0)
   dm-chunked_query
   dm-constraints (~> 1.2.0)
