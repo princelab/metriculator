@@ -5,6 +5,7 @@ def send_to_json(name, arg)
 end
     
 require 'statsample/test'
+require 'bandwidth'
 module Ms
 # This is the class which handles the responses from DB queries and generates comparison graphs
   class ComparisonGrapher
@@ -227,11 +228,15 @@ module Ms
               graphfile = File.join([graphfile_prefix, names[i-1] + ".vals.json"])
               graphfile2 = File.join([graphfile_prefix, names[i-1] + ".times.json"])
               actual_graphfile = File.join([graphfile_prefix, names[i-1] + '.json'])
-              graphfiles << [graphfile, graphfile2]
+              kde_graphfile = File.join([graphfile_prefix, names[i-1] + ".kde.json"])
+              graphfiles << [graphfile, graphfile2, kde_graphfile]
               p actual_graphfile
               name = @@name_legend[names[i-1]]
+              # Value storages
+              new_vals = new_structs.map(&:value)
+              old_vals = old_structs.map(&:value)
               begin
-                t_tester = Statsample::Test.t_two_samples_independent(new_structs.map(&:value).to_vector(:scale), old_structs.map(&:value).to_vector(:scale))
+                t_tester = Statsample::Test.t_two_samples_independent(new_vals.to_vector(:scale), old_vals.to_vector(:scale))
                 t_test_out = "%.2g" % t_tester.probability_not_equal_variance
                 puts t_test_out
               rescue => e
@@ -241,9 +246,11 @@ module Ms
                 t_test_out = 2
               end
                   
-              #File.open(graphfile, 'w') {|out| [new_structs.map(&:value), old_structs.map(&:value), t_test_out] }
-              #File.open(graphfile2, 'w') {|out| [new_structs.map(&:time), old_structs.map(&:time)] }
-              File.open(actual_graphfile, 'w') {|out| out.print [[new_structs.map(&:value), new_structs.map(&:time)], [ old_structs.map(&:value), old_structs.map(&:time)], [t_test_out]].to_json }
+              File.open(actual_graphfile, 'w') {|out| out.print [[new_vals, new_structs.map(&:time)], [ old_vals, old_structs.map(&:time)], [t_test_out]].to_json }
+              bandwidth = [Bandwidth.nrd0(new_vals), Bandwidth.nrd0(old_vals)].mean
+              new_kde = Distribution.normal.kde(new_vals, bandwidth)
+              old_kde = Distribution.normal.kde(old_vals, bandwidth) 
+              File.open(kde_graphfile, 'w') {|out| out.print [new_kde, old_kde].to_json }
 ### TODO
               i +=1
             end # while loop
