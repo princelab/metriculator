@@ -248,8 +248,8 @@ module Ms
                   
               File.open(actual_graphfile, 'w') {|out| out.print [[new_vals, new_structs.map(&:time)], [ old_vals, old_structs.map(&:time)], [t_test_out]].to_json }
               bandwidth = [Bandwidth.nrd0(new_vals), Bandwidth.nrd0(old_vals)].mean
-              new_kde = Distribution.normal.kde(new_vals, bandwidth)
-              old_kde = Distribution.normal.kde(old_vals, bandwidth) 
+              new_kde = Distribution::Normal.kde(new_vals, bandwidth)
+              old_kde = Distribution::Normal.kde(old_vals, bandwidth) 
               File.open(kde_graphfile, 'w') {|out| out.print [new_kde, old_kde].to_json }
 ### TODO
               i +=1

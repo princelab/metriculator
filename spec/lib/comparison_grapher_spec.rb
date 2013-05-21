@@ -12,8 +12,10 @@ describe 'Ms::ComparisonGrapher' do
 	end
 	it 'generates images for many new matches' do 
 		puts "\n"
+    binding.pry
 		Ms::ComparisonGrapher.graph_matches(Ms::ComparisonGrapher.slice_matches(@match_new), Ms::ComparisonGrapher.slice_matches(@match_old), comparison_id.to_s  )
-		File.exist?("#{comparison_id}/chromatography/first_and_last_ms1_rt_min/first_ms1.svg").should == true
+		File.exist?("#{comparison_id}/chromatography/first_and_last_ms1_rt_min/first_ms1.json").should == true
+		File.exist?("#{comparison_id}/chromatography/first_and_last_ms1_rt_min/first_ms1.kde.json").should == true
 	end
 	it 'generates images for just one new match' do 
 		Ms::ComparisonGrapher.graph_matches(Ms::ComparisonGrapher.slice_matches(@match_new_short), Ms::ComparisonGrapher.slice_matches(@match_old), "#{comparison_id.to_s}_short"  )
