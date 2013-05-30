@@ -56,10 +56,10 @@ class Comparison
       first = Ms::ComparisonGrapher.slice_matches self.msrun_firsts
       second = Ms::ComparisonGrapher.slice_matches self.msrun_seconds
       files = Ms::ComparisonGrapher.graph_matches first, second, self.location_of_graphs
-    rescue StandardError, Rserve::Connection::RserveNotStarted => e
+    rescue StandardError => e
       Rails.logger.error "Graphing failed inside Comparison#graph. Ruh oh! #{e.class}: #{e.message} \n\n\n#{e.backtrace}"
       Alert.create({ :email => false, :show => true, :description => "Error creating the comprasion graphs. Sorry!" })
-      Dir.delete self.location_of_graphs if Dir.exist? self.location_of_graphs
+      FileUtils.remove_dir self.location_of_graphs if Dir.exist? self.location_of_graphs
     end
   end
 end
