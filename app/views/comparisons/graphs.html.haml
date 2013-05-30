@@ -47,5 +47,5 @@
       %div.bean{:id => "bean#{i+1}" }
       %div.time{:id => "time#{i+1}" }
       :javascript
-        generate_plot(#{File.readlines(txt).first[0...-1] + ','+ i.to_s + ']'})
+                generate_plot(#{File.readlines(txt).first[0...-1] + ','+ i.to_s + ']'})
         //generate_plot("#{(comparison_path(params[:id]) + graph).split('/').uniq.delete_if(&:empty?).join('/')}")
