@@ -5,7 +5,7 @@ def send_to_json(name, arg)
 end
     
 require 'statsample/test'
-require 'bandwidth'
+require 'kder'
 module Ms
 # This is the class which handles the responses from DB queries and generates comparison graphs
   class ComparisonGrapher
@@ -65,6 +65,7 @@ module Ms
         end
         measures.sort_by {|measure| measure.category}
       end
+=begin
 # This function takes the same parameters as {#graph_matches} and accomplishes the same result, as well as generating and returning, instead of the filenames, a hash containing the information needed to do cool stuff
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries, the first of which represents the newest in a QC run, which will be compared to the previous values
       # @return [Hash] ### WHAT WILL IT CONTAIN?  THE VARIANCE AND THE MEAN?  OR A RANGE OF ALLOWED VALUES, or a true false value??? ##### ... I'm not yet sure, thank you very much
@@ -195,7 +196,7 @@ module Ms
 # TODO Do I send the email here?
        data_hash
       end # graph_and_stats
-
+=end
       # This function generates a comparison between the two sets of data, which are sliced by {#slice_matches}, graphing the results as SVG files.
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries
       # @return [Array] An array which contains all of the files produced by the process.  This will likely be an array of approximately 400 filenames.
@@ -222,36 +223,35 @@ module Ms
               end
             end
             names = new_structs.map {|str| str.name }.uniq.compact
+            news = []
+            olds = []
+            names.map do |name| 
+              news << new_structs.select{|n| n.name == name}
+              olds << old_structs.select{|n| n.name == name}
+            end
             count = names.size
-            i = 1;
-            while i <= count
-              graphfile = File.join([graphfile_prefix, names[i-1] + ".vals.json"])
-              graphfile2 = File.join([graphfile_prefix, names[i-1] + ".times.json"])
-              actual_graphfile = File.join([graphfile_prefix, names[i-1] + '.json'])
-              kde_graphfile = File.join([graphfile_prefix, names[i-1] + ".kde.json"])
-              graphfiles << [graphfile, graphfile2, kde_graphfile]
-              p actual_graphfile
-              name = @@name_legend[names[i-1]]
+            i = 0;
+            while i <= count - 1
+              graphfile = File.join([graphfile_prefix, names[i] + '.json'])
+              name = @@name_legend[names[i]]
               # Value storages
-              new_vals = new_structs.map(&:value)
-              old_vals = old_structs.map(&:value)
+              new_vals = news[i].map(&:value)
+              old_vals = olds[i].map(&:value)
               begin
                 t_tester = Statsample::Test.t_two_samples_independent(new_vals.to_vector(:scale), old_vals.to_vector(:scale))
                 t_test_out = "%.2g" % t_tester.probability_not_equal_variance
-                puts t_test_out
-              rescue => e
-                File.open('error_comparison_grapher.log', 'w') do |out|
-                  out.puts e.inspect
-                end
-                t_test_out = 2
+              rescue FloatDomainError => e
+                t_test_out = 0
               end
-                  
-              File.open(actual_graphfile, 'w') {|out| out.print [[new_vals, new_structs.map(&:time)], [ old_vals, old_structs.map(&:time)], [t_test_out]].to_json }
               bandwidth = [Bandwidth.nrd0(new_vals), Bandwidth.nrd0(old_vals)].mean
-              new_kde = Distribution::Normal.kde(new_vals, bandwidth)
-              old_kde = Distribution::Normal.kde(old_vals, bandwidth) 
-              File.open(kde_graphfile, 'w') {|out| out.print [new_kde, old_kde].to_json }
+              new_kde = Kder.kde(new_vals, bandwidth)
+              old_kde = Kder.kde(old_vals, bandwidth) 
+              File.open(graphfile, 'w') {|out| out.print [[new_vals, news[i].map(&:time)], [ old_vals, olds[i].map(&:time)],[new_kde, old_kde], t_test_out].to_json }
+              graphfiles << graphfile
 ### TODO
+#  File.open("/home/ryanmt/Dropbox/coding/metriculator/output.log", "a+") do |out|
+#    out.puts "THIS IS IMPORTANT: file:#{kde_graphfile} should be unique.\n\tThe first 55 characters are: #{[new_kde, old_kde].to_json[0,55]}"
+#  end
               i +=1
             end # while loop
           end # subcats

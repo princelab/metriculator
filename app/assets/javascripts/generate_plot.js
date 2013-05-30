@@ -1,44 +1,55 @@
 //= require jquery
 //= require 'highcharts'
+//= require 'array_tools'
 //= require 'science.min'
 //= require 'science.stats.min'
 
 // JS goes here
 var generate_plot = function(str) {
-  var t_test = str[2]
+  var t_test = str[3];
+  var kdes = str[2];
   var new_vals = str[0];
   var old_vals = str[1];
-  var chart_number = str[3] + 1;
+  var chart_number = str[4] + 1;
   var bean_render = 'bean' + chart_number;
   var time_render = 'time' + chart_number;
-  //var timepoints = new Array();
+
+  console.log("CHART%s", chart_number);
   // Format timepoint_data
   var prep_time = function(temp, datapoints) {
     var output = [];
     $.each(temp, function(i,v) {
-      output[i] = [Date.parse(v), datapoints[i]]
+      output[i] = [Date.parse(v), datapoints[i]];
     })
     output.sort( function(a,b) {
       return a[0]-b[0] 
     })
     return output
   }
-  var new_data = prep_time(new_vals[1], new_vals[0])
-  var old_data = prep_time(old_vals[1], old_vals[0])
-  var new_kde = science.stats.kde().sample(new_vals[0]);
-  var old_kde = science.stats.kde().sample(old_vals[0]);
+  var new_data = prep_time(new_vals[1], new_vals[0]);
+  var old_data = prep_time(old_vals[1], old_vals[0]);
+  // Prepare the KDE values
+  var new_kde = kdes[0];
+  var old_kde = kdes[1];
+  var old_output_kde = [[],[]];
+  $.each(old_kde, function(i, arr) {
+    $.each(arr, function(j, v) {
+      if (i === 0) {
+        old_output_kde[0][j] = v;
+      } else {
+        old_output_kde[1][j] = v * (-1);
+      }
+    });
+  });
 
-  var normalization_value = 5;
-  var normalization_factor = 300;
-  // http://ejohn.org/blog/fast-javascript-maxmin/
-  Array.max = function( array ){
-      return Math.max.apply( Math, array );
-  };
-  Array.min = function( array ){
-      return Math.min.apply( Math, array );
-  };
-  // END ejohn.org
-  // TODO Add a max/min calculator to determine the range for the plot
+  // Determine the proper bounds for the x values and for the kdes
+  var kde_high = Array.max(old_kde[0].concat(new_kde[0]));
+  var kde_low = Array.min(old_kde[0].concat(new_kde[0]));
+  var kde_y_high = Array.max(old_kde[1].concat(new_kde[1]));
+  var kde_y_low = Array.min(old_kde[1].concat(new_kde[1]));
+
+  var normalization_value = 3;
+  var normalization_factor = 90;
 
   var bin_and_normalize_input = function(input_data, normalization_val) {
     var val_pairs = new Array();
@@ -47,13 +58,13 @@ var generate_plot = function(str) {
       val_pairs[index] = [value, normalization_val]
       x_vals[index] = value
     })
-    // BIN HERE
+    // BINNING HERE (Histogram)
     size = x_vals.length
     bin_width = size / 100.0
-    bin_low_val = Array.min(x_vals) - size * 0.05
-    bin_high_val = Array.max(x_vals) + size * 0.05
+    bin_low_val = Array.min(x_vals) - size * normalization_value
+    bin_high_val = Array.max(x_vals) + size * normalization_value
     num_bins =  Math.ceil((bin_high_val - bin_low_val)/bin_width)
-    var output = new Array(size);
+    var output = new Array(num_bins);
     // Set loop conditions
     var j = 0, bin_low = bin_low_val, bin_mid = bin_low + bin_width /2.0, bin_high = bin_low + bin_width
     // Initialize the x values
@@ -62,10 +73,11 @@ var generate_plot = function(str) {
       output[i][0] = bin_mid + bin_width * i;
       output[i][1] = 0;
     });
+    // NORMALIZE HERE
     $.each(output, function(i, value) {
       while (val_pairs[j][0] < value[0] && j < size - 1) {
-        output[i][1] = value[1] + val_pairs[j][1] * 0.05
-        j++
+        output[i][1] = value[1] + val_pairs[j][1] * normalization_value;
+        j++;
       }
     });
     return output;
@@ -75,26 +87,30 @@ var generate_plot = function(str) {
   };
   
   var normalize_kde = function(input_kde, factor) {
-    var output = [];
-
-    input_kde = (input_kde.sort(sort_arrays));
-    $.each(input_kde, function(index, value) {
-      output[index] = [value[0], value[1] * factor]
+    var output = new Array(input_kde[0].length);
+    $.each(output, function(index, value) {
+      output[index] = [input_kde[0][index], input_kde[1][index] * factor]
     });
     return output;
   };
-  
+
   var new_output_data = bin_and_normalize_input(new_vals[0], normalization_value);
-  var old_output_data = bin_and_normalize_input(old_vals[0], normalization_value);
-  var new_output_kde = normalize_kde(new_kde(new_vals[0]), normalization_factor);
-  var tmp_old_output_kde = normalize_kde(old_kde(old_vals[0]), normalization_factor);
-  var old_output_kde = [];
-  $.each(tmp_old_output_kde, function(i, v) {
-    old_output_kde[i] = [tmp_old_output_kde[i][0], v[1] * (-1)]
+  var old_out = bin_and_normalize_input(old_vals[0], normalization_value);
+  var old_output_data = new Array(old_out.length);
+  $.each(old_out, function(i, v) {
+    old_output_data[i] = [v[0], v[1] * (-1)];
   });
 
-  console.log(bin_low_val);
-  console.log(bin_high_val);
+  new_kde = normalize_kde(new_kde, normalization_factor);
+  old_output_kde = normalize_kde(old_output_kde, normalization_factor);
+
+  console.groupCollapsed("Examine the data");
+  console.log("old_output_data.slice(0,10)): %O", old_output_data.slice(0,10));
+  console.log("old_output_kde.slice(0,10)): %O", old_output_kde.slice(0,10));
+  console.log("new_output_data.slice(0,10)): %O", new_output_data.slice(0,10));
+  console.log("new_kde.slice(0,10)): %O", new_kde.slice(0,10));
+  console.groupEnd();
+
   // DOCUMENT
   $(document).ready(function() {
     var area_chart = new Highcharts.Chart({
@@ -102,7 +118,8 @@ var generate_plot = function(str) {
       renderTo: document.getElementById(bean_render),
       inverted: true, 
       reflow: false, 
-      width: 300
+      width: 300,
+      zoomType: 'xy'
     },
     legend: { 
       floating: true,
@@ -111,7 +128,7 @@ var generate_plot = function(str) {
     title: { text: 'Beanplot' },
     subtitle: {
       text: "T-test p-value: " + t_test,
-      style: { fontSize: '11px' }
+      style: { fontSize: '10px' }
     }, 
     yAxis: {
       labels: {
@@ -120,11 +137,11 @@ var generate_plot = function(str) {
           return Math.abs(this.value);
         }
       }, 
-      gridLineWidth: 1, 
+      gridLineWidth: 1 
     },
     xAxis: { 
-      min: bin_low_val,
-      max: bin_high_val,
+      min: kde_low,
+      max: kde_high,
       gridLineWidth: 1, 
       reversed: false
     },
@@ -155,7 +172,7 @@ var generate_plot = function(str) {
         name: first,
         color: '#00688B',
         zIndex: 1,
-      }, {
+      }, { 
         type: 'area',
         data: old_output_kde,
         name: first,
@@ -168,7 +185,7 @@ var generate_plot = function(str) {
         zIndex: 1
       }, {
         type: 'area',
-        data: new_output_kde,
+        data: new_kde,
         name: second,
         color: '#B32323',
       }]
@@ -191,13 +208,13 @@ var generate_plot = function(str) {
         reflow: false
       },
       legend: { 
-        layout: 'vertical'
+        layout: 'horizontal'
       },
       title: {
         text: "Values over Time"
       },
       subtitle: {
-        text: "Chromatography -- Peak Width at Half Height for IDs -- 3QuartValue", 
+        text: "Chromatography -- Peak Width at Half Height for IDs -- 3QuartValue",  // TODO get the right name
         style: { fontSize: '11px' }
       }, 
       xAxis: { /*
@@ -211,8 +228,8 @@ var generate_plot = function(str) {
         type: 'datetime'
       },
       yAxis: { 
-        min: bin_low_val,
-        max: bin_high_val,
+        min: kde_low,
+        max: kde_high,
         gridLineWidth: 1, 
         reversed: false
       },

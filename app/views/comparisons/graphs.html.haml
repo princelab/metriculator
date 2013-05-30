@@ -16,6 +16,7 @@
         %a{ :href => (comparison_path(params[:id]) + directory).split('/').uniq.join('/') }= cat + " - " + name
 #graphs
   - @graph_files.each_with_index do |graph, i|
+    - next if File.extname(graph) != ".json"
     :javascript
       var plot_title = "#{graph}"
     %p=graph
@@ -25,26 +26,26 @@
       - name = File.basename(graph.split('/')[-1], '.svg').to_sym
       /%h3=graph.titleize
       - arrow = case ApplicationController::Known_trends[category][subcat][name]
-        - when "down"
-          - 'down-arrow.png'
-        - when "up"
-          - "up-arrow.png"
-        - else
-          - nil
+      - when "down"
+        - 'down-arrow.png'
+      - when "up"
+        - "up-arrow.png"
+      - else
+        - nil
       %div.legend.round
         %h5= "Legend"
         %div.first-desc.box
-        %p.description= @comparison.first_description
+          %p.description= @comparison.first_description
         %div.second-desc.box
-        %p.description= @comparison.second_description
+          %p.description= @comparison.second_description
         - if arrow 
           %div.arrow-container
             = image_tag arrow, :size => '16x16'
           %p.trend= "Desired trend"
-    
+
       - txt = ['public', (comparison_path(params[:id]) + graph).split('/').uniq.delete_if{|a| a.empty? }].join('/')
       %div.bean{:id => "bean#{i+1}" }
       %div.time{:id => "time#{i+1}" }
       :javascript
-        generate_plot(#{File.readlines(txt).first[0...-1] + ','+ i.to_s + ']'})
+                generate_plot(#{File.readlines(txt).first[0...-1] + ','+ i.to_s + ']'})
         //generate_plot("#{(comparison_path(params[:id]) + graph).split('/').uniq.delete_if(&:empty?).join('/')}")
