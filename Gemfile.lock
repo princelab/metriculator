@@ -131,7 +131,7 @@ GEM
       railties (>= 3.1.0, < 5.0)
       thor (~> 0.14)
     json (1.7.5)
-    kder (0.0.3)
+    kder (0.0.5)
     launchy (2.1.0)
       addressable (~> 2.2.6)
     libv8 (3.3.10.4)
