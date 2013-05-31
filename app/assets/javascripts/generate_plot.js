@@ -1,8 +1,10 @@
 //= require jquery
 //= require 'highcharts'
+//= require 'exporting'
 //= require 'array_tools'
 //= require 'science.min'
 //= require 'science.stats.min'
+
 
 // JS goes here
 var generate_plot = function(str) {
@@ -119,7 +121,12 @@ var generate_plot = function(str) {
       inverted: true, 
       reflow: false, 
       width: 300,
-      zoomType: 'xy'
+    },
+    credits: {
+      enabled: false
+    },
+    exporting: {
+      enabled: true
     },
     legend: { 
       floating: true,
@@ -207,6 +214,7 @@ var generate_plot = function(str) {
         zoomType: 'xy',
         reflow: false
       },
+      credits: { enabled: false },
       legend: { 
         layout: 'horizontal'
       },
