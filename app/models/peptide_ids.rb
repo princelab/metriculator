@@ -53,8 +53,22 @@ class PeptideCounts
   property :miss_tryp_cnts, 			Float
   property :miss_tryp_abund, 			Float
   property :net_oversample, 			Float
-  property :ions_peptide, 			Float
-  property :ids_peptide, 			Float
+  property :ions_peptide, 			  Float
+  property :ids_peptide, 	    		Float
+  property :top_50_ids,           Float 
+  property :top_100_ids,          Float 
+  property :top_200_ids,          Float 
+  property :top_50_top,           Float 
+  property :top_100_top,          Float 
+  property :top_200_top,          Float 
+  property :ab_50_top,            Float 
+  property :ab_100_top,           Float 
+  property :idsemi_50,            Float 
+  property :idsemi_100,           Float 
+  property :idsemi_200,           Float 
+  property :absemi_50,            Float 
+  property :absemi_100,           Float 
+  property :absemi_200,           Float 
 
   belongs_to :peptide_ids, :key => true
 end
