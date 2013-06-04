@@ -52,7 +52,7 @@ end
 
 group :development do 
   gem 'uglifier'
-  gem "therubyracer", :require => 'v8' # removing this because I don't think I use it
+  gem "therubyracer", :require => 'v8', platform: :ruby # removing this because I don't think I use it
   gem 'execjs'
 end
 

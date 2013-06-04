@@ -2,18 +2,16 @@ require 'spec_helper'
 
 describe 'Messaging' do
   before :each do 
-    ['spec/tfiles/todo.log', 'spec/tfiles/metrics.log'].each {|a| File.delete(a); FileUtils.touch(a) }
+    ['spec/tfiles/todo.log', 'spec/tfiles/metrics.log', 'spec/tfiles/error.log', 'spec/tfiles/working.log'].each {|a| File.delete(a); FileUtils.touch(a) }
     p "RyanError" if not File.zero?('spec/tfiles/todo.log')
     Messenger.set_test_location('spec/tfiles')
   end
-
   it 'writes a message to the file' do 
     Messenger.test_write
-    string = File.readlines('spec/tfiles/tmp.log').first.chomp
+    string = File.readlines('spec/tfiles/todo.log').map(&:chomp).first
     string.should == "Hey, it worked"
   end
   it 'reads a todo list' do 
-    Messenger.setup
     Messenger.test_write
     reply = Messenger.read_todo
     reply.class.should == Array
