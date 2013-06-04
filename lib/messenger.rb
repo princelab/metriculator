@@ -9,6 +9,7 @@ class Messenger
 # This is the function which sets up the appropriate logging environment and the tasks to be performed by the process
     def setup
       @@logs ||= find_files(ArchiveRoot)
+      puts ArchiveRoot
       find_files(location) if @@logs.empty?
       update
     end
@@ -21,17 +22,18 @@ class Messenger
         tmp +=1
         @@todo << (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])-File.readlines(@@logs[:error])-File.readlines(@@logs[:in_process])).map(&:chomp)
       rescue StandardError => bang
-        print "Error: Hacking a fix assuming a windows machine... " + bang.message
+        puts "Error: Hacking a fix assuming a windows machine... \n" + bang.message
         find_files(AppConfig[:nodes][:metrics][:archive_root])
         retry unless tmp > 1
-        print "Error: File doesn't exist!!" + bang.message + bang.backtrace.join("\n")
+        puts "Error: File doesn't exist!!\n" + bang.message + "\n" + bang.backtrace.join("\n")
       end
       @@todo.flatten.compact
     end
 # This function will clear the completed items of out the logs, leaving only uncompleted items.  This can run periodically to keep things nice and clean
     def clear_completed!
       update
-      [@@logs[:todo], @@logs[:metrics]].each do |k, file|
+      [@@logs[:todo], @@logs[:metrics]].each do |file|
+	puts "FILE: #{file.inspect}"
         FileUtils.rm(file)
         FileUtils.touch(file)
       end
