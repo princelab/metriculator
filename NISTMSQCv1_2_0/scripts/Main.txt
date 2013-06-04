@@ -1,8 +1,8 @@
-06/01/11 16:02:00
+06/04/13 14:48:45
 ProMS Version: May 25, 2011
-MS data file: C:\projects\distribution\NISTMSQCv1_2_0\out_dirs\10-08-12_02_HSA1653_2h.ms8msms60min-1R1_0-50_40C.Dionex-C18-300-col_1ul.RAW.mzXML
-Identified ions data file: C:\projects\distribution\NISTMSQCv1_2_0\out_dirs\10-08-12_02_HSA1653_2h.ms8msms60min-1R1_0-50_40C.Dionex-C18-300-col_1ul.RAW.MGF.TSV
-Output data file: C:\projects\distribution\NISTMSQCv1_2_0\out_dirs\10-08-12_02_HSA1653_2h.ms8msms60min-1R1_0-50_40C.Dionex-C18-300-col_1ul.RAW.TXT
+MS data file: C:\Temp\time_test.RAW.mzXML
+Identified ions data file: C:\Temp\time_test.RAW.MGF.TSV
+Output data file: C:\Temp\time_test.RAW.TXT
 Search engine: 1
-Instrument type: LTQ		Code: 1
+Instrument type: Orbitrap		Code: 2
 There is no PISI file - PISIndex.txt. It's OK. Continue the calculation.

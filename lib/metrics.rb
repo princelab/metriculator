@@ -101,12 +101,12 @@ module Ms
       # @return [Hash] the out_hash which contains the parsed data
       def parse				# Returns the out_hash
         output = {}
-	# Tolerate line ending errors... development can cause that through Dropbox and git syncing
+        # Tolerate line ending errors... development can cause that through Dropbox and git syncing
         array = IO.readlines(@metricsfile, 'r:us-ascii').first.split("\r\n")
-	if array.size < 2
-	  array = IO.readlines(@metricsfile, 'r:us-ascii').first.split("\n")
-	end
-	# Move forward now that I've caught and fixed the error.
+        if array.size < 2
+          array = IO.readlines(@metricsfile, 'r:us-ascii').first.split("\n")
+        end
+        # Move forward now that I've caught and fixed the error.
         outs_hash = {}; key = ""
         measures = []
         array.each_index do |index|
@@ -143,8 +143,8 @@ module Ms
             end
           end
         end
-        File.open("tmp_key.yml", 'w') {|f| f.write output.to_yaml }
-        ["files_analyzed_#{@num_files}", 'begin_runseries_results', 'begin_series_1', "run_number_#{(1..@num_files).to_a.join('_')}", 'end_series_1', 'fraction_of_repeat_peptide_ids_with_divergent_rt_rt_vs_rt_best_id_chromatographic_bleed'].each {|item| @out_hash.delete(item)}
+        File.open("tmp_key.yml", 'w') {|f| f.write output.to_yaml } if Rails.env.development?
+        ["", "files_analyzed_#{@num_files}", 'begin_runseries_results', 'begin_series_1', "run_number_#{(1..@num_files).to_a.join('_')}", 'end_series_1', 'fraction_of_repeat_peptide_ids_with_divergent_rt_rt_vs_rt_best_id_chromatographic_bleed'].each {|item| @out_hash.delete(item)}
         @out_hash
       end
 
