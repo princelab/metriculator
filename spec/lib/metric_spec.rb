@@ -1,7 +1,7 @@
 require 'spec_helper'
 describe 'generates metrics' do 
   it 'runs the NIST package to generate metrics' do 
-    if `hostname` === 'Hermes'
+    if `hostname` === 'hermes'
       Messenger.set_test_location(TESTFILE + '/')
     elsif `hostname` === 'jp1'
       Messenger.set_test_location(AppConfig[:nodes][:server][:archive_root])
@@ -10,6 +10,8 @@ describe 'generates metrics' do
     end
     Messenger.add_metric(TESTFILE + '/time_test.raw')
    #TODO this should use a tmp directory to store the results, from which the file can then be moved over to the server subsequently?  Should that be the #metrics_to_database method? 
+   binding.pry
+    puts Metric.all
   end
 end
 describe 'parses metrics and databases them' do
