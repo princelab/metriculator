@@ -36,12 +36,24 @@ class Ms1DuringMiddleAndEarlyPeptideRetentionPeriod
   property :s2s_2qrt_med, 			Float
   property :s2s_3qrt_med, 			Float
   property :s2s_4qrt_med, 			Float
-  property :esi_off_middle, 			Float
-  property :esi_off_early, 			Float
+  property :esi_off_time, 			Float
   property :max_ms1_jump, 			Float
   property :max_ms1_fall, 			Float
   property :ms1_jumps_10x, 			Float
+  property :ms1_falls_1x, 			Float
   property :ms1_falls_10x, 			Float
+  property :esi_off_lowrt,			Float
+  property :esi_off_middle,			Float
+  property :esi_off_early,			Float
+  property :max_jump_lowrt,			Float
+  property :max_fall_lowrt,			Float
+  property :ms1_lowrt_10x,			Float
+  property :ms1_lowrt_1x,			Float
+  property :esi_off_hirt,			Float
+  property :max_jump_hirt,			Float
+  property :max_fall_hirt,			Float
+  property :ms1_hirt_10x,			Float
+  property :ms1_hirt_1x,			Float
 
   belongs_to :ms1
 end

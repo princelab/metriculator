@@ -55,6 +55,9 @@ class PeptideCounts
   property :net_oversample, 			Float
   property :ions_peptide, 			  Float
   property :ids_peptide, 	    		Float
+  property :id_50_top,		  Float
+  property :id_100_top,		  Float
+  property :id_200_top,		  Float
   property :top_50_ids,           Float 
   property :top_100_ids,          Float 
   property :top_200_ids,          Float 
@@ -63,6 +66,7 @@ class PeptideCounts
   property :top_200_top,          Float 
   property :ab_50_top,            Float 
   property :ab_100_top,           Float 
+  property :ab_200_top,           Float 
   property :idsemi_50,            Float 
   property :idsemi_100,           Float 
   property :idsemi_200,           Float 
@@ -92,9 +96,17 @@ class PrecursorMZForIds
   property :precursor_min, 			Float
   property :precursor_max, 			Float
   property :med_q1_tic, 			Float
+  property :med_q2_tic, 			Float
+  property :med_q3_tic, 			Float
   property :med_q4_tic, 			Float
   property :med_q1_rt, 			Float
+  property :med_q2_rt, 			Float
+  property :med_q3_rt, 			Float
   property :med_q4_rt, 			Float
+  property :med_q1_rt_2, 			Float
+  property :med_q2_rt_2, 			Float
+  property :med_q3_rt_2, 			Float
+  property :med_q4_rt_2, 			Float
   property :med_charge_1, 			Float
   property :med_charge_2, 			Float
   property :med_charge_3, 			Float

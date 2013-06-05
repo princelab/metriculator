@@ -155,9 +155,13 @@ module Ms
         parse if @out_hash.nil?
         @measures = []; @data = {}; item = 0
         @metrics_input_files.each do |file|
+	  fname = File.basename(file, ".RAW.MGF.TSV")
           @out_hash.each_pair do |subcategory, value_hash|
+	    subcat = subcategory.to_sym
+	    ref_hash_lookup = @@ref_hash[subcat].to_sym
+	    subcat = subcategory.to_sym
             value_hash.each_pair do |property, value|
-              @measures << Measurement.new( property.to_sym, File.basename(file,".RAW.MGF.TSV"), @rawtime || Time.random(2), value[item], @@ref_hash[subcategory.to_sym].to_sym, subcategory.to_sym)
+              @measures << Measurement.new( property.to_sym, fname, @rawtime || Time.random(2), value[item], ref_hash_lookup, subcat)
             end
           end
           item +=1
@@ -186,9 +190,10 @@ module Ms
           tmp.metric = ::Metric.first_or_create( {msrun_id: tmp.id}, {metric_input_file: @metricsfile} ) # The second hash is what is used if you are creating, while the first hash is the parameters you find by
           @@categories.map {|category|  tmp.metric.send("#{category}=".to_sym, Kernel.const_get(camelcase(category)).first_or_new({id: tmp.id})) }
           @out_hash.each_pair do |key, value_hash|
+	    next if @@ref_hash[key.to_sym] == 'skip'
             outs = tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}=".to_sym, Kernel.const_get(camelcase(key)).first_or_create({id: tmp.id}))#, value_hash ))
             value_hash.each_pair do |property, array|
-              tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).send("#{property}=".to_sym, array[item])
+		tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).send("#{property}=".to_sym, array[item])
             end
             begin
               tmp.metric.send((@@ref_hash[key.to_sym]).to_sym).send("#{key.downcase}".to_sym).save
@@ -213,7 +218,10 @@ module Ms
         ion_ids_by_charge_state_relative_to_2: "ion_source",	average_peptide_lengths_for_different_charge_states: "ion_source", average_peptide_lengths_for_charge_2_for_different_numbers_of_mobile_protons: "ion_source", numbers_of_ion_ids_at_different_charges_with_1_mobile_proton: "ion_source", percent_of_ids_at_different_charges_and_mobile_protons_relative_to_ids_with_1_mobile_proton: "ion_source", precursor_m_z_monoisotope_exact_m_z: "ion_treatment",
         tryptic_peptide_counts: "peptide_ids",	peptide_counts: "peptide_ids",	total_ion_current_for_ids_at_peak_maxima: "peptide_ids",	precursor_m_z_for_ids: "peptide_ids",	averages_vs_rt_for_ided_peptides: "peptide_ids",	precursor_m_z_peptide_ion_m_z_2_charge_only_reject_0_45_m_z: "ms2",	ms2_id_spectra: "ms2",	ms1_id_abund_at_ms2_acquisition: "ms2",	ms2_id_abund_reported: "ms2",	
         relative_fraction_of_peptides_in_retention_decile_matching_a_peptide_in_other_runs: "run_comparison", 	relative_uniqueness_of_peptides_in_decile_found_anywhere_in_other_runs: "run_comparison", differences_in_elution_rank_percent_of_matching_peptides_in_other_runs: "run_comparison", median_ratios_of_ms1_intensities_of_matching_peptides_in_other_runs: "run_comparison",
-        uncorrected_and_rt_corrected_relative_intensities_of_matching_peptides_in_other_runs: "run_comparison", magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs: "run_comparison"
+        uncorrected_and_rt_corrected_relative_intensities_of_matching_peptides_in_other_runs: "run_comparison", magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs: "run_comparison", 
+	# GOTO
+	# The new ones for v1.2
+	different_proteins: "run_comparison", intensities_vs_different_mobile_protons: "ion_source", m_z_medians_for_clusters_at_rt_quartiles_all_charges: "ion_treatment", fract_of_cluster_abundance_at_50_and_90_of_all_abundance: "ion_treatment", top_10_noid_ions: "skip", new_metrics: "skip", other_ion_cluster_statistics: "skip"
       }
 
       @@categories = ["chromatography", "ms1", "dynamic_sampling", "ion_source", "ion_treatment", "peptide_ids", "ms2", "run_comparison"]

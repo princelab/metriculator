@@ -7,6 +7,8 @@ class RunComparison
   has 1, :median_ratios_of_ms1_intensities_of_matching_peptides_in_other_runs
   has 1, :uncorrected_and_rt_corrected_relative_intensities_of_matching_peptides_in_other_runs
   has 1, :magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs
+  has 1, :different_proteins
+
 
   belongs_to :metric
   def hashes
@@ -17,6 +19,7 @@ class RunComparison
     hash[:median_ratios_of_ms1_intensities_of_matching_peptides_in_other_runs] = self.median_ratios_of_ms1_intensities_of_matching_peptides_in_other_runs.attributes if self.median_ratios_of_ms1_intensities_of_matching_peptides_in_other_runs.respond_to?(:attributes)
     hash[:uncorrected_and_rt_corrected_relative_intensities_of_matching_peptides_in_other_runs] = self.uncorrected_and_rt_corrected_relative_intensities_of_matching_peptides_in_other_runs.attributes if self.uncorrected_and_rt_corrected_relative_intensities_of_matching_peptides_in_other_runs.respond_to?(:attributes)
     hash[:magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs] = self.magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs.attributes if self.magnitude_of_rt_correction_of_intensities_of_matching_peptides_in_other_runs.respond_to?(:attributes)
+    hash[:different_proteins] = self.different_proteins.attributes if self.different_proteins.respond_to?(:attributes)
     hash
   end
 
@@ -94,3 +97,11 @@ class MagnitudeOfRtCorrectionOfIntensitiesOfMatchingPeptidesInOtherRuns
   belongs_to :run_comparison
 end
 
+class DifferentProteins
+  include DataMapper::Resource
+  property :id, Serial
+  property :_1_or_more_peps,	      Float
+  property :_1_peptides,	      Float
+  
+  belongs_to :run_comparison
+end

@@ -10,6 +10,7 @@ class IonSource
   has 1, :average_peptide_lengths_for_charge_2_for_different_numbers_of_mobile_protons
   has 1, :numbers_of_ion_ids_at_different_charges_with_1_mobile_proton
   has 1, :percent_of_ids_at_different_charges_and_mobile_protons_relative_to_ids_with_1_mobile_proton
+  has 1, :intensities_vs_different_mobile_protons
 
   belongs_to :metric
 
@@ -24,6 +25,7 @@ class IonSource
     hash[:average_peptide_lengths_for_charge_2_for_different_numbers_of_mobile_protons] = self.average_peptide_lengths_for_charge_2_for_different_numbers_of_mobile_protons.attributes
     hash[:numbers_of_ion_ids_at_different_charges_with_1_mobile_proton] = self.numbers_of_ion_ids_at_different_charges_with_1_mobile_proton.attributes
     hash[:percent_of_ids_at_different_charges_and_mobile_protons_relative_to_ids_with_1_mobile_proton] = self.percent_of_ids_at_different_charges_and_mobile_protons_relative_to_ids_with_1_mobile_proton.attributes
+    hash[:intensities_vs_different_mobile_protons] = self.intensities_vs_different_mobile_protons.attributes if self.intensities_vs_different_mobile_protons.respond_to?(:attributes)
     hash
   end
   def to_yaml
@@ -53,6 +55,18 @@ class NumberOfIonsVsCharge
   property :charge_3, 			Float
   property :charge_4, 			Float
   property :charge_5, 			Float
+  property :_2_q1_rt,			Float
+  property :_2_q2_rt,			Float
+  property :_2_q3_rt,			Float
+  property :_2_q4_rt,			Float
+  property :_1_2_q1_rt,			Float
+  property :_1_2_q2_rt,			Float
+  property :_1_2_q3_rt,			Float
+  property :_1_2_q4_rt,			Float
+  property :_3_2_q1_rt,			Float
+  property :_3_2_q2_rt,			Float
+  property :_3_2_q3_rt,			Float
+  property :_3_2_q4_rt,			Float
 
   belongs_to :ion_source
 end
@@ -143,16 +157,15 @@ class TopIonAbundanceMeasures
   belongs_to :ion_source
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+class IntensitiesVsDifferentMobileProtons
+  include DataMapper::Resource
+  property :id, Serial
+  property :ions_mp_1,	   Float
+  property :ions_mp_0,	   Float
+  property :ions_mp_2,	   Float
+  property :inten_mp_1,	   Float
+  property :inten_mp_0,	   Float
+  property :inten_mp_2,	   Float
+  
+  belongs_to :ion_source
+end
