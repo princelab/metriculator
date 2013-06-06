@@ -6,6 +6,8 @@
 //= require 'science.stats.min'
 
 
+//console.log("value: %O", value);
+
 // JS goes here
 var generate_plot = function(str) {
   var t_test = str[3];
@@ -16,20 +18,14 @@ var generate_plot = function(str) {
   var bean_render = 'bean' + chart_number;
   var time_render = 'time' + chart_number;
 
-  console.log("CHART%s", chart_number);
-  // Format timepoint_data
-  var prep_time = function(temp, datapoints) {
-    var output = [];
-    $.each(temp, function(i,v) {
-      output[i] = [Date.parse(v), datapoints[i]];
-    })
-    output.sort( function(a,b) {
-      return a[0]-b[0] 
-    })
-    return output
-  }
-  var new_data = prep_time(new_vals[1], new_vals[0]);
-  var old_data = prep_time(old_vals[1], old_vals[0]);
+  // CONSTANTS
+  var binning_size_factor = 50.0;
+  var normalization_value = 1.0;
+  var bin_scaling_value = 1.5;
+  var desired_normalization_level = 1.1;
+
+  console.log("CHART NAME:%s", plot_title);
+
   // Prepare the KDE values
   var new_kde = kdes[0];
   var old_kde = kdes[1];
@@ -43,68 +39,106 @@ var generate_plot = function(str) {
       }
     });
   });
-
-  // Determine the proper bounds for the x values and for the kdes
-  var kde_high = Array.max(old_kde[0].concat(new_kde[0]));
-  var kde_low = Array.min(old_kde[0].concat(new_kde[0]));
-  var kde_y_high = Array.max(old_kde[1].concat(new_kde[1]));
-  var kde_y_low = Array.min(old_kde[1].concat(new_kde[1]));
-
-  var normalization_value = 3;
-  var normalization_factor = 90;
-
-  var bin_and_normalize_input = function(input_data, normalization_val) {
+// FXNS:
+  var sort_arrays = function(a,b) {
+    return a[0]-b[0]
+  };
+  var bin_and_normalize_input = function(input_data, normalization_val, minmax) {
     var val_pairs = new Array();
     var x_vals = new Array();
-    $.each(input_data.sort(), function(index, value) {
-      val_pairs[index] = [value, normalization_val]
-      x_vals[index] = value
+    $.each(input_data.sort(function(a,b){return parseFloat(a)-parseFloat(b)}), function(index, value) {
+      val_pairs[index] = [value, 1];
+      x_vals[index] = value;
     })
-    // BINNING HERE (Histogram)
-    size = x_vals.length
-    bin_width = size / 100.0
-    bin_low_val = Array.min(x_vals) - size * normalization_value
-    bin_high_val = Array.max(x_vals) + size * normalization_value
-    num_bins =  Math.ceil((bin_high_val - bin_low_val)/bin_width)
+    console.log(x_vals);
+    // SETUP BINNING HERE (Histogram)
+    if (minmax[1] == minmax[0]) {
+      size = input_data.length;
+      bin_width = size / binning_size_factor;
+      minmax = [minmax[0]-bin_width*2, minmax[1]+bin_width*2];
+    } else {
+      size = minmax[1]- minmax[0];
+      bin_width = size / binning_size_factor;
+    }
+    num_bins =  binning_size_factor;
     var output = new Array(num_bins);
     // Set loop conditions
-    var j = 0, bin_low = bin_low_val, bin_mid = bin_low + bin_width /2.0, bin_high = bin_low + bin_width
+    var j = 0, bin_low = minmax[0], bin_mid = bin_low + bin_width /2.0, bin_high = bin_low + bin_width
     // Initialize the x values
     $.each(output, function(i, val) {
-      output[i] = new Array(2);
-      output[i][0] = bin_mid + bin_width * i;
-      output[i][1] = 0;
+      output[i] = [bin_mid+bin_width*i, 0];
     });
     // NORMALIZE HERE
     $.each(output, function(i, value) {
-      while (val_pairs[j][0] < value[0] && j < size - 1) {
-        output[i][1] = value[1] + val_pairs[j][1] * normalization_value;
+      while (x_vals[j] < value[0] && j <= size) {
+        output[i][1] = value[1] + val_pairs[j][1];
         j++;
       }
     });
     return output;
   };
-  var sort_arrays = function(a,b) {
-    return parseFloat(a[0])-parseFloat(b[0])
-  };
-  
   var normalize_kde = function(input_kde, factor) {
     var output = new Array(input_kde[0].length);
     $.each(output, function(index, value) {
-      output[index] = [input_kde[0][index], input_kde[1][index] * factor]
+      output[index] = [input_kde[0][index], input_kde[1][index] / factor]
     });
     return output;
   };
+  // Format timepoint_data
+  var prep_time = function(temp, datapoints) {
+    var output = [];
+    $.each(temp, function(i,v) {
+      output[i] = [Date.parse(v), datapoints[i]];
+    })
+    output.sort( function(a,b) {
+      return a[0]-b[0] 
+    })
+    return output
+  }
+// END FXNS
+  var new_data = prep_time(new_vals[1], new_vals[0]);
+  var old_data = prep_time(old_vals[1], old_vals[0]);
 
-  var new_output_data = bin_and_normalize_input(new_vals[0], normalization_value);
-  var old_out = bin_and_normalize_input(old_vals[0], normalization_value);
+  // Determine the proper bounds for the x values and for the kdes
+  var kde_high = Array.max(old_kde[0].concat(new_kde[0]));
+  var kde_low = Array.min(old_kde[0].concat(new_kde[0]));
+
+  // Bin the values
+  var new_output_data = bin_and_normalize_input(new_vals[0], normalization_value, [kde_low, kde_high]);
+  var old_out = bin_and_normalize_input(old_vals[0], normalization_value, [kde_low, kde_high]);
+  // REVERSE the values for the old_data set
   var old_output_data = new Array(old_out.length);
   $.each(old_out, function(i, v) {
     old_output_data[i] = [v[0], v[1] * (-1)];
   });
+  var old_values = new Array(old_out[0].length);
+  $.each(old_out, function(i,v) {
+    old_values[i] = v[1];
+  });
+  var new_values = new Array(new_output_data.length);
+  $.each(new_output_data, function(i,v) {
+    new_values[i] = v[1];
+  });
+  // CALCULATE MAXES for ratios
+  var new_val_max = Array.max(new_values);
+  var old_val_max = Array.max(old_values);
+  var new_kde_max = Array.max(new_kde[1]);
+  var old_kde_max = Array.max(old_kde[1]);
+  var new_normalization_factor = new_kde_max/((new_val_max)*desired_normalization_level);
+  var old_normalization_factor = old_kde_max/((old_val_max)*desired_normalization_level);
 
-  new_kde = normalize_kde(new_kde, normalization_factor);
-  old_output_kde = normalize_kde(old_output_kde, normalization_factor);
+  console.group("NORMALIZATION");
+  //console.log("new VAL max: %O", new_val_max);
+  //console.log("new KDE max: %O", new_kde_max);
+  console.log("new norm factor: %O", new_normalization_factor);
+  console.log("==================");
+  //console.log("old VAL max: %O", old_val_max);
+  //console.log("old KDE max: %O", old_kde_max);
+  console.log("old norm factor: %O", old_normalization_factor);
+  console.groupEnd();
+  // NORMALIZE the KDES
+  new_kde = normalize_kde(new_kde, new_normalization_factor);
+  old_output_kde = normalize_kde(old_output_kde, old_normalization_factor);
 
   console.groupCollapsed("Examine the data");
   console.log("old_output_data.slice(0,10)): %O", old_output_data.slice(0,10));
@@ -140,9 +174,7 @@ var generate_plot = function(str) {
     yAxis: {
       labels: {
         enabled: true, 
-        formatter: function () {
-          return Math.abs(this.value);
-        }
+        formatter: function () {return Math.abs(this.value);}
       }, 
       gridLineWidth: 1 
     },
@@ -150,7 +182,8 @@ var generate_plot = function(str) {
       min: kde_low,
       max: kde_high,
       gridLineWidth: 1, 
-      reversed: false
+      reversed: false, 
+      endOnTick: true,
     },
     plotOptions: {
       column: {
@@ -222,7 +255,7 @@ var generate_plot = function(str) {
         text: "Values over Time"
       },
       subtitle: {
-        text: "Chromatography -- Peak Width at Half Height for IDs -- 3QuartValue",  // TODO get the right name
+        text: plot_title,
         style: { fontSize: '11px' }
       }, 
       xAxis: { /*
