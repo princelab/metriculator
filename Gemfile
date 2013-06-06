@@ -28,7 +28,7 @@ gem 'rufus-scheduler'
 gem 'passenger'
 #gem 'lazy_high_charts', '~> 1.1.5'
 gem 'statsample', '~> 1.2'
-gem 'kder', '~> 0.0.1'
+gem 'kder', git: "git@github.com:princelab/KDER.git"
 
 # Testing/benchmarking gems
 gem 'newrelic_rpm'
