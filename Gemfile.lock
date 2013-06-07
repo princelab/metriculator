@@ -1,16 +1,16 @@
 GIT
-  remote: git@github.com:princelab/KDER.git
-  revision: 5818b6d696de8bbba6eeed5f771b6aeaa2b7fc85
-  specs:
-    kder (0.0.5)
-
-GIT
   remote: https://github.com/amatsuda/kaminari.git
   revision: c66ffd13a56f7f73aed63661c7e2ed788019a5bf
   specs:
     kaminari (0.14.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+
+GIT
+  remote: https://www.github.com/princelab/KDER.git
+  revision: 5818b6d696de8bbba6eeed5f771b6aeaa2b7fc85
+  specs:
+    kder (0.0.5)
 
 GEM
   remote: http://rubygems.org/
