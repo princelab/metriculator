@@ -155,6 +155,8 @@ var generate_plot = function(str) {
       inverted: true, 
       reflow: false, 
       width: 300,
+      marginBottom: 55,
+      marginTop: 45
     },
     credits: {
       enabled: false
@@ -163,8 +165,6 @@ var generate_plot = function(str) {
       enabled: true
     },
     legend: { 
-      floating: true,
-      y: -35
     },
     title: { text: 'Beanplot' },
     subtitle: {
@@ -176,7 +176,8 @@ var generate_plot = function(str) {
         enabled: true, 
         formatter: function () {return Math.abs(this.value);}
       }, 
-      gridLineWidth: 1 
+      gridLineWidth: 1, 
+      title: {text: null}
     },
     xAxis: { 
       min: kde_low,
@@ -184,6 +185,7 @@ var generate_plot = function(str) {
       gridLineWidth: 1, 
       reversed: false, 
       endOnTick: true,
+      startOnTick: false
     },
     plotOptions: {
       column: {
@@ -230,26 +232,18 @@ var generate_plot = function(str) {
         color: '#B32323',
       }]
     });
-    /*
-    function(chart){
-      varpoint=chart.series[0].data[8];
-      varbox= text.getBBox();
-      chart.renderer.rect(box.x-5,box.y-5,box.width+10,box.height+10,5).attr({
-        fill:'#FFFFEF',
-        stroke:'gray',
-        'stroke-width':1,
-        zIndex:4
-      }).add();
-    } */
     var time_plot = new Highcharts.Chart({
       chart: {
         renderTo: document.getElementById(time_render),
         zoomType: 'xy',
-        reflow: false
+        reflow: false,
+        marginBottom: 55,
+        marginTop: 45
       },
       credits: { enabled: false },
       legend: { 
-        layout: 'horizontal'
+        layout: 'horizontal',
+        y: 5
       },
       title: {
         text: "Values over Time"
@@ -272,7 +266,10 @@ var generate_plot = function(str) {
         min: kde_low,
         max: kde_high,
         gridLineWidth: 1, 
-        reversed: false
+        reversed: false, 
+        endOnTick: true,
+        startOnTick: false, 
+        title: {text: null}
       },
       
       plotOptions: {
