@@ -54,6 +54,7 @@ module Ms
               @data[index][cat].keys.each do |subcat|	
                 @data[index][cat][subcat].delete('id'.to_sym)
                 @data[index][cat][subcat].delete("#{cat}_id".to_sym)
+                @data[index][cat][subcat].delete("#{cat}_metric_id".to_sym)
                 @data[index][cat][subcat].delete("#{cat}_metric_msrun_id".to_sym)
                 @data[index][cat][subcat].delete("#{cat}_metric_msrun_raw_id".to_sym)
                 @data[index][cat][subcat].delete("#{cat}_metric_metric_input_file".to_sym)
@@ -199,7 +200,7 @@ module Ms
 =end
       # This function generates a comparison between the two sets of data, which are sliced by {#slice_matches}, returning the results as JSON objects for plotting with generate_plot.js
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries
-      # @return [Array] An array which contains all of the files produced by the process.  This will likely be an array of approximately 400 filenames.
+      # @return [Array] An array which contains all of the files produced by the process.  This will be an array of ~400 filenames.
       def graph_matches(old_measures, new_measures, comparison_folder=nil, opts = {})
         options = Graphing_defaults.merge(opts)
         FileUtils.mkdir_p(comparison_folder)

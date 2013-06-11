@@ -16,12 +16,12 @@ var generate_plot = function(str) {
   var plot_title = eval("plot_title" + chart_number);
 
   // CONSTANTS
-  var binning_size_factor = 50.0;
+  var binning_size_factor = 100.0;
   var normalization_value = 1.0;
   var bin_scaling_value = 1.5;
   var desired_normalization_level = 1.1;
 
-  console.log("CHART NAME:%s", plot_title);
+//  console.log("CHART NAME:%s", plot_title);
 
   // Prepare the KDE values
   var new_kde = kdes[0];
@@ -36,8 +36,6 @@ var generate_plot = function(str) {
       }
     });
   });
-  console.log(new_kde);
-  console.log(old_kde);
 // FXNS:
   var sort_arrays = function(a,b) {
     return a[0]-b[0]
@@ -49,7 +47,6 @@ var generate_plot = function(str) {
       val_pairs[index] = [value, 1];
       x_vals[index] = value;
     })
-    console.log(x_vals);
     // SETUP BINNING HERE (Histogram)
     if (minmax[1] == minmax[0]) {
       size = input_data.length;
@@ -67,12 +64,14 @@ var generate_plot = function(str) {
     $.each(output, function(i, val) {
       output[i] = [bin_mid+bin_width*i, 0];
     });
-    // NORMALIZE HERE
+    // Place each value into it's bin here
+    var x_val_size = x_vals.length;
     $.each(output, function(i, value) {
-      while (x_vals[j] < value[0] && j <= size) {
+      while (x_vals[j] < value[0] && j <= x_val_size) {
         output[i][1] = value[1] + val_pairs[j][1];
         j++;
       }
+      if (j == x_val_size) { return false; } 
     });
     return output;
   };
@@ -126,25 +125,25 @@ var generate_plot = function(str) {
   var new_normalization_factor = new_kde_max/((new_val_max)*desired_normalization_level);
   var old_normalization_factor = old_kde_max/((old_val_max)*desired_normalization_level);
 
-  console.group("NORMALIZATION");
+//  console.group("NORMALIZATION");
   //console.log("new VAL max: %O", new_val_max);
   //console.log("new KDE max: %O", new_kde_max);
-  console.log("new norm factor: %O", new_normalization_factor);
-  console.log("==================");
+//  console.log("new norm factor: %O", new_normalization_factor);
+//  console.log("==================");
   //console.log("old VAL max: %O", old_val_max);
   //console.log("old KDE max: %O", old_kde_max);
-  console.log("old norm factor: %O", old_normalization_factor);
-  console.groupEnd();
+//  console.log("old norm factor: %O", old_normalization_factor);
+//  console.groupEnd();
   // NORMALIZE the KDES
   new_kde = normalize_kde(new_kde, new_normalization_factor);
   old_output_kde = normalize_kde(old_output_kde, old_normalization_factor);
 
-  console.groupCollapsed("Examine the data");
-  console.log("old_output_data.slice(0,10)): %O", old_output_data.slice(0,10));
-  console.log("old_output_kde.slice(0,10)): %O", old_output_kde.slice(0,10));
-  console.log("new_output_data.slice(0,10)): %O", new_output_data.slice(0,10));
-  console.log("new_kde.slice(0,10)): %O", new_kde.slice(0,10));
-  console.groupEnd();
+//  console.groupCollapsed("Examine the data");
+//  console.log("old_output_data): %O", old_output_data);
+//  console.log("old_output_kde.slice(0,10): %O", old_output_kde.slice(0,10));
+//  console.log("new_output_data: %O", new_output_data);
+//  console.log("new_kde.slice(0,10): %O", new_kde.slice(0,10));
+//  console.groupEnd();
 
   // DOCUMENT
   $(document).ready(function() {
