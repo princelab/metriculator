@@ -163,6 +163,7 @@ var generate_plot = function(str) {
       enabled: true
     },
     legend: { 
+      y: 5
     },
     title: { text: 'Beanplot' },
     subtitle: {

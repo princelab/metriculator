@@ -20,7 +20,7 @@ class Messenger
       tmp = 0
       begin 
         tmp +=1
-        @@todo << (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])-File.readlines(@@logs[:error])-File.readlines(@@logs[:in_process])).map(&:chomp)
+        @@todo << (File.readlines(@@logs[:todo])-File.readlines(@@logs[:metrics])-File.readlines(@@logs[:error])-File.readlines(@@logs[:working])).map(&:chomp)
       rescue StandardError => bang
         puts "Error: Hacking a fix assuming a windows machine... \n" + bang.message
         find_files(AppConfig[:nodes][:metrics][:archive_root])
@@ -83,7 +83,7 @@ class Messenger
     end
 # This fxn removes any completed items from the working
     def clear_finished
-      unfinished = File.readlines(@@logs[:in_process])-File.readlines(@@logs[:metrics])
+      unfinished = File.readlines(@@logs[:working])-File.readlines(@@logs[:metrics])
       unfinished.each do |f|
 	add_working(f)
       end
@@ -94,7 +94,7 @@ class Messenger
       @@logs = {:todo => File.join(location, "todo.log"), 
         :metrics => File.join(location, "metrics.log"), 
 	:error => File.join(location, "error.log"),
-	:in_process => File.join(location, "working.log")
+	:working => File.join(location, "working.log")
       }
     end
 # This function writes to the specified log file

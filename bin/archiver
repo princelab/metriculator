@@ -183,16 +183,18 @@ if options[:metrics]
       putsv "Todo items found: #{list}"
       list.each do |item|
         putsv "Submitting #{item} to NIST metrics for analysis."	
-	if File.exist?(item)
-	  puts "I'm in the loop and shouldn't be? #{File.exist?(item)}"
-	  m = Ms::NIST::Metric.new
-	  p File.join(ArchiveRoot, item)
-	  m.run_metrics(item)
-	  #m.run_metrics(File.join(ArchiveRoot, item))
-	else
-	  puts "#{item} doesn't exist.  I'm adding it to the error log and moving on.  To fix it, please copy it back into the todo log after you've corrected the error"
-	  Messenger.add_error(item)
-	end
+        if File.exist?(item)
+          puts "I'm in the loop and shouldn't be? #{File.exist?(item)}"
+          m = Ms::NIST::Metric.new
+          Messenger.add_working(item)
+          success = m.run_metrics(item)
+          #m.run_metrics(File.join(ArchiveRoot, item))
+          Messenger.add_completed(item) if success
+          Messenger.clear_finished
+        else
+          puts "#{item} doesn't appear to exist.  I'm adding it to the error log and moving on.  To fix it, please copy it back into the todo log after you've corrected the error"
+          Messenger.add_error(item)
+        end
       end # list.each do |item|
     end # if list.size > 0
   end # every 1m
