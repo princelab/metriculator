@@ -11,6 +11,11 @@ class Messenger
       @@logs ||= find_files(ArchiveRoot)
       puts ArchiveRoot
       find_files(location) if @@logs.empty?
+      @@logs.each do |name,file|
+	unless File.size?(file)
+	  FileUtils.touch(file)
+	end
+      end
       update
     end
 # This will update the @@todo list 

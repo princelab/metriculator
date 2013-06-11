@@ -55,11 +55,7 @@ module Ms
           @rawfile = rawfile
         end
         @rawtime = File.mtime(@rawfile)
-        begin 
         putsv "Metrics program location = #{::Program}"
-        rescue 
-          binding.pry
-        end
         ArchiveMount.metric_config
         #Working on some major changes to the mount thing... that lets me have it do the work for me!!
         # to ensure it only runs the one file... it needs to be alone in a directory... 
@@ -79,15 +75,24 @@ module Ms
 	oldpwd = Dir.pwd
 	Dir.chdir File.join(File.dirname(::Program), "..", "bin")
         text = %Q{perl.exe #{::Program} --in_dir "#{path}" --out_file "#{output_metrics_file}" --library #{ArchiveMount.metric_config.metric_taxonomy}  --instrument_type #{ArchiveMount.metric_config.metric_instrument_type || 'ORBI'} }
-        text = %Q{perl.exe #{::Program} --in_dir "#{path}" --out_dir "#{output_metrics_dir}" --library #{ArchiveMount.metric_config.metric_taxonomy}  --instrument_type #{ArchiveMount.metric_config.metric_instrument_type || 'ORBI'} }
+        text = %Q{perl.exe #{::Program} --in_dir #{path} --out_dir #{output_metrics_dir} --library #{ArchiveMount.metric_config.metric_taxonomy}  --instrument_type #{ArchiveMount.metric_config.metric_instrument_type || 'ORBI'} }
 	puts text
 	  puts '#'*80
-	puts %x|#{text}|
+	  start = Time.now
+	response = %x|#{text.gsub(/\\\\/, "/")}|
+	  finish = Time.now
+	putsv "Metric generation took #{finish-start}."
 	  puts '-'*80
         ## PARSE THE FILE
-	file = File.join(output_metrics_dir, 'metrics_report.msqc')
-        ## CLEAN THE DIRECTORIES (tmp if used, and metrics regardless)
+	@metricsfile = File.join(output_metrics_dir, 'metrics_report.msqc')
+	parse
+        ## CLEAN THE DIRECTORIES
+	
+	
 	Dir.chdir oldpwd
+	## Report it completed
+	# "NISTMSQC: Pipeline completed and exiting" if successful
+	response[/NISTMSQC: Pipeline completed and exiting/] ? true : false
       end
 
       # Archive the metric data by ensuring it is parsed {#parse} and sending it to the database {#to_database}
@@ -109,6 +114,7 @@ module Ms
         # Move forward now that I've caught and fixed the error.
         outs_hash = {}; key = ""
         measures = []
+	@reading = false
         array.each_index do |index|
           @reading = true if array[index][/^(Begin).*eries.*/,1] == "Begin"
           if @reading
@@ -143,7 +149,6 @@ module Ms
             end
           end
         end
-        File.open("tmp_key.yml", 'w') {|f| f.write output.to_yaml } if Rails.env.development?
         ["", "files_analyzed_#{@num_files}", 'begin_runseries_results', 'begin_series_1', "run_number_#{(1..@num_files).to_a.join('_')}", 'end_series_1', 'fraction_of_repeat_peptide_ids_with_divergent_rt_rt_vs_rt_best_id_chromatographic_bleed'].each {|item| @out_hash.delete(item)}
         @out_hash
       end
