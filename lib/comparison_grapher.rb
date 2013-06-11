@@ -197,7 +197,7 @@ module Ms
        data_hash
       end # graph_and_stats
 =end
-      # This function generates a comparison between the two sets of data, which are sliced by {#slice_matches}, graphing the results as SVG files.
+      # This function generates a comparison between the two sets of data, which are sliced by {#slice_matches}, returning the results as JSON objects for plotting with generate_plot.js
       # @param [Array, Array] Arrays of measurements sliced from the results of two DataMapper DB queries
       # @return [Array] An array which contains all of the files produced by the process.  This will likely be an array of approximately 400 filenames.
       def graph_matches(old_measures, new_measures, comparison_folder=nil, opts = {})

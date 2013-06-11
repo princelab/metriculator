@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: https://www.github.com/princelab/KDER.git
-  revision: 5818b6d696de8bbba6eeed5f771b6aeaa2b7fc85
+  revision: 6d2a40964d34c1860d5113766d0e4197998d251c
   specs:
-    kder (0.0.5)
+    kder (0.0.7)
 
 GEM
   remote: http://rubygems.org/

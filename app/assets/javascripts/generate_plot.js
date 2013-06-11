@@ -5,10 +5,6 @@
 //= require 'science.min'
 //= require 'science.stats.min'
 
-
-//console.log("value: %O", value);
-
-// JS goes here
 var generate_plot = function(str) {
   var t_test = str[3];
   var kdes = str[2];
@@ -17,6 +13,7 @@ var generate_plot = function(str) {
   var chart_number = str[4] + 1;
   var bean_render = 'bean' + chart_number;
   var time_render = 'time' + chart_number;
+  var plot_title = eval("plot_title" + chart_number);
 
   // CONSTANTS
   var binning_size_factor = 50.0;
@@ -39,6 +36,8 @@ var generate_plot = function(str) {
       }
     });
   });
+  console.log(new_kde);
+  console.log(old_kde);
 // FXNS:
   var sort_arrays = function(a,b) {
     return a[0]-b[0]
