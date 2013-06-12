@@ -1,6 +1,7 @@
-#!/usr/bin/ruby
-
 require 'msruninfo'
+if $0['archiver'] or $0['metriculator'] 
+  require_relative '../config/environment' 
+end
 
 #To make sure Time.random() is available. This really should go somewhere else.
 require 'meta_programming'
@@ -85,14 +86,14 @@ module Ms
 	  puts '-'*80
         ## PARSE THE FILE
 	@metricsfile = File.join(output_metrics_dir, 'metrics_report.msqc')
-	parse
+	result = archive
         ## CLEAN THE DIRECTORIES
-	
-	
+	putsv "METRIC_GENERATION_RESPONSE\n\t#{response}"
+	putsv "ARCHIVAL RESULT\t#{result}"
 	Dir.chdir oldpwd
 	## Report it completed
 	# "NISTMSQC: Pipeline completed and exiting" if successful
-	response[/NISTMSQC: Pipeline completed and exiting/] ? true : false
+	response = response[/NISTMSQC: Pipeline completed and exiting/] ? true : false
       end
 
       # Archive the metric data by ensuring it is parsed {#parse} and sending it to the database {#to_database}
@@ -191,7 +192,7 @@ module Ms
         objects = []; item = 0
         slice_hash if @measures.nil?
         @metrics_input_files.each do |file|
-          tmp = Msrun.first_or_create({raw_id: "#{File.basename(file,".RAW.MGF.TSV")}",  metricsfile: @metricsfile})
+          tmp = ::Msrun.first_or_create({raw_id: "#{File.basename(file,".RAW.MGF.TSV")}",  metricsfile: @metricsfile})
           tmp.metric = ::Metric.first_or_create( {msrun_id: tmp.id}, {metric_input_file: @metricsfile} ) # The second hash is what is used if you are creating, while the first hash is the parameters you find by
           @@categories.map {|category|  tmp.metric.send("#{category}=".to_sym, Kernel.const_get(camelcase(category)).first_or_new({id: tmp.id})) }
           @out_hash.each_pair do |key, value_hash|
@@ -209,7 +210,7 @@ module Ms
           item +=1
           objects << tmp
         end
-        worked = objects.map{|obj| obj.save!}
+        worked = objects.map{|obj| resp = obj.save!; Rails.logger.error("Object saving failed for: \n#{obj}\n#{50*"*"}\n#{obj.errors}") unless resp}
         puts "\n----------------\nSave failed\n----------------" if worked.uniq.include?(false)
         return worked.uniq.include?(false) ? false : true
         # false if worked.uniq.include?(false)

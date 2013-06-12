@@ -5,11 +5,18 @@ class Messenger
     require_relative 'config.rb'
 # This holds a hash directory of the node parameters
     Nodes = AppConfig[:nodes]
-    
-# This is the function which sets up the appropriate logging environment and the tasks to be performed by the process
-    def setup
+
+
+# This completely removes the previous files from the ArchiveRoot
+    def empty_root!
       @@logs ||= find_files(ArchiveRoot)
-      puts ArchiveRoot
+      @@logs.each do |name, file|
+	FileUtils.rm(file)
+      end
+    end
+# This is the function which sets up the appropriate logging environment and the tasks to be performed by the process
+    def setup(location = nil)
+      @@logs ||= find_files(ArchiveRoot)
       find_files(location) if @@logs.empty?
       @@logs.each do |name,file|
 	unless File.size?(file)
@@ -64,7 +71,7 @@ class Messenger
       update
     end
 # This function adds a completed item to the metrics file
-    def add_metric(string)
+    def add_completed(string)
       write_message(:metrics, string)
     end
 # This function adds a completed item to the server file ### MAYBE?
