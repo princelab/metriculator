@@ -9,11 +9,9 @@ gem 'railties', RAILS_VERSION, :require => 'rails'
 gem 'activesupport', RAILS_VERSION
 gem 'actionpack', RAILS_VERSION
 gem 'actionmailer', RAILS_VERSION
-
 gem 'sqlite3-ruby', '1.3.2', :require => 'sqlite3'
 gem 'dm-rails',          DM_VERSION
 gem 'dm-sqlite-adapter', DM_VERSION
-
 gem 'dm-migrations',        DM_VERSION
 gem 'dm-types',             DM_VERSION
 gem 'dm-validations',       DM_VERSION
@@ -26,18 +24,20 @@ gem 'dm-chunked_query'
 gem 'kaminari', :git => 'https://github.com/amatsuda/kaminari.git'
 gem 'rufus-scheduler'
 gem 'passenger'
-#gem 'lazy_high_charts', '~> 1.1.5'
 gem 'statsample', '~> 1.2'
 gem 'kder', git: "https://www.github.com/princelab/KDER.git"
-
-# Testing/benchmarking gems
-gem 'newrelic_rpm'
-
+gem 'sprockets'
+gem 'tilt'
+gem 'hike', '~>1.2'
 gem 'pony'
 gem 'haml'
 gem 'jquery-rails'
 gem 'rspec'
 gem 'rake'#, "0.8.7"
+
+# Testing/benchmarking gems
+gem 'newrelic_rpm'
+
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
@@ -50,20 +50,18 @@ end
 group :assets do 
 end
 
-group :development do 
+group :production do 
   gem 'uglifier'
   gem "therubyracer", :require => 'v8', platform: :ruby # removing this because I don't think I use it
+  gem 'yui-compressor'
   gem 'execjs'
 end
 
-  gem 'sprockets'
-  gem 'tilt'
-  gem 'hike', '~>1.2'
 
 group :development, :test do
   gem 'ruby-prof'
-### WINDOWS DEPENDENT Version...?
-#  gem 'ruby-debug19'
+  ### WINDOWS DEPENDENT Version...?
+  #  gem 'ruby-debug19'
   # dependency of guard if on Mac OS X
   if RUBY_PLATFORM =~ /darwin/i
     gem 'rb-fsevent'

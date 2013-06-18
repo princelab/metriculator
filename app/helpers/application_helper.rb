@@ -23,4 +23,12 @@ module ApplicationHelper
     css_class = params[:sort] == column_name ? "sort #{direction}" : nil
     link_to title, params.merge(:sort => column_name, :direction => direction, :page => nil), { :class => css_class }
   end
+
+  # creates linked files, JSON anyone?
+  def link_to_file(name, file, *args)
+    if file[0] != ?/
+      file = "#{@request.relative_url_root}/#{file}"
+    end
+    link_to name, file, *args
+  end
 end
