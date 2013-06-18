@@ -13,7 +13,10 @@
       - if ['comparisons'].include?(params[:controller]) and params[:id]
         %li= link_to "Comparison Home", comparison_path(@comparison)# + '/' + params[:id]
         - ApplicationHelper::Categories.each do |cat|
-          %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat.downcase}"
+          - if cat == "uplc"
+            %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat.downcase}/pressure_trace"
+          - else 
+            %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat.downcase}"
 #messages
 = render 'alerts/alerts'
 - if flash[:error]

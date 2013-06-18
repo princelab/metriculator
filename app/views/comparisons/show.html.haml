@@ -9,7 +9,10 @@
 <p> #{link_to "Edit", edit_comparison_path(@comparison)}
 %ul.categories
   - ApplicationHelper::Categories.each do |cat|
-    %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat}"
+    - if cat == 'uplc'
+      %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat}/pressure_trace"
+    - else
+      %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat}"
     
 %table#comparisons-show
   %tr

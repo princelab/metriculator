@@ -11,6 +11,7 @@ MetricsSite::Application.routes.draw do
   resources :comparisons #TODO: change this to hide the URLS.
 
 
+  get 'comparisons/:id/uplc/pressure_trace' => 'comparisons#get_uplc_graph'
   get 'comparisons/:id/*graph_path' => 'comparisons#get_graph_at_path'
 
   get 'alerts' => 'alerts#index'
