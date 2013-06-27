@@ -1,7 +1,32 @@
 // This one will do the plotting for the UPLC plots
 
-var generate_plot = function(file) {
+// Format timepoint_data
+  var prep_time = function(temp, datapoints) {
+    var output = [];
+    $.each(temp, function(i,v) {
+      output[i] = [Date.parse(v), datapoints[i]];
+    })
+    output.sort( function(a,b) {
+      return a[0]-b[0] 
+    })
+    return output
+  }
+var plugin_values = function(file) {
 
+
+}
+
+var generate_plot = function(file) {
+  var t_test = str[3];
+  var kdes = str[2];
+  var new_vals = str[0];
+  var old_vals = str[1];
+  var chart_number = str[4] + 1;
+
+  var time_render = 'plot' + chart_number;
+
+  var new_data = prep_time(new_vals[1], new_vals[0]);
+  var old_data = prep_time(old_vals[1], old_vals[0]);
 
 
 }

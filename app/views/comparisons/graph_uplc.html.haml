@@ -16,7 +16,8 @@
         %p.description= @comparison.second_description
         %div.plot{id: "plot#{i+1}"}
           - txt = ['public', (comparison_path(params[:id]) + graph).split('/').uniq.delete_if{|a| a.empty? }].join('/')
-          - txt = File.readlines(txt).first[0...-1] + ',]'
+          - txt = File.readlines(txt).first[0...-1] + ',' + i.to_s + ']'
         :javascript
-          generate_plot(#{txt}) 
+          plugin_values(#{txt}) 
+          generate_plot()
           
