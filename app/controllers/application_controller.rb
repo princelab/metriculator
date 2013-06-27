@@ -60,7 +60,9 @@ class ApplicationController < ActionController::Base
     :MedianRatiosOfMs1IntensitiesOfMatchingPeptidesInOtherRuns=>{:comp_to_last_2=>false, :comp_to_first_2=>false, :comp_to_last=>false, :comp_to_first=>false, :median_2_diff=>false, :median_diff=>false},
     :DifferencesInElutionRankPercentOfMatchingPeptidesInOtherRuns=>{:comp_to_last=>false, :comp_to_first=>false, :median_diff=>false, :average_diff=>false},
     :RelativeUniquenessOfPeptidesInDecileFoundAnywhereInOtherRuns=>{:last_decile=>false, :first_decile=>false},
-    :RelativeFractionOfPeptidesInRetentionDecileMatchingAPeptideInOtherRuns=>{:comp_to_last=>false, :comp_to_first=>false, :last_decile=>false, :first_decile=>false, :all_deciles=>false}}}
+    :RelativeFractionOfPeptidesInRetentionDecileMatchingAPeptideInOtherRuns=>{:comp_to_last=>false, :comp_to_first=>false, :last_decile=>false, :first_decile=>false, :all_deciles=>false}},
+  :uplc=>{:PressureTrace=>{:hplc_max_p=>false,:hplc_avg_p=>false,:hplc_std_p=>'down'}}
+  }
 
 
 
@@ -103,9 +105,12 @@ class ApplicationController < ActionController::Base
       "twice_thrice"=>"Twice/Thrice", "peptide_ions"=>"Peptide Ions", "fract_1_ions"=>"Fract >1 Ions", "_1_vs_1_pepion"=>"1 vs >1 PepIon", "_1_vs_1_spec"=>"1 vs >1 Spec", 
       "median_all_ids"=>"Median All IDs", "_3q_all_ids"=>"3Q All IDs", "_9dec_all_ids"=>"9Dec All IDs", "med_top_dec"=>"Med Top Dec", "med_bottom_1_2"=>"Med Bottom 1/2", 
       "med_diff_abs"=>"Med Diff Abs", "median_diff"=>"Median Diff", "first_quart"=>"First Quart", "ms1_median"=>"MS1 Median", "ms1_maximum"=>"MS1 Maximum", 
-      "ms2_median"=>"MS2 Median", "ms2_maximun"=>"MS2 Maximun", "ms2_fract_max"=>"MS2 Fract Max", "all_deciles"=>"All Deciles", "comp_to_first"=>"Comp to First", 
+      "ms2_median"=>"MS2 Median", "ms2_maximun"=>"MS2 Maximum", "ms2_fract_max"=>"MS2 Fract Max", "all_deciles"=>"All Deciles", "comp_to_first"=>"Comp to First", 
       "comp_to_last"=>"Comp to Last", "average_diff"=>"Average Diff", "median_2_diff"=>"Median*2 Diff", "comp_to_first_2"=>"Comp to First*2", "comp_to_last_2"=>"Comp to Last*2", "uncor_rel_first"=>"Uncor rel First", "uncor_rel_last"=>"Uncor rel Last", 
-      "corr_rel_first"=>"Corr rel First", "corr_rel_last"=>"Corr rel Last", "top_10_abund"=>"Top 10% Abund", "top_25_abund"=>"Top 25% Abund", "top_50_abund"=>"Top 50% Abund", "fractab_top"=>"Fractab Top", "fractab_top_10"=>"Fractab Top 10", "fractab_top_100"=>"Fractab Top 100"}
+      "corr_rel_first"=>"Corr rel First", "corr_rel_last"=>"Corr rel Last", "top_10_abund"=>"Top 10% Abund", "top_25_abund"=>"Top 25% Abund", "top_50_abund"=>"Top 50% Abund", "fractab_top"=>"Fractab Top", "fractab_top_10"=>"Fractab Top 10", "fractab_top_100"=>"Fractab Top 100",
+
+  'hplc_avg_p'=>"Average Pressure (psi)", 'hplc_max_p'=>"Maximum Pressure (psi)", 'hplc_std_p'=>"Pressure STDEV (psi)"
+  }
       
 
 

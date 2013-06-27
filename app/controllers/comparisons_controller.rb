@@ -110,27 +110,6 @@ class ComparisonsController < ApplicationController
     end
   end
 
-
-  def get_uplc_graph
-    # TODO makes uplc graphs a configuration setting, to turn off the links too
-    if comparison = Comparison.get(params[:id])
-      @comparison = comparison
-      @graph_path = "uplc/pressure_trace"
-      path = File.join(comparison.location_of_graphs, @graph_path)
-      if Dir.exist? path
-        @graph_directories = comparison.get_directories_for_relative_path(@graph_path)
-        @graph_directories = @graph_directories.nil? ? @graph_directories = [] : @graph_directories.map { |d| d.gsub(comparison.location_of_graphs.parent.parent, "") }
-        @graph_files = comparison.get_files_for_relative_path(@graph_path)
-        @graph_files = @graph_files.nil? ? @graph_files = [] : @graph_files.map { |f| f.gsub(comparison.location_of_graphs.parent.parent, "") }
-        render :graph_uplc
-      else 
-        render_404
-      end
-    else 
-      render_404
-    end
-  end
-
 # Allows for destruction of a comparison.  This means that you have an option for clearing out old, useless comparisons.
   def destroy
     comparison = Comparison.get(params[:id])

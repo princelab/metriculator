@@ -20,9 +20,9 @@
     - category = graph.split('/')[-3].to_sym
     - subcat = graph.split('/')[-2]
     - name = File.basename(graph.split('/')[-1], '.json').to_sym
+    - string = [ApplicationController::Name_legend[category.to_s],ApplicationController::Name_legend[subcat.to_s],ApplicationController::Name_legend[name.to_s]].join("--")
     :javascript
-      var plot_title#{i+1} = "#{[ApplicationController::Name_legend[category.to_s],ApplicationController::Name_legend[subcat],ApplicationController::Name_legend[name.to_s]].join("--")}"
-
+      var plot_title#{i+1} = "#{string}"
     %div.svg
       - arrow = case ApplicationController::Known_trends[category][subcat.split('_').map{|word| word.capitalize}.join('').to_sym][name]
       - when "down"

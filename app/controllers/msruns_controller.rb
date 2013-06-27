@@ -12,12 +12,12 @@ class MsrunsController < ApplicationController
           f.option[:chart][:plotBackgroundColor] = nil
           f.option[:chart][:zoomType] = 'xy'
           f.options[:chart][:defaultSeriesType] = 'line'
+          f.options[:colors] = [ "#00688B", "#10488B", "#B22222"]
 # TODO fix the exporting options (including exporting.js will be required)
-          #f.option[:exporting][:enabled] = true
           f.series(name: "Qa (nL/min)", data: data[:qa], marker: {enabled: false}, turboThreshold: 10)
-          f.series(name: "Qb (nL/min)", data: data[:qb], marker: {enabled: false}, turboThreshold: 10 )
+          f.series(name: "Qb (nL/min)", data: data[:qb], marker: {enabled: false}, turboThreshold: 10)
           f.series(name: "Pc (psi)", data: data[:pc], yAxis: 1, marker: {enabled: false}, turboThreshold: 10)
-          f.yAxis([{ title: { text: "Flowrate (nL/min)", style: { color: "#4572a7" } }, min: 0}, {title: { text: 'Pressure (psi)', style: { color: "#89A54E" } } , opposite: true}])
+          f.yAxis([{ title: { text: "Flowrate (nL/min)", style: { color: "#00688B" } }, min: 0}, {title: { text: 'Pressure (psi)', style: { color: "#B22222" } } , opposite: true}])
         end
       end
     end

@@ -82,3 +82,5 @@ group :test do
   # gem 'webrat'
   # gem 'spork'
 end
+
+gem 'lazy_high_charts'
