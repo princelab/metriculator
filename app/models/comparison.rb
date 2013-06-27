@@ -1,5 +1,5 @@
 class Comparison
-  @@ROOT_COMPARISON_DIRECTORY = AppConfig[:comparison_directory]
+  @@ROOT_COMPARISON_DIRECTORY = ::AppConfig[:comparison_directory]
 
   include DataMapper::Resource
   property :id, Serial
