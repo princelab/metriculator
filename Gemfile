@@ -10,6 +10,7 @@ gem 'activesupport', RAILS_VERSION
 gem 'actionpack', RAILS_VERSION
 gem 'actionmailer', RAILS_VERSION
 gem 'sqlite3-ruby', '1.3.2', :require => 'sqlite3'
+gem 'dm-core', :git => 'https://github.com/datamapper/dm-core', :branch => 'release-1.2'
 gem 'dm-rails',          DM_VERSION
 gem 'dm-sqlite-adapter', DM_VERSION
 gem 'dm-migrations',        DM_VERSION
