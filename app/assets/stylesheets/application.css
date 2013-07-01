@@ -1,5 +1,7 @@
 /* 
+*= require custom
+*= require_tree .
+*= require blueprint
 *= require_self
-*= require 'custom'
 */
 
