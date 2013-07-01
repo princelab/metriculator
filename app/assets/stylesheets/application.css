@@ -1,7 +1,6 @@
 /* 
-*= require_tree .
 *= require blueprint
-*= require_self
-*= require custom
+*= require_directory ./
+*= include custom
 */
 

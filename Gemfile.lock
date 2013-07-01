@@ -1,12 +1,4 @@
 GIT
-  remote: git@github.com:ryanmt/blueprint-rails.git
-  revision: fe15b2480001cc7d26db1987cccbcb12aaa479c2
-  specs:
-    blueprint-rails (0.2.0)
-      railties (>= 3.0, < 5.0)
-      thor (>= 0.14, < 2.0)
-
-GIT
   remote: https://github.com/amatsuda/kaminari.git
   revision: 9be421d9165843fad574312a79917cae5622489a
   specs:
@@ -28,6 +20,14 @@ GIT
   specs:
     kder (0.0.7)
 
+GIT
+  remote: https://www.github.com/ryanmt/blueprint-rails.git
+  revision: fe15b2480001cc7d26db1987cccbcb12aaa479c2
+  specs:
+    blueprint-rails (0.2.0)
+      railties (>= 3.0, < 5.0)
+      thor (>= 0.14, < 2.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -35,6 +35,7 @@ GEM
       Platform (>= 0.4.0)
       open4
     Platform (0.4.0)
+    ZenTest (4.9.2)
     actionmailer (3.2.13)
       actionpack (= 3.2.13)
       mail (~> 2.5.3)
@@ -64,6 +65,11 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.5)
     arel (3.0.2)
+    autotest (4.4.6)
+      ZenTest (>= 4.4.1)
+    autotest-growl (0.2.16)
+    autotest-rails (4.1.2)
+      ZenTest (~> 4.5)
     bcrypt-ruby (3.0.1)
     bcrypt-ruby (3.0.1-x86-mingw32)
     builder (3.0.4)
@@ -298,6 +304,9 @@ DEPENDENCIES
   actionmailer (~> 3.2.0)
   actionpack (~> 3.2.0)
   activesupport (~> 3.2.0)
+  autotest
+  autotest-growl
+  autotest-rails
   blueprint-rails!
   capybara
   dm-aggregates (~> 1.2.0)
