@@ -50,12 +50,12 @@ group :development do
 end
 
 group :assets do 
-  gem 'uglifier'
-  gem 'yui-compressor'
 end
 
 group :production do 
+  gem 'uglifier'
   gem "therubyracer", :require => 'v8', platform: :ruby # removing this because I don't think I use it
+  gem 'yui-compressor'
   gem 'execjs'
 end
 
@@ -68,9 +68,13 @@ group :development, :test do
   if RUBY_PLATFORM =~ /darwin/i
     gem 'rb-fsevent'
     gem 'growl'
+    gem 'autotest-fsevent'
     gem 'growl_notify'
   end
   gem 'launchy'
+  gem 'autotest'
+  gem 'autotest-growl'
+  gem 'autotest-rails'
   gem 'factory_girl_rails', '~> 1.1.rc1'
   gem 'rspec-rails'
   gem 'capybara'
