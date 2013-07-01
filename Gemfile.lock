@@ -22,7 +22,7 @@ GIT
 
 GIT
   remote: https://www.github.com/ryanmt/blueprint-rails.git
-  revision: fe15b2480001cc7d26db1987cccbcb12aaa479c2
+  revision: 8a31400bf5d85afa8944010fe8abe455f62986c7
   specs:
     blueprint-rails (0.2.0)
       railties (>= 3.0, < 5.0)
