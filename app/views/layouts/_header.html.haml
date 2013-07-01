@@ -11,7 +11,7 @@
       %li= link_to "Metrics", metrics_path
     %ul#subheader
       - if ['comparisons'].include?(params[:controller]) and params[:id]
-        %li= link_to "Comparison Home", comparison_path(@comparison)# + '/' + params[:id]
+        %li= link_to "Comparison Home", comparison_path(@comparison)
         - ApplicationHelper::Categories.each do |cat|
           - if cat == "uplc"
             %li= link_to "#{cat.humanize}", "#{comparison_path(@comparison)}/#{cat.downcase}/pressure_trace"

@@ -1,10 +1,3 @@
-//= require jquery
-//= require 'highcharts'
-//= require 'exporting'
-//= require 'array_tools'
-//= require 'science.min'
-//= require 'science.stats.min'
-
 var generate_plot = function(str) {
   var t_test = str[3];
   var kdes = str[2];
