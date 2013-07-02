@@ -133,3 +133,4 @@ end
 
 # Load the environment?
 require_relative 'archiver'
+require 'msruninfo'

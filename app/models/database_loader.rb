@@ -12,6 +12,7 @@ require 'alerts'
 require 'analysis'
 require 'second'
 require 'first'
+require 'comparison'
 
 
 

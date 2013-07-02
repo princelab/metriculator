@@ -53,12 +53,12 @@ class Comparison
   def graph
     begin
       FileUtils.mkdir_p self.location_of_graphs unless Dir.exist? self.location_of_graphs
-      first = Ms::ComparisonGrapher.slice_matches self.msrun_firsts
-      second = Ms::ComparisonGrapher.slice_matches self.msrun_seconds
-      files = Ms::ComparisonGrapher.graph_matches first, second, self.location_of_graphs
+      first = ::Ms::ComparisonGrapher.slice_matches self.msrun_firsts
+      second = ::Ms::ComparisonGrapher.slice_matches self.msrun_seconds
+      files = ::Ms::ComparisonGrapher.graph_matches first, second, self.location_of_graphs
     rescue StandardError => e
-      Rails.logger.error "Graphing failed inside Comparison#graph. Ruh oh! #{e.class}: #{e.message} \n\n\n#{e.backtrace}"
-      Alert.create({ :email => false, :show => true, :description => "Error creating the comprasion graphs. Sorry!" })
+      Rails.logger.error "Graphing failed inside Comparison#graph. Ruh oh! #{e.class}: #{e.message} \n#{e.backtrace}"
+      Alert.create({ :email => false, :show => true, :description => "Error creating the comparison graphs." })
       FileUtils.remove_dir self.location_of_graphs if Dir.exist? self.location_of_graphs
     end
   end
