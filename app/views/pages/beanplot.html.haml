@@ -1,15 +1,21 @@
-%h1 Beanplot
-
-%p Here will be a bunch of example beanplots and explanations regarding their content.  
-
-%h2 Beanplot Description
+%h1 Beanplots Explained
+%p Beanplots are a modified version of a box plot, which are designed to provide immediate visualization of deviations from the norm, distribution abnormalities, and individual values.  They consist of kernel density estimation based area plot and individual column chart.  Here, we couple them with a time-rendered plot of the values to ensure that trends over time are also represented.  
 
 %h2 Beanplot Examples
-
 %h3 Drift over time
-
+%p
+  = image_tag "UPLC_timetrend_tp.svg", class: "timeplot"
+  %caption 
 %h3 Bias between two samples
-
-%h3 Detection of chromatographic problem
-
-
+%p
+  = image_tag "bimodal_bp.svg", class: "beanplot"
+  %caption 
+%h3 Significant differences in distributions
+%p
+  = image_tag "chrom_max-p-w-ids_median_bp.svg", class: "beanplot"
+  %caption 
+%h3 Outliers 
+%p
+  = image_tag "outlier_experiment_bp.svg", class: "beanplot"
+  = image_tag "outlier_experiment_tp.svg", class: "timeplot", style: "padding-left: 20px;"
+  %caption 

@@ -514,3 +514,12 @@ table#metric_out tr.subcat {
   font-size: 0.9em;
   font-weight: bold;
 }
+
+img.timeplot {
+  height: 300px;
+  width: 500px;
+}
+img.beanplot {
+  height: 350px;
+  width: 250px;
+}

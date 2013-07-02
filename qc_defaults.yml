@@ -1,7 +1,7 @@
 ---
-:autorun: true
-:alert: true
-:alert_email: ryanmt@byu.net
+:autorun: false
+:alert: false
+:alert_email: testing@example.com
 :default_allowed_variance: 2
 :peptide_ids:
   :AveragesVsRtForIdedPeptides:
