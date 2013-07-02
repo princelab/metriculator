@@ -24,4 +24,7 @@ class PagesController < ApplicationController
     @hash = QcConfig
   end
 
+  def welcome
+  end
+
 end

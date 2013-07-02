@@ -5,6 +5,7 @@ MetricsSite::Application.routes.draw do
   get 'app_config' => 'pages#app_config'
   get 'contact' => 'pages#contact'
   get 'beanplot' => 'pages#beanplot'
+  get 'welcome' => 'pages#welcome'
 
   resources :metrics
   resources :msruns
