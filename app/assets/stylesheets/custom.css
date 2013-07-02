@@ -463,6 +463,7 @@ div.legend h5 {
 }
 
 div.legend .box {
+  padding: 0px;
   border: 1px solid #000;
   display: inline-block;
   width: 15px;
