@@ -1,6 +1,7 @@
 = javascript_include_tag 'plotting'
 = javascript_include_tag 'generate_plot'
-%h1=@graph_title
+-if @graph_title
+  %h2{:id => "graph_title" }= @graph_title
 - @up = "#{comparison_path(params[:id])}/#{params[:graph_path][/(.*)\/.*/,1]}"
 %a{ :href => @up} Up
 :javascript 

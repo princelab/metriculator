@@ -95,10 +95,13 @@ class ComparisonsController < ApplicationController
           @graph_directories = @graph_directories.map { |d| d.gsub(comparison.location_of_graphs.parent.parent, "") }
         end
         @graph_files = comparison.get_files_for_relative_path(params[:graph_path])
-        if @graph_files.nil?
+        if @graph_files.nil? or @graph_files.empty?
           @graph_files = []
         else
           @graph_files = @graph_files.map { |f| f.gsub(comparison.location_of_graphs.parent.parent, "") }
+          subcat = @graph_files.first.split('/')[-2]
+          category = @graph_files.first.split('/')[-3]
+          @graph_title = [ApplicationController::Name_legend[category.to_s], ApplicationController::Name_legend[subcat]].join (" -- ")
         end
         render :graphs
       else
