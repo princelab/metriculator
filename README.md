@@ -15,11 +15,11 @@ Read below about the dependencies.  To facilitate the process, I've generated a 
 
    Make sure you have the correct version of Ruby:
 
-       ruby --version
+        ruby --version
 
    I see:
 
-       ruby 1.9.2p290 (2011-07-09 revision 32553) [x86_64-darwin11.1.0]
+        ruby 1.9.2p290 (2011-07-09 revision 32553) [x86_64-darwin11.1.0]
 
    which is 1.9, so I am okay.
 
@@ -33,7 +33,7 @@ Read below about the dependencies.  To facilitate the process, I've generated a 
 3. You also need a working RubyGems installation, and the `bundler` gem
    installed.
 
-       gem install bundler
+        gem install bundler
 
 4. The [SQLite](http://www.sqlite.org/) database. You may already have
    it installed, so check before installing it again.
@@ -42,8 +42,8 @@ Read below about the dependencies.  To facilitate the process, I've generated a 
 
 Check out the project and install the required Gems:
 
-    git co git://github.com/princelab/rails-metric_site.git %% cd rails-metric_site
-    bundle install # this sets up the required libraries for running the site
+     git co git://github.com/princelab/rails-metric_site.git %% cd rails-metric_site
+     bundle install # this sets up the required libraries for running the site
 
 This will require the installation of a dev-kit when running in windows.
 Fortunately, there are instructions provided when bundle install fails.
@@ -52,7 +52,7 @@ When that has been done, bundle install again.
 Now you need to set up the database configuration via the `database.yml`
 file. There is an example file in `config/database.yml.example`.
 
-    cp config/database.yml.example config/database.yml
+      cp config/database.yml.example config/database.yml
 
 You need to edit the `config/database.yml` file so the database paths point to where you
 want your databases to be stored. The file has `<%ChangeThisVariableBlock %>`
@@ -64,18 +64,18 @@ my development database on line 9 of the file reads:
 
 Now we set up the database:
 
-    bundle exec rake db:automigrate
+     bundle exec rake db:automigrate
 
 
 Unfortunately, the webserver aspect of this will also require some effort,
 at least for the best user experience possible.  To that end, it should
 be achievable by following the directions that are given when you run:
 
-    gem install passenger
+     gem install passenger
 
 and
 
-    passenger-install-apache2-module
+     passenger-install-apache2-module
 
 [Source: http://www.modrails.com/install.html ]
 
@@ -84,7 +84,7 @@ and
 Start the server of choice. If you want to use the
 built-in server that comes with Rails, run:
 
-    bundle exec rails s
+     bundle exec rails s
 
 Now go to [http://localhost:3000](http://localhost:3000) to see the site
 in action.
