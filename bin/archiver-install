@@ -85,7 +85,7 @@ puts "Well, I think I have everything I need, so I'm going to get to work..."
     end
   end #File.open
 # Make the subdirectories the system needs
-  %w(db tmp log).each {|name| puts FileUtils.mkdir_p(File.join(AppConfig[:archive_root], name)) }
+  %w(db tmp log).each {|name| puts FileUtils.mkdir_p(File.join(arch_root, name)) }
 # Load application
 require 'archiver'
 require 'config'
