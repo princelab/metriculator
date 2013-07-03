@@ -76,7 +76,7 @@ puts "Well, I think I have everything I need, so I'm going to get to work..."
   # PREPARE DATABASES
   FileUtils.cp 'config/database.yml.example', 'config/database.yml'
   File.open('config/database.yml', 'w') do |f|
-    File.readlines('config/database.yml.example') do |line|
+    File.readlines('config/database.yml.example').each do |line|
       if line[/<% ChangeThisVariableBlock %>/]
         f.write line.sub(/<% ChangeThisVariableBlock %>/, "#{File.join(arch_root, 'db')}")
       else
