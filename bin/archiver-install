@@ -3,7 +3,6 @@ Separator = 50.times.map{"-"}.join
 Allowed_instrument_types = %w{LCQ LTQ LXQ ORBI FT}
 $LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), "../lib"))
 
-require 'archiver'
 require 'yaml'
 opts = {}
 puts "This will build a local installation of the application"
@@ -73,7 +72,22 @@ puts Separator
 puts "Well, I think I have everything I need, so I'm going to get to work..." 
 
 # Prep work:
-
+  require 'fileutils'
+  # PREPARE DATABASES
+  FileUtils.cp 'config/database.yml.example', 'config/database.yml'
+  File.open('config/database.yml', 'r+') do |f|
+    f.each do |line|
+      if line[/<% ChangeThisVariableBlock %>/]
+        f.write line.sub(/<% ChangeThisVariableBlock %>/, "#{File.join(arch_root, 'db')}")
+      else
+        f.write line
+      end
+    end
+  end #File.open
+# Make the subdirectories the system needs
+  %w(db tmp log).each {|name| puts FileUtils.mkdir_p(File.join(AppConfig[:archive_root], name)) }
+# Load application
+require 'archiver'
 require 'config'
 system = case RbConfig::CONFIG['host_os']
   when "mingw32"
@@ -126,25 +140,13 @@ end
 
 
 #install
-  require 'fileutils'
-# Make the subdirectories the system needs
-  %w(db tmp log).each {|name| puts FileUtils.mkdir_p(File.join(AppConfig[:archive_root], name)) }
   system 'gem build archiver.gemspec'
   #TODO system "gem install archiver-#{Archiver::VERSION}"
   system "gem install archiver-*.gem"
   system "gem install bundler"
   system "bundle install"
 
-  FileUtils.cp 'config/database.yml.example', 'config/database.yml'
-  File.open('config/database.yml', 'r+') do |f|
-    f.each do |line|
-      if line[/<% ChangeThisVariableBlock %>/]
-        f.write line.sub(/<% ChangeThisVariableBlock %>/, "#{File.join(arch_root, 'db')}")
-      else
-        f.write line
-      end
-    end
-  end #File.open
+
   system 'bundle exec rake db:autoupgrade'
 
 if node == :server
