@@ -13,15 +13,7 @@ Read below about the dependencies.  To facilitate the process, I've generated a 
    The installation process assumes you have a working Ruby installation of
    at least version 1.9.
 
-   Make sure you have the correct version of Ruby:
-
         ruby --version
-
-   I see:
-
-        ruby 1.9.2p290 (2011-07-09 revision 32553)
-
-   which is ~> 1.9, so I am okay.
 
    If you need help installing Ruby, see the
    [Ruby home page](http://www.ruby-lang.org/en/downloads/).
@@ -38,7 +30,22 @@ Read below about the dependencies.  To facilitate the process, I've generated a 
 4. The [SQLite](http://www.sqlite.org/) database. You may already have
    it installed, so check before installing it again.
 
-###Installing The Metric Tracker
+### Automated Installation (RECOMMENDED)
+
+Check out the project from git, and install the required gems:
+  
+    git clone https://github.com/princelab/metriculator.git 
+    cd metriculator
+    bundle install  
+
+Then try the automated configuration and installation tool: 
+
+    ./bin/archiver-install 
+
+
+    
+
+###Installing The Metric Tracker Manually
 
 Check out the project and install the required Gems:
 
@@ -54,13 +61,8 @@ file. There is an example file in `config/database.yml.example`.
 
       cp config/database.yml.example config/database.yml
 
-You need to edit the `config/database.yml` file so the database paths point to where you
-want your databases to be stored. The file has `<%ChangeThisVariableBlock %>`
-where you need to provide a valid path. The file does not need to exist
-yet, but the folder the file will be in does need to exist. For example,
-my development database on line 9 of the file reads:
-`database: /Users/jergason/Dropbox/prince_lab_stuff/rails-metric_site/db/metrics_site_test.db`.
-
+You need to edit the `config/database.yml` file so the database paths point to where you want your databases to be stored.  We'd recommend making the file in the shared storage location if you are running a distributed system.  The file has `<%ChangeThisVariableBlock %>` where you need to provide a valid path. The file does not need to exist yet, but the folder the file will be in does need to exist. For example, my development database on line 9 of the file reads: 
+`database: /Users/jergason/Dropbox/prince_lab_stuff/rails-metric_site/db/metrics_site_test.db`.  You'll only really need the production database unless you plan on developing.  
 
 Now we set up the database:
 
