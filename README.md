@@ -19,9 +19,9 @@ Read below about the dependencies.  To facilitate the process, I've generated a 
 
    I see:
 
-        ruby 1.9.2p290 (2011-07-09 revision 32553) [x86_64-darwin11.1.0]
+        ruby 1.9.2p290 (2011-07-09 revision 32553)
 
-   which is 1.9, so I am okay.
+   which is ~> 1.9, so I am okay.
 
    If you need help installing Ruby, see the
    [Ruby home page](http://www.ruby-lang.org/en/downloads/).

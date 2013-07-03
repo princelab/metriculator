@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby 
 Separator = 50.times.map{"-"}.join
 Allowed_instrument_types = %w{LCQ LTQ LXQ ORBI FT}
+$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), "../lib"))
+
 require 'archiver'
 require 'yaml'
 opts = {}
@@ -123,27 +125,16 @@ if node == :instrument
 end
 
 
-p AppConfig
-
 #install
   require 'fileutils'
 # Make the subdirectories the system needs
   %w(db tmp log).each {|name| puts FileUtils.mkdir_p(File.join(AppConfig[:archive_root], name)) }
   system 'gem build archiver.gemspec'
   #TODO system "gem install archiver-#{Archiver::VERSION}"
-  system "gem install archiver-0.0.1.gem"
+  system "gem install archiver-*.gem"
   system "gem install bundler"
   system "bundle install"
-if node == :server 
-  if system "which R"
-    system "R CMD BATCH r_install.R"
-  else
-    puts "Install R please... http://r-project.org/"
-    puts 'Press any key to retry'
-    raise StandardError unless system "which R"
-    system "R CMD BATCH r_install.R"
-  end
-end
+
   FileUtils.cp 'config/database.yml.example', 'config/database.yml'
   File.open('config/database.yml', 'r+') do |f|
     f.each do |line|
@@ -157,20 +148,22 @@ end
   system 'bundle exec rake db:autoupgrade'
 
 if node == :server
-  # system 'gem install passenger'  # This should have already been done... 
-  putsv "Installing passenger-apache2-module" 
-  unless system 'passenger-install-apache2-module'
-    puts "Please run 'passenger-install-apache2-module' and follow the instructions given therein"
-    puts "Press any key when done... "
-    gets.chomp
+  if RbConfig::CONFIG['host_os'] == 'linux-gnu'
+    # system 'gem install passenger'  # This should have already been done... 
+    putsv "Installing passenger-apache2-module" 
+    unless system 'passenger-install-apache2-module'
+      puts "Please run 'passenger-install-apache2-module' and follow the instructions given therein"
+      puts "Press any key when done... "
+      gets.chomp
+    end
   end
 end
 
-  puts "Everything should now be working... If not, I've failed and you'll have to follow my readme instructions as a backup."
+  puts "Everything should now be working... If not, read this script and see if you can see where things have gone wrong.  If nothing else works, contact the developer on github"
 
 ##CONCLUSION
 
 #TODO Write out the Archive Config 
 if true #Opts[:write]
-  File.open("application_config.yml", 'w') {|out| out.print AppConfig.to_yaml}
+  File.open("archiver_config.yml", 'w') {|out| out.print AppConfig.to_yaml}
 end
