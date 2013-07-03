@@ -65,5 +65,8 @@ module MetricsSite
         false
       end
     end
+
+    # Google analytics
+    config.middleware.use Rack::GoogleAnalytics, :tracker => AppConfig[:google_analytics]
   end
 end

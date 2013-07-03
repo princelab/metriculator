@@ -36,6 +36,7 @@ gem 'jquery-rails'
 gem 'rspec'
 gem 'rake'#, "0.8.7"
 gem 'blueprint-rails', :git => "https://www.github.com/ryanmt/blueprint-rails.git"
+gem 'rack-google-analytics'
 
 # Testing/benchmarking gems
 gem 'newrelic_rpm'
