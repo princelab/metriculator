@@ -211,7 +211,7 @@ if $0 == __FILE__
     Node = :server
     # A constant to make accessing the root directory for the archives easier
     ArchiveRoot = SysInfo[:archive_root]
-    puts "Honestly, this is probably too ambitious of little feature.  You'll have to configure your own server environment at this point."
+    puts "Run bin/archiver-install for this task now"
   end
 
   if options[:run_raw]

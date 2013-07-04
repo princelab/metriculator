@@ -151,6 +151,7 @@ module Ms
           end
         end
         ["", "files_analyzed_#{@num_files}", 'begin_runseries_results', 'begin_series_1', "run_number_#{(1..@num_files).to_a.join('_')}", 'end_series_1', 'fraction_of_repeat_peptide_ids_with_divergent_rt_rt_vs_rt_best_id_chromatographic_bleed'].each {|item| @out_hash.delete(item)}
+        Metriculator.on_metric_parse(self)
         @out_hash
       end
 

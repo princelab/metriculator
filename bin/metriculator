@@ -75,5 +75,5 @@ files.compact.each do |file|
   # TODO write alert to notify of completion
   ### Again, this should happen on the Metric server side of things, right?
 
-
+  Metriculator.on_finish(msrun)
 end # Files.each 

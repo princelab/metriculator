@@ -10,6 +10,7 @@ require 'eksigent'
 require 'metrics'
 require 'archive_mount'
 require 'comparison_grapher'
+require 'integrators'
 
 # This module serves to hold all the MS features into one namespace.  Granted, in the case of proteomics, this is the only namespace in which I care to work.
 module Ms
@@ -26,7 +27,6 @@ module Ms
         end
         load_runconfig(File.dirname(@rawfile))
       end
-#TODO add a way to support the runconfig loading as part of metriculator
     end
 # This fxn sets archive conditions for when you only want to archive the rawfile information itself, prior to metric generation
 # @param Filename The rawfile you wish to add to the database
@@ -35,12 +35,7 @@ module Ms
       self.rawfile = rawfile
       self.rawid = File.basename(rawfile, '.raw')
       [:sldfile, :methodfile, :tunefile, :hplcfile, :graphfile, :metricsfile, :sequence_vial, :hplc_vial, :inj_volume, :hplc_maxP, :hplc_avgP, :hplc_stdP].each { |sym| self.send("#{sym}=".to_sym, nil)}
-      begin 
-	@db = ::Msrun.first_or_create(:raw_id => rawid, :rawfile => rawfile )
-      rescue 
-	binding.pry
-      end
-      @db.id
+      to_database_sans_checks
     end
     # This function calls 2 parsers to get the filenames required for the MsRunInfo object.  These are the files that aren't already known from parsing the Sequence file as called from {file:archiver.rb}
     # @param None
@@ -73,7 +68,11 @@ module Ms
     def to_database
       fill_in if hplc_maxP.nil?
       graph_pressure if @graphfile.nil?
+      to_database_sans_checks
+    end
+    def to_database_sans_checks
       @db = Msrun.first_or_create(:raw_id => rawid, :group => group, :rawfile => rawfile, :methodfile => methodfile, :tunefile => tunefile, :hplcfile => hplcfile, :graphfile => graphfile, :archive_location => archive_location, :taxonomy => taxonomy, :inj_volume => inj_volume, :autosampler_vial => hplc_vial, :hplc_max_p => hplc_maxP, :hplc_std_p => hplc_stdP, :hplc_avg_p => hplc_avgP)
+      Metriculator.on_db_store(self)
       @db.id
     end
   end # MsrunInfo
