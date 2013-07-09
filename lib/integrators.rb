@@ -1,6 +1,4 @@
-Dir.glob(File.join(File.dirname(__FILE__), "integrators", "*.rb")).each do |integrator_file|
-  require_relative integrator_file
-end
+# requires all of the integrators at the end of the file
 
 class Metriculator
   @@integrations = {}
@@ -43,4 +41,8 @@ class Metriculator
       @db_stored
     end
   end # class << self
+end
+
+Dir.glob(File.join(File.dirname(__FILE__), "integrators", "*.rb")).each do |integrator_file|
+  require_relative integrator_file
 end
