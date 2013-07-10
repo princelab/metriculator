@@ -31,3 +31,5 @@
     - hsa
     - bsa
     - human
+  :default_lib: hsa
+  :default_instrument: ORBI
