@@ -8,6 +8,13 @@ opts = {}
 puts "This will build a local installation of the application"
 
 puts "You'll just need to answer a few questions for me first... "
+if File.exist?('archiver_config.yml') 
+  puts "WAIT...\n#{Separator}\n\tDo you want to use the settings I found in 'archiver_config.yml' instead of making your own?  It will overwrite the file...\n#{Separator}"
+  print "(Y or N): "
+  opts[:overwrite] = gets.chomp.downcase == ('y')
+end
+
+
 node = nil
 while node.nil?
   puts "Archiver runs in a few different ways... Which one is most accurate on this install: \n 1) Server node which will run an Apache or Rails server\n 2) Metric node (Windows) machine with Xcalibur libraries installed. \n 3) Data acquisition workstation with opportunity to fork into Xcalibur for run-time automation of Archiver"
@@ -24,7 +31,7 @@ while node.nil?
   end
 end
 opts[:node] = node
-puts "Setting up for #{node.to_s} mode..." 
+puts "Setting up for #{opts[:node].to_s} mode..." 
 
 puts "Great, thanks"
 puts Separator
@@ -85,7 +92,12 @@ puts "Well, I think I have everything I need, so I'm going to get to work..."
     end
   end #File.open
 # Make the subdirectories the system needs
+begin
   %w(db tmp log).each {|name| puts FileUtils.mkdir_p(File.join(arch_root, name)) }
+rescue Errno::EACCES => e
+  puts "Cannot access destination...\n#{e}"
+end
+
 # Load application
 require 'archiver'
 require 'config'
@@ -97,7 +109,7 @@ system = case RbConfig::CONFIG['host_os']
   when 'linux-gnu'
     "Linux"
 end
-tmp = { :system => system, :archive_root => arch_root }
+tmp = { :nodes => {opts[:node] => {:system => system, :archive_root => arch_root } } }
 #
 
 if opts[:set_up_alerts]
@@ -107,11 +119,7 @@ else
 end 
 
 # Conditional stuff
-if node == :server 
-  AppConfig = tmp
-end
-
-if node == :metrics 
+if opts[:node] == :metrics 
 
 # Generic Metrics configuration options
   puts "NIST metrics need to know a few things about each sample before they can run.  Each sample can be defined separately by defining command line arguments to #{__FILE__}.  If not defined there, they will default to these settings. "
@@ -121,11 +129,10 @@ if node == :metrics
 # TODO validate directory
   print "Default 'instrument_type': \t\t\t\t\t(allowable values: #{Allowed_instrument_types.join(',')})"
   instrument_type = gets.chomp
-  if not Allowed_instrument_types.include? instrument_type
+  while not Allowed_instrument_types.include? instrument_type
     puts "Error, unacceptable instrument type" 
     puts "Default 'instrument_type': \t\t\t\t\t(allowable values: #{Allowed_instrument_types.join(',')})"
     instrument_type = gets.chomp
-    puts "WRONG AGAIN!!! but moving on" if not Allowed_instrument_types.include? instrument_type
   end
   puts "You can install more library files from the NIST website and enable more options.  For now, your allowable library choices are: \n#{Dir.glob(nist_dir+'/libs/*.fasta').join(', ')}"
   puts "Default 'library' file:"
@@ -133,7 +140,7 @@ if node == :metrics
   AppConfig = tmp.merge( default_lib: default_library, default_instrument: instrument_type, nist_dir: nist_dir)
 end
 
-if node == :instrument 
+if opts[:node] == :instrument 
   puts "instrument"
   AppConfig = tmp
 end
@@ -149,7 +156,7 @@ end
 
   system 'bundle exec rake db:autoupgrade'
 
-if node == :server
+if opts[:node] == :server
   if RbConfig::CONFIG['host_os'] == 'linux-gnu'
     # system 'gem install passenger'  # This should have already been done... 
     putsv "Installing passenger-apache2-module" 
@@ -161,11 +168,16 @@ if node == :server
   end
 end
 
-  puts "Everything should now be working... If not, read this script and see if you can see where things have gone wrong.  If nothing else works, contact the developer on github"
+  puts "Everything should now be working... If not, read this script and see if you can see where things have gone wrong.  If nothing else works, contact the developer via github."
 
 ##CONCLUSION
+  arch_config = YAML.load_file("archiver_config.yml")
+  putsv AppConfig
+  putsv 50*"-"
+  putsv arch_config
+  putsv 50*"="
+  putsv AppConfig - arch_config
 
-#TODO Write out the Archive Config 
-if true #Opts[:write]
+if opts[:overwrite] #Opts[:write]
   File.open("archiver_config.yml", 'w') {|out| out.print AppConfig.to_yaml}
 end

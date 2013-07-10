@@ -3,6 +3,7 @@ require 'pathname'
 require_relative 'merge.rb'
 # Default settings for the application
 App_defaults = {
+  google_analytics: "UA-42192921-1"
   metric_instrument_type: "ORBI",
   admin_email: "admin@example.org",
   comparison_directory: Pathname.new(File.join(File.expand_path(File.dirname(__FILE__)), "..", "public", "comparisons")).cleanpath.to_s,
