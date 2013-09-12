@@ -43,7 +43,7 @@ Then try the automated configuration and installation tool:
 
 ### Configuring the Thermo Scientific Xcalibur hook
 
-Once you have installed Metriculator as a data acquisition utility on a computer which performs data acquisition, we can configure it to automatically archive your files, and kick off other downstream analysis (metric generation, and other hooks like discussed in the section, [Custom Integrators](#Custom Integrators).  
+Once you have installed Metriculator as a data acquisition utility on a computer which performs data acquisition, we can configure it to automatically archive your files, and kick off other downstream analysis (metric generation, and other hooks like discussed in the section, [Custom Integrators](#Custom-Integrators).  
     
 
 ###Installing The Metric Tracker Manually
@@ -94,14 +94,13 @@ in action.
 
 However, if you are configuring it for a more permanent (and faster) use, than you should use the passenger-apache method mentioned above.  Apache is somewhat challenging to configure, and I am hardly an expert, but have figured it out with Google searches before.  However, my situation was more complex, and you will likely have few problems with a simple installation.  Passenger has instructions on how to integrate with apache at [Passenger users guide, Apache edition](http://www.modrails.com/documentation/Users%20guide%20Apache.html).
 
-## Custom Integrators 
-
+## Custom Integrators
 Metriculator provides a framework for integrating your own plugins and utilities to set points within the architecture.  Additional integration set points can be configured, and we would welcome pull-requests to accomplish those.
 
 As way of example, you can read in [submit_to_xtandem_example.rb](lib/integrators/submit_to_xtandem_example.rb)
 
 The current integration points are 
-    ```ruby
+```ruby
     [:on_db_store, :on_finish, :on_parse]
 ```
 #LICENSE
