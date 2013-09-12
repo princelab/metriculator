@@ -44,7 +44,7 @@ Then try the automated configuration and installation tool:
 ### Configuring the Thermo Scientific Xcalibur hook
 
 Once you have installed Metriculator as a data acquisition utility on a computer which performs data acquisition, we can configure it to automatically archive your files, and kick off other downstream analysis (metric generation, and other hooks like discussed in the section, [Custom Integrators](#custom-integrators).  
-    
+The hook script is called ruby_caller.bat and can be found in the root directory.  Call it from the method to be called after run acquisition box in Xcalibur run configuration and it will go to work when your run is completed.
 
 ###Installing The Metric Tracker Manually
 

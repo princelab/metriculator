@@ -3,6 +3,10 @@ Separator = 50.times.map{"-"}.join
 Allowed_instrument_types = %w{LCQ LTQ LXQ ORBI FT}
 $LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), "../lib"))
 
+def putsv(thing)
+  puts thing if $VERBOSE
+end
+
 require 'yaml'
 opts = {}
 puts "This will build a local installation of the application"
