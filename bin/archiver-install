@@ -171,7 +171,7 @@ end
   puts "Everything should now be working... If not, read this script and see if you can see where things have gone wrong.  If nothing else works, contact the developer via github."
 
 ##CONCLUSION
-  arch_config = YAML.load_file("archiver_config.yml")
+  arch_config = YAML.load_file("archiver_config.yml") if File.exists?("archiver_config.yml")
   putsv AppConfig
   putsv 50*"-"
   putsv arch_config
