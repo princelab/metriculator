@@ -178,6 +178,6 @@ end
   putsv 50*"="
   putsv AppConfig - arch_config
 
-if opts[:overwrite] #Opts[:write]
+if opts[:overwrite] or not File.exists?("archiver_config.yml")
   File.open("archiver_config.yml", 'w') {|out| out.print AppConfig.to_yaml}
 end
