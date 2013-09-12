@@ -173,9 +173,9 @@ end
 ##CONCLUSION
   arch_config = YAML.load_file("archiver_config.yml") if File.exists?("archiver_config.yml")
   putsv AppConfig
-  putsv 50*"-"
+  putsv "-"*50
   putsv arch_config
-  putsv 50*"="
+  putsv "="*50
   putsv AppConfig - arch_config
 
 if opts[:overwrite] or not File.exists?("archiver_config.yml")
