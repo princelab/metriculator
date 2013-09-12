@@ -43,7 +43,7 @@ Then try the automated configuration and installation tool:
 
 ### Configuring the Thermo Scientific Xcalibur hook
 
-Once you have installed Metriculator as a data acquisition utility on a computer which performs data acquisition, we can configure it to automatically archive your files, and kick off other downstream analysis (metric generation, and other hooks like discussed in the section, [Custom Integrators](#Custom-Integrators).  
+Once you have installed Metriculator as a data acquisition utility on a computer which performs data acquisition, we can configure it to automatically archive your files, and kick off other downstream analysis (metric generation, and other hooks like discussed in the section, [Custom Integrators](#custom-integrators).  
     
 
 ###Installing The Metric Tracker Manually
