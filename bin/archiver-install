@@ -78,6 +78,11 @@ end
 puts Separator
 puts "Well, I think I have everything I need, so I'm going to get to work..." 
 
+putsv "BUNDLING"
+  system "gem install bundler"
+  system "bundle install"
+
+putsv "Preparing the database files"
 # Prep work:
   require 'fileutils'
   # PREPARE DATABASES
@@ -150,8 +155,6 @@ end
   system 'gem build archiver.gemspec'
   #TODO system "gem install archiver-#{Archiver::VERSION}"
   system "gem install archiver-*.gem"
-  system "gem install bundler"
-  system "bundle install"
 
 
   system 'bundle exec rake db:autoupgrade'
